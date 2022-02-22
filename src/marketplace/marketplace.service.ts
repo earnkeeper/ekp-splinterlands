@@ -2,15 +2,12 @@ import {
   ClientStateChangedEvent,
   collection,
   DocumentDto,
-  LayerDto,
 } from '@earnkeeper/ekp-sdk';
 import {
   AssetEventDto,
   ClientService,
-  CoingeckoService,
-  EthersService,
+  LayerDto,
   logger,
-  MoralisService,
 } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
@@ -33,10 +30,7 @@ function filterPath(event: ClientStateChangedEvent, path: string) {
 export class MarketplaceService {
   constructor(
     private clientService: ClientService,
-    private coingeckoService: CoingeckoService,
-    private ethersService: EthersService,
     private metadataService: MetadataService,
-    private moralisService: MoralisService,
     private splinterlandsApiService: SplinterlandsApiService,
   ) {
     this.clientService.clientStateEvents$
