@@ -1,0 +1,2 @@
+GET https://api.opensea.io/api/v1/events?collection_slug=splinterlands&only_opensea=false&offset=0
+X-API-KEY: {{$dotenv OPENSEA_API_KEY}}

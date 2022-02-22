@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: splinterlands
+spec:
+  selector:
+    matchLabels:
+      app: splinterlands
+  revisionHistoryLimit: 3
+  strategy:
+    type: RollingUpdate
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: splinterlands
+    spec:
+      containers:
+        - name: splinterlands
+          image: '{{ .Values.werf.image.splinterlands }}'
+          workingDir: /app
+          env:
+            - name: EKP_PLUGIN_ID
+              value: 'splinterlands'
+            - name: EKP_PLUGIN_NAME
+              value: 'Splinterlands'
+            - name: MORALIS_APP_ID
+              value: '{{ .Values.moralis.appId }}'
+            - name: MORALIS_SERVER_URL
+              value: '{{ .Values.moralis.serverUrl }}'
+            - name: MONGO_HOST
+              value: '{{ .Values.mongodb.host }}'
+            - name: REDIS_HOST
+              value: 'ekp-splinterlands-redis-master'
+            - name: OPENSEA_API_KEY
+              value: '{{ .Values.opensea.apiKey }}'
+          ports:
+            - containerPort: 3001
+              protocol: TCP

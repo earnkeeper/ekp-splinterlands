@@ -1,0 +1,5 @@
+apiVersion: v2
+dependencies:
+  - name: redis
+    version: "15.6.8"
+    repository: "https://charts.bitnami.com/bitnami"

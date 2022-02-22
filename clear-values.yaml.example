@@ -1,0 +1,11 @@
+moralis:
+  serverUrl: 
+  appId: 
+mongodb:
+  host: 
+issuer:
+  email: 
+ingress:
+  hostname: 
+opensea:
+  apiKey: 

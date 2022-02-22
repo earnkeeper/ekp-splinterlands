@@ -1,0 +1,55 @@
+{
+  "name": "ekp-splinterlands",
+  "version": "1.0.0",
+  "description": "EarnKeeper.io plugin for https://splinterlands.com/",
+  "main": "index.js",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "nest build",
+    "start": "nest start --watch",
+    "start:prod": "node dist/main",
+    "gen-secret-key": "werf helm secret generate-secret-key > .werf_secret_key",
+    "encrypt-secrets": "werf helm secret values encrypt clear-values.yaml -o .helm/secret-values.yaml",
+    "gh-set-secret-key": "gh secret set WERF_SECRET_KEY --repos=\"earnkeeper/ekp-splinterlands\" < .werf_secret_key",
+    "gh-set-do-creds": "gh secret set KUBE_CONFIG_BASE64_DATA --repos=\"earnkeeper/ekp-splinterlands\" -b$(doctl kubernetes cluster kubeconfig show ekp | base64)"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/earnkeeper/ekp-splinterlands.git"
+  },
+  "author": "Gavin Shaw",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/earnkeeper/ekp-splinterlands/issues"
+  },
+  "homepage": "https://github.com/earnkeeper/ekp-splinterlands#readme",
+  "dependencies": {
+    "@earnkeeper/ekp-sdk": "file:.yalc/@earnkeeper/ekp-sdk",
+    "@earnkeeper/ekp-sdk-nestjs": "file:.yalc/@earnkeeper/ekp-sdk-nestjs"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^8.0.0",
+    "@nestjs/schematics": "^8.0.0",
+    "@nestjs/testing": "^8.0.0",
+    "@types/bull": "^3.15.7",
+    "@types/express": "^4.17.13",
+    "@types/jest": "^27.0.1",
+    "@types/lodash": "^4.14.177",
+    "@types/node": "^16.0.0",
+    "@types/supertest": "^2.0.11",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^8.0.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^27.2.5",
+    "prettier": "^2.3.2",
+    "source-map-support": "^0.5.20",
+    "supertest": "^6.1.3",
+    "ts-jest": "^27.0.3",
+    "ts-loader": "^9.2.3",
+    "ts-node": "^10.0.0",
+    "tsconfig-paths": "^3.10.1",
+    "typescript": "^4.3.5"
+  }
+}

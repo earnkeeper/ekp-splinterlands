@@ -1,0 +1,20 @@
+{
+  "name": "Silvershield Archers",
+  "description": "Silvershield Archers - Common Reward Edition Monster - Level 1",
+  "external_url": "https://splinterlands.com/?p=card_info&id=C3-96-C2K0GLZWAO",
+  "image": "https://d36mxiodymuqjm.cloudfront.net/cards_by_level/reward/Silvershield%20Archers_lv1.png",
+  "background_color": "405162",
+  "attributes": [
+    { "trait_type": "type", "value": "Monster" },
+    { "trait_type": "foil", "value": "Standard" },
+    { "trait_type": "edition", "value": "Reward" },
+    { "trait_type": "rarity", "value": "Common" },
+    {
+      "display_type": "number",
+      "trait_type": "level",
+      "value": 1,
+      "max_value": 10
+    },
+    { "display_type": "number", "trait_type": "BCX", "value": 1 }
+  ]
+}

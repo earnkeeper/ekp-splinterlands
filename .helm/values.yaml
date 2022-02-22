@@ -1,0 +1,10 @@
+redis:
+  auth:
+    enabled: false
+  replica:
+    replicaCount: 1
+    persistence:
+      enabled: false
+  master:
+    persistence:
+      enabled: false
