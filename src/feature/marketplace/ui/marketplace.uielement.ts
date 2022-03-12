@@ -46,7 +46,7 @@ function marketRow(): UiElement {
     isBusy: isBusy(collection(MarketplaceListingDocument)),
     filterable: true,
     gridView: {
-      tileWidth: [12, 6, 4, 3],
+      tileWidth: [12, 6, 4, 4],
       tile: GridTile({
         image: Image({
           className: 'card-img-top',
