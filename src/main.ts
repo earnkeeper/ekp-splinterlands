@@ -1,4 +1,4 @@
 import { runCluster, SocketApp } from '@earnkeeper/ekp-sdk-nestjs';
-import { WorkerApp } from './worker.app';
+import { AppModule } from './app.module';
 
-runCluster(SocketApp, WorkerApp);
+runCluster(SocketApp, AppModule);

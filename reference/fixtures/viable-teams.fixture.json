@@ -1,0 +1,1241 @@
+[
+  {
+    "id": "224|359|361",
+    "wins": 30,
+    "battles": 33,
+    "summoner": {
+      "cardDetailId": 224,
+      "level": 1,
+      "mana": 4,
+      "name": "Drake of Arnak",
+      "splinter": "Dragon"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 361,
+        "level": 1,
+        "mana": 6,
+        "name": "Cursed Windeku",
+        "splinter": "Death"
+      },
+      {
+        "cardDetailId": 359,
+        "level": 1,
+        "mana": 3,
+        "name": "Life Sapper",
+        "splinter": "Death"
+      }
+    ]
+  },
+  {
+    "id": "438|138|353|361",
+    "wins": 19,
+    "battles": 21,
+    "summoner": {
+      "cardDetailId": 438,
+      "level": 1,
+      "mana": 4,
+      "name": "Thaddius Brood",
+      "splinter": "Death"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 361,
+        "level": 1,
+        "mana": 6,
+        "name": "Cursed Windeku",
+        "splinter": "Death"
+      },
+      {
+        "cardDetailId": 353,
+        "level": 1,
+        "mana": 1,
+        "name": "Carrion Shade",
+        "splinter": "Death"
+      },
+      {
+        "cardDetailId": 138,
+        "level": 1,
+        "mana": 2,
+        "name": "Undead Badger",
+        "splinter": "Death"
+      }
+    ]
+  },
+  {
+    "id": "189|183|184",
+    "wins": 5,
+    "battles": 5,
+    "summoner": {
+      "cardDetailId": 189,
+      "level": 1,
+      "mana": 3,
+      "name": "Wizard of Eastwood",
+      "splinter": "Earth"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 184,
+        "level": 1,
+        "mana": 8,
+        "name": "Unicorn Mustang",
+        "splinter": "Earth"
+      },
+      {
+        "cardDetailId": 183,
+        "level": 1,
+        "mana": 2,
+        "name": "Khmer Princess",
+        "splinter": "Earth"
+      }
+    ]
+  },
+  {
+    "id": "145|353|359|361",
+    "wins": 13,
+    "battles": 15,
+    "summoner": {
+      "cardDetailId": 145,
+      "level": 1,
+      "mana": 3,
+      "name": "Contessa L'ament",
+      "splinter": "Death"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 353,
+        "level": 1,
+        "mana": 1,
+        "name": "Carrion Shade",
+        "splinter": "Death"
+      },
+      {
+        "cardDetailId": 361,
+        "level": 1,
+        "mana": 6,
+        "name": "Cursed Windeku",
+        "splinter": "Death"
+      },
+      {
+        "cardDetailId": 359,
+        "level": 1,
+        "mana": 3,
+        "name": "Life Sapper",
+        "splinter": "Death"
+      }
+    ]
+  },
+  {
+    "id": "438|141|361",
+    "wins": 24,
+    "battles": 24,
+    "summoner": {
+      "cardDetailId": 438,
+      "level": 1,
+      "mana": 4,
+      "name": "Thaddius Brood",
+      "splinter": "Death"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 361,
+        "level": 1,
+        "mana": 6,
+        "name": "Cursed Windeku",
+        "splinter": "Death"
+      },
+      {
+        "cardDetailId": 141,
+        "level": 1,
+        "mana": 3,
+        "name": "Death Elemental",
+        "splinter": "Death"
+      }
+    ]
+  },
+  {
+    "id": "224|138|353|361",
+    "wins": 7,
+    "battles": 8,
+    "summoner": {
+      "cardDetailId": 224,
+      "level": 1,
+      "mana": 4,
+      "name": "Drake of Arnak",
+      "splinter": "Dragon"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 361,
+        "level": 1,
+        "mana": 6,
+        "name": "Cursed Windeku",
+        "splinter": "Death"
+      },
+      {
+        "cardDetailId": 353,
+        "level": 1,
+        "mana": 1,
+        "name": "Carrion Shade",
+        "splinter": "Death"
+      },
+      {
+        "cardDetailId": 138,
+        "level": 1,
+        "mana": 2,
+        "name": "Undead Badger",
+        "splinter": "Death"
+      }
+    ]
+  },
+  {
+    "id": "437|172|382|386",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 437,
+      "level": 1,
+      "mana": 4,
+      "name": "Kelya Frendul",
+      "splinter": "Water"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 386,
+        "level": 1,
+        "mana": 3,
+        "name": "Angelic Mandarin",
+        "splinter": "Water"
+      },
+      {
+        "cardDetailId": 382,
+        "level": 1,
+        "mana": 4,
+        "name": "Kulu Swimhunter",
+        "splinter": "Water"
+      },
+      {
+        "cardDetailId": 172,
+        "level": 1,
+        "mana": 2,
+        "name": "Ice Pixie",
+        "splinter": "Water"
+      }
+    ]
+  },
+  {
+    "id": "439|179|180|183|367",
+    "wins": 2,
+    "battles": 2,
+    "summoner": {
+      "cardDetailId": 439,
+      "level": 1,
+      "mana": 4,
+      "name": "Obsidian",
+      "splinter": "Earth"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 180,
+        "level": 1,
+        "mana": 2,
+        "name": "Failed Summoner",
+        "splinter": "Earth"
+      },
+      {
+        "cardDetailId": 179,
+        "level": 1,
+        "mana": 4,
+        "name": "Goblin Thief",
+        "splinter": "Earth"
+      },
+      {
+        "cardDetailId": 183,
+        "level": 1,
+        "mana": 2,
+        "name": "Khmer Princess",
+        "splinter": "Earth"
+      },
+      {
+        "cardDetailId": 367,
+        "level": 1,
+        "mana": 1,
+        "name": "Mycelic Morphoid",
+        "splinter": "Earth"
+      }
+    ]
+  },
+  {
+    "id": "437|169|172|385",
+    "wins": 3,
+    "battles": 4,
+    "summoner": {
+      "cardDetailId": 437,
+      "level": 1,
+      "mana": 4,
+      "name": "Kelya Frendul",
+      "splinter": "Water"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 169,
+        "level": 1,
+        "mana": 1,
+        "name": "Albatross",
+        "splinter": "Water"
+      },
+      {
+        "cardDetailId": 385,
+        "level": 1,
+        "mana": 6,
+        "name": "Deeplurker",
+        "splinter": "Water"
+      },
+      {
+        "cardDetailId": 172,
+        "level": 1,
+        "mana": 2,
+        "name": "Ice Pixie",
+        "splinter": "Water"
+      }
+    ]
+  },
+  {
+    "id": "438|136|141|353|359|426",
+    "wins": 4,
+    "battles": 5,
+    "summoner": {
+      "cardDetailId": 438,
+      "level": 1,
+      "mana": 4,
+      "name": "Thaddius Brood",
+      "splinter": "Death"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 353,
+        "level": 1,
+        "mana": 1,
+        "name": "Carrion Shade",
+        "splinter": "Death"
+      },
+      {
+        "cardDetailId": 426,
+        "level": 1,
+        "mana": 1,
+        "name": "Chaos Agent",
+        "splinter": "Neutral"
+      },
+      {
+        "cardDetailId": 136,
+        "level": 1,
+        "mana": 1,
+        "name": "Cursed Slimeball",
+        "splinter": "Death"
+      },
+      {
+        "cardDetailId": 359,
+        "level": 1,
+        "mana": 3,
+        "name": "Life Sapper",
+        "splinter": "Death"
+      },
+      {
+        "cardDetailId": 141,
+        "level": 1,
+        "mana": 3,
+        "name": "Death Elemental",
+        "splinter": "Death"
+      }
+    ]
+  },
+  {
+    "id": "440|157|158|396",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 440,
+      "level": 1,
+      "mana": 4,
+      "name": "Tarsa",
+      "splinter": "Fire"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 396,
+        "level": 1,
+        "mana": 3,
+        "name": "Lava Spider",
+        "splinter": "Fire"
+      },
+      {
+        "cardDetailId": 158,
+        "level": 1,
+        "mana": 3,
+        "name": "Serpentine Spy",
+        "splinter": "Fire"
+      },
+      {
+        "cardDetailId": 157,
+        "level": 1,
+        "mana": 3,
+        "name": "Kobold Bruiser",
+        "splinter": "Fire"
+      }
+    ]
+  },
+  {
+    "id": "439|180|183|373",
+    "wins": 5,
+    "battles": 5,
+    "summoner": {
+      "cardDetailId": 439,
+      "level": 1,
+      "mana": 4,
+      "name": "Obsidian",
+      "splinter": "Earth"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 180,
+        "level": 1,
+        "mana": 2,
+        "name": "Failed Summoner",
+        "splinter": "Earth"
+      },
+      {
+        "cardDetailId": 183,
+        "level": 1,
+        "mana": 2,
+        "name": "Khmer Princess",
+        "splinter": "Earth"
+      },
+      {
+        "cardDetailId": 373,
+        "level": 1,
+        "mana": 5,
+        "name": "Regal Peryton",
+        "splinter": "Earth"
+      }
+    ]
+  },
+  {
+    "id": "438|138|361|426",
+    "wins": 4,
+    "battles": 4,
+    "summoner": {
+      "cardDetailId": 438,
+      "level": 1,
+      "mana": 4,
+      "name": "Thaddius Brood",
+      "splinter": "Death"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 361,
+        "level": 1,
+        "mana": 6,
+        "name": "Cursed Windeku",
+        "splinter": "Death"
+      },
+      {
+        "cardDetailId": 426,
+        "level": 1,
+        "mana": 1,
+        "name": "Chaos Agent",
+        "splinter": "Neutral"
+      },
+      {
+        "cardDetailId": 138,
+        "level": 1,
+        "mana": 2,
+        "name": "Undead Badger",
+        "splinter": "Death"
+      }
+    ]
+  },
+  {
+    "id": "439|367|375",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 439,
+      "level": 1,
+      "mana": 4,
+      "name": "Obsidian",
+      "splinter": "Earth"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 367,
+        "level": 1,
+        "mana": 1,
+        "name": "Mycelic Morphoid",
+        "splinter": "Earth"
+      },
+      {
+        "cardDetailId": 375,
+        "level": 1,
+        "mana": 8,
+        "name": "Mycelic Infantry",
+        "splinter": "Earth"
+      }
+    ]
+  },
+  {
+    "id": "156|150|409|411|414|426",
+    "wins": 2,
+    "battles": 2,
+    "summoner": {
+      "cardDetailId": 156,
+      "level": 1,
+      "mana": 3,
+      "name": "Mother Khala",
+      "splinter": "Life"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 409,
+        "level": 1,
+        "mana": 1,
+        "name": "Gargoya Scrapper",
+        "splinter": "Life"
+      },
+      {
+        "cardDetailId": 426,
+        "level": 1,
+        "mana": 1,
+        "name": "Chaos Agent",
+        "splinter": "Neutral"
+      },
+      {
+        "cardDetailId": 150,
+        "level": 1,
+        "mana": 3,
+        "name": "Truthspeaker",
+        "splinter": "Life"
+      },
+      {
+        "cardDetailId": 411,
+        "level": 1,
+        "mana": 3,
+        "name": "Stitch Leech",
+        "splinter": "Life"
+      },
+      {
+        "cardDetailId": 414,
+        "level": 1,
+        "mana": 2,
+        "name": "Celestial Harpy",
+        "splinter": "Life"
+      }
+    ]
+  },
+  {
+    "id": "189|180|184",
+    "wins": 1,
+    "battles": 3,
+    "summoner": {
+      "cardDetailId": 189,
+      "level": 1,
+      "mana": 3,
+      "name": "Wizard of Eastwood",
+      "splinter": "Earth"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 184,
+        "level": 1,
+        "mana": 8,
+        "name": "Unicorn Mustang",
+        "splinter": "Earth"
+      },
+      {
+        "cardDetailId": 180,
+        "level": 1,
+        "mana": 2,
+        "name": "Failed Summoner",
+        "splinter": "Earth"
+      }
+    ]
+  },
+  {
+    "id": "145|141|353|361",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 145,
+      "level": 1,
+      "mana": 3,
+      "name": "Contessa L'ament",
+      "splinter": "Death"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 361,
+        "level": 1,
+        "mana": 6,
+        "name": "Cursed Windeku",
+        "splinter": "Death"
+      },
+      {
+        "cardDetailId": 141,
+        "level": 1,
+        "mana": 3,
+        "name": "Death Elemental",
+        "splinter": "Death"
+      },
+      {
+        "cardDetailId": 353,
+        "level": 1,
+        "mana": 1,
+        "name": "Carrion Shade",
+        "splinter": "Death"
+      }
+    ]
+  },
+  {
+    "id": "438|136|138|361",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 438,
+      "level": 1,
+      "mana": 4,
+      "name": "Thaddius Brood",
+      "splinter": "Death"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 361,
+        "level": 1,
+        "mana": 6,
+        "name": "Cursed Windeku",
+        "splinter": "Death"
+      },
+      {
+        "cardDetailId": 138,
+        "level": 1,
+        "mana": 2,
+        "name": "Undead Badger",
+        "splinter": "Death"
+      },
+      {
+        "cardDetailId": 136,
+        "level": 1,
+        "mana": 1,
+        "name": "Cursed Slimeball",
+        "splinter": "Death"
+      }
+    ]
+  },
+  {
+    "id": "440|158|395|399",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 440,
+      "level": 1,
+      "mana": 4,
+      "name": "Tarsa",
+      "splinter": "Fire"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 399,
+        "level": 1,
+        "mana": 4,
+        "name": "Antoid Platoon",
+        "splinter": "Fire"
+      },
+      {
+        "cardDetailId": 158,
+        "level": 1,
+        "mana": 3,
+        "name": "Serpentine Spy",
+        "splinter": "Fire"
+      },
+      {
+        "cardDetailId": 395,
+        "level": 1,
+        "mana": 1,
+        "name": "Radiated Scorcher",
+        "splinter": "Fire"
+      }
+    ]
+  },
+  {
+    "id": "145|141|361",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 145,
+      "level": 1,
+      "mana": 3,
+      "name": "Contessa L'ament",
+      "splinter": "Death"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 361,
+        "level": 1,
+        "mana": 6,
+        "name": "Cursed Windeku",
+        "splinter": "Death"
+      },
+      {
+        "cardDetailId": 141,
+        "level": 1,
+        "mana": 3,
+        "name": "Death Elemental",
+        "splinter": "Death"
+      }
+    ]
+  },
+  {
+    "id": "167|158|162",
+    "wins": 4,
+    "battles": 4,
+    "summoner": {
+      "cardDetailId": 167,
+      "level": 1,
+      "mana": 3,
+      "name": "Pyre",
+      "splinter": "Fire"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 162,
+        "level": 1,
+        "mana": 7,
+        "name": "Living Lava",
+        "splinter": "Fire"
+      },
+      {
+        "cardDetailId": 158,
+        "level": 1,
+        "mana": 3,
+        "name": "Serpentine Spy",
+        "splinter": "Fire"
+      }
+    ]
+  },
+  {
+    "id": "440|158|160|399",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 440,
+      "level": 1,
+      "mana": 4,
+      "name": "Tarsa",
+      "splinter": "Fire"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 399,
+        "level": 1,
+        "mana": 4,
+        "name": "Antoid Platoon",
+        "splinter": "Fire"
+      },
+      {
+        "cardDetailId": 160,
+        "level": 1,
+        "mana": 2,
+        "name": "Goblin Fireballer",
+        "splinter": "Fire"
+      },
+      {
+        "cardDetailId": 158,
+        "level": 1,
+        "mana": 3,
+        "name": "Serpentine Spy",
+        "splinter": "Fire"
+      }
+    ]
+  },
+  {
+    "id": "178|174|387",
+    "wins": 2,
+    "battles": 2,
+    "summoner": {
+      "cardDetailId": 178,
+      "level": 1,
+      "mana": 3,
+      "name": "Bortus",
+      "splinter": "Water"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 174,
+        "level": 1,
+        "mana": 7,
+        "name": "Serpent of Eld",
+        "splinter": "Water"
+      },
+      {
+        "cardDetailId": 387,
+        "level": 1,
+        "mana": 3,
+        "name": "Merdaali Guardian",
+        "splinter": "Water"
+      }
+    ]
+  },
+  {
+    "id": "439|183|367|373|426",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 439,
+      "level": 1,
+      "mana": 4,
+      "name": "Obsidian",
+      "splinter": "Earth"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 367,
+        "level": 1,
+        "mana": 1,
+        "name": "Mycelic Morphoid",
+        "splinter": "Earth"
+      },
+      {
+        "cardDetailId": 426,
+        "level": 1,
+        "mana": 1,
+        "name": "Chaos Agent",
+        "splinter": "Neutral"
+      },
+      {
+        "cardDetailId": 373,
+        "level": 1,
+        "mana": 5,
+        "name": "Regal Peryton",
+        "splinter": "Earth"
+      },
+      {
+        "cardDetailId": 183,
+        "level": 1,
+        "mana": 2,
+        "name": "Khmer Princess",
+        "splinter": "Earth"
+      }
+    ]
+  },
+  {
+    "id": "437|169|381|385|426",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 437,
+      "level": 1,
+      "mana": 4,
+      "name": "Kelya Frendul",
+      "splinter": "Water"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 426,
+        "level": 1,
+        "mana": 1,
+        "name": "Chaos Agent",
+        "splinter": "Neutral"
+      },
+      {
+        "cardDetailId": 381,
+        "level": 1,
+        "mana": 1,
+        "name": "Hardy Stonefish",
+        "splinter": "Water"
+      },
+      {
+        "cardDetailId": 169,
+        "level": 1,
+        "mana": 1,
+        "name": "Albatross",
+        "splinter": "Water"
+      },
+      {
+        "cardDetailId": 385,
+        "level": 1,
+        "mana": 6,
+        "name": "Deeplurker",
+        "splinter": "Water"
+      }
+    ]
+  },
+  {
+    "id": "441|411|413",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 441,
+      "level": 1,
+      "mana": 4,
+      "name": "General Sloan",
+      "splinter": "Life"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 413,
+        "level": 1,
+        "mana": 6,
+        "name": "Chaos Knight",
+        "splinter": "Life"
+      },
+      {
+        "cardDetailId": 411,
+        "level": 1,
+        "mana": 3,
+        "name": "Stitch Leech",
+        "splinter": "Life"
+      }
+    ]
+  },
+  {
+    "id": "440|158|395|399|426",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 440,
+      "level": 1,
+      "mana": 4,
+      "name": "Tarsa",
+      "splinter": "Fire"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 426,
+        "level": 1,
+        "mana": 1,
+        "name": "Chaos Agent",
+        "splinter": "Neutral"
+      },
+      {
+        "cardDetailId": 395,
+        "level": 1,
+        "mana": 1,
+        "name": "Radiated Scorcher",
+        "splinter": "Fire"
+      },
+      {
+        "cardDetailId": 399,
+        "level": 1,
+        "mana": 4,
+        "name": "Antoid Platoon",
+        "splinter": "Fire"
+      },
+      {
+        "cardDetailId": 158,
+        "level": 1,
+        "mana": 3,
+        "name": "Serpentine Spy",
+        "splinter": "Fire"
+      }
+    ]
+  },
+  {
+    "id": "439|180|367|368",
+    "wins": 0,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 439,
+      "level": 1,
+      "mana": 4,
+      "name": "Obsidian",
+      "splinter": "Earth"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 368,
+        "level": 1,
+        "mana": 6,
+        "name": "Venari Knifer",
+        "splinter": "Earth"
+      },
+      {
+        "cardDetailId": 180,
+        "level": 1,
+        "mana": 2,
+        "name": "Failed Summoner",
+        "splinter": "Earth"
+      },
+      {
+        "cardDetailId": 367,
+        "level": 1,
+        "mana": 1,
+        "name": "Mycelic Morphoid",
+        "splinter": "Earth"
+      }
+    ]
+  },
+  {
+    "id": "167|158|396|399",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 167,
+      "level": 1,
+      "mana": 3,
+      "name": "Pyre",
+      "splinter": "Fire"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 399,
+        "level": 1,
+        "mana": 4,
+        "name": "Antoid Platoon",
+        "splinter": "Fire"
+      },
+      {
+        "cardDetailId": 158,
+        "level": 1,
+        "mana": 3,
+        "name": "Serpentine Spy",
+        "splinter": "Fire"
+      },
+      {
+        "cardDetailId": 396,
+        "level": 1,
+        "mana": 3,
+        "name": "Lava Spider",
+        "splinter": "Fire"
+      }
+    ]
+  },
+  {
+    "id": "156|409|412|414|415",
+    "wins": 2,
+    "battles": 2,
+    "summoner": {
+      "cardDetailId": 156,
+      "level": 1,
+      "mana": 3,
+      "name": "Mother Khala",
+      "splinter": "Life"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 409,
+        "level": 1,
+        "mana": 1,
+        "name": "Gargoya Scrapper",
+        "splinter": "Life"
+      },
+      {
+        "cardDetailId": 412,
+        "level": 1,
+        "mana": 3,
+        "name": "Blinding Reflector",
+        "splinter": "Life"
+      },
+      {
+        "cardDetailId": 415,
+        "level": 1,
+        "mana": 4,
+        "name": "Time Mage",
+        "splinter": "Life"
+      },
+      {
+        "cardDetailId": 414,
+        "level": 1,
+        "mana": 2,
+        "name": "Celestial Harpy",
+        "splinter": "Life"
+      }
+    ]
+  },
+  {
+    "id": "167|190|398",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 167,
+      "level": 1,
+      "mana": 3,
+      "name": "Pyre",
+      "splinter": "Fire"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 190,
+        "level": 1,
+        "mana": 8,
+        "name": "Elven Defender",
+        "splinter": "Neutral"
+      },
+      {
+        "cardDetailId": 398,
+        "level": 1,
+        "mana": 2,
+        "name": "Scavo Chemist",
+        "splinter": "Fire"
+      }
+    ]
+  },
+  {
+    "id": "438|359|361",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 438,
+      "level": 1,
+      "mana": 4,
+      "name": "Thaddius Brood",
+      "splinter": "Death"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 361,
+        "level": 1,
+        "mana": 6,
+        "name": "Cursed Windeku",
+        "splinter": "Death"
+      },
+      {
+        "cardDetailId": 359,
+        "level": 1,
+        "mana": 3,
+        "name": "Life Sapper",
+        "splinter": "Death"
+      }
+    ]
+  },
+  {
+    "id": "439|184|367",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 439,
+      "level": 1,
+      "mana": 4,
+      "name": "Obsidian",
+      "splinter": "Earth"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 184,
+        "level": 1,
+        "mana": 8,
+        "name": "Unicorn Mustang",
+        "splinter": "Earth"
+      },
+      {
+        "cardDetailId": 367,
+        "level": 1,
+        "mana": 1,
+        "name": "Mycelic Morphoid",
+        "splinter": "Earth"
+      }
+    ]
+  },
+  {
+    "id": "156|411|412|414|427",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 156,
+      "level": 1,
+      "mana": 3,
+      "name": "Mother Khala",
+      "splinter": "Life"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 412,
+        "level": 1,
+        "mana": 3,
+        "name": "Blinding Reflector",
+        "splinter": "Life"
+      },
+      {
+        "cardDetailId": 411,
+        "level": 1,
+        "mana": 3,
+        "name": "Stitch Leech",
+        "splinter": "Life"
+      },
+      {
+        "cardDetailId": 414,
+        "level": 1,
+        "mana": 2,
+        "name": "Celestial Harpy",
+        "splinter": "Life"
+      },
+      {
+        "cardDetailId": 427,
+        "level": 1,
+        "mana": 2,
+        "name": "Xenith Archer",
+        "splinter": "Neutral"
+      }
+    ]
+  },
+  {
+    "id": "439|184|426",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 439,
+      "level": 1,
+      "mana": 4,
+      "name": "Obsidian",
+      "splinter": "Earth"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 184,
+        "level": 1,
+        "mana": 8,
+        "name": "Unicorn Mustang",
+        "splinter": "Earth"
+      },
+      {
+        "cardDetailId": 426,
+        "level": 1,
+        "mana": 1,
+        "name": "Chaos Agent",
+        "splinter": "Neutral"
+      }
+    ]
+  },
+  {
+    "id": "167|158|399|424",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 167,
+      "level": 1,
+      "mana": 3,
+      "name": "Pyre",
+      "splinter": "Fire"
+    },
+    "monsters": [
+      {
+        "cardDetailId": 399,
+        "level": 1,
+        "mana": 4,
+        "name": "Antoid Platoon",
+        "splinter": "Fire"
+      },
+      {
+        "cardDetailId": 158,
+        "level": 1,
+        "mana": 3,
+        "name": "Serpentine Spy",
+        "splinter": "Fire"
+      },
+      {
+        "cardDetailId": 424,
+        "level": 1,
+        "mana": 3,
+        "name": "Scavo Hireling",
+        "splinter": "Neutral"
+      }
+    ]
+  }
+]

@@ -1,0 +1,818 @@
+[
+  {
+    "id": "224|359|361",
+    "wins": 30,
+    "battles": 33,
+    "summoner": {
+      "cardDetailId": 224,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 361,
+        "level": 1
+      },
+      {
+        "cardDetailId": 359,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "438|138|353|361",
+    "wins": 19,
+    "battles": 21,
+    "summoner": {
+      "cardDetailId": 438,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 361,
+        "level": 1
+      },
+      {
+        "cardDetailId": 353,
+        "level": 1
+      },
+      {
+        "cardDetailId": 138,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "189|183|184",
+    "wins": 5,
+    "battles": 5,
+    "summoner": {
+      "cardDetailId": 189,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 184,
+        "level": 1
+      },
+      {
+        "cardDetailId": 183,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "145|353|359|361",
+    "wins": 13,
+    "battles": 15,
+    "summoner": {
+      "cardDetailId": 145,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 353,
+        "level": 1
+      },
+      {
+        "cardDetailId": 361,
+        "level": 1
+      },
+      {
+        "cardDetailId": 359,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "438|141|361",
+    "wins": 24,
+    "battles": 24,
+    "summoner": {
+      "cardDetailId": 438,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 361,
+        "level": 1
+      },
+      {
+        "cardDetailId": 141,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "224|138|353|361",
+    "wins": 7,
+    "battles": 8,
+    "summoner": {
+      "cardDetailId": 224,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 361,
+        "level": 1
+      },
+      {
+        "cardDetailId": 353,
+        "level": 1
+      },
+      {
+        "cardDetailId": 138,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "437|172|382|386",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 437,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 386,
+        "level": 1
+      },
+      {
+        "cardDetailId": 382,
+        "level": 1
+      },
+      {
+        "cardDetailId": 172,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "439|179|180|183|367",
+    "wins": 2,
+    "battles": 2,
+    "summoner": {
+      "cardDetailId": 439,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 180,
+        "level": 1
+      },
+      {
+        "cardDetailId": 179,
+        "level": 1
+      },
+      {
+        "cardDetailId": 183,
+        "level": 1
+      },
+      {
+        "cardDetailId": 367,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "437|169|172|385",
+    "wins": 3,
+    "battles": 4,
+    "summoner": {
+      "cardDetailId": 437,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 169,
+        "level": 1
+      },
+      {
+        "cardDetailId": 385,
+        "level": 1
+      },
+      {
+        "cardDetailId": 172,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "438|136|141|353|359|426",
+    "wins": 4,
+    "battles": 5,
+    "summoner": {
+      "cardDetailId": 438,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 353,
+        "level": 1
+      },
+      {
+        "cardDetailId": 426,
+        "level": 1
+      },
+      {
+        "cardDetailId": 136,
+        "level": 1
+      },
+      {
+        "cardDetailId": 359,
+        "level": 1
+      },
+      {
+        "cardDetailId": 141,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "440|157|158|396",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 440,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 396,
+        "level": 1
+      },
+      {
+        "cardDetailId": 158,
+        "level": 1
+      },
+      {
+        "cardDetailId": 157,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "439|180|183|373",
+    "wins": 5,
+    "battles": 5,
+    "summoner": {
+      "cardDetailId": 439,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 180,
+        "level": 1
+      },
+      {
+        "cardDetailId": 183,
+        "level": 1
+      },
+      {
+        "cardDetailId": 373,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "438|138|361|426",
+    "wins": 4,
+    "battles": 4,
+    "summoner": {
+      "cardDetailId": 438,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 361,
+        "level": 1
+      },
+      {
+        "cardDetailId": 426,
+        "level": 1
+      },
+      {
+        "cardDetailId": 138,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "439|367|375",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 439,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 367,
+        "level": 1
+      },
+      {
+        "cardDetailId": 375,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "156|150|409|411|414|426",
+    "wins": 2,
+    "battles": 2,
+    "summoner": {
+      "cardDetailId": 156,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 409,
+        "level": 1
+      },
+      {
+        "cardDetailId": 426,
+        "level": 1
+      },
+      {
+        "cardDetailId": 150,
+        "level": 1
+      },
+      {
+        "cardDetailId": 411,
+        "level": 1
+      },
+      {
+        "cardDetailId": 414,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "189|180|184",
+    "wins": 1,
+    "battles": 3,
+    "summoner": {
+      "cardDetailId": 189,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 184,
+        "level": 1
+      },
+      {
+        "cardDetailId": 180,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "145|141|353|361",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 145,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 361,
+        "level": 1
+      },
+      {
+        "cardDetailId": 141,
+        "level": 1
+      },
+      {
+        "cardDetailId": 353,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "438|136|138|361",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 438,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 361,
+        "level": 1
+      },
+      {
+        "cardDetailId": 138,
+        "level": 1
+      },
+      {
+        "cardDetailId": 136,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "440|158|395|399",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 440,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 399,
+        "level": 1
+      },
+      {
+        "cardDetailId": 158,
+        "level": 1
+      },
+      {
+        "cardDetailId": 395,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "145|141|361",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 145,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 361,
+        "level": 1
+      },
+      {
+        "cardDetailId": 141,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "167|158|162",
+    "wins": 4,
+    "battles": 4,
+    "summoner": {
+      "cardDetailId": 167,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 162,
+        "level": 1
+      },
+      {
+        "cardDetailId": 158,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "440|158|160|399",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 440,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 399,
+        "level": 1
+      },
+      {
+        "cardDetailId": 160,
+        "level": 1
+      },
+      {
+        "cardDetailId": 158,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "178|174|387",
+    "wins": 2,
+    "battles": 2,
+    "summoner": {
+      "cardDetailId": 178,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 174,
+        "level": 1
+      },
+      {
+        "cardDetailId": 387,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "439|183|367|373|426",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 439,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 367,
+        "level": 1
+      },
+      {
+        "cardDetailId": 426,
+        "level": 1
+      },
+      {
+        "cardDetailId": 373,
+        "level": 1
+      },
+      {
+        "cardDetailId": 183,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "437|169|381|385|426",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 437,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 426,
+        "level": 1
+      },
+      {
+        "cardDetailId": 381,
+        "level": 1
+      },
+      {
+        "cardDetailId": 169,
+        "level": 1
+      },
+      {
+        "cardDetailId": 385,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "441|411|413",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 441,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 413,
+        "level": 1
+      },
+      {
+        "cardDetailId": 411,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "440|158|395|399|426",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 440,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 426,
+        "level": 1
+      },
+      {
+        "cardDetailId": 395,
+        "level": 1
+      },
+      {
+        "cardDetailId": 399,
+        "level": 1
+      },
+      {
+        "cardDetailId": 158,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "439|180|367|368",
+    "wins": 0,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 439,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 368,
+        "level": 1
+      },
+      {
+        "cardDetailId": 180,
+        "level": 1
+      },
+      {
+        "cardDetailId": 367,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "167|158|396|399",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 167,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 399,
+        "level": 1
+      },
+      {
+        "cardDetailId": 158,
+        "level": 1
+      },
+      {
+        "cardDetailId": 396,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "156|409|412|414|415",
+    "wins": 2,
+    "battles": 2,
+    "summoner": {
+      "cardDetailId": 156,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 409,
+        "level": 1
+      },
+      {
+        "cardDetailId": 412,
+        "level": 1
+      },
+      {
+        "cardDetailId": 415,
+        "level": 1
+      },
+      {
+        "cardDetailId": 414,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "167|190|398",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 167,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 190,
+        "level": 1
+      },
+      {
+        "cardDetailId": 398,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "438|359|361",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 438,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 361,
+        "level": 1
+      },
+      {
+        "cardDetailId": 359,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "439|184|367",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 439,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 184,
+        "level": 1
+      },
+      {
+        "cardDetailId": 367,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "156|411|412|414|427",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 156,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 412,
+        "level": 1
+      },
+      {
+        "cardDetailId": 411,
+        "level": 1
+      },
+      {
+        "cardDetailId": 414,
+        "level": 1
+      },
+      {
+        "cardDetailId": 427,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "439|184|426",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 439,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 184,
+        "level": 1
+      },
+      {
+        "cardDetailId": 426,
+        "level": 1
+      }
+    ]
+  },
+  {
+    "id": "167|158|399|424",
+    "wins": 1,
+    "battles": 1,
+    "summoner": {
+      "cardDetailId": 167,
+      "level": 1
+    },
+    "monsters": [
+      {
+        "cardDetailId": 399,
+        "level": 1
+      },
+      {
+        "cardDetailId": 158,
+        "level": 1
+      },
+      {
+        "cardDetailId": 424,
+        "level": 1
+      }
+    ]
+  }
+]
