@@ -1,10 +1,13 @@
 import {
+  Button,
   Col,
   collection,
   Container,
   Datatable,
   documents,
+  Form,
   formatPercent,
+  Input,
   isBusy,
   PageHeaderTile,
   Row,
@@ -30,11 +33,58 @@ export default function element(): UiElement {
           }),
         ],
       }),
+      battleDetailsForm(),
       teamRow(),
     ],
   });
 }
 
+function battleDetailsForm() {
+  return Form({
+    name: 'splinterlandsTeamGuide',
+    schema: {
+      type: 'object',
+      properties: {
+        playerName: 'string',
+        manaCap: 'string',
+      },
+      default: {
+        manaCap: '13',
+      },
+    },
+    child: Row({
+      children: [
+        Col({
+          children: [
+            Input({
+              label: 'Player Name',
+              name: 'playerName',
+            }),
+          ],
+        }),
+        Col({
+          children: [
+            // TODO: make this a drop down
+            Input({
+              label: 'Mana Cap',
+              name: 'manaCap',
+            }),
+          ],
+        }),
+        Col({
+          className: 'my-auto',
+          children: [
+            Button({
+              label: 'Save',
+              isSubmit: true,
+              busyWhen: isBusy(collection(TeamSummaryDocument)),
+            }),
+          ],
+        }),
+      ],
+    }),
+  });
+}
 function teamRow(): UiElement {
   return Datatable({
     defaultSortFieldId: 'winpc',

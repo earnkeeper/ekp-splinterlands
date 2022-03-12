@@ -46,8 +46,27 @@ export class TeamGuideController extends AbstractController {
 
     await this.clientService.emitBusy(event, COLLECTION_NAME);
 
-    const manaCap = 12;
-    const playerName = 'earnkeeper';
+    const form = event.state.forms?.splinterlandsTeamGuide;
+
+    console.log(form);
+
+    if (!form) {
+      await this.clientService.removeOldLayers(event, COLLECTION_NAME);
+      await this.clientService.emitDone(event, COLLECTION_NAME);
+      return;
+    }
+
+    const manaCap = Number(form.manaCap);
+    const playerName = form.playerName;
+
+    if (isNaN(manaCap) || !playerName) {
+      // TODO: looks like a bug in remove old layers, they are not being removed
+      await this.clientService.removeOldLayers(event, COLLECTION_NAME);
+      await this.clientService.emitDone(event, COLLECTION_NAME);
+      return;
+    }
+
+    // TODO: allow player to choose this and add ruleset 2
     const ruleset = 'Standard';
 
     const teams = await this.teamGuideService.getViableTeams(
