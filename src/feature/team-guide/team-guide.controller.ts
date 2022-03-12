@@ -1,4 +1,6 @@
 import {
+  ClientConnectedEvent,
+  ClientDisconnectedEvent,
   ClientStateChangedEvent,
   collection,
   filterPath,
@@ -8,18 +10,33 @@ import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import moment from 'moment';
 import { TeamGuideService, ViableTeam } from './team-guide.service';
-import { TeamSummaryDocument } from './ui';
+import teamguide from './ui/team-guide.uielement';
+import { TeamSummaryDocument } from './ui/team-summary.document';
 
 const COLLECTION_NAME = collection(TeamSummaryDocument);
 const FILTER_PATH = `/plugin/${process.env.EKP_PLUGIN_ID}/team-guide`;
 
 @Injectable()
-export class TeamGuideHandler extends AbstractController {
+export class TeamGuideController extends AbstractController {
   constructor(
     clientService: ClientService,
     private teamGuideService: TeamGuideService,
   ) {
     super(clientService);
+  }
+
+  async onClientConnected(event: ClientConnectedEvent) {
+    await this.clientService.emitMenu(event, {
+      id: `splinterlands-menu-team-guide`,
+      title: 'Team Guide',
+      navLink: `splinterlands/team-guide`,
+      icon: 'cil-people',
+    });
+
+    await this.clientService.emitPage(event, {
+      id: `splinterlands/team-guide`,
+      element: teamguide(),
+    });
   }
 
   async onClientStateChanged(event: ClientStateChangedEvent) {
@@ -48,6 +65,10 @@ export class TeamGuideHandler extends AbstractController {
     );
 
     await this.clientService.emitDone(event, COLLECTION_NAME);
+  }
+
+  async onClientDisconnected(event: ClientDisconnectedEvent) {
+    // Do nothing
   }
 
   mapDocuments(detailedTeams: ViableTeam[]): TeamSummaryDocument[] {

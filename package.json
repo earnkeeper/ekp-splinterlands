@@ -29,9 +29,8 @@
   },
   "homepage": "https://github.com/earnkeeper/ekp-splinterlands#readme",
   "dependencies": {
-    "@earnkeeper/ekp-sdk": "file:.yalc/@earnkeeper/ekp-sdk",
-    "@earnkeeper/ekp-sdk-nestjs": "file:.yalc/@earnkeeper/ekp-sdk-nestjs",
-    "@nestjs/schedule": "^1.0.2"
+    "@earnkeeper/ekp-sdk": "^0.2.3",
+    "@earnkeeper/ekp-sdk-nestjs": "file:.yalc/@earnkeeper/ekp-sdk-nestjs"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",

@@ -9,7 +9,7 @@ import { SplinterlandsApiService } from '../../shared/api/api.service';
 import { BattleRepository } from '../../shared/db/battle/battle.repository';
 import { Battle } from '../../battle/repository/battle.schema';
 import { SPLINTERS } from '../../util';
-import { TeamGuideHandler, ViableTeam } from '../../feature/team-guide/team-guide.controller';
+import { TeamGuideHandler, ViableTeam } from './team-guide.controller';
 
 describe('TeamGuideHandler', () => {
   let service: TeamGuideHandler;

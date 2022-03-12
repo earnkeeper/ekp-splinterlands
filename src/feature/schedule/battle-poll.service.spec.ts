@@ -10,13 +10,13 @@ import { SplinterlandsApiService } from '../../shared/api/api.service';
 import { mapBattles } from '../../util';
 import { BattleRepository } from '../../shared/db/battle/battle.repository';
 import {
-  BattleScheduleService,
+  BattlePollService,
   DEFAULT_START_BLOCK,
-} from './battle-schedule.service';
+} from './battle-poll.service';
 import fs from 'fs';
 
 describe('BattleScheduleService', () => {
-  let service: BattleScheduleService;
+  let service: BattlePollService;
   let splinterLandsApiService: SplinterlandsApiService;
   let battleRepository: BattleRepository;
   let moduleRef: TestingModule;
@@ -40,7 +40,7 @@ describe('BattleScheduleService', () => {
     );
 
     moduleRef = await Test.createTestingModule({
-      providers: [BattleScheduleService],
+      providers: [BattlePollService],
     })
       .useMocker((token) => {
         if (token === SplinterlandsApiService) {
@@ -66,7 +66,7 @@ describe('BattleScheduleService', () => {
       })
       .compile();
 
-    service = moduleRef.get<BattleScheduleService>(BattleScheduleService);
+    service = moduleRef.get<BattlePollService>(BattlePollService);
     splinterLandsApiService = moduleRef.get(SplinterlandsApiService);
     battleRepository = moduleRef.get(BattleRepository);
   });

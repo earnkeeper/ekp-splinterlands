@@ -10,4 +10,4 @@ import { Battle, BattleSchema } from './battle/battle.schema';
   providers: [BattleRepository],
   exports: [BattleRepository],
 })
-export class BattleModule {}
+export class DbModule {}

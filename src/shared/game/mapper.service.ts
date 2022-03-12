@@ -96,4 +96,25 @@ export class MapperService {
         return 'Unknown';
     }
   }
+
+  static mapEditionString(editionIndex: number) {
+    switch (editionIndex) {
+      case 0:
+        return 'Alpha';
+      case 1:
+        return 'Beta';
+      case 2:
+        return 'Promo';
+      case 3:
+        return 'Reward';
+      case 4:
+        return 'Untamed';
+      case 5:
+        return 'Dice';
+      case 7:
+        return 'Chaos';
+      default:
+        return 'Unknown';
+    }
+  }
 }
