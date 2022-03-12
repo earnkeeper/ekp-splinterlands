@@ -1,0 +1,973 @@
+[
+  {
+    "card_detail_id": 135,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-135"
+  },
+  {
+    "card_detail_id": 136,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-136"
+  },
+  {
+    "card_detail_id": 137,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-137"
+  },
+  {
+    "card_detail_id": 138,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-138"
+  },
+  {
+    "card_detail_id": 139,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-139"
+  },
+  {
+    "card_detail_id": 140,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-140"
+  },
+  {
+    "card_detail_id": 141,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-141"
+  },
+  {
+    "card_detail_id": 145,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-145"
+  },
+  {
+    "card_detail_id": 146,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-146"
+  },
+  {
+    "card_detail_id": 147,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-147"
+  },
+  {
+    "card_detail_id": 148,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-148"
+  },
+  {
+    "card_detail_id": 149,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-149"
+  },
+  {
+    "card_detail_id": 150,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-150"
+  },
+  {
+    "card_detail_id": 151,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-151"
+  },
+  {
+    "card_detail_id": 152,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-152"
+  },
+  {
+    "card_detail_id": 156,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-156"
+  },
+  {
+    "card_detail_id": 157,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-157"
+  },
+  {
+    "card_detail_id": 158,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-158"
+  },
+  {
+    "card_detail_id": 159,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-159"
+  },
+  {
+    "card_detail_id": 160,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-160"
+  },
+  {
+    "card_detail_id": 161,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-161"
+  },
+  {
+    "card_detail_id": 162,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-162"
+  },
+  {
+    "card_detail_id": 163,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-163"
+  },
+  {
+    "card_detail_id": 167,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-167"
+  },
+  {
+    "card_detail_id": 168,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-168"
+  },
+  {
+    "card_detail_id": 169,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-169"
+  },
+  {
+    "card_detail_id": 170,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-170"
+  },
+  {
+    "card_detail_id": 171,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-171"
+  },
+  {
+    "card_detail_id": 172,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-172"
+  },
+  {
+    "card_detail_id": 173,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-173"
+  },
+  {
+    "card_detail_id": 174,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-174"
+  },
+  {
+    "card_detail_id": 178,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-178"
+  },
+  {
+    "card_detail_id": 179,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-179"
+  },
+  {
+    "card_detail_id": 180,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-180"
+  },
+  {
+    "card_detail_id": 181,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-181"
+  },
+  {
+    "card_detail_id": 182,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-182"
+  },
+  {
+    "card_detail_id": 183,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-183"
+  },
+  {
+    "card_detail_id": 184,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-184"
+  },
+  {
+    "card_detail_id": 185,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-185"
+  },
+  {
+    "card_detail_id": 189,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-189"
+  },
+  {
+    "card_detail_id": 190,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-190"
+  },
+  {
+    "card_detail_id": 191,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-191"
+  },
+  {
+    "card_detail_id": 192,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-192"
+  },
+  {
+    "card_detail_id": 193,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-193"
+  },
+  {
+    "card_detail_id": 194,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-194"
+  },
+  {
+    "card_detail_id": 195,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-195"
+  },
+  {
+    "card_detail_id": 196,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-196"
+  },
+  {
+    "card_detail_id": 224,
+    "edition": 4,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-224"
+  },
+  {
+    "player": "earnkeeper",
+    "uid": "C3-332-VZIFJ0X028",
+    "card_detail_id": 332,
+    "xp": 1,
+    "gold": false,
+    "edition": 3,
+    "market_id": null,
+    "buy_price": null,
+    "market_listing_type": null,
+    "market_listing_status": null,
+    "last_used_block": null,
+    "last_used_player": null,
+    "last_used_date": null,
+    "last_transferred_block": 62181437,
+    "last_transferred_date": "2022-02-27T09:53:24.000Z",
+    "alpha_xp": null,
+    "delegated_to": null,
+    "delegation_tx": null,
+    "skin": null,
+    "delegated_to_display_name": null,
+    "display_name": null,
+    "lock_days": null,
+    "unlock_date": null,
+    "level": 1
+  },
+  {
+    "card_detail_id": 353,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-353"
+  },
+  {
+    "card_detail_id": 354,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-354"
+  },
+  {
+    "card_detail_id": 355,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-355"
+  },
+  {
+    "card_detail_id": 356,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-356"
+  },
+  {
+    "card_detail_id": 357,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-357"
+  },
+  {
+    "card_detail_id": 358,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-358"
+  },
+  {
+    "card_detail_id": 359,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-359"
+  },
+  {
+    "card_detail_id": 360,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-360"
+  },
+  {
+    "card_detail_id": 361,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-361"
+  },
+  {
+    "card_detail_id": 367,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-367"
+  },
+  {
+    "card_detail_id": 368,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-368"
+  },
+  {
+    "card_detail_id": 369,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-369"
+  },
+  {
+    "card_detail_id": 370,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-370"
+  },
+  {
+    "card_detail_id": 371,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-371"
+  },
+  {
+    "card_detail_id": 372,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-372"
+  },
+  {
+    "card_detail_id": 373,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-373"
+  },
+  {
+    "card_detail_id": 374,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-374"
+  },
+  {
+    "card_detail_id": 375,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-375"
+  },
+  {
+    "card_detail_id": 381,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-381"
+  },
+  {
+    "card_detail_id": 382,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-382"
+  },
+  {
+    "card_detail_id": 383,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-383"
+  },
+  {
+    "card_detail_id": 384,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-384"
+  },
+  {
+    "card_detail_id": 385,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-385"
+  },
+  {
+    "card_detail_id": 386,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-386"
+  },
+  {
+    "card_detail_id": 387,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-387"
+  },
+  {
+    "card_detail_id": 388,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-388"
+  },
+  {
+    "card_detail_id": 389,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-389"
+  },
+  {
+    "card_detail_id": 395,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-395"
+  },
+  {
+    "card_detail_id": 396,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-396"
+  },
+  {
+    "card_detail_id": 397,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-397"
+  },
+  {
+    "card_detail_id": 398,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-398"
+  },
+  {
+    "card_detail_id": 399,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-399"
+  },
+  {
+    "card_detail_id": 400,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-400"
+  },
+  {
+    "card_detail_id": 401,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-401"
+  },
+  {
+    "card_detail_id": 402,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-402"
+  },
+  {
+    "card_detail_id": 403,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-403"
+  },
+  {
+    "card_detail_id": 409,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-409"
+  },
+  {
+    "card_detail_id": 410,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-410"
+  },
+  {
+    "card_detail_id": 411,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-411"
+  },
+  {
+    "card_detail_id": 412,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-412"
+  },
+  {
+    "card_detail_id": 413,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-413"
+  },
+  {
+    "card_detail_id": 414,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-414"
+  },
+  {
+    "card_detail_id": 415,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-415"
+  },
+  {
+    "card_detail_id": 416,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-416"
+  },
+  {
+    "card_detail_id": 417,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-417"
+  },
+  {
+    "card_detail_id": 423,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-423"
+  },
+  {
+    "card_detail_id": 424,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-424"
+  },
+  {
+    "card_detail_id": 425,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-425"
+  },
+  {
+    "card_detail_id": 426,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-426"
+  },
+  {
+    "card_detail_id": 427,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-427"
+  },
+  {
+    "card_detail_id": 428,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-428"
+  },
+  {
+    "card_detail_id": 429,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-429"
+  },
+  {
+    "card_detail_id": 437,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-437"
+  },
+  {
+    "card_detail_id": 438,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-438"
+  },
+  {
+    "card_detail_id": 439,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-439"
+  },
+  {
+    "card_detail_id": 440,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-440"
+  },
+  {
+    "card_detail_id": 441,
+    "edition": 7,
+    "gold": false,
+    "level": 1,
+    "xp": 1,
+    "player": "earnkeeper",
+    "uid": "starter-441"
+  }
+]

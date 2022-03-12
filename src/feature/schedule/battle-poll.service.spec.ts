@@ -4,20 +4,16 @@ import {
   WorkerService,
 } from '@earnkeeper/ekp-sdk-nestjs';
 import { Test, TestingModule } from '@nestjs/testing';
-import 'jest-extended';
-import { TransactionDto } from '../../shared/api/dto';
-import { SplinterlandsApiService } from '../../shared/api/api.service';
-import { mapBattles } from '../../util';
-import { BattleRepository } from '../../shared/db/battle/battle.repository';
-import {
-  BattlePollService,
-  DEFAULT_START_BLOCK,
-} from './battle-poll.service';
 import fs from 'fs';
+import 'jest-extended';
+import { ApiService, TransactionDto } from '../../shared/api';
+import { BattleRepository } from '../../shared/db/battle/battle.repository';
+import { MapperService } from '../../shared/game';
+import { BattlePollService, DEFAULT_START_BLOCK } from './battle-poll.service';
 
 describe('BattleScheduleService', () => {
   let service: BattlePollService;
-  let splinterLandsApiService: SplinterlandsApiService;
+  let splinterLandsApiService: ApiService;
   let battleRepository: BattleRepository;
   let moduleRef: TestingModule;
   let TRANSACTIONS_251: TransactionDto[];
@@ -43,7 +39,7 @@ describe('BattleScheduleService', () => {
       providers: [BattlePollService],
     })
       .useMocker((token) => {
-        if (token === SplinterlandsApiService) {
+        if (token === ApiService) {
           return {};
         }
         if (token === ApmService) {
@@ -67,13 +63,13 @@ describe('BattleScheduleService', () => {
       .compile();
 
     service = moduleRef.get<BattlePollService>(BattlePollService);
-    splinterLandsApiService = moduleRef.get(SplinterlandsApiService);
+    splinterLandsApiService = moduleRef.get(ApiService);
     battleRepository = moduleRef.get(BattleRepository);
   });
 
   describe('fetchBattles', () => {
     it('saves one page of fetched values', async () => {
-      const splinterLandsApiService = moduleRef.get(SplinterlandsApiService);
+      const splinterLandsApiService = moduleRef.get(ApiService);
       const battleRepository = moduleRef.get(BattleRepository);
 
       splinterLandsApiService.fetchBattleTransactions = jest
@@ -153,7 +149,9 @@ describe('BattleScheduleService', () => {
 
   describe('mapBattles', () => {
     it('maps all indexes correctly', () => {
-      const battles = mapBattles(TRANSACTIONS_1000 as TransactionDto[]);
+      const battles = MapperService.mapBattles(
+        TRANSACTIONS_1000 as TransactionDto[],
+      );
 
       expect(battles).toBeTruthy();
       expect(battles.length).toEqual(268);
@@ -171,7 +169,9 @@ describe('BattleScheduleService', () => {
     });
 
     it('maps raw data correctly', () => {
-      const battles = mapBattles(TRANSACTIONS_251 as TransactionDto[]);
+      const battles = MapperService.mapBattles(
+        TRANSACTIONS_251 as TransactionDto[],
+      );
 
       expect(battles).toBeTruthy();
       expect(battles.length).toEqual(43);
