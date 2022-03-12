@@ -2,11 +2,11 @@ import {
   ClientStateChangedEvent,
   collection,
   DocumentDto,
+  LayerDto,
 } from '@earnkeeper/ekp-sdk';
 import {
   AssetEventDto,
   ClientService,
-  LayerDto,
   logger,
 } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
