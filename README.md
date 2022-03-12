@@ -52,10 +52,4 @@ Commit your changes and push to `main` branch. The github action in this repo wi
 
 ## Splinterlands Api
 
-Thank you to [kiokizz](https://github.com/kiokizz) for this excellent documentation:
-
-https://github.com/kiokizz/Splinterlands-API
-
-Copied here just in case he needs to take his down for any reason:
-
-https://github.com/earnkeeper/Splinterlands-API
+https://splinterviewer.com/api

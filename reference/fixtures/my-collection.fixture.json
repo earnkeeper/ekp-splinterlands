@@ -1,0 +1,31 @@
+{
+  "player": "earnkeeper",
+  "cards": [
+    {
+      "player": "earnkeeper",
+      "uid": "C3-332-VZIFJ0X028",
+      "card_detail_id": 332,
+      "xp": 1,
+      "gold": false,
+      "edition": 3,
+      "market_id": null,
+      "buy_price": null,
+      "market_listing_type": null,
+      "market_listing_status": null,
+      "last_used_block": null,
+      "last_used_player": null,
+      "last_used_date": null,
+      "last_transferred_block": 62181437,
+      "last_transferred_date": "2022-02-27T09:53:24.000Z",
+      "alpha_xp": null,
+      "delegated_to": null,
+      "delegation_tx": null,
+      "skin": null,
+      "delegated_to_display_name": null,
+      "display_name": null,
+      "lock_days": null,
+      "unlock_date": null,
+      "level": 1
+    }
+  ]
+}
