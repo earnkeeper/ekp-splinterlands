@@ -10,10 +10,10 @@ import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import moment from 'moment';
 import { TeamGuideService, ViableTeam } from './team-guide.service';
+import { TeamGuideDocument } from './ui/team-guide.document';
 import teamguide from './ui/team-guide.uielement';
-import { TeamSummaryDocument } from './ui/team-summary.document';
 
-const COLLECTION_NAME = collection(TeamSummaryDocument);
+const COLLECTION_NAME = collection(TeamGuideDocument);
 const FILTER_PATH = `/plugin/${process.env.EKP_PLUGIN_ID}/team-guide`;
 
 @Injectable()
@@ -48,8 +48,6 @@ export class TeamGuideController extends AbstractController {
 
     const form = event.state.forms?.splinterlandsTeamGuide;
 
-    console.log(form);
-
     if (!form) {
       await this.clientService.removeOldLayers(event, COLLECTION_NAME);
       await this.clientService.emitDone(event, COLLECTION_NAME);
@@ -58,16 +56,14 @@ export class TeamGuideController extends AbstractController {
 
     const manaCap = Number(form.manaCap);
     const playerName = form.playerName;
+    const ruleset = form.ruleset;
 
-    if (isNaN(manaCap) || !playerName) {
+    if (isNaN(manaCap) || !playerName || !ruleset) {
       // TODO: looks like a bug in remove old layers, they are not being removed
       await this.clientService.removeOldLayers(event, COLLECTION_NAME);
       await this.clientService.emitDone(event, COLLECTION_NAME);
       return;
     }
-
-    // TODO: allow player to choose this and add ruleset 2
-    const ruleset = 'Standard';
 
     const teams = await this.teamGuideService.getViableTeams(
       playerName,
@@ -90,22 +86,48 @@ export class TeamGuideController extends AbstractController {
     // Do nothing
   }
 
-  mapDocuments(detailedTeams: ViableTeam[]): TeamSummaryDocument[] {
+  mapDocuments(detailedTeams: ViableTeam[]): TeamGuideDocument[] {
     const now = moment().unix();
 
     return _.chain(detailedTeams)
       .map((team) => {
         const mana = team.summoner.mana + _.sumBy(team.monsters, 'mana');
 
+        const monsters = [];
+
+        monsters.push({
+          id: team.summoner.cardDetailId,
+          name: team.summoner.name,
+          mana: team.summoner.mana,
+          type: 'Summoner',
+          splinter: team.summoner.splinter,
+          icon: `https://d36mxiodymuqjm.cloudfront.net/card_art/${team.summoner.name}.png`,
+        });
+
+        // TODO: check if these are added in the right order, order is important
+        monsters.push(
+          ...team.monsters.map((monster) => ({
+            id: monster.cardDetailId,
+            name: monster.name,
+            mana: monster.mana,
+            type: 'Monster',
+            splinter: monster.splinter,
+            icon: `https://d36mxiodymuqjm.cloudfront.net/card_art/${monster.name}.png`,
+          })),
+        );
+
         return {
           id: team.id,
           updated: now,
           splinter: team.summoner.splinter,
           summoner: team.summoner.name,
-          monsters: team.monsters.length,
+          monsterCount: team.monsters.length,
           mana,
           battles: team.battles,
           winpc: team.wins / team.battles,
+          elementIcon: `https://d36mxiodymuqjm.cloudfront.net/website/icons/icon-element-${team.summoner.splinter.toLowerCase()}-2.svg`,
+          summonerIcon: `https://d36mxiodymuqjm.cloudfront.net/card_art/${team.summoner.name}.png`,
+          monsters,
         };
       })
       .value();

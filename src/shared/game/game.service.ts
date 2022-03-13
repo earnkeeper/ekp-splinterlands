@@ -78,4 +78,44 @@ export class GameService {
     'Dragon',
     'Neutral',
   ];
+  static RULESETS = [
+    'Standard',
+    'Aim True',
+    'Armored Up',
+    'Back to Basics',
+    'Broken Arrows',
+    'Close Range',
+    'Earthquake',
+    'Equal Opportunity',
+    'Equalizer',
+    'Even Stevens',
+    'Explosive Weaponry',
+    'Fog of War',
+    'Healed Out',
+    'Heavy Hitters',
+    'Holy Protection',
+    'Keep Your Distance',
+    'Little League',
+    'Lost Legendaries',
+    'Lost Magic',
+    'Melee Mayhem',
+    'Noxious Fumes',
+    'Odd Ones Out',
+    'Reverse Speed',
+    'Rise of the Commons',
+    'Silenced Summoners',
+    'Spreading Fury',
+    'Stampede',
+    'Super Sneak',
+    'Taking Sides',
+    'Target Practice',
+    'Unprotected',
+    'Up Close & Personal',
+    'Weak Magic',
+  ];
+
+  static MANA_CAPS = _.chain(_.range(12, 50))
+    .union([99])
+    .map((it) => it.toString())
+    .value();
 }

@@ -43,7 +43,7 @@ function marketRow(): UiElement {
     defaultSortFieldId: 'price',
     defaultSortAsc: true,
     data: documents(MarketplaceListingDocument),
-    isBusy: isBusy(collection(MarketplaceListingDocument)),
+    busyWhen: isBusy(collection(MarketplaceListingDocument)),
     filterable: true,
     gridView: {
       tileWidth: [12, 6, 4, 4],

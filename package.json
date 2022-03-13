@@ -1,6 +1,6 @@
 {
   "name": "ekp-splinterlands",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "EarnKeeper.io plugin for https://splinterlands.com/",
   "main": "index.js",
   "scripts": {
@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/earnkeeper/ekp-splinterlands#readme",
   "dependencies": {
-    "@earnkeeper/ekp-sdk": "^0.2.3",
+    "@earnkeeper/ekp-sdk": "^0.2.5",
     "@earnkeeper/ekp-sdk-nestjs": "^1.1.1"
   },
   "devDependencies": {
