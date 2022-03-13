@@ -29,6 +29,8 @@ export class ScheduleController {
       { limit: DEFAULT_BATTLE_POLL_PAGE_SIZE },
       {
         jobId: BATTLE_JOB,
+        removeOnComplete: true,
+        removeOnFail: true,
         delay,
       },
     );
