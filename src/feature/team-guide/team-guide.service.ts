@@ -6,7 +6,7 @@ import {
   CardDetailDto,
   TeamDetailedDto,
 } from '../../shared/api';
-import { BattleRepository } from '../../shared/db';
+import { Battle, BattleRepository } from '../../shared/db';
 import { GameService, MapperService } from '../../shared/game';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class TeamGuideService {
     playerName: string,
     manaCap: number,
     ruleset: string,
-  ): Promise<ViableTeam[]> {
+  ): Promise<{ teams: ViableTeam[]; battles: Battle[] }> {
     const battleModels =
       await this.battleRepository.findByManaCapRulesetAndTimestampGreaterThan(
         manaCap,
@@ -49,7 +49,7 @@ export class TeamGuideService {
       }
     }
 
-    return _.values(viableTeams);
+    return { teams: _.values(viableTeams), battles: battleModels };
   }
 
   private updateViableTeamsWith(

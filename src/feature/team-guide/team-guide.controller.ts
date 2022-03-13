@@ -10,6 +10,7 @@ import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import moment from 'moment';
 import { TeamGuideService, ViableTeam } from './team-guide.service';
+import { TeamGuideViewBag } from './ui/team-guide-view-bag.document';
 import { TeamGuideDocument } from './ui/team-guide.document';
 import teamguide from './ui/team-guide.uielement';
 
@@ -65,7 +66,7 @@ export class TeamGuideController extends AbstractController {
       return;
     }
 
-    const teams = await this.teamGuideService.getViableTeams(
+    const { teams, battles } = await this.teamGuideService.getViableTeams(
       playerName,
       manaCap,
       ruleset,
@@ -77,6 +78,21 @@ export class TeamGuideController extends AbstractController {
       event,
       COLLECTION_NAME,
       teamSummaryDocuments,
+    );
+
+    const viewBag = new TeamGuideViewBag({
+      id: 'viewbag',
+      battleCount: battles.length,
+      firstBattleTimestamp: _.chain(battles)
+        .map((battle) => battle.timestamp)
+        .min()
+        .value(),
+    });
+
+    await this.clientService.emitDocuments(
+      event,
+      collection(TeamGuideViewBag),
+      [viewBag],
     );
 
     await this.clientService.emitDone(event, COLLECTION_NAME);

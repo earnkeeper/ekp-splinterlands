@@ -82,15 +82,15 @@ describe('TeamGuideHandler', () => {
 
   describe('getViableTeams', () => {
     it('creates teams when I have matching cards', async () => {
-      const viableTeams = await service.getViableTeams(
+      const { teams } = await service.getViableTeams(
         'earnkeeper',
         13,
         'Standard',
       );
 
-      expect(viableTeams.length).toBeGreaterThan(30);
+      expect(teams.length).toBeGreaterThan(30);
 
-      for (const viableTeam of viableTeams) {
+      for (const viableTeam of teams) {
         expect(viableTeam.id).toInclude('|');
         expect(viableTeam.battles).toBeGreaterThan(0);
         expect(viableTeam.wins).toBeGreaterThanOrEqual(0);
@@ -113,7 +113,7 @@ describe('TeamGuideHandler', () => {
 
       await fs.promises.writeFile(
         'reference/fixtures/viable-teams.fixture.json',
-        JSON.stringify(viableTeams, undefined, '  '),
+        JSON.stringify(teams, undefined, '  '),
       );
     });
   });
