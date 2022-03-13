@@ -94,7 +94,7 @@ function battleDetailsForm() {
             Select({
               label: 'Ruleset',
               name: 'ruleset',
-              options: GameService.RULESETS,
+              options: ['Standard'],
               minWidth: 160,
             }),
           ],
