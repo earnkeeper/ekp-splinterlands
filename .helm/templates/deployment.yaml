@@ -24,14 +24,12 @@ spec:
               value: 'splinterlands'
             - name: EKP_PLUGIN_NAME
               value: 'Splinterlands'
-            - name: MORALIS_APP_ID
-              value: '{{ .Values.moralis.appId }}'
-            - name: MORALIS_SERVER_URL
-              value: '{{ .Values.moralis.serverUrl }}'
             - name: MONGO_HOST
               value: '{{ .Values.mongodb.host }}'
             - name: REDIS_HOST
               value: 'ekp-splinterlands-redis-master'
+            - name: SENTRY_DSN
+              value: '{{ .Values.sentry.dsn }}'
           ports:
             - containerPort: 3001
               protocol: TCP

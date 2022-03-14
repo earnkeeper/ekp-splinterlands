@@ -1,3 +1,4 @@
+import { ApmService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import {
@@ -13,6 +14,7 @@ import { GameService, MapperService } from '../../shared/game';
 export class TeamGuideService {
   constructor(
     private apiService: ApiService,
+    private apmService: ApmService,
     private battleRepository: BattleRepository,
     private gameService: GameService,
   ) {}
@@ -22,6 +24,15 @@ export class TeamGuideService {
     manaCap: number,
     ruleset: string,
   ): Promise<{ teams: ViableTeam[]; battles: Battle[] }> {
+    const tx = this.apmService.startTransaction({
+      name: 'TeamGuideService.getViableTeams',
+    });
+
+    const sp1 = tx.startChild({
+      op: 'BattleRepository.findByManaCapRulesetAndTimestampGreaterThan',
+      data: { manaCap, ruleset, timestamp: 0 },
+    });
+
     const battleModels =
       await this.battleRepository.findByManaCapRulesetAndTimestampGreaterThan(
         manaCap,
@@ -29,15 +40,35 @@ export class TeamGuideService {
         0,
       );
 
-    const battles = battleModels.map((model) => model.raw);
+    tx.setData('battleCount', battleModels.length);
+
+    sp1.finish();
+
+    const sp2 = tx.startChild({
+      op: 'ApiService.fetchCardDetails',
+    });
 
     const allCards = await this.apiService.fetchCardDetails();
 
+    sp2.finish();
+
+    const sp3 = tx.startChild({
+      op: 'ApiService.fetchCardDetails',
+    });
+
     const playerCards = await this.gameService.getPlayerCards(playerName);
+
+    sp3.finish();
+
+    const sp4 = tx.startChild({
+      op: 'computation',
+    });
 
     const playerCardDetailIds = playerCards.map((card) => card.card_detail_id);
 
     const viableTeams: Record<string, ViableTeam> = {};
+
+    const battles = battleModels.map((model) => model.raw);
 
     for (const battle of battles) {
       const { winner, loser } = this.mapWinnerAndLoser(battle);
@@ -49,7 +80,14 @@ export class TeamGuideService {
       }
     }
 
-    return { teams: _.values(viableTeams), battles: battleModels };
+    const teams = _.values(viableTeams);
+    tx.setData('teamCount', teams.length);
+
+    sp4.finish;
+
+    tx.finish();
+
+    return { teams, battles: battleModels };
   }
 
   private updateViableTeamsWith(

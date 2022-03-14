@@ -1,6 +1,6 @@
 {
   "name": "ekp-splinterlands",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "EarnKeeper.io plugin for https://splinterlands.com/",
   "main": "index.js",
   "scripts": {

@@ -159,13 +159,6 @@ function teamRow(): UiElement {
         showExport: false,
         columns: [
           {
-            id: 'winpc',
-            name: 'Win',
-            label: formatPercent('$.winpc'),
-            sortable: true,
-            width: '60px',
-          },
-          {
             id: 'splinter',
             sortable: true,
             filterable: true,
@@ -188,6 +181,14 @@ function teamRow(): UiElement {
             id: 'summoner',
             sortable: true,
             filterable: true,
+          },
+          {
+            id: 'winpc',
+            name: 'Win',
+            label: formatPercent('$.winpc'),
+            sortable: true,
+            filterable: true,
+            width: '60px',
           },
           {
             id: 'monsterCount',
