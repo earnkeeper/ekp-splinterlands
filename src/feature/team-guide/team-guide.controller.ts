@@ -5,7 +5,12 @@ import {
   collection,
   filterPath,
 } from '@earnkeeper/ekp-sdk';
-import { AbstractController, ClientService } from '@earnkeeper/ekp-sdk-nestjs';
+import {
+  AbstractController,
+  ApmService,
+  ClientService,
+  logger,
+} from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import moment from 'moment';
@@ -21,6 +26,7 @@ const FILTER_PATH = `/plugin/${process.env.EKP_PLUGIN_ID}/team-guide`;
 export class TeamGuideController extends AbstractController {
   constructor(
     clientService: ClientService,
+    private apmService: ApmService,
     private teamGuideService: TeamGuideService,
   ) {
     super(clientService);
@@ -90,6 +96,10 @@ export class TeamGuideController extends AbstractController {
         collection(TeamGuideViewBag),
         [viewBag],
       );
+    } catch (error) {
+      this.apmService.captureError(error);
+      logger.error('Error occurred while handling team guide event', error);
+      console.error(error);
     } finally {
       await this.clientService.emitDone(event, COLLECTION_NAME);
     }
