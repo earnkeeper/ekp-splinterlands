@@ -25,11 +25,12 @@ export class TeamGuideService {
     ruleset: string,
   ): Promise<{ teams: ViableTeam[]; battles: Battle[] }> {
     const tx = this.apmService.startTransaction({
-      name: 'TeamGuideService.getViableTeams',
+      name: 'TeamGuideService',
+      op: 'getViableTeams',
     });
 
     const sp1 = tx.startChild({
-      op: 'BattleRepository.findByManaCapRulesetAndTimestampGreaterThan',
+      op: 'readBattles',
       data: { manaCap, ruleset, timestamp: 0 },
     });
 
@@ -45,23 +46,25 @@ export class TeamGuideService {
     sp1.finish();
 
     const sp2 = tx.startChild({
-      op: 'ApiService.fetchCardDetails',
+      op: 'fetchCardDetails',
     });
 
     const allCards = await this.apiService.fetchCardDetails();
+    tx.setData('allCardCount', allCards.length);
 
     sp2.finish();
 
     const sp3 = tx.startChild({
-      op: 'ApiService.fetchCardDetails',
+      op: 'fetchPlayerCards',
     });
 
     const playerCards = await this.gameService.getPlayerCards(playerName);
+    tx.setData('playerCardCount', playerCards.length);
 
     sp3.finish();
 
     const sp4 = tx.startChild({
-      op: 'computation',
+      op: 'computeTeams',
     });
 
     const playerCardDetailIds = playerCards.map((card) => card.card_detail_id);
