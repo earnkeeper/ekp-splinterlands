@@ -9,6 +9,11 @@ const STEEM_BASE_URL = 'https://api.steemmonsters.io';
 
 @Injectable()
 export class ApiService extends AbstractApiService {
+  constructor() {
+    super({
+      name: 'SplinterlandsApiService',
+    });
+  }
   async fetchCardSales(): Promise<ForSaleGroupedDto[]> {
     const url = `${BASE_URL}/market/for_sale_grouped`;
 

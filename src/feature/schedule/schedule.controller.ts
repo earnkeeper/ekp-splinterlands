@@ -8,7 +8,7 @@ import { Job } from 'bull';
 import { BattlePollService } from './battle-poll.service';
 
 export const BATTLE_JOB = 'BATTLE_JOB';
-export const BATTLE_JOB_INTERVAL = 5000;
+export const BATTLE_JOB_INTERVAL = 60000;
 export const DEFAULT_BATTLE_POLL_PAGE_SIZE = 1000;
 
 @Processor(WORKER_QUEUE)
