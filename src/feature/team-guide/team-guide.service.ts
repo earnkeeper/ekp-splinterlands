@@ -35,7 +35,7 @@ export class TeamGuideService {
       data: { manaCap, ruleset, timestamp: 0 },
     });
 
-    const twoWeeksAgo = moment().subtract(14, 'days').unix();
+    const twoWeeksAgo = moment().subtract(5, 'days').unix();
 
     const battleModels =
       await this.battleRepository.findByManaCapRulesetAndTimestampGreaterThan(
