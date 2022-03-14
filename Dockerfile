@@ -7,8 +7,13 @@ COPY package-lock.json /app
 
 RUN npm ci
 
-COPY . /app 
+COPY ./src /app 
+COPY ./LICENSE /app 
+COPY ./nest-cli.json /app 
+COPY ./README.md /app 
+COPY ./tsconfig.build.json /app 
+COPY ./tsconfig.json /app 
 
 RUN npm run build
 
-CMD ["node","dist/main"]
+CMD ["npm","run","start:prod"]
