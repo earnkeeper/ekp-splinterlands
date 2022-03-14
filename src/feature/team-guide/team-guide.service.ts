@@ -35,13 +35,13 @@ export class TeamGuideService {
       data: { manaCap, ruleset, timestamp: 0 },
     });
 
-    const last24h = moment().subtract(1, 'days').unix();
+    const twoWeeksAgo = moment().subtract(14, 'days').unix();
 
     const battleModels =
       await this.battleRepository.findByManaCapRulesetAndTimestampGreaterThan(
         manaCap,
         ruleset,
-        last24h,
+        twoWeeksAgo,
       );
 
     tx.setData('battleCount', battleModels.length);
@@ -89,7 +89,7 @@ export class TeamGuideService {
     const teams = _.values(viableTeams);
     tx.setData('teamCount', teams.length);
 
-    sp4.finish;
+    sp4.finish();
 
     tx.finish();
 
