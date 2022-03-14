@@ -30,12 +30,16 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
 
+      - name: Set environment name, skip on main branch
+        if: ${{ github.base_ref != 'main' }}
+        run: |
+          echo WERF_ENV=${{github.base_ref}} >> $GITHUB_ENV
+
       - name: Run werf commands
         run: |
           werf helm repo add bitnami https://charts.bitnami.com/bitnami
           werf helm dependency update .helm
           source $(werf ci-env github --as-file)
-          werf render
           werf converge
         env:
           GITHUB_TOKEN: ${{ github.token }}

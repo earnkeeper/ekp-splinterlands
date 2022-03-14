@@ -30,6 +30,8 @@ spec:
               value: 'ekp-splinterlands-redis-master'
             - name: SENTRY_DSN
               value: '{{ .Values.sentry.dsn }}'
+            - name: NODE_ENV
+              value: '{{ .Values.sentry.env }}'
           ports:
             - containerPort: 3001
               protocol: TCP
