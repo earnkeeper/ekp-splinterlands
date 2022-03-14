@@ -28,7 +28,7 @@ export class Battle {
   readonly raw: BattleDto;
 
   @Prop()
-  readonly teamsExtracted: boolean = false;
+  readonly teamsExtracted?: boolean = false;
 
   @Prop({ type: 'object' })
   readonly team1?: TeamDetailedDto;
@@ -41,6 +41,14 @@ export const BattleSchema = SchemaFactory.createForClass(Battle)
   .index({
     blockNumber: 1,
   })
+  .index(
+    {
+      timestamp: 1,
+    },
+    {
+      expireAfterSeconds: 86400 * 14, // 14 days
+    },
+  )
   .index({
     timestamp: 1,
     manaCap: 1,

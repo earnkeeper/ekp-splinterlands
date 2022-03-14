@@ -11,6 +11,8 @@ import {
 import { Battle, BattleRepository } from '../../shared/db';
 import { GameService, MapperService } from '../../shared/game';
 
+const MAX_DAYS_TO_FETCH = 3;
+
 @Injectable()
 export class TeamGuideService {
   constructor(
@@ -30,12 +32,17 @@ export class TeamGuideService {
       op: 'getViableTeams',
     });
 
-    const sp1 = tx.startChild({
-      op: 'readBattles',
-      data: { manaCap, ruleset, timestamp: 0 },
-    });
+    const twoWeeksAgo = moment().subtract(MAX_DAYS_TO_FETCH, 'days').unix();
 
-    const twoWeeksAgo = moment().subtract(5, 'days').unix();
+    const sp1 = tx?.startChild({
+      op: 'readBattles',
+      data: {
+        manaCap,
+        ruleset,
+        timestamp: twoWeeksAgo,
+        maxDaysToFetch: MAX_DAYS_TO_FETCH,
+      },
+    });
 
     const battleModels =
       await this.battleRepository.findByManaCapRulesetAndTimestampGreaterThan(
@@ -44,29 +51,29 @@ export class TeamGuideService {
         twoWeeksAgo,
       );
 
-    tx.setData('battleCount', battleModels.length);
+    tx?.setData('battleCount', battleModels.length);
 
-    sp1.finish();
+    sp1?.finish();
 
-    const sp2 = tx.startChild({
+    const sp2 = tx?.startChild({
       op: 'fetchCardDetails',
     });
 
     const allCards = await this.apiService.fetchCardDetails();
-    tx.setData('allCardCount', allCards.length);
+    tx?.setData('allCardCount', allCards.length);
 
-    sp2.finish();
+    sp2?.finish();
 
-    const sp3 = tx.startChild({
+    const sp3 = tx?.startChild({
       op: 'fetchPlayerCards',
     });
 
     const playerCards = await this.gameService.getPlayerCards(playerName);
-    tx.setData('playerCardCount', playerCards.length);
+    tx?.setData('playerCardCount', playerCards.length);
 
-    sp3.finish();
+    sp3?.finish();
 
-    const sp4 = tx.startChild({
+    const sp4 = tx?.startChild({
       op: 'computeTeams',
     });
 
@@ -87,11 +94,11 @@ export class TeamGuideService {
     }
 
     const teams = _.values(viableTeams);
-    tx.setData('teamCount', teams.length);
+    tx?.setData('teamCount', teams.length);
 
-    sp4.finish();
+    sp4?.finish();
 
-    tx.finish();
+    tx?.finish();
 
     return { teams, battles: battleModels };
   }
