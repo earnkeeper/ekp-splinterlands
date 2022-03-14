@@ -36,7 +36,7 @@ export class BattleRepository {
     return this.battleModel
       .where({
         timestamp: {
-          $gt: timestamp,
+          $gte: timestamp,
         },
         manaCap,
         ruleset,

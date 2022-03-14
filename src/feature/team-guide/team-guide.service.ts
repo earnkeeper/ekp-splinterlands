@@ -1,6 +1,7 @@
 import { ApmService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
+import moment from 'moment';
 import {
   ApiService,
   BattleDto,
@@ -34,11 +35,13 @@ export class TeamGuideService {
       data: { manaCap, ruleset, timestamp: 0 },
     });
 
+    const last24h = moment().subtract(1, 'days').unix();
+
     const battleModels =
       await this.battleRepository.findByManaCapRulesetAndTimestampGreaterThan(
         manaCap,
         ruleset,
-        0,
+        last24h,
       );
 
     tx.setData('battleCount', battleModels.length);

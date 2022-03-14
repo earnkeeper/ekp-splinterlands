@@ -47,55 +47,52 @@ export class TeamGuideController extends AbstractController {
 
     await this.clientService.emitBusy(event, COLLECTION_NAME);
 
-    const form = event.state.forms?.splinterlandsTeamGuide;
+    try {
+      const form = event.state.forms?.splinterlandsTeamGuide;
 
-    if (!form) {
-      await this.clientService.removeOldLayers(event, COLLECTION_NAME);
+      if (!form) {
+        return;
+      }
+
+      const manaCap = Number(form.manaCap);
+      const playerName = form.playerName;
+      const ruleset = form.ruleset;
+
+      if (isNaN(manaCap) || !playerName || !ruleset) {
+        return;
+      }
+
+      const { teams, battles } = await this.teamGuideService.getViableTeams(
+        playerName,
+        manaCap,
+        ruleset,
+      );
+
+      const teamSummaryDocuments = this.mapDocuments(teams);
+
+      await this.clientService.emitDocuments(
+        event,
+        COLLECTION_NAME,
+        teamSummaryDocuments,
+      );
+
+      const viewBag = new TeamGuideViewBag({
+        id: 'viewbag',
+        battleCount: battles.length,
+        firstBattleTimestamp: _.chain(battles)
+          .map((battle) => battle.timestamp)
+          .min()
+          .value(),
+      });
+
+      await this.clientService.emitDocuments(
+        event,
+        collection(TeamGuideViewBag),
+        [viewBag],
+      );
+    } finally {
       await this.clientService.emitDone(event, COLLECTION_NAME);
-      return;
     }
-
-    const manaCap = Number(form.manaCap);
-    const playerName = form.playerName;
-    const ruleset = form.ruleset;
-
-    if (isNaN(manaCap) || !playerName || !ruleset) {
-      // TODO: looks like a bug in remove old layers, they are not being removed
-      await this.clientService.removeOldLayers(event, COLLECTION_NAME);
-      await this.clientService.emitDone(event, COLLECTION_NAME);
-      return;
-    }
-
-    const { teams, battles } = await this.teamGuideService.getViableTeams(
-      playerName,
-      manaCap,
-      ruleset,
-    );
-
-    const teamSummaryDocuments = this.mapDocuments(teams);
-
-    await this.clientService.emitDocuments(
-      event,
-      COLLECTION_NAME,
-      teamSummaryDocuments,
-    );
-
-    const viewBag = new TeamGuideViewBag({
-      id: 'viewbag',
-      battleCount: battles.length,
-      firstBattleTimestamp: _.chain(battles)
-        .map((battle) => battle.timestamp)
-        .min()
-        .value(),
-    });
-
-    await this.clientService.emitDocuments(
-      event,
-      collection(TeamGuideViewBag),
-      [viewBag],
-    );
-
-    await this.clientService.emitDone(event, COLLECTION_NAME);
   }
 
   async onClientDisconnected(event: ClientDisconnectedEvent) {
