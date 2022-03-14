@@ -30,15 +30,28 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
 
-      - name: Run werf commands
+      - name: Get helm dependencies
         run: |
           werf helm repo add bitnami https://charts.bitnami.com/bitnami
           werf helm dependency update .helm
+        env:
+          WERF_PLATFORM: linux/amd64
+
+      - name: Production deploy
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
           source $(werf ci-env github --as-file)
-          if [[ "${{github.base_ref}}" != "main" ]]; then
-            export WERF_ENV=${{github.base_ref}}
-          fi
           werf converge
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          WERF_PLATFORM: linux/amd64
+          WERF_SECRET_KEY: ${{ secrets.WERF_SECRET_KEY }}
+
+      - name: Staging deploy
+        if: ${{ github.ref == 'refs/heads/staging' }}
+        run: |
+          source $(werf ci-env github --as-file)
+          werf converge --env staging
         env:
           GITHUB_TOKEN: ${{ github.token }}
           WERF_PLATFORM: linux/amd64
