@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { BattleDto, PlayerDto, TeamDetailedDto } from '../../api';
+import { PlayerDto, TeamDetailedDto } from '../../api';
 
 export type BattleDocument = Battle & Document;
 
@@ -21,20 +21,20 @@ export class Battle {
   @Prop()
   readonly ruleset: string;
 
+  @Prop()
+  readonly winner: string;
+
+  @Prop()
+  readonly loser: string;
+
   @Prop({ type: 'array' })
   readonly players: PlayerDto[];
 
   @Prop({ type: 'object' })
-  readonly raw: BattleDto;
-
-  @Prop()
-  readonly teamsExtracted?: boolean = false;
+  readonly team1: TeamDetailedDto;
 
   @Prop({ type: 'object' })
-  readonly team1?: TeamDetailedDto;
-
-  @Prop({ type: 'object' })
-  readonly team2?: TeamDetailedDto;
+  readonly team2: TeamDetailedDto;
 }
 
 export const BattleSchema = SchemaFactory.createForClass(Battle)

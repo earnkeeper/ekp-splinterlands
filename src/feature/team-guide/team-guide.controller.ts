@@ -72,6 +72,7 @@ export class TeamGuideController extends AbstractController {
         playerName,
         manaCap,
         ruleset,
+        event.state.client.subscribed,
       );
 
       const teamSummaryDocuments = this.mapDocuments(teams);

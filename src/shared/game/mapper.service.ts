@@ -57,7 +57,13 @@ export class MapperService {
       manaCap: battle.mana_cap,
       players: battle.players,
       ruleset: battle.ruleset,
-      raw: battle,
+      team1: battle.details.team1,
+      team2: battle.details.team2,
+      winner: battle.winner,
+      loser:
+        battle.winner === battle.details.team1.player
+          ? battle.details.team2.player
+          : battle.details.team1.player,
     };
   }
 

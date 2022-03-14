@@ -2,16 +2,11 @@ import { ApmService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import moment from 'moment';
-import {
-  ApiService,
-  BattleDto,
-  CardDetailDto,
-  TeamDetailedDto,
-} from '../../shared/api';
+import { ApiService, CardDetailDto, TeamDetailedDto } from '../../shared/api';
 import { Battle, BattleRepository } from '../../shared/db';
 import { GameService, MapperService } from '../../shared/game';
 
-const MAX_DAYS_TO_FETCH = 3;
+const FREE_DAYS_TO_FETCH = 1;
 
 @Injectable()
 export class TeamGuideService {
@@ -26,32 +21,34 @@ export class TeamGuideService {
     playerName: string,
     manaCap: number,
     ruleset: string,
+    subscribed: boolean,
   ): Promise<{ teams: ViableTeam[]; battles: Battle[] }> {
     const tx = this.apmService.startTransaction({
       name: 'TeamGuideService',
       op: 'getViableTeams',
     });
 
-    const twoWeeksAgo = moment().subtract(MAX_DAYS_TO_FETCH, 'days').unix();
+    const fetchSince = !subscribed
+      ? moment().subtract(FREE_DAYS_TO_FETCH, 'days').unix()
+      : 0;
 
     const sp1 = tx?.startChild({
       op: 'readBattles',
       data: {
         manaCap,
         ruleset,
-        timestamp: twoWeeksAgo,
-        maxDaysToFetch: MAX_DAYS_TO_FETCH,
+        subscribed,
       },
     });
 
-    const battleModels =
+    const battles =
       await this.battleRepository.findByManaCapRulesetAndTimestampGreaterThan(
         manaCap,
         ruleset,
-        twoWeeksAgo,
+        fetchSince,
       );
 
-    tx?.setData('battleCount', battleModels.length);
+    tx?.setData('battleCount', battles.length);
 
     sp1?.finish();
 
@@ -81,8 +78,6 @@ export class TeamGuideService {
 
     const viableTeams: Record<string, ViableTeam> = {};
 
-    const battles = battleModels.map((model) => model.raw);
-
     for (const battle of battles) {
       const { winner, loser } = this.mapWinnerAndLoser(battle);
 
@@ -100,7 +95,7 @@ export class TeamGuideService {
 
     tx?.finish();
 
-    return { teams, battles: battleModels };
+    return { teams, battles };
   }
 
   private updateViableTeamsWith(
@@ -193,16 +188,16 @@ export class TeamGuideService {
     return `${team.summoner.card_detail_id}|${orderedMonstersId}`;
   }
 
-  private mapWinnerAndLoser(battle: BattleDto) {
+  private mapWinnerAndLoser(battle: Battle) {
     let winner: TeamDetailedDto;
     let loser: TeamDetailedDto;
 
-    if (battle.winner === battle.details.team1.player) {
-      winner = battle.details.team1;
-      loser = battle.details.team2;
+    if (battle.winner === battle.team1.player) {
+      winner = battle.team1;
+      loser = battle.team2;
     } else {
-      winner = battle.details.team2;
-      loser = battle.details.team1;
+      winner = battle.team2;
+      loser = battle.team1;
     }
 
     return { winner, loser };
