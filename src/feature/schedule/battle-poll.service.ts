@@ -5,7 +5,7 @@ import { ApiService } from '../../shared/api/api.service';
 import { BattleRepository } from '../../shared/db/battle/battle.repository';
 import { MapperService } from '../../shared/game';
 
-export const DEFAULT_START_BLOCK = 61900134; // 2022-02-17
+export const DEFAULT_START_BLOCK = 62209454; // 2022-02-28T09:17:42
 
 @Processor(WORKER_QUEUE)
 export class BattlePollService {
