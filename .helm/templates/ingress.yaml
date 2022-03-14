@@ -9,20 +9,20 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
     nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
     cert-manager.io/issuer: "letsencrypt-prod"
-  name: splinterlands-public
+  name: {{ .Release.Name }}-public
 spec:
   tls:
     - hosts:
-        - "splinterlands.{{ .Values.ingress.hostname }}"
-      secretName: splinterlands-public-tls
+        - "{{ .Release.Name }}.{{ .Values.ingress.hostname }}"
+      secretName: {{ .Release.Name }}-public-tls
   rules:
-    - host: "splinterlands.{{ .Values.ingress.hostname }}"
+    - host: "{{ .Release.Name }}.{{ .Values.ingress.hostname }}"
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: splinterlands
+                name: {{ .Release.Name }}-service
                 port:
                   number: 3001

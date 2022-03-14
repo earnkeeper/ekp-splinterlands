@@ -1,6 +1,6 @@
 configVersion: 1
-project: ekp-splinterlands
+project: splinterlands
 ---
-image: splinterlands
+image: app
 dockerfile: Dockerfile
 context: .

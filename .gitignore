@@ -45,3 +45,4 @@ clear-values.yaml
 # Yalc
 .yalc
 yalc.lock
+render.yaml

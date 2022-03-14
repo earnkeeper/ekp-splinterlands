@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: splinterlands
+  name: {{ .Release.Name }}-app-deploy
 spec:
   selector:
     matchLabels:
-      app: splinterlands
+      app: {{ .Release.Name }}-app
   revisionHistoryLimit: 3
   strategy:
     type: RollingUpdate
@@ -13,11 +13,11 @@ spec:
   template:
     metadata:
       labels:
-        app: splinterlands
+        app: {{ .Release.Name }}-app
     spec:
       containers:
-        - name: splinterlands
-          image: '{{ .Values.werf.image.splinterlands }}'
+        - name: {{ .Release.Name }}-nodejs
+          image: '{{ .Values.werf.image.app }}'
           workingDir: /app
           env:
             - name: EKP_PLUGIN_ID
@@ -26,12 +26,14 @@ spec:
               value: 'Splinterlands'
             - name: MONGO_HOST
               value: '{{ .Values.mongodb.host }}'
+            - name: MONGO_DB_NAME
+              value: '{{ .Release.Name }}'
             - name: REDIS_HOST
-              value: 'ekp-splinterlands-redis-master'
+              value: '{{ .Release.Name }}-redis-master'
             - name: SENTRY_DSN
               value: '{{ .Values.sentry.dsn }}'
             - name: NODE_ENV
-              value: '{{ .Values.sentry.env }}'
+              value: '{{ .Values.werf.env | default "production" }}'
           ports:
             - containerPort: 3001
               protocol: TCP
