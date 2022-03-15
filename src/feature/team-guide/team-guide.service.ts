@@ -1,5 +1,6 @@
 import { ApmService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
+import { validate } from 'bycontract';
 import _ from 'lodash';
 import moment from 'moment';
 import { ApiService, CardDetailDto, TeamDetailedDto } from '../../shared/api';
@@ -21,8 +22,14 @@ export class TeamGuideService {
     playerName: string,
     manaCap: number,
     ruleset: string,
+    leagueName: string,
     subscribed: boolean,
   ): Promise<{ teams: ViableTeam[]; battles: Battle[] }> {
+    validate(
+      [playerName, manaCap, ruleset, leagueName, subscribed],
+      ['string', 'number', 'string', 'string', 'boolean'],
+    );
+
     const tx = this.apmService.startTransaction({
       name: 'TeamGuideService',
       op: 'getViableTeams',
@@ -41,12 +48,12 @@ export class TeamGuideService {
       },
     });
 
-    const battles =
-      await this.battleRepository.findByManaCapRulesetAndTimestampGreaterThan(
-        manaCap,
-        ruleset,
-        fetchSince,
-      );
+    const battles = await this.battleRepository.findBattleByManaCap(
+      manaCap,
+      ruleset,
+      leagueName,
+      fetchSince,
+    );
 
     tx?.setData('battleCount', battles.length);
 
@@ -57,39 +64,49 @@ export class TeamGuideService {
     });
 
     const allCards = await this.apiService.fetchCardDetails();
+
     tx?.setData('allCardCount', allCards.length);
 
     sp2?.finish();
 
-    const sp3 = tx?.startChild({
-      op: 'fetchPlayerCards',
-    });
+    let playerCardDetailIds: number[];
 
-    const playerCards = await this.gameService.getPlayerCards(playerName);
-    tx?.setData('playerCardCount', playerCards.length);
+    if (!!playerName) {
+      const sp3 = tx?.startChild({
+        op: 'fetchPlayerCards',
+      });
 
-    sp3?.finish();
+      const playerCards = await this.gameService.getPlayerCards(playerName);
+      tx?.setData('playerCardCount', playerCards.length);
+
+      sp3?.finish();
+
+      playerCardDetailIds = playerCards.map((card) => card.card_detail_id);
+    }
 
     const sp4 = tx?.startChild({
       op: 'computeTeams',
     });
-
-    const playerCardDetailIds = playerCards.map((card) => card.card_detail_id);
 
     const viableTeams: Record<string, ViableTeam> = {};
 
     for (const battle of battles) {
       const { winner, loser } = this.mapWinnerAndLoser(battle);
 
-      if (this.playerHasCards(playerCardDetailIds, winner)) {
+      if (!playerName || this.playerHasCards(playerCardDetailIds, winner)) {
         this.updateViableTeamsWith(viableTeams, winner, allCards, true);
-      } else if (this.playerHasCards(playerCardDetailIds, loser)) {
+      }
+
+      if (!playerName || this.playerHasCards(playerCardDetailIds, loser)) {
         this.updateViableTeamsWith(viableTeams, loser, allCards, false);
       }
     }
 
     const teams = _.values(viableTeams);
+
     tx?.setData('teamCount', teams.length);
+
+    console.log(teams.length);
 
     sp4?.finish();
 

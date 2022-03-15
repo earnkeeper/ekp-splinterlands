@@ -3,6 +3,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import { BattleDto, CardDetailDto, TransactionDto } from '../api';
 import { Battle } from '../db';
+import { GameService } from './game.service';
 
 @Injectable()
 export class MapperService {
@@ -30,6 +31,24 @@ export class MapperService {
     }
 
     return mana;
+  }
+
+  static mapLeagueName(rating: number, power?: number): string {
+    // TODO: could cache this, minor performance issue (cpu)
+    const sortedLeagues = _.chain(GameService.LEAGUES)
+      .sortBy('min_rating')
+      .reverse()
+      .value();
+
+    for (const league of sortedLeagues) {
+      if (
+        rating >= league.min_rating &&
+        (!power || power >= league.min_power)
+      ) {
+        return league.name;
+      }
+    }
+    return _.last(sortedLeagues).name;
   }
 
   static mapBattles(transactions: TransactionDto[]): Battle[] {
@@ -64,6 +83,7 @@ export class MapperService {
         battle.winner === battle.details.team1.player
           ? battle.details.team2.player
           : battle.details.team1.player,
+      leagueName: MapperService.mapLeagueName(battle.players[0].initial_rating),
     };
   }
 

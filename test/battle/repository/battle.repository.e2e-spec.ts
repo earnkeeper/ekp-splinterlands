@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import fs from 'fs';
-import { BattleRepository } from '../../../src/shared/db/battle/battle.repository';
 import { MODULE_DEF } from '../../../src/app.module';
+import { BattleRepository } from '../../../src/shared/db/battle/battle.repository';
 
 describe('BattleRepository (e2e)', () => {
   let moduleRef: TestingModule;
@@ -17,12 +17,12 @@ describe('BattleRepository (e2e)', () => {
   describe('findByManaCapRulesetAndTimestampGreaterThan', () => {
     it('returns valid battles', async () => {
       const battleRepository = moduleRef.get(BattleRepository);
-      const battles =
-        await battleRepository.findByManaCapRulesetAndTimestampGreaterThan(
-          13,
-          'Standard',
-          0,
-        );
+      const battles = await battleRepository.findBattleByManaCap(
+        13,
+        'Standard',
+        'All',
+        0,
+      );
 
       expect(battles.length).toBeGreaterThan(0);
 

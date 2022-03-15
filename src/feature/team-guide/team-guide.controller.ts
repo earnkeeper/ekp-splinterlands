@@ -61,18 +61,25 @@ export class TeamGuideController extends AbstractController {
       }
 
       const manaCap = Number(form.manaCap);
-      const playerName = form.playerName;
-      const ruleset = form.ruleset;
-
-      if (isNaN(manaCap) || !playerName || !ruleset) {
+      if (isNaN(manaCap)) {
+        // We need a mana cap, we will kill the db getting all battles
+        // And the return teams are not meaningful without mana
         return;
       }
+
+      // We don't need a player name, just get all teams in this case
+      const playerName = form.playerName ?? '';
+
+      // All other properties can have sensible defaults
+      const ruleset = form.ruleset ?? 'Standard';
+      const leagueName = form.leagueName ?? 'All';
 
       const { teams, battles } = await this.teamGuideService.getViableTeams(
         playerName,
         manaCap,
         ruleset,
-        event.state.client.subscribed,
+        leagueName,
+        event.state.client.subscribed ?? false,
       );
 
       const teamSummaryDocuments = this.mapDocuments(teams);

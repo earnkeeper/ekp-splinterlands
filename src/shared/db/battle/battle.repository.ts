@@ -26,23 +26,35 @@ export class BattleRepository {
     return results[0];
   }
 
-  async findByManaCapRulesetAndTimestampGreaterThan(
+  async findBattleByManaCap(
     manaCap: number,
     ruleset: string,
-    timestamp: number,
+    leagueName: string,
+    startTimestamp: number,
   ): Promise<Battle[]> {
-    validate([manaCap, ruleset, timestamp], ['number', 'string', 'number']);
+    validate(
+      [manaCap, ruleset, leagueName, startTimestamp],
+      ['number', 'string', 'string', 'number'],
+    );
 
-    return this.battleModel
-      .where({
-        timestamp: {
-          $gte: timestamp,
-        },
-        manaCap,
-        ruleset,
-      })
-      .sort('timestamp')
-      .exec();
+    const query: {
+      timestamp: any;
+      manaCap: number;
+      leagueName?: string;
+      ruleset: string;
+    } = {
+      timestamp: {
+        $gte: startTimestamp,
+      },
+      manaCap,
+      ruleset,
+    };
+
+    if (leagueName !== 'All') {
+      query.leagueName = leagueName;
+    }
+
+    return this.battleModel.where(query).sort('timestamp').exec();
   }
 
   async save(battles: Battle[]): Promise<void> {
@@ -70,6 +82,7 @@ export class BattleRepository {
               'loser',
               'team1',
               'team2',
+              'leagueName',
             ]),
           },
           upsert: true,

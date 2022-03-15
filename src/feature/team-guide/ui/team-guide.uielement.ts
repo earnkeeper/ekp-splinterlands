@@ -75,10 +75,12 @@ function battleDetailsForm() {
             playerName: 'string',
             manaCap: 'string',
             ruleset: 'string',
+            leagueName: 'string',
           },
           default: {
             manaCap: '13',
             ruleset: 'Standard',
+            leagueName: 'All',
           },
         },
         child: Row({
@@ -90,6 +92,17 @@ function battleDetailsForm() {
                 Input({
                   label: 'Player Name',
                   name: 'playerName',
+                }),
+              ],
+            }),
+            Col({
+              className: 'col-12 col-md-auto',
+              children: [
+                Select({
+                  label: 'League',
+                  name: 'leagueName',
+                  options: ['All', ...GameService.LEAGUES.map((it) => it.name)],
+                  minWidth: 160,
                 }),
               ],
             }),

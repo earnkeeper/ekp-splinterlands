@@ -14,6 +14,7 @@ export class ApiService extends AbstractApiService {
       name: 'SplinterlandsApiService',
     });
   }
+
   async fetchCardSales(): Promise<ForSaleGroupedDto[]> {
     const url = `${BASE_URL}/market/for_sale_grouped`;
 

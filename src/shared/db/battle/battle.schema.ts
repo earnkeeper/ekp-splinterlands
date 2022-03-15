@@ -27,6 +27,9 @@ export class Battle {
   @Prop()
   readonly loser: string;
 
+  @Prop()
+  readonly leagueName: string;
+
   @Prop({ type: 'array' })
   readonly players: PlayerDto[];
 
@@ -53,4 +56,10 @@ export const BattleSchema = SchemaFactory.createForClass(Battle)
     timestamp: 1,
     manaCap: 1,
     ruleset: 1,
+  })
+  .index({
+    timestamp: 1,
+    manaCap: 1,
+    ruleset: 1,
+    leagueName: 1,
   });

@@ -8,7 +8,6 @@ import fs from 'fs';
 import 'jest-extended';
 import { ApiService, TransactionDto } from '../../shared/api';
 import { BattleRepository } from '../../shared/db/battle/battle.repository';
-import { MapperService } from '../../shared/game';
 import { BattlePollService, DEFAULT_START_BLOCK } from './battle-poll.service';
 
 describe('BattleScheduleService', () => {
@@ -144,54 +143,6 @@ describe('BattleScheduleService', () => {
       expect(
         splinterLandsApiService.fetchBattleTransactions,
       ).toHaveBeenCalledWith(1234, 1000);
-    });
-  });
-
-  describe('mapBattles', () => {
-    it('maps all indexes correctly', () => {
-      const battles = MapperService.mapBattles(
-        TRANSACTIONS_1000 as TransactionDto[],
-      );
-
-      expect(battles).toBeTruthy();
-      expect(battles.length).toEqual(268);
-
-      for (const battle of battles) {
-        expect(battle).toBeTruthy();
-        expect(battle.id).toBeString();
-        expect(battle.blockNumber).toBeNumber();
-        expect(battle.blockNumber).toBeGreaterThan(0);
-        expect(battle.timestamp).toBeNumber();
-        expect(battle.timestamp).toBeGreaterThan(1577829600); // 1 Jan 2020
-        expect(battle.timestamp).toBeLessThan(2208981600); // 1 Jan 2040
-        expect(battle.raw).toBeTruthy();
-      }
-    });
-
-    it('maps raw data correctly', () => {
-      const battles = MapperService.mapBattles(
-        TRANSACTIONS_251 as TransactionDto[],
-      );
-
-      expect(battles).toBeTruthy();
-      expect(battles.length).toEqual(43);
-
-      for (const battle of battles) {
-        expect(battle).toBeTruthy();
-        expect(battle.raw).toBeTruthy();
-        expect(battle.raw.id).toBeString();
-        expect(battle.raw.players).toBeArray();
-        expect(battle.raw.players.length).toEqual(2);
-        for (const player of battle.raw.players) {
-          expect(player.team).toBeTruthy();
-          expect(player.name).toBeString();
-          expect(player.team.monsters).toBeArray();
-          for (const monster of player.team.monsters) {
-            expect(monster).toBeString();
-            expect(monster.length).toBeGreaterThan(0);
-          }
-        }
-      }
     });
   });
 });
