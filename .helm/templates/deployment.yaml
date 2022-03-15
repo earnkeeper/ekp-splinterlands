@@ -27,7 +27,11 @@ spec:
             - name: MONGO_HOST
               value: '{{ .Values.mongodb.host }}'
             - name: MONGO_DB_NAME
-              value: '{{ .Release.Name }}'
+              value: '{{ .Values.mongodb.databaseName }}'
+            - name: MONGO_USER
+              value: '{{ .Values.mongodb.username }}'
+            - name: MONGO_PASSWORD
+              value: '{{ .Values.mongodb.password }}'
             - name: REDIS_HOST
               value: '{{ .Release.Name }}-redis-master'
             - name: SENTRY_DSN
