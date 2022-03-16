@@ -1,9 +1,6 @@
-import {
-  AbstractApiService,
-  EkConfigService,
-  getAndHandle,
-} from '@earnkeeper/ekp-sdk-nestjs';
+import { AbstractApiService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
+import axios from 'axios-https-proxy-fix';
 import { validate } from 'bycontract';
 import { CardDetailDto, ForSaleGroupedDto, TransactionDto } from './dto';
 import { PlayerCollectionDto } from './dto/player-collection.dto';
@@ -13,19 +10,26 @@ const STEEM_BASE_URL = 'https://api.steemmonsters.io';
 
 @Injectable()
 export class ApiService extends AbstractApiService {
-  constructor(configService: EkConfigService) {
+  private readonly proxy: { host: string; port: number };
+
+  constructor() {
     super({
       name: 'SplinterlandsApiService',
     });
 
-    console.log(configService);
+    if (process.env.PROXY_HOST) {
+      this.proxy = {
+        host: process.env.PROXY_HOST,
+        port: !!process.env.PROXY_PORT ? Number(process.env.PROXY_PORT) : 3128,
+      };
+    }
   }
 
   async fetchCardSales(): Promise<ForSaleGroupedDto[]> {
     const url = `${BASE_URL}/market/for_sale_grouped`;
 
     return this.handleCall({ url, ttl: 30 }, async () => {
-      const response = await getAndHandle(url);
+      const response = await axios.get(url, { proxy: this.proxy });
       return response.data;
     });
   }
@@ -34,7 +38,7 @@ export class ApiService extends AbstractApiService {
     const url = `${BASE_URL}/cards/get_details`;
 
     return this.handleCall({ url, ttl: 300 }, async () => {
-      const response = await getAndHandle(url);
+      const response = await axios.get(url, { proxy: this.proxy });
       return response.data;
     });
   }
@@ -48,7 +52,7 @@ export class ApiService extends AbstractApiService {
     const url = `${STEEM_BASE_URL}/transactions/history?from_block=${fromBlock}&limit=${limit}&types=sm_battle,battle`;
 
     return this.handleCall({ url }, async () => {
-      const response = await getAndHandle(url);
+      const response = await axios.get(url, { proxy: this.proxy });
 
       return Array.isArray(response.data) ? response.data : [];
     });
@@ -60,7 +64,7 @@ export class ApiService extends AbstractApiService {
     const url = `${BASE_URL}/cards/collection/${playerName}`;
 
     return this.handleCall({ url, ttl: 15 }, async () => {
-      const response = await getAndHandle(url);
+      const response = await axios.get(url, { proxy: this.proxy });
 
       return response.data;
     });

@@ -106,8 +106,6 @@ export class TeamGuideService {
 
     tx?.setData('teamCount', teams.length);
 
-    console.log(teams.length);
-
     sp4?.finish();
 
     tx?.finish();

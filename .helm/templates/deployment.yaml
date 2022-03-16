@@ -38,6 +38,10 @@ spec:
               value: '{{ .Values.sentry.dsn }}'
             - name: NODE_ENV
               value: '{{ .Values.werf.env | default "production" }}'
+            - name: PROXY_HOST
+              value: '{{ .Values.proxy.host }}'
+            - name: PROXY_PORT
+              value: '{{ .Values.proxy.port }}'
           ports:
             - containerPort: 3001
               protocol: TCP
