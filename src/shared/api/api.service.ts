@@ -1,4 +1,8 @@
-import { AbstractApiService, getAndHandle } from '@earnkeeper/ekp-sdk-nestjs';
+import {
+  AbstractApiService,
+  EkConfigService,
+  getAndHandle,
+} from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import { validate } from 'bycontract';
 import { CardDetailDto, ForSaleGroupedDto, TransactionDto } from './dto';
@@ -9,10 +13,12 @@ const STEEM_BASE_URL = 'https://api.steemmonsters.io';
 
 @Injectable()
 export class ApiService extends AbstractApiService {
-  constructor() {
+  constructor(configService: EkConfigService) {
     super({
       name: 'SplinterlandsApiService',
     });
+
+    console.log(configService);
   }
 
   async fetchCardSales(): Promise<ForSaleGroupedDto[]> {
