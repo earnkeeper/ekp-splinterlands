@@ -5,6 +5,8 @@ export class MarketplaceListingDocument extends DocumentDto {
     super(properties);
   }
 
+  readonly battles: number;
+  readonly winPc: number;
   readonly burned: number;
   readonly editionString: string;
   readonly elementString: string;

@@ -48,7 +48,7 @@ export class ScheduleController {
     try {
       logger.log(`Battle Poll Started`);
 
-      await this.battlePollService.fetchBattles(BATTLE_JOB_INTERVAL);
+      await this.battlePollService.fetchBattles(BATTLE_PAGE_SIZE);
 
       logger.log(`Card Poll Started`);
 

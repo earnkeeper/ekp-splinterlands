@@ -66,12 +66,12 @@ function marketRow(): UiElement {
             value: '$.rarity',
           },
           {
-            label: 'Win Rate',
-            value: formatPercent('$.winRate'),
+            label: 'Battles',
+            value: formatToken('$.battles'),
           },
           {
-            label: 'Popularity',
-            value: formatPercent('$.popularity'),
+            label: 'Win Rate',
+            value: formatPercent('$.winPc'),
           },
         ],
         left: {
@@ -130,6 +130,19 @@ function marketRow(): UiElement {
         label: formatCurrency('$.price', '$.fiatSymbol'),
         sortable: true,
         filterable: true,
+      },
+      {
+        id: 'battles',
+        label: formatToken('$.battles'),
+        filterable: true,
+        sortable: true,
+      },
+      {
+        id: 'winPc',
+        name: 'Win Rate',
+        label: formatPercent('$.winPc'),
+        filterable: true,
+        sortable: true,
       },
     ],
   });

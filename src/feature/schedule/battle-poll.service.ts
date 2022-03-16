@@ -40,7 +40,7 @@ export class BattlePollService {
       const battles = MapperService.mapBattles(transactions);
 
       logger.debug(
-        `Fetched ${transactions?.length} battles from ${firstTransaction.created_date} (${firstTransaction.block_num}) to ${lastTransaction.created_date} (${lastTransaction.block_num})`,
+        `Fetched ${transactions?.length} transactions from ${firstTransaction.created_date} (${firstTransaction.block_num}) to ${lastTransaction.created_date} (${lastTransaction.block_num})`,
       );
 
       lastBlockNumber = lastTransaction.block_num;
@@ -50,6 +50,8 @@ export class BattlePollService {
       }
 
       await this.battleRepository.save(battles);
+
+      logger.debug(`Saved ${battles?.length} battles to the db`);
 
       if (transactions.length < limit) {
         break;

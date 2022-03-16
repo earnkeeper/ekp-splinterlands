@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ApiModule } from '../../shared/api';
+import { DbModule } from '../../shared/db';
 import { GameModule } from '../../shared/game';
 import { MarketplaceController } from './marketplace.controller';
 
 @Module({
-  imports: [ApiModule, GameModule],
+  imports: [ApiModule, DbModule, GameModule],
 
   providers: [MarketplaceController],
 })
