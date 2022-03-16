@@ -6,7 +6,6 @@ export class MarketplaceListingDocument extends DocumentDto {
   }
 
   readonly battles: number;
-  readonly winPc: number;
   readonly burned: number;
   readonly editionString: string;
   readonly elementString: string;
@@ -16,9 +15,11 @@ export class MarketplaceListingDocument extends DocumentDto {
   readonly imageTile: string;
   readonly level: number;
   readonly name: string;
+  readonly playerOwned: string;
   readonly price: number;
   readonly printed: number;
   readonly qty: number;
   readonly rarity: string;
   readonly splinterLandsUrl: string;
+  readonly winPc: number;
 }

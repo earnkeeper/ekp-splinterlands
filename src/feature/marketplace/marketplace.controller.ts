@@ -5,18 +5,12 @@ import {
   collection,
   filterPath,
 } from '@earnkeeper/ekp-sdk';
-import {
-  AbstractController,
-  ClientService,
-  logger,
-} from '@earnkeeper/ekp-sdk-nestjs';
+import { AbstractController, ClientService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import moment from 'moment';
-import { ApiService, CardDetailDto, ForSaleGroupedDto } from '../../shared/api';
-import { Card } from '../../shared/db';
-import { CardRepository } from '../../shared/db/card/card.repository';
 import { MapperService } from '../../shared/game';
+import { EnhancedSale, MarketplaceService } from './marketplace.service';
 import { MarketplaceListingDocument } from './ui/marketplace-listing.document';
 import marketplace from './ui/marketplace.uielement';
 
@@ -27,8 +21,7 @@ const COLLECTION_NAME = collection(MarketplaceListingDocument);
 export class MarketplaceController extends AbstractController {
   constructor(
     clientService: ClientService,
-    private apiService: ApiService,
-    private cardRepository: CardRepository,
+    private marketplaceService: MarketplaceService,
   ) {
     super(clientService);
   }
@@ -54,34 +47,13 @@ export class MarketplaceController extends AbstractController {
 
     await this.clientService.emitBusy(event, COLLECTION_NAME);
 
-    const sales = await this.apiService.fetchCardSales();
-
-    const cardDetails = await this.apiService.fetchCardDetails();
-
-    const cardDetailsMap = _.keyBy(cardDetails, 'id');
-
-    const cards = await this.cardRepository.findAll();
-
-    const cardsMap = _.keyBy(cards, 'id');
-
-    await Promise.all(
-      sales.map(async (sale) => {
-        const document = await this.mapListingDocument(
-          event,
-          sale,
-          cardDetailsMap,
-          cardsMap,
-        );
-
-        if (!!document) {
-          await this.clientService.emitPartialDocuments(
-            event,
-            COLLECTION_NAME,
-            [document],
-          );
-        }
-      }),
+    const enhancedSales = await this.marketplaceService.getEnhancedSales(
+      'earnkeeper',
     );
+
+    const documents = this.mapListingDocuments(enhancedSales, event);
+
+    await this.clientService.emitDocuments(event, COLLECTION_NAME, documents);
 
     await this.clientService.removeOldLayers(event, COLLECTION_NAME);
 
@@ -92,67 +64,59 @@ export class MarketplaceController extends AbstractController {
     // Do nothing
   }
 
-  async mapListingDocument(
+  mapListingDocuments(
+    sales: EnhancedSale[],
     clientEvent: ClientStateChangedEvent,
-    sale: ForSaleGroupedDto,
-    cardDetailsMap: Record<number, CardDetailDto>,
-    cardsMap: Record<number, Card>,
   ) {
     const nowMoment = moment.unix(clientEvent.received);
 
-    const cardDetail = cardDetailsMap[sale.card_detail_id];
+    return _.chain(sales)
+      .map((sale) => {
+        const editionString = MapperService.mapEditionString(sale.edition);
+        const elementString = MapperService.mapColorToSplinter(
+          sale.cardDetail.color,
+        );
 
-    if (!cardDetail) {
-      logger.warn('Could not find card detail for id: ' + sale.card_detail_id);
-      return undefined;
-    }
+        let battles: number;
+        let wins: number;
 
-    const distribution = cardDetail.distribution.find(
-      (it) => it.gold === sale.gold && it.edition === sale.edition,
-    );
+        if (sale.stats) {
+          battles = sale.stats.battles;
+          wins = sale.stats.wins;
+        }
 
-    if (!distribution) {
-      logger.warn('Could not find distribution for id: ' + sale.card_detail_id);
-      return undefined;
-    }
+        const imageSmall = `https://d36mxiodymuqjm.cloudfront.net/card_art/${sale.cardDetail.name}.png`;
 
-    const editionString = MapperService.mapEditionString(sale.edition);
-    const elementString = MapperService.mapColorToSplinter(cardDetail.color);
+        const imageTile = `https://d36mxiodymuqjm.cloudfront.net/cards_by_level/${editionString.toLowerCase()}/${
+          sale.cardDetail.name
+        }_lv${sale.level}.png`;
 
-    const card = cardsMap[sale.card_detail_id];
+        const document = new MarketplaceListingDocument({
+          // fiatSymbol: clientEvent.state.client.selectedCurrency.symbol,
+          battles,
+          burned: Number(sale.distribution.num_burned),
+          editionString,
+          elementString,
+          fiatSymbol: '$',
+          gold: sale.gold,
+          id: `${sale.card_detail_id}-${sale.gold}-${sale.edition}`,
+          imageSmall,
+          imageTile,
+          level: sale.level,
+          name: sale.cardDetail.name,
+          playerOwned: !!sale.playerCard ? 'Yes' : 'No',
+          price: sale.low_price,
+          printed: Number(sale.distribution.num_cards),
+          qty: sale.qty,
+          rarity: MapperService.mapRarityNumberToString(sale.cardDetail.rarity),
+          splinterLandsUrl: '#',
+          updated: nowMoment.unix(),
+          winPc: !!battles ? wins / battles : undefined,
+        });
 
-    let battles: number;
-    let wins: number;
-
-    if (card) {
-      battles = _.chain(card.dailyStats).values().sumBy('battles').value();
-      wins = _.chain(card.dailyStats).values().sumBy('wins').value();
-    }
-
-    const document = new MarketplaceListingDocument({
-      battles,
-      winPc: !!battles ? wins / battles : undefined,
-      burned: Number(distribution.num_burned),
-      // fiatSymbol: clientEvent.state.client.selectedCurrency.symbol,
-      fiatSymbol: '$',
-      id: `${sale.card_detail_id}-${sale.gold}-${sale.edition}`,
-      editionString,
-      elementString,
-      gold: sale.gold,
-      imageSmall: `https://d36mxiodymuqjm.cloudfront.net/card_art/${cardDetail.name}.png`,
-      imageTile: `https://d36mxiodymuqjm.cloudfront.net/cards_by_level/${editionString.toLowerCase()}/${
-        cardDetail.name
-      }_lv${sale.level}.png`,
-      level: sale.level,
-      name: cardDetail.name,
-      price: sale.low_price,
-      printed: Number(distribution.num_cards),
-      qty: sale.qty,
-      rarity: MapperService.mapRarityNumberToString(cardDetail.rarity),
-      splinterLandsUrl: '#',
-      updated: nowMoment.unix(),
-    });
-
-    return document;
+        return document;
+      })
+      .filter((sale) => !!sale)
+      .value();
   }
 }

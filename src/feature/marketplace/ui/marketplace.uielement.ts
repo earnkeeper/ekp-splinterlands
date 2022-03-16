@@ -42,6 +42,7 @@ function marketRow(): UiElement {
   return Datatable({
     defaultSortFieldId: 'price',
     defaultSortAsc: true,
+    defaultView: 'grid',
     data: documents(MarketplaceListingDocument),
     busyWhen: isBusy(collection(MarketplaceListingDocument)),
     filterable: true,
@@ -56,14 +57,6 @@ function marketRow(): UiElement {
           {
             label: 'Price',
             value: formatCurrency('$.price', '$.fiatSymbol'),
-          },
-          {
-            label: 'Name',
-            value: '$.name',
-          },
-          {
-            label: 'Rarity',
-            value: '$.rarity',
           },
           {
             label: 'Battles',
@@ -96,6 +89,7 @@ function marketRow(): UiElement {
       {
         id: 'name',
         filterable: true,
+        minWidth: '160px',
       },
       {
         id: 'rarity',
@@ -143,6 +137,13 @@ function marketRow(): UiElement {
         label: formatPercent('$.winPc'),
         filterable: true,
         sortable: true,
+      },
+      {
+        id: 'playerOwned',
+        name: 'Owned',
+        omit: true,
+        filterable: true,
+        filterOptions: ['Yes', 'No'],
       },
     ],
   });
