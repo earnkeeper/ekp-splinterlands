@@ -1,7 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import moment from 'moment';
-import { BattleDto, CardDetailDto, TransactionDto } from '../api';
+import {
+  BattleDto,
+  CardDetailDto,
+  TeamDetailedDto,
+  TransactionDto,
+} from '../api';
 import { Battle } from '../db';
 import { GameService } from './game.service';
 
@@ -31,6 +36,21 @@ export class MapperService {
     }
 
     return mana;
+  }
+
+  static mapWinnerAndLoser(battle: Battle) {
+    let winner: TeamDetailedDto;
+    let loser: TeamDetailedDto;
+
+    if (battle.winner === battle.team1.player) {
+      winner = battle.team1;
+      loser = battle.team2;
+    } else {
+      winner = battle.team2;
+      loser = battle.team1;
+    }
+
+    return { winner, loser };
   }
 
   static mapLeagueName(rating: number, power?: number): string {

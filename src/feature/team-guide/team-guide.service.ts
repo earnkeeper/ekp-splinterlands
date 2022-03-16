@@ -91,7 +91,7 @@ export class TeamGuideService {
     const viableTeams: Record<string, ViableTeam> = {};
 
     for (const battle of battles) {
-      const { winner, loser } = this.mapWinnerAndLoser(battle);
+      const { winner, loser } = MapperService.mapWinnerAndLoser(battle);
 
       if (!playerName || this.playerHasCards(playerCardDetailIds, winner)) {
         this.updateViableTeamsWith(viableTeams, winner, allCards, true);
@@ -201,21 +201,6 @@ export class TeamGuideService {
       .value();
 
     return `${team.summoner.card_detail_id}|${orderedMonstersId}`;
-  }
-
-  private mapWinnerAndLoser(battle: Battle) {
-    let winner: TeamDetailedDto;
-    let loser: TeamDetailedDto;
-
-    if (battle.winner === battle.team1.player) {
-      winner = battle.team1;
-      loser = battle.team2;
-    } else {
-      winner = battle.team2;
-      loser = battle.team1;
-    }
-
-    return { winner, loser };
   }
 }
 
