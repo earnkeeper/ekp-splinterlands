@@ -81,7 +81,6 @@ describe('MapperService', () => {
 
         expect(player1LeagueName).toBeString();
         expect(player2LeagueName).toBeString();
-        expect(player1LeagueName).toEqual(player2LeagueName);
       }
     });
   });

@@ -12,6 +12,25 @@ export class BattleRepository {
     public battleModel: Model<Battle>,
   ) {}
 
+  async findAllAfterBlockNumber(
+    blockNumber: number,
+    limit: number,
+  ): Promise<Battle[]> {
+    validate([blockNumber, limit], ['number', 'number']);
+
+    const results = await this.battleModel
+      .find({
+        blockNumber: {
+          $gt: blockNumber,
+        },
+      })
+      .sort('blockNumber')
+      .limit(limit)
+      .exec();
+
+    return results ?? [];
+  }
+
   async findLatestByBlockNumber(): Promise<Battle> {
     const results = await this.battleModel
       .find()
