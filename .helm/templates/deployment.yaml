@@ -34,8 +34,6 @@ spec:
               value: '{{ .Values.mongodb.password }}'
             - name: REDIS_HOST
               value: '{{ .Release.Name }}-redis-master'
-            - name: SENTRY_DSN
-              value: '{{ .Values.sentry.dsn }}'
             - name: NODE_ENV
               value: '{{ .Values.werf.env | default "production" }}'
             - name: PROXY_HOST
