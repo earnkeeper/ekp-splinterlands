@@ -26,8 +26,8 @@ import {
   UiElement,
 } from '@earnkeeper/ekp-sdk';
 import { GameService } from '../../../shared/game';
-import { TeamGuideViewBag } from './team-guide-view-bag.document';
-import { TeamGuideDocument } from './team-guide.document';
+import { BattlePlannerViewBag } from './battle-planner-view-bag.document';
+import { BattlePlannerDocument } from './battle-planner.document';
 
 const TEAM_MODAL_ID = 'splinterlands-team-modal';
 
@@ -41,7 +41,7 @@ export default function element(): UiElement {
             className: 'col-auto',
             children: [
               PageHeaderTile({
-                title: 'Splinterlands Team Guide',
+                title: 'Splinterlands Battle Planner',
                 icon: 'cil-people',
               }),
             ],
@@ -68,7 +68,7 @@ function battleDetailsForm() {
           'Enter your in game name, and the details of your next match, to see which teams have been winning the most recently.',
       }),
       Form({
-        name: 'splinterlandsTeamGuide',
+        name: 'splinterlandsBattlePlanner',
         schema: {
           type: 'object',
           properties: {
@@ -134,7 +134,7 @@ function battleDetailsForm() {
                 Button({
                   label: 'Save',
                   isSubmit: true,
-                  busyWhen: isBusy(collection(TeamGuideDocument)),
+                  busyWhen: isBusy(collection(BattlePlannerDocument)),
                 }),
               ],
             }),
@@ -156,8 +156,8 @@ function teamRow(): UiElement {
         content: formatTemplate(
           'Data based on {{ battleCount }} battles starting {{ ago }}.',
           {
-            battleCount: formatToken(`${path(TeamGuideViewBag)}.0.battleCount`),
-            ago: formatAge(`${path(TeamGuideViewBag)}.0.firstBattleTimestamp`),
+            battleCount: formatToken(`${path(BattlePlannerViewBag)}.0.battleCount`),
+            ago: formatAge(`${path(BattlePlannerViewBag)}.0.firstBattleTimestamp`),
           },
         ),
       }),
@@ -165,17 +165,14 @@ function teamRow(): UiElement {
       Datatable({
         defaultSortFieldId: 'winpc',
         defaultSortAsc: false,
-        data: documents(TeamGuideDocument),
-        busyWhen: isBusy(collection(TeamGuideDocument)),
+        data: documents(BattlePlannerDocument),
+        busyWhen: isBusy(collection(BattlePlannerDocument)),
         onRowClicked: showModal(TEAM_MODAL_ID, '$'),
-        filterable: true,
         showExport: false,
         columns: [
           {
             id: 'splinter',
             sortable: true,
-            filterable: true,
-            filterOptions: GameService.SPLINTERS,
             width: '120px',
             cell: Row({
               children: [
@@ -193,27 +190,23 @@ function teamRow(): UiElement {
           {
             id: 'summoner',
             sortable: true,
-            filterable: true,
           },
           {
             id: 'winpc',
-            name: 'Win',
-            label: formatPercent('$.winpc'),
+            title: 'Win',
+            format: formatPercent('$.winpc'),
             sortable: true,
-            filterable: true,
             width: '60px',
           },
           {
             id: 'monsterCount',
-            name: 'Monsters',
+            title: 'Monsters',
             sortable: true,
-            filterable: true,
             grow: 0,
           },
           {
             id: 'mana',
             sortable: true,
-            filterable: true,
             grow: 0,
           },
           {
@@ -273,7 +266,7 @@ function teamModal(): any {
                     columns: [
                       {
                         id: 'icon',
-                        name: '',
+                        title: '',
                         width: '48px',
                         cell: Image({
                           src: '$.icon',

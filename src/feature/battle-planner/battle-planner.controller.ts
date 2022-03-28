@@ -14,35 +14,35 @@ import {
 import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import moment from 'moment';
-import { TeamGuideService, ViableTeam } from './team-guide.service';
-import { TeamGuideViewBag } from './ui/team-guide-view-bag.document';
-import { TeamGuideDocument } from './ui/team-guide.document';
-import teamguide from './ui/team-guide.uielement';
+import { BattlePlannerService, ViableTeam } from './battle-planner.service';
+import { BattlePlannerViewBag } from './ui/battle-planner-view-bag.document';
+import { BattlePlannerDocument } from './ui/battle-planner.document';
+import battlePlanner from './ui/battle-planner.uielement';
 
-const COLLECTION_NAME = collection(TeamGuideDocument);
-const FILTER_PATH = `/plugin/${process.env.EKP_PLUGIN_ID}/team-guide`;
+const COLLECTION_NAME = collection(BattlePlannerDocument);
+const FILTER_PATH = `/plugin/${process.env.EKP_PLUGIN_ID}/battle-planner`;
 
 @Injectable()
-export class TeamGuideController extends AbstractController {
+export class BattlePlannerController extends AbstractController {
   constructor(
     clientService: ClientService,
     private apmService: ApmService,
-    private teamGuideService: TeamGuideService,
+    private battlePlannerService: BattlePlannerService,
   ) {
     super(clientService);
   }
 
   async onClientConnected(event: ClientConnectedEvent) {
     await this.clientService.emitMenu(event, {
-      id: `splinterlands-menu-team-guide`,
-      title: 'Team Guide',
-      navLink: `splinterlands/team-guide`,
+      id: `splinterlands-menu-battle-planner`,
+      title: 'Battle Planner',
+      navLink: `splinterlands/battle-planner`,
       icon: 'cil-people',
     });
 
     await this.clientService.emitPage(event, {
-      id: `splinterlands/team-guide`,
-      element: teamguide(),
+      id: `splinterlands/battle-planner`,
+      element: battlePlanner(),
     });
   }
 
@@ -54,7 +54,7 @@ export class TeamGuideController extends AbstractController {
     await this.clientService.emitBusy(event, COLLECTION_NAME);
 
     try {
-      const form = event.state.forms?.splinterlandsTeamGuide;
+      const form = event.state.forms?.splinterlandsBattlePlanner;
 
       if (!form) {
         return;
@@ -74,7 +74,7 @@ export class TeamGuideController extends AbstractController {
       const ruleset = form.ruleset ?? 'Standard';
       const leagueName = form.leagueName ?? 'All';
 
-      const { teams, battles } = await this.teamGuideService.getViableTeams(
+      const { teams, battles } = await this.battlePlannerService.getViableTeams(
         playerName,
         manaCap,
         ruleset,
@@ -90,7 +90,7 @@ export class TeamGuideController extends AbstractController {
         teamSummaryDocuments,
       );
 
-      const viewBag = new TeamGuideViewBag({
+      const viewBag = new BattlePlannerViewBag({
         id: 'viewbag',
         battleCount: battles.length,
         firstBattleTimestamp: _.chain(battles)
@@ -101,12 +101,12 @@ export class TeamGuideController extends AbstractController {
 
       await this.clientService.emitDocuments(
         event,
-        collection(TeamGuideViewBag),
+        collection(BattlePlannerViewBag),
         [viewBag],
       );
     } catch (error) {
       this.apmService.captureError(error);
-      logger.error('Error occurred while handling team guide event', error);
+      logger.error('Error occurred while handling battle planner event', error);
       console.error(error);
     } finally {
       await this.clientService.emitDone(event, COLLECTION_NAME);
@@ -117,7 +117,7 @@ export class TeamGuideController extends AbstractController {
     // Do nothing
   }
 
-  mapDocuments(detailedTeams: ViableTeam[]): TeamGuideDocument[] {
+  mapDocuments(detailedTeams: ViableTeam[]): BattlePlannerDocument[] {
     const now = moment().unix();
 
     return _.chain(detailedTeams)

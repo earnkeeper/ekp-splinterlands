@@ -8,7 +8,7 @@ import {
 } from '../../shared/api';
 import { GameService } from './game.service';
 
-describe('TeamGuideHandler', () => {
+describe('GamesService', () => {
   let service: GameService;
   let apiService: ApiService;
   let moduleRef: TestingModule;

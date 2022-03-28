@@ -9,7 +9,7 @@ import {
 } from '../../shared/api';
 import { Battle, BattleRepository } from '../../shared/db';
 import { GameService } from '../../shared/game/game.service';
-import { TeamGuideService } from './team-guide.service';
+import { BattlePlannerService } from './battle-planner.service';
 
 async function readFixture<T>(name: string): Promise<T> {
   const buffer = await fs.promises.readFile(`reference/fixtures/${name}`);
@@ -17,8 +17,8 @@ async function readFixture<T>(name: string): Promise<T> {
   return JSON.parse(buffer.toString());
 }
 
-describe('TeamGuideHandler', () => {
-  let service: TeamGuideService;
+describe('BattlePlannerService', () => {
+  let service: BattlePlannerService;
   let moduleRef: TestingModule;
   let MY_COLLECTION: PlayerCollectionDto;
   let ALL_CARDS: CardDetailDto[];
@@ -34,7 +34,7 @@ describe('TeamGuideHandler', () => {
 
   beforeEach(async () => {
     moduleRef = await Test.createTestingModule({
-      providers: [TeamGuideService],
+      providers: [BattlePlannerService],
     })
       .useMocker((token) => {
         if (token === ApiService) {
@@ -64,7 +64,7 @@ describe('TeamGuideHandler', () => {
       })
       .compile();
 
-    service = moduleRef.get(TeamGuideService);
+    service = moduleRef.get(BattlePlannerService);
   });
 
   // TODO: reenable this when we have updated data

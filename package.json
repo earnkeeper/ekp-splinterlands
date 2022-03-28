@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/earnkeeper/ekp-splinterlands#readme",
   "dependencies": {
-    "@earnkeeper/ekp-sdk": "0.2.7",
+    "@earnkeeper/ekp-sdk": "file:.yalc/@earnkeeper/ekp-sdk",
     "@earnkeeper/ekp-sdk-nestjs": "1.1.9",
     "axios-https-proxy-fix": "^0.17.1"
   },

@@ -26,7 +26,7 @@ export default function element(): UiElement {
             className: 'col-auto',
             children: [
               PageHeaderTile({
-                title: 'Marketplace',
+                title: 'Splinterlands Marketplace',
                 icon: 'cil-cart',
               }),
             ],
@@ -42,12 +42,33 @@ function marketRow(): UiElement {
   return Datatable({
     defaultSortFieldId: 'price',
     defaultSortAsc: true,
-    defaultView: 'grid',
+    defaultView: 'column',
     data: documents(MarketplaceListingDocument),
     busyWhen: isBusy(collection(MarketplaceListingDocument)),
-    filterable: true,
+    filters: [
+      {
+        columnId: 'battles',
+        type: 'slider',
+      },
+      {
+        columnId: 'elementString',
+        type: 'checkbox',
+      },
+      {
+        columnId: 'level',
+        type: 'slider',
+      },
+      {
+        columnId: 'price',
+        type: 'slider',
+      },
+      {
+        columnId: 'rarity',
+        type: 'checkbox',
+      },
+    ],
     gridView: {
-      tileWidth: [12, 6, 4, 4],
+      tileWidth: [12, 6, 4, 3],
       tile: GridTile({
         image: Image({
           className: 'card-img-top',
@@ -78,7 +99,7 @@ function marketRow(): UiElement {
     columns: [
       {
         id: 'imageUrl',
-        name: '',
+        title: '',
         width: '48px',
         cell: Image({
           src: '$.imageSmall',
@@ -88,62 +109,44 @@ function marketRow(): UiElement {
       },
       {
         id: 'name',
-        filterable: true,
+        searchable: true,
         minWidth: '160px',
       },
       {
         id: 'rarity',
-        filterable: true,
-        filterOptions: ['Common', 'Rare', 'Epic', 'Legendary'],
       },
       {
-        id: 'element',
-        value: '$.elementString',
-        label: '$.elementString',
-        filterable: true,
-        filterOptions: [
-          'Fire',
-          'Water',
-          'Earth',
-          'Life',
-          'Death',
-          'Dragon',
-          'Neutral',
-        ],
+        id: 'elementString',
+        title: 'Element',
       },
       {
         id: 'level',
-        filterable: true,
       },
       {
         id: 'qty',
-        label: formatToken('$.qty'),
+        format: formatToken('$.qty'),
+        sortable: true,
       },
       {
         id: 'price',
-        label: formatCurrency('$.price', '$.fiatSymbol'),
+        format: formatCurrency('$.price', '$.fiatSymbol'),
         sortable: true,
-        filterable: true,
       },
       {
         id: 'battles',
-        label: formatToken('$.battles'),
-        filterable: true,
+        format: formatToken('$.battles'),
         sortable: true,
       },
       {
         id: 'winPc',
-        name: 'Win Rate',
-        label: formatPercent('$.winPc'),
-        filterable: true,
+        title: 'Win Rate',
+        format: formatPercent('$.winPc'),
         sortable: true,
       },
       {
         id: 'playerOwned',
-        name: 'Owned',
+        title: 'Owned',
         omit: true,
-        filterable: true,
-        filterOptions: ['Yes', 'No'],
       },
     ],
   });

@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MarketplaceModule } from './feature/marketplace/marketplace.module';
 import { ScheduleModule } from './feature/schedule/schedule.module';
-import { TeamGuideModule } from './feature/team-guide/team-guide.module';
+import { BattlePlannerModule } from './feature/battle-planner/battle-planner.module';
 
 export const MODULE_DEF = {
   imports: [
@@ -11,7 +11,7 @@ export const MODULE_DEF = {
     MarketplaceModule,
     SdkModule,
     ScheduleModule,
-    TeamGuideModule,
+    BattlePlannerModule,
   ],
 };
 

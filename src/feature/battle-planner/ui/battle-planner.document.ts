@@ -1,7 +1,7 @@
 import { DocumentDto } from '@earnkeeper/ekp-sdk';
 
-export class TeamGuideDocument extends DocumentDto {
-  constructor(properties: TeamGuideDocument) {
+export class BattlePlannerDocument extends DocumentDto {
+  constructor(properties: BattlePlannerDocument) {
     super(properties);
   }
 
