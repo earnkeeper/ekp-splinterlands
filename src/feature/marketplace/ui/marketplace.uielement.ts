@@ -12,6 +12,7 @@ import {
   isBusy,
   PageHeaderTile,
   Row,
+  Span,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
 import { MarketplaceListingDocument } from './marketplace-listing.document';
@@ -33,6 +34,12 @@ export default function element(): UiElement {
           }),
         ],
       }),
+      Span({
+        className: 'd-block mt-1 mb-2 font-small-4',
+        content:
+          'Search and filter the table below for the cards available on the Splinterlands Marketplace, with added info on their popularity and win rate.',
+      }),
+
       marketRow(),
     ],
   });

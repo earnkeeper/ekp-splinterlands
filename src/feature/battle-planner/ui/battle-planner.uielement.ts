@@ -65,7 +65,7 @@ function battleDetailsForm() {
       Span({
         className: 'd-block mt-1 mb-2 font-small-3',
         content:
-          'Enter your in game name, and the details of your next match, to see which teams have been winning the most recently.',
+          'Enter the details of your next match, to see which teams have been winning the most recently. Player Name is optional, enter this to limit to just your current cards.',
       }),
       Form({
         name: 'splinterlandsBattlePlanner',
@@ -156,8 +156,12 @@ function teamRow(): UiElement {
         content: formatTemplate(
           'Data based on {{ battleCount }} battles starting {{ ago }}.',
           {
-            battleCount: formatToken(`${path(BattlePlannerViewBag)}.0.battleCount`),
-            ago: formatAge(`${path(BattlePlannerViewBag)}.0.firstBattleTimestamp`),
+            battleCount: formatToken(
+              `${path(BattlePlannerViewBag)}.0.battleCount`,
+            ),
+            ago: formatAge(
+              `${path(BattlePlannerViewBag)}.0.firstBattleTimestamp`,
+            ),
           },
         ),
       }),
