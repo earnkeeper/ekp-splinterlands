@@ -10,7 +10,7 @@ import { GameService, MapperService } from '../../shared/game';
 const FREE_DAYS_TO_FETCH = 1;
 
 @Injectable()
-export class BattlePlannerService {
+export class PlannerService {
   constructor(
     private apiService: ApiService,
     private apmService: ApmService,
@@ -31,7 +31,7 @@ export class BattlePlannerService {
     );
 
     const tx = this.apmService.startTransaction({
-      name: 'BattlePlannerService',
+      name: 'PlannerService',
       op: 'getViableTeams',
     });
 

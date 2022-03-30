@@ -3,7 +3,6 @@ import {
   ClientDisconnectedEvent,
   ClientStateChangedEvent,
   collection,
-  filterPath,
 } from '@earnkeeper/ekp-sdk';
 import {
   AbstractController,
@@ -14,47 +13,42 @@ import {
 import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import moment from 'moment';
-import { BattlePlannerService, ViableTeam } from './battle-planner.service';
-import { BattlePlannerViewBag } from './ui/battle-planner-view-bag.document';
-import { BattlePlannerDocument } from './ui/battle-planner.document';
-import battlePlanner from './ui/battle-planner.uielement';
+import { PlannerService, ViableTeam } from './planner.service';
+import { PlannerViewBag } from './ui/planner-view-bag.document';
+import { PlannerDocument } from './ui/planner.document';
+import planner from './ui/planner.uielement';
 
-const COLLECTION_NAME = collection(BattlePlannerDocument);
-const FILTER_PATH = `/plugin/${process.env.EKP_PLUGIN_ID}/battle-planner`;
+const COLLECTION_NAME = collection(PlannerDocument);
 
 @Injectable()
-export class BattlePlannerController extends AbstractController {
+export class PlannerController extends AbstractController {
   constructor(
     clientService: ClientService,
     private apmService: ApmService,
-    private battlePlannerService: BattlePlannerService,
+    private plannerService: PlannerService,
   ) {
     super(clientService);
   }
 
   async onClientConnected(event: ClientConnectedEvent) {
     await this.clientService.emitMenu(event, {
-      id: `splinterlands-menu-battle-planner`,
+      id: `planner`,
       title: 'Battle Planner',
-      navLink: `splinterlands/battle-planner`,
-      icon: 'cil-people',
+      navLink: `planner`,
+      icon: 'cil-paw',
     });
 
     await this.clientService.emitPage(event, {
-      id: `splinterlands/battle-planner`,
-      element: battlePlanner(),
+      id: `planner`,
+      element: planner(),
     });
   }
 
   async onClientStateChanged(event: ClientStateChangedEvent) {
-    if (!filterPath(event, FILTER_PATH)) {
-      return;
-    }
-
     await this.clientService.emitBusy(event, COLLECTION_NAME);
 
     try {
-      const form = event.state.forms?.splinterlandsBattlePlanner;
+      const form = event.state.forms?.planner;
 
       if (!form) {
         return;
@@ -74,7 +68,7 @@ export class BattlePlannerController extends AbstractController {
       const ruleset = form.ruleset ?? 'Standard';
       const leagueName = form.leagueName ?? 'All';
 
-      const { teams, battles } = await this.battlePlannerService.getViableTeams(
+      const { teams, battles } = await this.plannerService.getViableTeams(
         playerName,
         manaCap,
         ruleset,
@@ -90,7 +84,7 @@ export class BattlePlannerController extends AbstractController {
         teamSummaryDocuments,
       );
 
-      const viewBag = new BattlePlannerViewBag({
+      const viewBag = new PlannerViewBag({
         id: 'viewbag',
         battleCount: battles.length,
         firstBattleTimestamp: _.chain(battles)
@@ -101,7 +95,7 @@ export class BattlePlannerController extends AbstractController {
 
       await this.clientService.emitDocuments(
         event,
-        collection(BattlePlannerViewBag),
+        collection(PlannerViewBag),
         [viewBag],
       );
     } catch (error) {
@@ -117,7 +111,7 @@ export class BattlePlannerController extends AbstractController {
     // Do nothing
   }
 
-  mapDocuments(detailedTeams: ViableTeam[]): BattlePlannerDocument[] {
+  mapDocuments(detailedTeams: ViableTeam[]): PlannerDocument[] {
     const now = moment().unix();
 
     return _.chain(detailedTeams)

@@ -26,8 +26,8 @@ import {
   UiElement,
 } from '@earnkeeper/ekp-sdk';
 import { GameService } from '../../../shared/game';
-import { BattlePlannerViewBag } from './battle-planner-view-bag.document';
-import { BattlePlannerDocument } from './battle-planner.document';
+import { PlannerViewBag } from './planner-view-bag.document';
+import { PlannerDocument } from './planner.document';
 
 const TEAM_MODAL_ID = 'splinterlands-team-modal';
 
@@ -42,7 +42,7 @@ export default function element(): UiElement {
             children: [
               PageHeaderTile({
                 title: 'Splinterlands Battle Planner',
-                icon: 'cil-people',
+                icon: 'cil-paw',
               }),
             ],
           }),
@@ -68,7 +68,7 @@ function battleDetailsForm() {
           'Enter the details of your next match, to see which teams have been winning the most recently. Player Name is optional, enter this to limit to just your current cards.',
       }),
       Form({
-        name: 'splinterlandsBattlePlanner',
+        name: 'planner',
         schema: {
           type: 'object',
           properties: {
@@ -134,7 +134,7 @@ function battleDetailsForm() {
                 Button({
                   label: 'Save',
                   isSubmit: true,
-                  busyWhen: isBusy(collection(BattlePlannerDocument)),
+                  busyWhen: isBusy(collection(PlannerDocument)),
                 }),
               ],
             }),
@@ -156,12 +156,8 @@ function teamRow(): UiElement {
         content: formatTemplate(
           'Data based on {{ battleCount }} battles starting {{ ago }}.',
           {
-            battleCount: formatToken(
-              `${path(BattlePlannerViewBag)}.0.battleCount`,
-            ),
-            ago: formatAge(
-              `${path(BattlePlannerViewBag)}.0.firstBattleTimestamp`,
-            ),
+            battleCount: formatToken(`${path(PlannerViewBag)}.0.battleCount`),
+            ago: formatAge(`${path(PlannerViewBag)}.0.firstBattleTimestamp`),
           },
         ),
       }),
@@ -169,8 +165,8 @@ function teamRow(): UiElement {
       Datatable({
         defaultSortFieldId: 'winpc',
         defaultSortAsc: false,
-        data: documents(BattlePlannerDocument),
-        busyWhen: isBusy(collection(BattlePlannerDocument)),
+        data: documents(PlannerDocument),
+        busyWhen: isBusy(collection(PlannerDocument)),
         onRowClicked: showModal(TEAM_MODAL_ID, '$'),
         showExport: false,
         columns: [

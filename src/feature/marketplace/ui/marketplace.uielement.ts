@@ -15,7 +15,7 @@ import {
   Span,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
-import { MarketplaceListingDocument } from './marketplace-listing.document';
+import { ListingDocument } from './listing.document';
 
 export default function element(): UiElement {
   return Container({
@@ -50,8 +50,8 @@ function marketRow(): UiElement {
     defaultSortFieldId: 'price',
     defaultSortAsc: true,
     defaultView: 'column',
-    data: documents(MarketplaceListingDocument),
-    busyWhen: isBusy(collection(MarketplaceListingDocument)),
+    data: documents(ListingDocument),
+    busyWhen: isBusy(collection(ListingDocument)),
     filters: [
       {
         columnId: 'battles',

@@ -1,9 +1,10 @@
 import { EkConfigService, SdkModule } from '@earnkeeper/ekp-sdk-nestjs';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { DecksModule } from './feature/decks/decks.module';
 import { MarketplaceModule } from './feature/marketplace/marketplace.module';
+import { PlannerModule } from './feature/planner/planner.module';
 import { ScheduleModule } from './feature/schedule/schedule.module';
-import { BattlePlannerModule } from './feature/battle-planner/battle-planner.module';
 
 export const MODULE_DEF = {
   imports: [
@@ -11,7 +12,8 @@ export const MODULE_DEF = {
     MarketplaceModule,
     SdkModule,
     ScheduleModule,
-    BattlePlannerModule,
+    PlannerModule,
+    DecksModule,
   ],
 };
 

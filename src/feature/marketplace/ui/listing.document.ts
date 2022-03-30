@@ -1,7 +1,7 @@
 import { DocumentDto } from '@earnkeeper/ekp-sdk';
 
-export class MarketplaceListingDocument extends DocumentDto {
-  constructor(properties: MarketplaceListingDocument) {
+export class ListingDocument extends DocumentDto {
+  constructor(properties: ListingDocument) {
     super(properties);
   }
 

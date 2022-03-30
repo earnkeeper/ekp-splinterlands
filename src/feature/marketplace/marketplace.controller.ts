@@ -3,7 +3,6 @@ import {
   ClientDisconnectedEvent,
   ClientStateChangedEvent,
   collection,
-  filterPath,
 } from '@earnkeeper/ekp-sdk';
 import { AbstractController, ClientService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
@@ -11,11 +10,10 @@ import _ from 'lodash';
 import moment from 'moment';
 import { MapperService } from '../../shared/game';
 import { EnhancedSale, MarketplaceService } from './marketplace.service';
-import { MarketplaceListingDocument } from './ui/marketplace-listing.document';
+import { ListingDocument } from './ui/listing.document';
 import marketplace from './ui/marketplace.uielement';
 
-const FILTER_PATH = `/plugin/${process.env.EKP_PLUGIN_ID}/marketplace`;
-const COLLECTION_NAME = collection(MarketplaceListingDocument);
+const COLLECTION_NAME = collection(ListingDocument);
 
 @Injectable()
 export class MarketplaceController extends AbstractController {
@@ -28,23 +26,19 @@ export class MarketplaceController extends AbstractController {
 
   async onClientConnected(event: ClientConnectedEvent) {
     await this.clientService.emitMenu(event, {
-      id: `splinterlands-menu-marketplace`,
+      id: `marketplace`,
       title: 'Marketplace',
-      navLink: `splinterlands/marketplace`,
+      navLink: `marketplace`,
       icon: 'cil-cart',
     });
 
     await this.clientService.emitPage(event, {
-      id: `${process.env.EKP_PLUGIN_ID}/marketplace`,
+      id: `marketplace`,
       element: marketplace(),
     });
   }
 
   async onClientStateChanged(event: ClientStateChangedEvent) {
-    if (!filterPath(event, FILTER_PATH)) {
-      return;
-    }
-
     await this.clientService.emitBusy(event, COLLECTION_NAME);
 
     const enhancedSales = await this.marketplaceService.getEnhancedSales(
@@ -91,8 +85,8 @@ export class MarketplaceController extends AbstractController {
           sale.cardDetail.name
         }_lv${sale.level}.png`;
 
-        const document = new MarketplaceListingDocument({
-          // fiatSymbol: clientEvent.state.client.selectedCurrency.symbol,
+        const document = new ListingDocument({
+          // TODO: fiatSymbol: clientEvent.state.client.selectedCurrency.symbol,
           battles,
           burned: Number(sale.distribution.num_burned),
           editionString,
