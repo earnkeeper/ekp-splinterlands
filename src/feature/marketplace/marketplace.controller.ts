@@ -3,6 +3,7 @@ import {
   ClientDisconnectedEvent,
   ClientStateChangedEvent,
   collection,
+  RpcEvent,
 } from '@earnkeeper/ekp-sdk';
 import { AbstractController, ClientService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
@@ -52,6 +53,10 @@ export class MarketplaceController extends AbstractController {
     await this.clientService.removeOldLayers(event, COLLECTION_NAME);
 
     await this.clientService.emitDone(event, COLLECTION_NAME);
+  }
+
+  async onClientRpc(event: RpcEvent) {
+    // Do nothing
   }
 
   async onClientDisconnected(event: ClientDisconnectedEvent) {

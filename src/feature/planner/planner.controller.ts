@@ -3,6 +3,7 @@ import {
   ClientDisconnectedEvent,
   ClientStateChangedEvent,
   collection,
+  RpcEvent,
 } from '@earnkeeper/ekp-sdk';
 import {
   AbstractController,
@@ -113,6 +114,10 @@ export class PlannerController extends AbstractController {
   }
 
   async onClientDisconnected(event: ClientDisconnectedEvent) {
+    // Do nothing
+  }
+
+  async onClientRpc(event: RpcEvent) {
     // Do nothing
   }
 

@@ -15,7 +15,6 @@ import {
   Image,
   Input,
   isBusy,
-  Link,
   Modal,
   ModalBody,
   ModalFooter,
@@ -28,8 +27,12 @@ import {
   Span,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
-import { statsCard } from 'src/util/statsCard';
 import { GameService } from '../../../shared/game';
+import {
+  promptDeckNameModal,
+  PROMPT_DECK_NAME_MODAL_ID,
+  statsCard,
+} from '../../../util';
 import { PlannerViewBag } from './planner-view-bag.document';
 import { PlannerDocument } from './planner.document';
 
@@ -55,6 +58,7 @@ export default function element(): UiElement {
       battleDetailsForm(),
       teamRow(),
       teamModal(),
+      promptDeckNameModal(),
     ],
   });
 }
@@ -87,63 +91,68 @@ function battleDetailsForm() {
             leagueName: 'All',
           },
         },
-        child: Row({
-          className: 'mb-1',
-          children: [
-            Col({
-              className: 'col-12 col-md-auto',
-              children: [
-                Input({
-                  label: 'Player Name',
-                  name: 'playerName',
-                }),
-              ],
-            }),
-            Col({
-              className: 'col-12 col-md-auto',
-              children: [
-                Select({
-                  label: 'League',
-                  name: 'leagueName',
-                  options: ['All', ...GameService.LEAGUES.map((it) => it.name)],
-                  minWidth: 160,
-                }),
-              ],
-            }),
-            Col({
-              className: 'col-12 col-md-auto',
-              children: [
-                Select({
-                  label: 'Mana Cap',
-                  name: 'manaCap',
-                  options: GameService.MANA_CAPS,
-                  minWidth: 80,
-                }),
-              ],
-            }),
-            Col({
-              className: 'col-12 col-md-auto',
-              children: [
-                Select({
-                  label: 'Ruleset',
-                  name: 'ruleset',
-                  options: ['Standard'],
-                  minWidth: 160,
-                }),
-              ],
-            }),
-            Col({
-              className: 'col-12 col-md-auto my-auto',
-              children: [
-                Button({
-                  label: 'Save',
-                  isSubmit: true,
-                  busyWhen: isBusy(collection(PlannerDocument)),
-                }),
-              ],
-            }),
-          ],
-        }),
+        children: [
+          Row({
+            className: 'mb-1',
+            children: [
+              Col({
+                className: 'col-12 col-md-auto',
+                children: [
+                  Input({
+                    label: 'Player Name',
+                    name: 'playerName',
+                  }),
+                ],
+              }),
+              Col({
+                className: 'col-12 col-md-auto',
+                children: [
+                  Select({
+                    label: 'League',
+                    name: 'leagueName',
+                    options: [
+                      'All',
+                      ...GameService.LEAGUES.map((it) => it.name),
+                    ],
+                    minWidth: 160,
+                  }),
+                ],
+              }),
+              Col({
+                className: 'col-12 col-md-auto',
+                children: [
+                  Select({
+                    label: 'Mana Cap',
+                    name: 'manaCap',
+                    options: GameService.MANA_CAPS,
+                    minWidth: 80,
+                  }),
+                ],
+              }),
+              Col({
+                className: 'col-12 col-md-auto',
+                children: [
+                  Select({
+                    label: 'Ruleset',
+                    name: 'ruleset',
+                    options: ['Standard'],
+                    minWidth: 160,
+                  }),
+                ],
+              }),
+              Col({
+                className: 'col-12 col-md-auto my-auto',
+                children: [
+                  Button({
+                    label: 'Save',
+                    isSubmit: true,
+                    busyWhen: isBusy(collection(PlannerDocument)),
+                  }),
+                ],
+              }),
+            ],
+          }),
+        ],
       }),
     ],
   });
@@ -346,7 +355,7 @@ function teamModal(): any {
                     className: 'float-right',
                     icon: 'user-plus',
                     label: 'Add to Fantasy',
-                    size: 'sm',
+                    onClick: showModal(PROMPT_DECK_NAME_MODAL_ID, '$'),
                   }),
                 ],
               }),

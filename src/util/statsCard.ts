@@ -4,28 +4,24 @@ export function statsCard(title: string, body: string | Rpc) {
   return Card({
     children: [
       Row({
+        className: 'px-2 py-1',
         children: [
           Col({
-            className: 'col-auto',
+            className: 'col-auto my-auto',
             children: [
               Avatar({
                 icon: 'award',
+                size: 'sm',
               }),
             ],
           }),
           Col({
+            className: 'col-auto pr-2',
             children: [
-              Row({
-                children: [
-                  Col({
-                    className: 'col-12',
-                    children: [Span({ content: title })],
-                  }),
-                  Col({
-                    className: 'col-12 font-medium-5 font-weight-bold',
-                    children: [Span({ content: body })],
-                  }),
-                ],
+              Span({ className: 'd-block', content: title }),
+              Span({
+                className: 'd-block font-weight-bold',
+                content: body,
               }),
             ],
           }),

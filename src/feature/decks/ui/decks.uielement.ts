@@ -104,63 +104,68 @@ function yourDetailsRow() {
             leagueName: 'All',
           },
         },
-        child: Row({
-          className: 'mb-1',
-          children: [
-            Col({
-              className: 'col-12 col-md-auto',
-              children: [
-                Input({
-                  label: 'Player Name',
-                  name: 'playerName',
-                }),
-              ],
-            }),
-            Col({
-              className: 'col-12 col-md-auto',
-              children: [
-                Select({
-                  label: 'League',
-                  name: 'leagueName',
-                  options: ['All', ...GameService.LEAGUES.map((it) => it.name)],
-                  minWidth: 160,
-                }),
-              ],
-            }),
-            Col({
-              className: 'col-12 col-md-auto',
-              children: [
-                Select({
-                  label: 'Mana Cap',
-                  name: 'manaCap',
-                  options: GameService.MANA_CAPS,
-                  minWidth: 80,
-                }),
-              ],
-            }),
-            Col({
-              className: 'col-12 col-md-auto',
-              children: [
-                Select({
-                  label: 'Ruleset',
-                  name: 'ruleset',
-                  options: ['Standard'],
-                  minWidth: 160,
-                }),
-              ],
-            }),
-            Col({
-              className: 'col-12 col-md-auto my-auto',
-              children: [
-                Button({
-                  label: 'Save',
-                  isSubmit: true,
-                  busyWhen: isBusy(collection(DeckDocument)),
-                }),
-              ],
-            }),
-          ],
-        }),
+        children: [
+          Row({
+            className: 'mb-1',
+            children: [
+              Col({
+                className: 'col-12 col-md-auto',
+                children: [
+                  Input({
+                    label: 'Player Name',
+                    name: 'playerName',
+                  }),
+                ],
+              }),
+              Col({
+                className: 'col-12 col-md-auto',
+                children: [
+                  Select({
+                    label: 'League',
+                    name: 'leagueName',
+                    options: [
+                      'All',
+                      ...GameService.LEAGUES.map((it) => it.name),
+                    ],
+                    minWidth: 160,
+                  }),
+                ],
+              }),
+              Col({
+                className: 'col-12 col-md-auto',
+                children: [
+                  Select({
+                    label: 'Mana Cap',
+                    name: 'manaCap',
+                    options: GameService.MANA_CAPS,
+                    minWidth: 80,
+                  }),
+                ],
+              }),
+              Col({
+                className: 'col-12 col-md-auto',
+                children: [
+                  Select({
+                    label: 'Ruleset',
+                    name: 'ruleset',
+                    options: ['Standard'],
+                    minWidth: 160,
+                  }),
+                ],
+              }),
+              Col({
+                className: 'col-12 col-md-auto my-auto',
+                children: [
+                  Button({
+                    label: 'Save',
+                    isSubmit: true,
+                    busyWhen: isBusy(collection(DeckDocument)),
+                  }),
+                ],
+              }),
+            ],
+          }),
+        ],
       }),
     ],
   });
