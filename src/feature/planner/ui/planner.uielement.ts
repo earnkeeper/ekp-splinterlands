@@ -7,6 +7,7 @@ import {
   documents,
   Form,
   formatAge,
+  formatCurrency,
   formatPercent,
   formatTemplate,
   formatToken,
@@ -14,8 +15,10 @@ import {
   Image,
   Input,
   isBusy,
+  Link,
   Modal,
   ModalBody,
+  ModalFooter,
   ModalHeader,
   PageHeaderTile,
   path,
@@ -25,6 +28,7 @@ import {
   Span,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
+import { statsCard } from 'src/util/statsCard';
 import { GameService } from '../../../shared/game';
 import { PlannerViewBag } from './planner-view-bag.document';
 import { PlannerDocument } from './planner.document';
@@ -214,6 +218,13 @@ function teamRow(): UiElement {
             sortable: true,
             grow: 0,
           },
+          {
+            id: 'price',
+            title: 'Cost',
+            sortable: true,
+            format: formatCurrency('$.price', '$.fiatSymbol'),
+            grow: 0,
+          },
         ],
       }),
     ],
@@ -241,9 +252,7 @@ function teamModal(): any {
                 className: 'col-auto',
                 children: [
                   Span({
-                    content: formatTemplate('{{ splinter }} Team', {
-                      splinter: '$.splinter',
-                    }),
+                    content: 'Team Viewer',
                   }),
                 ],
               }),
@@ -255,6 +264,30 @@ function teamModal(): any {
         children: [
           Row({
             children: [
+              Col({
+                className: 'col-12',
+                children: [
+                  Row({
+                    children: [
+                      Col({
+                        className: 'col-auto',
+                        children: [
+                          statsCard(
+                            'Deck Cost',
+                            formatCurrency('$.price', '$.fiatSymbol'),
+                          ),
+                        ],
+                      }),
+                      Col({
+                        className: 'col-auto',
+                        children: [
+                          statsCard('Win Rate', formatPercent('$.winpc')),
+                        ],
+                      }),
+                    ],
+                  }),
+                ],
+              }),
               Col({
                 className: 'col-12',
                 children: [
@@ -278,22 +311,42 @@ function teamModal(): any {
                         id: 'name',
                       },
                       {
+                        id: 'level',
+                        grow: 0,
+                      },
+                      {
                         id: 'mana',
-                        grow: 0,
-                      },
-                      {
-                        id: 'id',
-                        grow: 0,
-                      },
-                      {
-                        id: 'type',
                         grow: 0,
                       },
                       {
                         id: 'splinter',
                         grow: 0,
                       },
+                      {
+                        id: 'price',
+                        grow: 0,
+                        format: formatCurrency('$.price', '$.fiatSymbol'),
+                      },
                     ],
+                  }),
+                ],
+              }),
+            ],
+          }),
+        ],
+      }),
+      ModalFooter({
+        children: [
+          Row({
+            className: 'pb-1 px-2',
+            children: [
+              Col({
+                children: [
+                  Button({
+                    className: 'float-right',
+                    icon: 'user-plus',
+                    label: 'Add to Fantasy',
+                    size: 'sm',
                   }),
                 ],
               }),

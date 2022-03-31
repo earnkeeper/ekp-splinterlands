@@ -7,6 +7,27 @@ import { MapperService } from './mapper.service';
 export class GameService {
   constructor(private apiService: ApiService) {}
 
+  async getMarketPrices(): Promise<MarketPriceMap> {
+    const sales = await this.apiService.fetchCardSales();
+
+    const map = {};
+
+    for (const sale of sales) {
+      if (!map[sale.card_detail_id.toString()]) {
+        map[sale.card_detail_id.toString()] = {};
+      }
+
+      if (!map[sale.level.toString()]) {
+        map[sale.card_detail_id.toString()][sale.level.toString()] = 0;
+      }
+
+      map[sale.card_detail_id.toString()][sale.level.toString()] +=
+        sale.low_price;
+    }
+
+    return map;
+  }
+
   /**
    * Get the list of cards owned by a given player name, including base cards
    *
@@ -469,3 +490,7 @@ export class GameService {
     },
   ];
 }
+
+export type MarketPriceMap = {
+  [cardDetailId: string]: { [level: string]: number };
+};

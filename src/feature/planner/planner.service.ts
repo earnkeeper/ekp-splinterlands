@@ -208,18 +208,14 @@ export type ViableTeam = {
   readonly id: string;
   battles: number;
   wins: number;
-  readonly summoner: Readonly<{
-    cardDetailId: number;
-    level: number;
-    mana: number;
-    name: string;
-    splinter: string;
-  }>;
-  readonly monsters: Readonly<{
-    cardDetailId: number;
-    level: number;
-    mana: number;
-    name: string;
-    splinter: string;
-  }>[];
+  readonly summoner: ViableMonster;
+  readonly monsters: ViableMonster[];
 };
+
+export type ViableMonster = Readonly<{
+  cardDetailId: number;
+  level: number;
+  mana: number;
+  name: string;
+  splinter: string;
+}>;

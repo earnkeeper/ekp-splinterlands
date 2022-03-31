@@ -13,7 +13,8 @@ import {
 import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import moment from 'moment';
-import { PlannerService, ViableTeam } from './planner.service';
+import { GameService, MarketPriceMap } from '../../shared/game';
+import { PlannerService, ViableMonster, ViableTeam } from './planner.service';
 import { PlannerViewBag } from './ui/planner-view-bag.document';
 import { PlannerDocument } from './ui/planner.document';
 import planner from './ui/planner.uielement';
@@ -25,6 +26,7 @@ export class PlannerController extends AbstractController {
   constructor(
     clientService: ClientService,
     private apmService: ApmService,
+    private gameService: GameService,
     private plannerService: PlannerService,
   ) {
     super(clientService);
@@ -76,7 +78,10 @@ export class PlannerController extends AbstractController {
         event.state.client.subscribed ?? false,
       );
 
-      const teamSummaryDocuments = this.mapDocuments(teams);
+      const cardPrices: MarketPriceMap =
+        await this.gameService.getMarketPrices();
+
+      const teamSummaryDocuments = this.mapDocuments(teams, cardPrices);
 
       await this.clientService.emitDocuments(
         event,
@@ -111,7 +116,10 @@ export class PlannerController extends AbstractController {
     // Do nothing
   }
 
-  mapDocuments(detailedTeams: ViableTeam[]): PlannerDocument[] {
+  mapDocuments(
+    detailedTeams: ViableTeam[],
+    cardPrices: MarketPriceMap,
+  ): PlannerDocument[] {
     const now = moment().unix();
 
     return _.chain(detailedTeams)
@@ -120,39 +128,60 @@ export class PlannerController extends AbstractController {
 
         const monsters = [];
 
+        const getPrice = (monster: ViableMonster) => {
+          if (!cardPrices[monster.cardDetailId.toString()]) {
+            return undefined;
+          }
+
+          return cardPrices[monster.cardDetailId.toString()][
+            monster.level.toString()
+          ];
+        };
+
         monsters.push({
           id: team.summoner.cardDetailId,
-          name: team.summoner.name,
-          mana: team.summoner.mana,
-          type: 'Summoner',
-          splinter: team.summoner.splinter,
+          fiatSymbol: '$',
           icon: `https://d36mxiodymuqjm.cloudfront.net/card_art/${team.summoner.name}.png`,
+          level: team.summoner.level,
+          mana: team.summoner.mana,
+          name: team.summoner.name,
+          price: getPrice(team.summoner),
+          splinter: team.summoner.splinter,
+          type: 'Summoner',
         });
 
         // TODO: check if these are added in the right order, order is important
         monsters.push(
           ...team.monsters.map((monster) => ({
             id: monster.cardDetailId,
-            name: monster.name,
-            mana: monster.mana,
-            type: 'Monster',
-            splinter: monster.splinter,
+            fiatSymbol: '$',
             icon: `https://d36mxiodymuqjm.cloudfront.net/card_art/${monster.name}.png`,
+            level: team.summoner.level,
+            mana: monster.mana,
+            name: monster.name,
+            price: getPrice(monster),
+            splinter: monster.splinter,
+            type: 'Monster',
           })),
         );
 
         return {
           id: team.id,
           updated: now,
+          battles: team.battles,
+          elementIcon: `https://d36mxiodymuqjm.cloudfront.net/website/icons/icon-element-${team.summoner.splinter.toLowerCase()}-2.svg`,
+          fiatSymbol: '$', // TODO: support multicurrency
+          mana,
+          monsterCount: team.monsters.length,
+          monsters,
+          price: _.chain(monsters)
+            .filter((it) => !!it.price)
+            .sumBy('price')
+            .value(),
           splinter: team.summoner.splinter,
           summoner: team.summoner.name,
-          monsterCount: team.monsters.length,
-          mana,
-          battles: team.battles,
-          winpc: team.wins / team.battles,
-          elementIcon: `https://d36mxiodymuqjm.cloudfront.net/website/icons/icon-element-${team.summoner.splinter.toLowerCase()}-2.svg`,
           summonerIcon: `https://d36mxiodymuqjm.cloudfront.net/card_art/${team.summoner.name}.png`,
-          monsters,
+          winpc: team.wins / team.battles,
         };
       })
       .value();
