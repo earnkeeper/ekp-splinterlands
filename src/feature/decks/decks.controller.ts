@@ -3,6 +3,7 @@ import {
   ClientDisconnectedEvent,
   ClientStateChangedEvent,
   collection,
+  RpcEvent,
 } from '@earnkeeper/ekp-sdk';
 import { AbstractController, ClientService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
@@ -29,6 +30,9 @@ export class DecksController extends AbstractController {
       id: `decks`,
       element: decks(),
     });
+  }
+
+  async onClientRpc(event: RpcEvent) {
   }
 
   async onClientStateChanged(event: ClientStateChangedEvent) {
