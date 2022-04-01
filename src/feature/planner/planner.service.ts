@@ -105,6 +105,7 @@ export class PlannerService {
         monsters.push(
           ...team.monsters.map((monster) => ({
             id: monster.cardDetailId,
+            edition: monster.edition,
             fiatSymbol: currency.symbol,
             icon: `https://d36mxiodymuqjm.cloudfront.net/card_art/${monster.name}.png`,
             level: team.summoner.level,
@@ -133,6 +134,10 @@ export class PlannerService {
           splinter: team.summoner.splinter,
           summonerName: team.summoner.name,
           summonerIcon: `https://d36mxiodymuqjm.cloudfront.net/card_art/${team.summoner.name}.png`,
+          summonerCardImg: `https://d36mxiodymuqjm.cloudfront.net/cards_by_level/${team.summoner.edition.toLowerCase()}/${
+            team.summoner.name
+          }_lv${team.summoner.level}.png`,
+          summonerEdition: team.summoner.edition,
           winpc: team.wins / team.battles,
         };
       })

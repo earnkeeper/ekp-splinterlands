@@ -8,7 +8,9 @@ import {
   Form,
   formatCurrency,
   formatPercent,
+  formatToken,
   Fragment,
+  GridTile,
   Image,
   Input,
   isBusy,
@@ -198,7 +200,52 @@ export function decksTable() {
         onRowClicked: showModal(TEAM_MODAL_ID, '$'),
         pointerOnHover: true,
         showExport: false,
-        showLastUpdated: false,
+        showLastUpdated: true,
+        defaultView: {
+          xs: 'grid',
+          lg: 'column',
+        },
+        gridView: {
+          tileWidth: [12, 6, 4, 3],
+          tile: GridTile({
+            image: Image({
+              className: 'card-img-top',
+              src: '$.summonerCardImg',
+            }),
+            details: [
+              {
+                label: 'Team Name',
+                value: '$.teamName',
+              },
+              {
+                label: 'Cost',
+                value: formatCurrency('$.price', '$.fiatSymbol'),
+              },
+              {
+                label: 'Battles',
+                value: formatToken('$.battles'),
+              },
+              {
+                label: 'Mana',
+                value: '$.mana',
+              },
+              {
+                label: 'Monsters',
+                value: '$.monsterCount',
+              },
+              {
+                label: 'Win Rate',
+                value: formatPercent('$.winpc'),
+              },
+            ],
+            left: {
+              content: formatCurrency('$.price', '$.fiatSymbol'),
+            },
+            right: {
+              content: formatToken('$.qty'),
+            },
+          }),
+        },
         columns: [
           {
             id: 'teamName',
@@ -252,6 +299,7 @@ export function decksTable() {
           },
           {
             id: 'price',
+            title: 'Cost',
             sortable: true,
             grow: 0,
             format: formatCurrency('$.price', '$.fiatSymbol'),

@@ -14,10 +14,13 @@ export class PlannerDocument extends DocumentDto {
   readonly splinterIcon: string;
   readonly summonerName: string;
   readonly summonerIcon: string;
+  readonly summonerCardImg: string;
+  readonly summonerEdition: string;
   readonly winpc: number;
 
   readonly monsters: {
     id: string;
+    edition: string;
     fiatSymbol: string;
     icon: string;
     level: number;

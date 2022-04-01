@@ -9,16 +9,20 @@ export class DeckDocument extends DocumentDto {
   readonly fiatSymbol: string;
   readonly mana: number;
   readonly monsters: DeckCard[];
-  readonly name: string;
   readonly price: number;
   readonly splinter: string;
-  readonly summoner: DeckCard;
+  readonly splinterIcon: string;
+  readonly summonerName: string;
+  readonly summonerIcon: string;
+  readonly summonerCardImg: string;
+  readonly summonerEdition: string;
   readonly teamName: string;
   readonly winpc: number;
 }
 
 export type DeckCard = Readonly<{
   id: number;
+  edition: string;
   imageUrl: string;
   level: number;
   mana: number;

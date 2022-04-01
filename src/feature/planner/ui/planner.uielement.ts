@@ -12,6 +12,7 @@ import {
   formatTemplate,
   formatToken,
   Fragment,
+  GridTile,
   Image,
   Input,
   isBusy,
@@ -170,6 +171,47 @@ function teamRow(): UiElement {
         onRowClicked: showModal(TEAM_MODAL_ID, '$'),
         pointerOnHover: true,
         showExport: false,
+        defaultView: {
+          xs: 'grid',
+          lg: 'column',
+        },
+        gridView: {
+          tileWidth: [12, 6, 4, 3],
+          tile: GridTile({
+            image: Image({
+              className: 'card-img-top',
+              src: '$.summonerCardImg',
+            }),
+            details: [
+              {
+                label: 'Cost',
+                value: formatCurrency('$.price', '$.fiatSymbol'),
+              },
+              {
+                label: 'Battles',
+                value: formatToken('$.battles'),
+              },
+              {
+                label: 'Mana',
+                value: '$.mana',
+              },
+              {
+                label: 'Monsters',
+                value: '$.monsterCount',
+              },
+              {
+                label: 'Win Rate',
+                value: formatPercent('$.winpc'),
+              },
+            ],
+            left: {
+              content: formatCurrency('$.price', '$.fiatSymbol'),
+            },
+            right: {
+              content: formatToken('$.qty'),
+            },
+          }),
+        },
         columns: [
           {
             id: 'splinter',

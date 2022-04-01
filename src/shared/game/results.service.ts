@@ -131,6 +131,7 @@ export class ResultsService {
         ),
         name: summonerCard.name,
         splinter: MapperService.mapColorToSplinter(summonerCard.color),
+        edition: MapperService.mapEditionString(battleTeam.summoner.edition),
       },
       monsters: battleTeam.monsters.map((monster) => {
         const monsterCard = MapperService.mapCardDetailIdsToCards(
@@ -147,6 +148,7 @@ export class ResultsService {
           ),
           name: monsterCard.name,
           splinter: MapperService.mapColorToSplinter(monsterCard.color),
+          edition: MapperService.mapEditionString(battleTeam.summoner.edition),
         };
       }),
     };
@@ -191,5 +193,6 @@ export type TeamMonster = Readonly<{
   level: number;
   mana: number;
   name: string;
+  edition: string;
   splinter: string;
 }>;
