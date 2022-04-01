@@ -39,7 +39,6 @@ export default function element(): UiElement {
         content:
           'Search and filter the table below for the cards available on the Splinterlands Marketplace, with added info on their popularity and win rate.',
       }),
-
       marketRow(),
     ],
   });
@@ -49,7 +48,10 @@ function marketRow(): UiElement {
   return Datatable({
     defaultSortFieldId: 'price',
     defaultSortAsc: true,
-    defaultView: 'column',
+    defaultView: {
+      xs: 'grid',
+      lg: 'column',
+    },
     data: documents(ListingDocument),
     busyWhen: isBusy(collection(ListingDocument)),
     filters: [
