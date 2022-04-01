@@ -60,7 +60,7 @@ function titleRow() {
       Span({
         className: 'd-block mt-1 mb-2 font-small-4',
         content:
-          'Add teams from the marketplace or battle planner and check your total cost before buying.',
+          'Save teams from the battle planner to review later, and check current prices before buying',
       }),
     ],
   });
@@ -104,12 +104,12 @@ function yourDetailsRow() {
       Span({
         className: 'd-block mt-1 font-small-3',
         content:
-          'Enter some more details below to update the win rate and battle metrics below.',
+          'Enter your details beow to update win rate and battle metrics.',
       }),
       Span({
-        className: 'd-block mb-2 font-small-3',
+        className: 'd-block mt-1 mb-2 font-small-3',
         content:
-          'Enter your player name to exclude already owned cards from your purchase cost.',
+          'Optionally, enter your player name to exclude already owned cards from your purchase cost.',
       }),
       Form({
         name: 'planner',
