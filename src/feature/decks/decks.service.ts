@@ -3,7 +3,6 @@ import { CoingeckoService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import { validate } from 'bycontract';
 import _ from 'lodash';
-import { BattleForm } from 'src/util';
 import { PlayerCardDto } from '../../shared/api';
 import {
   GameService,
@@ -11,6 +10,7 @@ import {
   ResultsService,
   TeamResults,
 } from '../../shared/game';
+import { BattleForm } from '../../util';
 import { DeckCard, DeckDocument } from './ui/deck.document';
 
 @Injectable()
