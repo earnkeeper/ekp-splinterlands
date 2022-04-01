@@ -12,6 +12,7 @@ import {
   logger,
 } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
+import { DEFAULT_BATTLE_FORM } from '../../util/constants';
 import { DecksService } from './decks.service';
 import { DeckDocument } from './ui/deck.document';
 import decks from './ui/decks.uielement';
@@ -60,16 +61,13 @@ export class DecksController extends AbstractController {
         return;
       }
 
-      const form = event.state.forms?.planner;
-
-      if (!form) {
-        return;
-      }
+      const form = event.state.forms?.planner ?? DEFAULT_BATTLE_FORM;
 
       const updatedTeams = await this.decksService.updateTeams(
         clientTeams,
         form,
         event.state.client.subscribed,
+        event.state.client.selectedCurrency,
       );
 
       this.clientService.emitDocuments(event, COLLECTION_NAME, updatedTeams);

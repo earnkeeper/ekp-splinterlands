@@ -1,6 +1,16 @@
+import { CurrencyDto } from '@earnkeeper/ekp-sdk';
+import { CoingeckoService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
+import { validate } from 'bycontract';
 import _ from 'lodash';
-import { GameService, MarketPriceMap, ResultsService } from '../../shared/game';
+import { BattleForm } from 'src/util';
+import { PlayerCardDto } from '../../shared/api';
+import {
+  GameService,
+  MarketPriceMap,
+  ResultsService,
+  TeamResults,
+} from '../../shared/game';
 import { DeckCard, DeckDocument } from './ui/deck.document';
 
 @Injectable()
@@ -8,40 +18,56 @@ export class DecksService {
   constructor(
     private resultsService: ResultsService,
     private gameService: GameService,
+    private coingeckoService: CoingeckoService,
   ) {}
 
   async updateTeams(
     clientTeams: DeckDocument[],
-    form: any,
+    form: BattleForm,
     subscribed: boolean,
+    currency: CurrencyDto,
   ) {
-    const manaCap = Number(form.manaCap);
-
-    if (isNaN(manaCap)) {
-      // We need a mana cap, we will kill the db getting all battles
-      // And the return teams are not meaningful without mana
-      return;
-    }
-
-    // We don't need a player name, just get all teams in this case
-    const playerName = form.playerName ?? '';
-
-    // All other properties can have sensible defaults
-    const ruleset = form.ruleset ?? 'Standard';
-    const leagueName = form.leagueName ?? 'All';
+    validate([form, form.manaCap], ['object', 'number']);
 
     const { teams: teamResults } = await this.resultsService.getTeamResults(
-      manaCap,
-      ruleset,
-      leagueName,
+      form.manaCap,
+      form.ruleset,
+      form.leagueName,
       subscribed,
     );
 
     const cardPrices: MarketPriceMap = await this.gameService.getMarketPrices();
 
-    const playerCards = !!playerName
-      ? await this.gameService.getPlayerCards(playerName)
+    const playerCards = !!form.playerName
+      ? await this.gameService.getPlayerCards(form.playerName)
       : undefined;
+
+    return await this.mapDocuments(
+      cardPrices,
+      clientTeams,
+      playerCards,
+      teamResults,
+      currency,
+    );
+  }
+
+  async mapDocuments(
+    cardPrices: MarketPriceMap,
+    clientTeams: DeckDocument[],
+    playerCards: PlayerCardDto[],
+    teamResults: TeamResults[],
+    currency: CurrencyDto,
+  ) {
+    let conversionRate = 1;
+
+    if (currency.id !== 'usd') {
+      const prices = await this.coingeckoService.latestPricesOf(
+        ['usd-coin'],
+        currency.id,
+      );
+
+      conversionRate = prices[0].price;
+    }
 
     const deckDocuments: DeckDocument[] = clientTeams.map((document) => {
       const getPrice = (monster: DeckCard) => {
@@ -68,12 +94,13 @@ export class DecksService {
 
       return {
         ...document,
-        fiatSymbol: '$',
+        fiatSymbol: currency.symbol,
         monsters: newMonsters,
         price: _.chain(newMonsters)
           .map((it) => it.price)
           .filter((it) => !!it)
           .sum()
+          .thru((it) => it * conversionRate)
           .value(),
         winpc: teamResult.wins / teamResult.battles,
         battles: teamResult.battles,

@@ -1,4 +1,7 @@
+import { CurrencyDto } from '@earnkeeper/ekp-sdk';
+import { CoingeckoService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
+import { validate } from 'bycontract';
 import _ from 'lodash';
 import moment from 'moment';
 import {
@@ -8,6 +11,7 @@ import {
   TeamMonster,
   TeamResults,
 } from '../../shared/game';
+import { BattleForm } from '../../util';
 import { PlannerDocument } from './ui/planner.document';
 
 @Injectable()
@@ -15,34 +19,26 @@ export class PlannerService {
   constructor(
     private gameService: GameService,
     private resultsService: ResultsService,
+    private coingeckoService: CoingeckoService,
   ) {}
 
-  async getPlannerDocuments(form: any, subscribed: boolean) {
-    const manaCap = Number(form.manaCap);
-
-    if (isNaN(manaCap)) {
-      // We need a mana cap, we will kill the db getting all battles
-      // And the return teams are not meaningful without mana
-      return;
-    }
-
-    // We don't need a player name, just get all teams in this case
-    const playerName = form.playerName ?? '';
-
-    // All other properties can have sensible defaults
-    const ruleset = form.ruleset ?? 'Standard';
-    const leagueName = form.leagueName ?? 'All';
+  async getPlannerDocuments(
+    form: BattleForm,
+    subscribed: boolean,
+    currency: CurrencyDto,
+  ) {
+    validate([form, form.manaCap], ['object', 'number']);
 
     const { teams, battles } = await this.resultsService.getTeamResults(
-      manaCap,
-      ruleset,
-      leagueName,
+      form.manaCap,
+      form.ruleset,
+      form.leagueName,
       subscribed ?? false,
     );
 
     const cardPrices: MarketPriceMap = await this.gameService.getMarketPrices();
 
-    const playerCards = await this.gameService.getPlayerCards(playerName);
+    const playerCards = await this.gameService.getPlayerCards(form.playerName);
 
     for (const playerCard of playerCards) {
       delete cardPrices[playerCard.card_detail_id.toString()][
@@ -50,16 +46,32 @@ export class PlannerService {
       ];
     }
 
-    const plannerDocuments = this.mapDocuments(teams, cardPrices);
+    const plannerDocuments = await this.mapDocuments(
+      teams,
+      cardPrices,
+      currency,
+    );
 
     return { plannerDocuments, battles };
   }
 
-  mapDocuments(
+  async mapDocuments(
     detailedTeams: TeamResults[],
     cardPrices: MarketPriceMap,
-  ): PlannerDocument[] {
+    currency: CurrencyDto,
+  ): Promise<PlannerDocument[]> {
     const now = moment().unix();
+
+    let conversionRate = 1;
+
+    if (currency.id !== 'usd') {
+      const prices = await this.coingeckoService.latestPricesOf(
+        ['usd-coin'],
+        currency.id,
+      );
+
+      conversionRate = prices[0].price;
+    }
 
     return _.chain(detailedTeams)
       .map((team) => {
@@ -79,7 +91,7 @@ export class PlannerService {
 
         monsters.push({
           id: team.summoner.cardDetailId,
-          fiatSymbol: '$',
+          fiatSymbol: currency.symbol,
           icon: `https://d36mxiodymuqjm.cloudfront.net/card_art/${team.summoner.name}.png`,
           level: team.summoner.level,
           mana: team.summoner.mana,
@@ -93,7 +105,7 @@ export class PlannerService {
         monsters.push(
           ...team.monsters.map((monster) => ({
             id: monster.cardDetailId,
-            fiatSymbol: '$',
+            fiatSymbol: currency.symbol,
             icon: `https://d36mxiodymuqjm.cloudfront.net/card_art/${monster.name}.png`,
             level: team.summoner.level,
             mana: monster.mana,
@@ -109,13 +121,14 @@ export class PlannerService {
           updated: now,
           battles: team.battles,
           splinterIcon: `https://d36mxiodymuqjm.cloudfront.net/website/icons/icon-element-${team.summoner.splinter.toLowerCase()}-2.svg`,
-          fiatSymbol: '$', // TODO: support multicurrency
+          fiatSymbol: currency.symbol,
           mana,
           monsterCount: team.monsters.length,
           monsters,
           price: _.chain(monsters)
             .filter((it) => !!it.price)
             .sumBy('price')
+            .thru((it) => it * conversionRate)
             .value(),
           splinter: team.summoner.splinter,
           summonerName: team.summoner.name,

@@ -23,6 +23,7 @@ import {
 } from '@earnkeeper/ekp-sdk';
 import { GameService } from '../../../shared/game';
 import { statsCard, teamModal, TEAM_MODAL_ID } from '../../../util';
+import { DEFAULT_BATTLE_FORM } from '../../../util/constants';
 import { DeckDocument } from './deck.document';
 
 export default function element(): UiElement {
@@ -114,15 +115,11 @@ function yourDetailsRow() {
           type: 'object',
           properties: {
             playerName: 'string',
-            manaCap: 'string',
+            manaCap: 'number',
             ruleset: 'string',
             leagueName: 'string',
           },
-          default: {
-            manaCap: '13',
-            ruleset: 'Standard',
-            leagueName: 'All',
-          },
+          default: DEFAULT_BATTLE_FORM,
         },
         children: [
           Row({

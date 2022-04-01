@@ -3,9 +3,14 @@ import {
   ClientDisconnectedEvent,
   ClientStateChangedEvent,
   collection,
+  CurrencyDto,
   RpcEvent,
 } from '@earnkeeper/ekp-sdk';
-import { AbstractController, ClientService } from '@earnkeeper/ekp-sdk-nestjs';
+import {
+  AbstractController,
+  ClientService,
+  CoingeckoService,
+} from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import moment from 'moment';
@@ -21,6 +26,7 @@ export class MarketplaceController extends AbstractController {
   constructor(
     clientService: ClientService,
     private marketplaceService: MarketplaceService,
+    private coingeckoService: CoingeckoService,
   ) {
     super(clientService);
   }
@@ -46,7 +52,13 @@ export class MarketplaceController extends AbstractController {
       'earnkeeper',
     );
 
-    const documents = this.mapListingDocuments(enhancedSales, event);
+    const currency = event.state.client.selectedCurrency;
+
+    const documents = await this.mapListingDocuments(
+      enhancedSales,
+      event,
+      currency,
+    );
 
     await this.clientService.emitDocuments(event, COLLECTION_NAME, documents);
 
@@ -63,10 +75,22 @@ export class MarketplaceController extends AbstractController {
     // Do nothing
   }
 
-  mapListingDocuments(
+  async mapListingDocuments(
     sales: EnhancedSale[],
     clientEvent: ClientStateChangedEvent,
+    currency: CurrencyDto,
   ) {
+    let conversionRate = 1;
+
+    if (currency.id !== 'usd') {
+      const prices = await this.coingeckoService.latestPricesOf(
+        ['usd-coin'],
+        currency.id,
+      );
+
+      conversionRate = prices[0].price;
+    }
+
     const nowMoment = moment.unix(clientEvent.received);
 
     return _.chain(sales)
@@ -96,7 +120,7 @@ export class MarketplaceController extends AbstractController {
           burned: Number(sale.distribution.num_burned),
           editionString,
           elementString,
-          fiatSymbol: '$',
+          fiatSymbol: currency.symbol,
           gold: sale.gold,
           id: `${sale.card_detail_id}-${sale.gold}-${sale.edition}`,
           imageSmall,
@@ -104,7 +128,7 @@ export class MarketplaceController extends AbstractController {
           level: sale.level,
           name: sale.cardDetail.name,
           playerOwned: !!sale.playerCard ? 'Yes' : 'No',
-          price: sale.low_price,
+          price: sale.low_price * conversionRate,
           printed: Number(sale.distribution.num_cards),
           qty: sale.qty,
           rarity: MapperService.mapRarityNumberToString(sale.cardDetail.rarity),

@@ -25,6 +25,7 @@ import {
 } from '@earnkeeper/ekp-sdk';
 import { GameService } from '../../../shared/game';
 import { promptDeckNameModal, teamModal, TEAM_MODAL_ID } from '../../../util';
+import { DEFAULT_BATTLE_FORM } from '../../../util/constants';
 import { PlannerViewBag } from './planner-view-bag.document';
 import { PlannerDocument } from './planner.document';
 
@@ -71,15 +72,11 @@ function battleDetailsForm() {
           type: 'object',
           properties: {
             playerName: 'string',
-            manaCap: 'string',
+            manaCap: 'number',
             ruleset: 'string',
             leagueName: 'string',
           },
-          default: {
-            manaCap: '13',
-            ruleset: 'Standard',
-            leagueName: 'All',
-          },
+          default: DEFAULT_BATTLE_FORM,
         },
         children: [
           Row({
