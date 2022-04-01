@@ -65,7 +65,12 @@ function battleDetailsForm() {
       Span({
         className: 'd-block mt-1 mb-2 font-small-3',
         content:
-          'Enter the details of your next match, to see which teams have been winning the most recently. Player Name is optional, enter this to limit to just your current cards.',
+          'Enter the details of your next match, to see which teams have been winning the most recently.',
+      }),
+      Span({
+        className: 'd-block mt-1 mb-2 font-small-3',
+        content:
+          'Player Name is optional, enter this to set the price of already owned cards to zero. Decks with a cost of zero you already own',
       }),
       Form({
         name: 'planner',
