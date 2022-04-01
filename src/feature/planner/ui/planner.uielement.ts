@@ -15,10 +15,6 @@ import {
   Image,
   Input,
   isBusy,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
   PageHeaderTile,
   path,
   Row,
@@ -28,15 +24,9 @@ import {
   UiElement,
 } from '@earnkeeper/ekp-sdk';
 import { GameService } from '../../../shared/game';
-import {
-  promptDeckNameModal,
-  PROMPT_DECK_NAME_MODAL_ID,
-  statsCard,
-} from '../../../util';
+import { promptDeckNameModal, teamModal, TEAM_MODAL_ID } from '../../../util';
 import { PlannerViewBag } from './planner-view-bag.document';
 import { PlannerDocument } from './planner.document';
-
-const TEAM_MODAL_ID = 'splinterlands-team-modal';
 
 export default function element(): UiElement {
   return Container({
@@ -181,6 +171,7 @@ function teamRow(): UiElement {
         data: documents(PlannerDocument),
         busyWhen: isBusy(collection(PlannerDocument)),
         onRowClicked: showModal(TEAM_MODAL_ID, '$'),
+        pointerOnHover: true,
         showExport: false,
         columns: [
           {
@@ -191,7 +182,7 @@ function teamRow(): UiElement {
               children: [
                 Col({
                   className: 'col-auto pr-0',
-                  children: [Image({ src: '$.elementIcon' })],
+                  children: [Image({ src: '$.splinterIcon' })],
                 }),
                 Col({
                   className: 'col-auto',
@@ -201,8 +192,9 @@ function teamRow(): UiElement {
             }),
           },
           {
-            id: 'summoner',
+            id: 'summonerName',
             sortable: true,
+            title: 'Summoner',
           },
           {
             id: 'winpc',
@@ -234,133 +226,6 @@ function teamRow(): UiElement {
             format: formatCurrency('$.price', '$.fiatSymbol'),
             grow: 0,
           },
-        ],
-      }),
-    ],
-  });
-}
-function teamModal(): any {
-  return Modal({
-    id: TEAM_MODAL_ID,
-    centered: true,
-    size: 'lg',
-    children: [
-      ModalHeader({
-        children: [
-          Row({
-            children: [
-              Col({
-                className: 'col-auto',
-                children: [
-                  Image({
-                    src: '$.elementIcon',
-                  }),
-                ],
-              }),
-              Col({
-                className: 'col-auto',
-                children: [
-                  Span({
-                    content: 'Team Viewer',
-                  }),
-                ],
-              }),
-            ],
-          }),
-        ],
-      }),
-      ModalBody({
-        children: [
-          Row({
-            children: [
-              Col({
-                className: 'col-12',
-                children: [
-                  Row({
-                    children: [
-                      Col({
-                        className: 'col-auto',
-                        children: [
-                          statsCard(
-                            'Deck Cost',
-                            formatCurrency('$.price', '$.fiatSymbol'),
-                          ),
-                        ],
-                      }),
-                      Col({
-                        className: 'col-auto',
-                        children: [
-                          statsCard('Win Rate', formatPercent('$.winpc')),
-                        ],
-                      }),
-                    ],
-                  }),
-                ],
-              }),
-              Col({
-                className: 'col-12',
-                children: [
-                  Datatable({
-                    data: '$.monsters.*',
-                    showExport: false,
-                    showLastUpdated: false,
-                    pagination: false,
-                    columns: [
-                      {
-                        id: 'icon',
-                        title: '',
-                        width: '48px',
-                        cell: Image({
-                          src: '$.icon',
-                          size: 24,
-                          rounded: true,
-                        }),
-                      },
-                      {
-                        id: 'name',
-                      },
-                      {
-                        id: 'level',
-                        grow: 0,
-                      },
-                      {
-                        id: 'mana',
-                        grow: 0,
-                      },
-                      {
-                        id: 'splinter',
-                        grow: 0,
-                      },
-                      {
-                        id: 'price',
-                        grow: 0,
-                        format: formatCurrency('$.price', '$.fiatSymbol'),
-                      },
-                    ],
-                  }),
-                ],
-              }),
-            ],
-          }),
-        ],
-      }),
-      ModalFooter({
-        children: [
-          Row({
-            className: 'pb-1 px-2',
-            children: [
-              Col({
-                children: [
-                  Button({
-                    className: 'float-right',
-                    icon: 'user-plus',
-                    label: 'Add to Fantasy',
-                    onClick: showModal(PROMPT_DECK_NAME_MODAL_ID, '$'),
-                  }),
-                ],
-              }),
-            ],
-          }),
         ],
       }),
     ],

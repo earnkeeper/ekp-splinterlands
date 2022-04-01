@@ -6,13 +6,13 @@ export class PlannerDocument extends DocumentDto {
   }
 
   readonly battles: number;
-  readonly elementIcon: string;
   readonly fiatSymbol: string;
   readonly mana: number;
   readonly monsterCount: number;
   readonly price: number;
   readonly splinter: string;
-  readonly summoner: string;
+  readonly splinterIcon: string;
+  readonly summonerName: string;
   readonly summonerIcon: string;
   readonly winpc: number;
 

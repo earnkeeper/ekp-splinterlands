@@ -13,15 +13,20 @@ export class GameService {
     const map = {};
 
     for (const sale of sales) {
+      if (!sale.low_price || isNaN(sale.low_price)) {
+        continue;
+      }
+
       if (!map[sale.card_detail_id.toString()]) {
         map[sale.card_detail_id.toString()] = {};
       }
 
-      if (!map[sale.level.toString()]) {
+      if (!map[sale.card_detail_id.toString()][sale.level.toString()]) {
         map[sale.card_detail_id.toString()][sale.level.toString()] = 0;
       }
 
-      map[sale.card_detail_id.toString()][sale.level.toString()] +=
+      map[sale.card_detail_id.toString()][sale.level.toString()] =
+        map[sale.card_detail_id.toString()][sale.level.toString()] +
         sale.low_price;
     }
 
@@ -35,6 +40,10 @@ export class GameService {
    * @returns {PlayerCardDto} Details of the cards owned by the player, including base cards.
    */
   async getPlayerCards(playerName: string): Promise<PlayerCardDto[]> {
+    if (!playerName) {
+      return [];
+    }
+
     const playerCollection: PlayerCollectionDto =
       await this.apiService.fetchPlayerCollection(playerName);
 

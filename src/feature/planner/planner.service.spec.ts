@@ -70,7 +70,7 @@ describe('PlannerService', () => {
   // TODO: reenable this when we have updated data
   describe.skip('getViableTeams', () => {
     it('creates teams when I have matching cards', async () => {
-      const { teams } = await service.getViableTeams(
+      const { teams } = await service.getTeamResults(
         'earnkeeper',
         13,
         'Standard',

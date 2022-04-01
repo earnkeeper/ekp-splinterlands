@@ -6,27 +6,34 @@ import {
   Datatable,
   documents,
   Form,
+  formatCurrency,
   formatPercent,
   Fragment,
   Image,
   Input,
   isBusy,
   PageHeaderTile,
+  path,
   Row,
   Select,
   showModal,
   Span,
+  sum,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
 import { GameService } from '../../../shared/game';
-import { statsCard } from '../../../util/statsCard';
+import { statsCard, teamModal, TEAM_MODAL_ID } from '../../../util';
 import { DeckDocument } from './deck.document';
-
-const DECK_MODAL_ID = 'splinterlands-deck-modal';
 
 export default function element(): UiElement {
   return Container({
-    children: [titleRow(), statsRow(), yourDetailsRow(), decksTable()],
+    children: [
+      titleRow(),
+      statsRow(),
+      yourDetailsRow(),
+      decksTable(),
+      teamModal(),
+    ],
   });
 }
 
@@ -40,7 +47,7 @@ function titleRow() {
             className: 'col-auto',
             children: [
               PageHeaderTile({
-                title: 'Splinterlands Fantasy Decks',
+                title: 'Splinterlands Saved Teams',
                 icon: 'cil-cart',
               }),
             ],
@@ -50,7 +57,7 @@ function titleRow() {
       Span({
         className: 'd-block mt-1 mb-2 font-small-4',
         content:
-          'Add decks from the marketplace or battle planner and check your total cost before buying.',
+          'Add teams from the marketplace or battle planner and check your total cost before buying.',
       }),
     ],
   });
@@ -60,12 +67,25 @@ function statsRow() {
   return Row({
     children: [
       Col({
-        className: 'col-3',
-        children: [statsCard('Number of Decks', '$.numberOfDecks')],
+        className: 'col-auto',
+        children: [
+          statsCard('Number of Teams', {
+            method: 'count',
+            params: [path(DeckDocument)],
+          }),
+        ],
       }),
       Col({
-        className: 'col-3',
-        children: [statsCard('Total Purchase Price', '$.totalPurchasePrice')],
+        className: 'col-auto',
+        children: [
+          statsCard(
+            'Total Purchase Cost',
+            formatCurrency(
+              sum(`${path(DeckDocument)}.price`),
+              `${path(DeckDocument)}.0.fiatSymbol`,
+            ),
+          ),
+        ],
       }),
     ],
   });
@@ -89,7 +109,7 @@ function yourDetailsRow() {
           'Enter your player name to exclude already owned cards from your purchase cost.',
       }),
       Form({
-        name: 'decks',
+        name: 'planner',
         schema: {
           type: 'object',
           properties: {
@@ -175,17 +195,18 @@ export function decksTable() {
   return Fragment({
     children: [
       Datatable({
-        defaultSortFieldId: 'name',
-        defaultSortAsc: false,
+        defaultSortFieldId: 'teamName',
+        defaultSortAsc: true,
         data: documents(DeckDocument),
-        onRowClicked: showModal(DECK_MODAL_ID, '$'),
+        onRowClicked: showModal(TEAM_MODAL_ID, '$'),
+        pointerOnHover: true,
         showExport: false,
         showLastUpdated: false,
         columns: [
           {
-            id: 'name',
-            title: 'Deck Name',
+            id: 'teamName',
             searchable: true,
+            sortable: true,
           },
           {
             id: 'splinter',
@@ -195,7 +216,7 @@ export function decksTable() {
               children: [
                 Col({
                   className: 'col-auto pr-0',
-                  children: [Image({ src: '$.elementIcon' })],
+                  children: [Image({ src: '$.splinterIcon' })],
                 }),
                 Col({
                   className: 'col-auto',
@@ -205,15 +226,9 @@ export function decksTable() {
             }),
           },
           {
-            id: 'summoner',
+            id: 'summonerName',
+            title: 'Summoner',
             sortable: true,
-          },
-          {
-            id: 'winpc',
-            title: 'Win',
-            format: formatPercent('$.winpc'),
-            sortable: true,
-            width: '60px',
           },
           {
             id: 'monsterCount',
@@ -227,6 +242,13 @@ export function decksTable() {
             grow: 0,
           },
           {
+            id: 'winpc',
+            title: 'Win',
+            format: formatPercent('$.winpc'),
+            sortable: true,
+            width: '60px',
+          },
+          {
             id: 'battles',
             sortable: true,
             grow: 0,
@@ -235,6 +257,7 @@ export function decksTable() {
             id: 'price',
             sortable: true,
             grow: 0,
+            format: formatCurrency('$.price', '$.fiatSymbol'),
           },
         ],
       }),
