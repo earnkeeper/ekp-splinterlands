@@ -132,9 +132,9 @@ export function teamModal(): UiElement {
             className: 'pb-1 px-2 pt-0',
             children: [
               Col({
+                when: '$.teamName',
                 children: [
                   Button({
-                    when: '$.teamName',
                     icon: 'trash',
                     color: 'flat-danger',
                     label: 'Remove',
@@ -149,9 +149,9 @@ export function teamModal(): UiElement {
                 ],
               }),
               Col({
+                when: { not: '$.teamName' },
                 children: [
                   Button({
-                    when: { not: '$.teamName' },
                     className: 'float-right',
                     icon: 'user-plus',
                     label: 'Save Team',
