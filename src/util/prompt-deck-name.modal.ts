@@ -1,6 +1,7 @@
 import {
   Button,
   Form,
+  formatTemplate,
   hideModal,
   Input,
   Modal,
@@ -43,6 +44,9 @@ export function promptDeckNameModal(): any {
               },
               default: {
                 id: '$.id',
+                teamName: formatTemplate('{{ summonerName }} Team', {
+                  summonerName: '$.summonerName',
+                }),
                 edition: '$.edition',
                 mana: '$.mana',
                 monsterCount: '$.monsterCount',
