@@ -102,8 +102,8 @@ export class DecksService {
           .sum()
           .thru((it) => it * conversionRate)
           .value(),
-        winpc: teamResult.wins / teamResult.battles,
-        battles: teamResult.battles,
+        winpc: !!teamResult ? teamResult.wins / teamResult.battles : undefined,
+        battles: !!teamResult ? teamResult.battles : undefined,
       };
     });
 
