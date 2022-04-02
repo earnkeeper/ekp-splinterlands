@@ -40,7 +40,7 @@ export default function element(): UiElement {
             className: 'col-auto',
             children: [
               PageHeaderTile({
-                title: 'Splinterlands Battle Planner',
+                title: 'Battle Planner',
                 icon: 'cil-paw',
               }),
             ],

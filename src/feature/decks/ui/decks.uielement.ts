@@ -50,7 +50,7 @@ function titleRow() {
             className: 'col-auto',
             children: [
               PageHeaderTile({
-                title: 'Splinterlands Saved Teams',
+                title: 'Saved Teams',
                 icon: 'cil-cart',
               }),
             ],
