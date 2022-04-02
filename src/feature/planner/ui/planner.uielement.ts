@@ -24,9 +24,14 @@ import {
   Span,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
+import _ from 'lodash';
 import { GameService } from '../../../shared/game';
-import { promptDeckNameModal, teamModal, TEAM_MODAL_ID } from '../../../util';
-import { DEFAULT_BATTLE_FORM } from '../../../util/constants';
+import {
+  DEFAULT_BATTLE_FORM,
+  promptDeckNameModal,
+  teamModal,
+  TEAM_MODAL_ID,
+} from '../../../util';
 import { PlannerViewBag } from './planner-view-bag.document';
 import { PlannerDocument } from './planner.document';
 
@@ -128,7 +133,14 @@ function battleDetailsForm() {
                   Select({
                     label: 'Ruleset',
                     name: 'ruleset',
-                    options: ['Standard'],
+                    options: [
+                      'Standard',
+                      ..._.chain(GameService.RULESETS)
+                        .map((it) => it.name)
+                        .filter((it) => it !== 'Standard')
+                        .sort()
+                        .value(),
+                    ],
                     minWidth: 160,
                   }),
                 ],
