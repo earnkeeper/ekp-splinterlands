@@ -3,6 +3,7 @@ import { CoingeckoService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import { validate } from 'bycontract';
 import _ from 'lodash';
+import moment from 'moment';
 import { PlayerCardDto } from '../../shared/api';
 import {
   GameService,
@@ -58,6 +59,8 @@ export class DecksService {
     teamResults: TeamResults[],
     currency: CurrencyDto,
   ) {
+    const now = moment().unix();
+
     let conversionRate = 1;
 
     if (currency.id !== 'usd') {
@@ -104,6 +107,7 @@ export class DecksService {
           .value(),
         winpc: !!teamResult ? teamResult.wins / teamResult.battles : undefined,
         battles: !!teamResult ? teamResult.battles : undefined,
+        updated: now,
       };
     });
 

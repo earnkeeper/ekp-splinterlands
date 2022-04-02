@@ -212,8 +212,9 @@ export function decksTable() {
         data: documents(DeckDocument),
         onRowClicked: showModal(TEAM_MODAL_ID, '$'),
         pointerOnHover: true,
-        showExport: false,
+        showExport: true,
         showLastUpdated: true,
+        busyWhen: isBusy(collection(DeckDocument)),
         defaultView: {
           xs: 'grid',
           lg: 'column',
