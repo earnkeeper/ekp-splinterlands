@@ -69,7 +69,25 @@ function marketRow(): UiElement {
       },
       {
         columnId: 'price',
-        type: 'slider',
+        type: 'radio',
+        allowCustomOption: true,
+        options: [
+          {
+            label: 'All',
+          },
+          {
+            label: '< $10',
+            query: '< 10',
+          },
+          {
+            label: '< $100',
+            query: '< 100',
+          },
+          {
+            label: '< $500',
+            query: '< 500',
+          },
+        ],
       },
       {
         columnId: 'rarity',
