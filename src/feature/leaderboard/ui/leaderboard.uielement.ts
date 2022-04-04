@@ -109,9 +109,9 @@ function tableRow(): UiElement {
       xs: 'grid',
       lg: 'column',
     },
+    pagination: false,
     data: documents(LeaderboardDocument),
     busyWhen: isBusy(collection(LeaderboardDocument)),
-
     gridView: {
       tileWidth: [12, 6, 4, 3],
       tile: GridTile({
