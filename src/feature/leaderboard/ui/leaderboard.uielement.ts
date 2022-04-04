@@ -16,7 +16,7 @@ import {
   Select,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
-import { DEFAULT_LEADERBOARD_FORM, LEADERBOARD_LEAGUES } from 'src/util';
+import { DEFAULT_LEADERBOARD_FORM, LEADERBOARD_LEAGUES } from '../../../util';
 import { LeaderboardDocument } from './leaderboard.document';
 
 export default function element(): UiElement {
