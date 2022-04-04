@@ -14,6 +14,7 @@ import {
   PageHeaderTile,
   Row,
   Select,
+  Span,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
 import { DEFAULT_LEADERBOARD_FORM, LEADERBOARD_LEAGUES } from '../../../util';
@@ -35,6 +36,11 @@ export default function element(): UiElement {
             ],
           }),
         ],
+      }),
+      Span({
+        className: 'd-block mt-1 mb-2 font-small-3',
+        content:
+          'The official splinterlands leaderboard for the current season, select league and season below and press save to update.',
       }),
       formRow(),
       tableRow(),
