@@ -117,6 +117,12 @@ export class PlannerService {
           })),
         );
 
+        const price = _.chain(monsters)
+          .filter((it) => !!it.price)
+          .sumBy('price')
+          .thru((it) => it * conversionRate)
+          .value();
+
         return {
           id: team.id,
           updated: now,
@@ -126,11 +132,8 @@ export class PlannerService {
           mana,
           monsterCount: team.monsters.length,
           monsters,
-          price: _.chain(monsters)
-            .filter((it) => !!it.price)
-            .sumBy('price')
-            .thru((it) => it * conversionRate)
-            .value(),
+          owned: price === 0 ? 'Yes' : ' No',
+          price,
           splinter: team.summoner.splinter,
           summonerName: team.summoner.name,
           summonerIcon: `https://d36mxiodymuqjm.cloudfront.net/card_art/${team.summoner.name}.png`,

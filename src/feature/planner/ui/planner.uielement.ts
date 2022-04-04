@@ -190,6 +190,14 @@ function teamRow(): UiElement {
         showExport: false,
         filters: [
           {
+            columnId: 'owned',
+            type: 'radio',
+          },
+          {
+            columnId: 'splinter',
+            type: 'checkbox',
+          },
+          {
             columnId: 'battles',
             type: 'radio',
             allowCustomOption: true,
@@ -201,41 +209,7 @@ function teamRow(): UiElement {
                 label: '> 5',
                 query: '> 5',
               },
-              {
-                label: '> 50',
-                query: '> 50',
-              },
-              {
-                label: '> 500',
-                query: '> 500',
-              },
             ],
-          },
-          {
-            columnId: 'price',
-            type: 'radio',
-            allowCustomOption: true,
-            options: [
-              {
-                label: 'All',
-              },
-              {
-                label: '< $10',
-                query: '< 10',
-              },
-              {
-                label: '< $100',
-                query: '< 100',
-              },
-              {
-                label: '< $500',
-                query: '< 500',
-              },
-            ],
-          },
-          {
-            columnId: 'splinter',
-            type: 'checkbox',
           },
 
           {
@@ -245,10 +219,6 @@ function teamRow(): UiElement {
             options: [
               {
                 label: 'All',
-              },
-              {
-                label: '> 0 %',
-                query: '> 0',
               },
               {
                 label: '> 50 %',
@@ -355,6 +325,11 @@ function teamRow(): UiElement {
             sortable: true,
             format: formatCurrency('$.price', '$.fiatSymbol'),
             grow: 0,
+          },
+          {
+            id: 'owned',
+            title: 'Owned Already',
+            omit: true,
           },
         ],
       }),
