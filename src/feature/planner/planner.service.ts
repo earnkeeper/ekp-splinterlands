@@ -47,7 +47,7 @@ export class PlannerService {
     }
 
     const plannerDocuments = await this.mapDocuments(
-      teams,
+      teams.filter((it) => it.battles > 1),
       cardPrices,
       currency,
     );
