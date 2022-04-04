@@ -20,6 +20,7 @@ import { ListingDocument } from './ui/listing.document';
 import marketplace from './ui/marketplace.uielement';
 
 const COLLECTION_NAME = collection(ListingDocument);
+const PATH = 'marketplace';
 
 @Injectable()
 export class MarketplaceController extends AbstractController {
@@ -33,19 +34,23 @@ export class MarketplaceController extends AbstractController {
 
   async onClientConnected(event: ClientConnectedEvent) {
     await this.clientService.emitMenu(event, {
-      id: `marketplace`,
+      id: PATH,
       title: 'Marketplace',
-      navLink: `marketplace`,
+      navLink: PATH,
       icon: 'cil-cart',
     });
 
     await this.clientService.emitPage(event, {
-      id: `marketplace`,
+      id: PATH,
       element: marketplace(),
     });
   }
 
   async onClientStateChanged(event: ClientStateChangedEvent) {
+    if (PATH !== event?.state?.client?.path) {
+      return;
+    }
+
     await this.clientService.emitBusy(event, COLLECTION_NAME);
 
     const enhancedSales = await this.marketplaceService.getEnhancedSales(
