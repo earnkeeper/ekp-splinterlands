@@ -17,7 +17,10 @@ import {
 } from '@earnkeeper/ekp-sdk';
 import { ListingDocument } from './listing.document';
 
-export default function element(): UiElement {
+export default function element(
+  fiatSymbol?: string,
+  priceRanges?: number[],
+): UiElement {
   return Container({
     children: [
       Row({
@@ -39,12 +42,12 @@ export default function element(): UiElement {
         content:
           'Search and filter the table below for the cards available on the Splinterlands Marketplace, with added info on their popularity and win rate.',
       }),
-      marketRow(),
+      marketRow(fiatSymbol, priceRanges),
     ],
   });
 }
 
-function marketRow(): UiElement {
+function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
   return Datatable({
     defaultSortFieldId: 'price',
     defaultSortAsc: true,
@@ -67,31 +70,34 @@ function marketRow(): UiElement {
         columnId: 'level',
         type: 'slider',
       },
+
+      {
+        columnId: 'rarity',
+        type: 'checkbox',
+      },
       {
         columnId: 'price',
         type: 'radio',
         allowCustomOption: true,
-        options: [
-          {
-            label: 'All',
-          },
-          {
-            label: '< $10',
-            query: '< 10',
-          },
-          {
-            label: '< $100',
-            query: '< 100',
-          },
-          {
-            label: '< $500',
-            query: '< 500',
-          },
-        ],
-      },
-      {
-        columnId: 'rarity',
-        type: 'checkbox',
+        options: !fiatSymbol
+          ? [{ label: 'All' }]
+          : [
+              {
+                label: 'All',
+              },
+              {
+                label: `< ${fiatSymbol} ${priceRanges[0]}`,
+                query: `< ${priceRanges[0]}`,
+              },
+              {
+                label: `< ${fiatSymbol} ${priceRanges[1]}`,
+                query: `< ${priceRanges[1]}`,
+              },
+              {
+                label: `< ${fiatSymbol} ${priceRanges[2]}`,
+                query: `< ${priceRanges[2]}`,
+              },
+            ],
       },
     ],
     gridView: {

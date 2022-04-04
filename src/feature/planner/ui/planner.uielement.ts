@@ -181,7 +181,7 @@ function teamRow(): UiElement {
       }),
 
       Datatable({
-        defaultSortFieldId: 'winpc',
+        defaultSortFieldId: 'battles',
         defaultSortAsc: false,
         data: documents(PlannerDocument),
         busyWhen: isBusy(collection(PlannerDocument)),
@@ -206,8 +206,8 @@ function teamRow(): UiElement {
                 label: 'All',
               },
               {
-                label: '> 5',
-                query: '> 5',
+                label: '> 50',
+                query: '> 50',
               },
             ],
           },
@@ -225,8 +225,8 @@ function teamRow(): UiElement {
                 query: '> 50',
               },
               {
-                label: '> 80 %',
-                query: '> 80',
+                label: '> 75 %',
+                query: '> 75',
               },
             ],
           },

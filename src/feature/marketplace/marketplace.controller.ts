@@ -47,6 +47,27 @@ export class MarketplaceController extends AbstractController {
   }
 
   async onClientStateChanged(event: ClientStateChangedEvent) {
+    const currency = event.state.client.selectedCurrency;
+    let conversionRate = 1;
+
+    if (currency.id !== 'usd') {
+      const prices = await this.coingeckoService.latestPricesOf(
+        ['usd-coin'],
+        currency.id,
+      );
+
+      conversionRate = prices[0].price;
+    }
+
+    await this.clientService.emitPage(event, {
+      id: PATH,
+      element: marketplace(currency.symbol, [
+        10 * conversionRate,
+        100 * conversionRate,
+        500 * conversionRate,
+      ]),
+    });
+
     if (PATH !== event?.state?.client?.path) {
       return;
     }
@@ -57,12 +78,11 @@ export class MarketplaceController extends AbstractController {
       'earnkeeper',
     );
 
-    const currency = event.state.client.selectedCurrency;
-
     const documents = await this.mapListingDocuments(
       enhancedSales,
       event,
       currency,
+      conversionRate,
     );
 
     await this.clientService.emitDocuments(event, COLLECTION_NAME, documents);
@@ -84,18 +104,8 @@ export class MarketplaceController extends AbstractController {
     sales: EnhancedSale[],
     clientEvent: ClientStateChangedEvent,
     currency: CurrencyDto,
+    conversionRate: number,
   ) {
-    let conversionRate = 1;
-
-    if (currency.id !== 'usd') {
-      const prices = await this.coingeckoService.latestPricesOf(
-        ['usd-coin'],
-        currency.id,
-      );
-
-      conversionRate = prices[0].price;
-    }
-
     const nowMoment = moment.unix(clientEvent.received);
 
     return _.chain(sales)
