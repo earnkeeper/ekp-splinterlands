@@ -178,10 +178,12 @@ function tableRow(): UiElement {
         id: 'reward',
         grow: 0,
         sortable: true,
+        format: formatToken('$.reward'),
       },
       {
         id: 'rewardFiat',
         grow: 0,
+        format: formatCurrency('$.rewardFiat', '$.fiatSymbol'),
       },
     ],
   });

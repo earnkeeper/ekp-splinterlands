@@ -17,7 +17,7 @@ import {
   UiElement,
 } from '@earnkeeper/ekp-sdk';
 import { PROMPT_DECK_NAME_MODAL_ID } from './prompt-deck-name.modal';
-import { statsCard } from './statsCard';
+import { statsCard } from './stats-card';
 
 export const TEAM_MODAL_ID = 'splinterlands-team-modal';
 

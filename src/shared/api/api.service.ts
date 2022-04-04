@@ -6,6 +6,7 @@ import {
   CardDetailDto,
   ForSaleGroupedDto,
   LeaderboardDto,
+  SettingsDto,
   TransactionDto,
 } from './dto';
 import { PlayerCollectionDto } from './dto/player-collection.dto';
@@ -29,6 +30,15 @@ export class ApiService extends AbstractApiService {
         port: !!process.env.PROXY_PORT ? Number(process.env.PROXY_PORT) : 3128,
       };
     }
+  }
+
+  async fetchSettings(): Promise<SettingsDto> {
+    const url = `${BASE_URL}/settings`;
+
+    return this.handleCall({ url, ttl: 86400 }, async () => {
+      const response = await axios.get(url, { proxy: this.proxy });
+      return response.data;
+    });
   }
 
   async fetchCardSales(): Promise<ForSaleGroupedDto[]> {
