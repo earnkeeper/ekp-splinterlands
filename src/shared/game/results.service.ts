@@ -48,7 +48,7 @@ export class ResultsService {
 
     const fetchSince = !subscribed
       ? moment().subtract(FREE_DAYS_TO_FETCH, 'days').unix()
-      : 0;
+      : moment().subtract(14, 'days').unix();
 
     const sp1 = tx?.startChild({
       op: 'readBattles',
