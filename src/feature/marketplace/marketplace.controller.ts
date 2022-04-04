@@ -134,7 +134,7 @@ export class MarketplaceController extends AbstractController {
           rarity: MapperService.mapRarityNumberToString(sale.cardDetail.rarity),
           splinterLandsUrl: '#',
           updated: nowMoment.unix(),
-          winPc: !!battles ? wins / battles : undefined,
+          winPc: !!battles ? (wins * 100) / battles : undefined,
         });
 
         return document;

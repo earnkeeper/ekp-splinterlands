@@ -105,7 +105,9 @@ export class DecksService {
           .sum()
           .thru((it) => it * conversionRate)
           .value(),
-        winpc: !!teamResult ? teamResult.wins / teamResult.battles : undefined,
+        winpc: !!teamResult
+          ? (teamResult.wins * 100) / teamResult.battles
+          : undefined,
         battles: !!teamResult ? teamResult.battles : undefined,
         updated: now,
       };

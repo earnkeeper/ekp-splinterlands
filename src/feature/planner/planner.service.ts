@@ -138,7 +138,7 @@ export class PlannerService {
             team.summoner.name
           }_lv${team.summoner.level}.png`,
           summonerEdition: team.summoner.edition,
-          winpc: team.wins / team.battles,
+          winpc: (team.wins * 100) / team.battles,
         };
       })
       .value();
