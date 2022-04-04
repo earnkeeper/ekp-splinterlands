@@ -35,6 +35,7 @@ export class DecksService {
       form.ruleset,
       form.leagueName,
       subscribed,
+      5,
     );
 
     const cardPrices: MarketPriceMap = await this.gameService.getMarketPrices();

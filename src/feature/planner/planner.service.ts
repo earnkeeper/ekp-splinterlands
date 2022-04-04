@@ -34,6 +34,7 @@ export class PlannerService {
       form.ruleset,
       form.leagueName,
       subscribed ?? false,
+      5,
     );
 
     const cardPrices: MarketPriceMap = await this.gameService.getMarketPrices();
@@ -47,7 +48,7 @@ export class PlannerService {
     }
 
     const plannerDocuments = await this.mapDocuments(
-      teams.filter((it) => it.battles > 1),
+      teams.filter((it) => it.battles > 5),
       cardPrices,
       currency,
     );
