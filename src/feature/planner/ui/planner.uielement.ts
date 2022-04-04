@@ -188,6 +188,79 @@ function teamRow(): UiElement {
         onRowClicked: showModal(TEAM_MODAL_ID, '$'),
         pointerOnHover: true,
         showExport: false,
+        filters: [
+          {
+            columnId: 'battles',
+            type: 'radio',
+            allowCustomOption: true,
+            options: [
+              {
+                label: 'All',
+              },
+              {
+                label: '> 5',
+                query: '> 5',
+              },
+              {
+                label: '> 50',
+                query: '> 50',
+              },
+              {
+                label: '> 500',
+                query: '> 500',
+              },
+            ],
+          },
+          {
+            columnId: 'price',
+            type: 'radio',
+            allowCustomOption: true,
+            options: [
+              {
+                label: 'All',
+              },
+              {
+                label: '< $10',
+                query: '< 10',
+              },
+              {
+                label: '< $100',
+                query: '< 100',
+              },
+              {
+                label: '< $500',
+                query: '< 500',
+              },
+            ],
+          },
+          {
+            columnId: 'splinter',
+            type: 'checkbox',
+          },
+
+          {
+            columnId: 'winpc',
+            type: 'radio',
+            allowCustomOption: true,
+            options: [
+              {
+                label: 'All',
+              },
+              {
+                label: '> 0 %',
+                query: '> 0',
+              },
+              {
+                label: '> 50 %',
+                query: '> 50',
+              },
+              {
+                label: '> 80 %',
+                query: '> 80',
+              },
+            ],
+          },
+        ],
         defaultView: {
           xs: 'grid',
           lg: 'column',
@@ -251,6 +324,7 @@ function teamRow(): UiElement {
             id: 'summonerName',
             sortable: true,
             title: 'Summoner',
+            searchable: true,
           },
           {
             id: 'winpc',
