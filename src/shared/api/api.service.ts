@@ -2,11 +2,17 @@ import { AbstractApiService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import axios from 'axios-https-proxy-fix';
 import { validate } from 'bycontract';
-import { CardDetailDto, ForSaleGroupedDto, TransactionDto } from './dto';
+import {
+  CardDetailDto,
+  ForSaleGroupedDto,
+  LeaderboardDto,
+  TransactionDto,
+} from './dto';
 import { PlayerCollectionDto } from './dto/player-collection.dto';
 
 const BASE_URL = 'https://api2.splinterlands.com';
 const STEEM_BASE_URL = 'https://api.steemmonsters.io';
+const CACHE_BASE_URL = 'https://cache-api.splinterlands.com';
 
 @Injectable()
 export class ApiService extends AbstractApiService {
@@ -29,6 +35,18 @@ export class ApiService extends AbstractApiService {
     const url = `${BASE_URL}/market/for_sale_grouped`;
 
     return this.handleCall({ url, ttl: 30 }, async () => {
+      const response = await axios.get(url, { proxy: this.proxy });
+      return response.data;
+    });
+  }
+
+  async fetchLeaderboard(
+    season: number,
+    leagueId: number,
+  ): Promise<LeaderboardDto> {
+    const url = `${CACHE_BASE_URL}/players/leaderboard_with_player?season=${season}&leaderboard=${leagueId}`;
+
+    return this.handleCall({ url, ttl: 300 }, async () => {
       const response = await axios.get(url, { proxy: this.proxy });
       return response.data;
     });

@@ -4,3 +4,31 @@ export const DEFAULT_BATTLE_FORM = {
   playerName: '',
   ruleset: 'Standard',
 };
+
+export const DEFAULT_LEADERBOARD_FORM = {
+  leagueName: 'Bronze',
+  season: 84,
+};
+
+export const LEADERBOARD_LEAGUES = [
+  {
+    id: 0,
+    name: 'Bronze',
+  },
+  {
+    id: 1,
+    name: 'Silver',
+  },
+  {
+    id: 2,
+    name: 'Gold',
+  },
+  {
+    id: 3,
+    name: 'Diamond',
+  },
+  {
+    id: 4,
+    name: 'Champion',
+  },
+];
