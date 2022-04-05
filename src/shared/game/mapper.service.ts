@@ -71,14 +71,14 @@ export class MapperService {
     return _.last(sortedLeagues).name;
   }
 
-  static mapBattles(transactions: TransactionDto[]): Battle[] {
+  static mapBattles(transactions: TransactionDto[], version: number): Battle[] {
     return transactions
       .filter((it) => it.success && !!it.result)
-      .map(MapperService.mapBattle)
+      .map((it) => MapperService.mapBattle(it, version))
       .filter((it) => !!it);
   }
 
-  static mapBattle(transaction: TransactionDto): Battle {
+  static mapBattle(transaction: TransactionDto, version: number): Battle {
     if (!transaction.success || !transaction.result) {
       return undefined;
     }
@@ -95,7 +95,7 @@ export class MapperService {
       timestamp: moment(transaction.created_date).unix(),
       manaCap: battle.mana_cap,
       players: battle.players,
-      ruleset: battle.ruleset,
+      rulesets: battle.ruleset.split('|'),
       team1: battle.details.team1,
       team2: battle.details.team2,
       winner: battle.winner,
@@ -104,6 +104,7 @@ export class MapperService {
           ? battle.details.team2.player
           : battle.details.team1.player,
       leagueName: MapperService.mapLeagueName(battle.players[0].initial_rating),
+      version,
     };
   }
 

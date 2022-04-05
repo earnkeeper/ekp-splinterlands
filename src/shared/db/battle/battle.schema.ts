@@ -10,6 +10,9 @@ export class Battle {
   readonly id: string;
 
   @Prop()
+  version: number;
+
+  @Prop()
   readonly blockNumber: number;
 
   @Prop()
@@ -19,7 +22,10 @@ export class Battle {
   readonly manaCap: number;
 
   @Prop()
-  readonly ruleset: string;
+  readonly ruleset?: string;
+
+  @Prop([String])
+  rulesets: string[];
 
   @Prop()
   readonly winner: string;
@@ -55,11 +61,15 @@ export const BattleSchema = SchemaFactory.createForClass(Battle)
   .index({
     timestamp: 1,
     manaCap: 1,
-    ruleset: 1,
+    rulesets: 1,
+  })
+  .index({
+    version: 1,
+    timestamp: 1,
   })
   .index({
     timestamp: 1,
     manaCap: 1,
-    ruleset: 1,
+    rulesets: 1,
     leagueName: 1,
   });

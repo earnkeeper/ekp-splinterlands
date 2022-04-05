@@ -31,6 +31,30 @@ export class BattleRepository {
     return results ?? [];
   }
 
+  async findWithVersionLessThan(
+    version: number,
+    oldestTimestamp: number,
+    limit: number,
+  ): Promise<Battle[]> {
+    const results = await this.battleModel
+      .find({
+        timestamp: { $gte: oldestTimestamp },
+        $or: [
+          {
+            version: { $lt: version },
+          },
+          {
+            version: null,
+          },
+        ],
+      })
+      .sort('timestamp')
+      .limit(limit)
+      .exec();
+
+    return results ?? [];
+  }
+
   async findLatestByBlockNumber(): Promise<Battle> {
     const results = await this.battleModel
       .find()
@@ -95,13 +119,14 @@ export class BattleRepository {
               'blockNumber',
               'timestamp',
               'manaCap',
-              'ruleset',
               'players',
               'winner',
               'loser',
               'team1',
               'team2',
               'leagueName',
+              'version',
+              'rulesets',
             ]),
           },
           upsert: true,
