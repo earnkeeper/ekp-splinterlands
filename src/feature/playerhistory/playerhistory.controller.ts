@@ -58,7 +58,7 @@ import { PlayerHistoryForm } from 'src/util/forms/player-history-form';
   
       try {
         const form: PlayerHistoryForm =
-          event.state.forms?.battles ?? DEFAULT_HISTORY_FORM;
+          event.state.forms?.playername ?? DEFAULT_HISTORY_FORM;
   
         const PlayerhistoryDocuments =
           await this.PlayerhistoryService.getPlayerHistoryDocuments(

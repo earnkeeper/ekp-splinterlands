@@ -7,6 +7,7 @@ import {
     documents,
     Form,
     formatCurrency,
+    formatDatetime,
     formatToken,
     Fragment,
     GridTile,
@@ -104,14 +105,7 @@ function historyRow(): UiElement {
         columnId: 'mana_cap',
         type: 'slider',
       },
-      {
-        columnId: 'match_type',
-        type: 'checkbox',
-      },
-      {
-        columnId: 'ruleset',
-        type: 'checkbox',
-      },
+      
       {
         columnId: 'rshares',
         type: 'slider',
@@ -180,7 +174,8 @@ function historyRow(): UiElement {
           
         ],
         left: {
-          content: formatCurrency('$.price', '$.fiatSymbol'),
+          
+          content: formatDatetime('date_created'),
         },
         right: {
           content: formatToken('$.qty'),

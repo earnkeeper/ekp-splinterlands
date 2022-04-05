@@ -43,7 +43,7 @@ export default function element(): UiElement {
         content:
           'Search and filter the table below for the cards available on the Splinterlands Marketplace, with added info on their popularity and win rate.',
       }),
-      cardsRow() ,
+      //cardsRow() ,
       marketRow(),
     ],
   });

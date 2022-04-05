@@ -31,12 +31,8 @@ export class PlayerhistoryService {
     form: PlayerHistoryForm,
   ) {
     const now = moment().unix();
-
-  
     const documents: PlayerhistoryDocument[] = playerHistoryDto.battles.map(
       (battles) => {
-        
-
         return {
           
           id: battles.id,
