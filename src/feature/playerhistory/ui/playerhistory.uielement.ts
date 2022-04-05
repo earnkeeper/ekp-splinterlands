@@ -10,6 +10,7 @@ import {
     formatToken,
     Fragment,
     GridTile,
+    Input,
     isBusy,
     PageHeaderTile,
     Row,
@@ -65,11 +66,10 @@ import {
             Col({
               className: 'col-12 col-md-auto',
               children: [
-                Select({
+                Input({
                   label: 'Player',
                   name: 'playername',
-                  options: [DEFAULT_HISTORY_FORM.playername],
-                  minWidth: 160,
+                  
                 }),
               ],
             }),
@@ -99,6 +99,25 @@ function historyRow(): UiElement {
     },
     data: documents(PlayerhistoryDocument),
     busyWhen: isBusy(collection(PlayerhistoryDocument)),
+    filters: [
+      {
+        columnId: 'mana_cap',
+        type: 'slider',
+      },
+      {
+        columnId: 'match_type',
+        type: 'checkbox',
+      },
+      {
+        columnId: 'ruleset',
+        type: 'checkbox',
+      },
+      {
+        columnId: 'rshares',
+        type: 'slider',
+      },
+      
+    ],
 
     gridView: {
       tileWidth: [12, 6, 4, 3],
