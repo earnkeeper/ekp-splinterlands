@@ -6,7 +6,7 @@ import {
 import { Process, Processor } from '@nestjs/bull';
 import _ from 'lodash';
 import moment from 'moment';
-import { PREMIUM_DAYS_TO_KEEP } from 'src/util';
+import { PREMIUM_DAYS_TO_KEEP } from '../../../util';
 import { TeamDetailedDto } from '../../api';
 import { Battle, BattleRepository, Card, CardRepository } from '../../db';
 import { MapperService } from '../../game';
