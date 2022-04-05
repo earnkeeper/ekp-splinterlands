@@ -21,13 +21,15 @@ export class MigrateProcessor {
   @Process(MIGRATE_BATTLES)
   async migrateBattles() {
     try {
+      const pageSize = 5000;
+
       const oldestAllowed = moment().subtract(PREMIUM_DAYS_TO_KEEP, 'days');
 
       while (true) {
         const battles = await this.battleRepository.findWithVersionLessThan(
           BATTLE_VERSION,
           oldestAllowed.unix(),
-          5000,
+          pageSize,
         );
 
         if (battles.length === 0) {
@@ -57,6 +59,10 @@ export class MigrateProcessor {
             latest.timestamp,
           )}`,
         );
+
+        if (battles.length < pageSize) {
+          return;
+        }
       }
     } catch (error) {
       this.apmService.captureError(error);
