@@ -57,7 +57,7 @@ export class BattleRepository {
 
   async findLatestByBlockNumber(): Promise<Battle> {
     const results = await this.battleModel
-      .find()
+      .find({ source: { $not: { $eq: 'playerHistory' } } })
       .sort('-blockNumber')
       .limit(1)
       .exec();
@@ -84,13 +84,13 @@ export class BattleRepository {
       timestamp: any;
       manaCap: number;
       leagueName?: string;
-      ruleset: string;
+      rulesets: string;
     } = {
       timestamp: {
         $gte: startTimestamp,
       },
       manaCap,
-      ruleset,
+      rulesets: ruleset,
     };
 
     if (leagueName !== 'All') {

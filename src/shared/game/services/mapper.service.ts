@@ -113,7 +113,10 @@ export class MapperService {
     return [player1, player2];
   }
 
-  static mapBattleFromPlayer(playerBattle: PlayerBattleDto, version: number) {
+  static mapBattleFromPlayer(
+    playerBattle: PlayerBattleDto,
+    version: number,
+  ): Battle {
     const battleDetails: BattleDetailsDto = JSON.parse(playerBattle.details);
 
     if (battleDetails?.type === 'Surrender') {
@@ -146,6 +149,7 @@ export class MapperService {
           ? battleDetails.team2.player
           : battleDetails.team1.player,
       leagueName: MapperService.mapLeagueName(players[0].initial_rating),
+      source: 'playerHistory',
       version,
     };
   }
@@ -189,6 +193,7 @@ export class MapperService {
           ? battle.details.team2.player
           : battle.details.team1.player,
       leagueName: MapperService.mapLeagueName(battle.players[0].initial_rating),
+      source: 'transaction',
       version,
     };
   }

@@ -30,6 +30,9 @@ export class Battle {
   rulesets: string[];
 
   @Prop()
+  source: string;
+
+  @Prop()
   readonly winner: string;
 
   @Prop()
@@ -51,6 +54,7 @@ export class Battle {
 export const BattleSchema = SchemaFactory.createForClass(Battle)
   .index({
     blockNumber: 1,
+    source: 1,
   })
   .index(
     {
