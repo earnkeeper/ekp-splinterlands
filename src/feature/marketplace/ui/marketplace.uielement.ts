@@ -11,11 +11,15 @@ import {
   Image,
   isBusy,
   PageHeaderTile,
+  path,
   Row,
   Span,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
+import { userCard } from 'src/util/user-card';
+
 import { ListingDocument } from './listing.document';
+
 
 export default function element(): UiElement {
   return Container({
@@ -39,10 +43,26 @@ export default function element(): UiElement {
         content:
           'Search and filter the table below for the cards available on the Splinterlands Marketplace, with added info on their popularity and win rate.',
       }),
+      cardsRow() ,
       marketRow(),
     ],
   });
 }
+function cardsRow() {
+  return Row({
+    children: [
+      Col({
+        className: 'col-auto',
+        children: [
+          userCard(
+            'Dennis',
+             ),
+        ],
+      }),
+    ],
+  });
+}
+
 
 function marketRow(): UiElement {
   return Datatable({
