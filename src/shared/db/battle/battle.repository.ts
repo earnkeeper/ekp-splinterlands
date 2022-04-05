@@ -38,13 +38,17 @@ export class BattleRepository {
   ): Promise<Battle[]> {
     const results = await this.battleModel
       .find({
-        timestamp: { $gte: oldestTimestamp },
-        $or: [
+        $and: [
+          { timestamp: { $gte: oldestTimestamp } },
           {
-            version: { $lt: version },
-          },
-          {
-            version: null,
+            $or: [
+              {
+                version: { $lt: version },
+              },
+              {
+                version: null,
+              },
+            ],
           },
         ],
       })
