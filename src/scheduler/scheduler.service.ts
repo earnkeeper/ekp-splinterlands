@@ -32,6 +32,10 @@ export class SchedulerService {
 
   async onModuleInit() {
     await this.queue.empty();
+    await this.queue.clean(0, 'wait');
+    await this.queue.clean(0, 'active');
+    await this.queue.clean(0, 'delayed');
+    await this.queue.clean(0, 'paused');
 
     logger.log(`Job count: ${await this.queue.count()}`);
 
