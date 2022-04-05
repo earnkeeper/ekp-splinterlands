@@ -23,7 +23,7 @@ describe('MapperService', () => {
 
   describe('mapBattles', () => {
     it('maps array of battles', async () => {
-      const battles = MapperService.mapBattles(TRANSACTIONS_251);
+      const battles = MapperService.mapBattlesFromTransactions(TRANSACTIONS_251);
 
       expect(battles).toBeTruthy();
       expect(battles.length).toEqual(43);
@@ -32,7 +32,7 @@ describe('MapperService', () => {
 
   describe('mapBattle', () => {
     it('maps required fields correctly', () => {
-      const battles = MapperService.mapBattles(TRANSACTIONS_1000);
+      const battles = MapperService.mapBattlesFromTransactions(TRANSACTIONS_1000);
 
       expect(battles.length).toBeGreaterThan(0);
 

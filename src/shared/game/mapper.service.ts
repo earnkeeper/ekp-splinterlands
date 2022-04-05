@@ -2,11 +2,14 @@ import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import moment from 'moment';
 import {
+  BattleDetailsDto,
   BattleDto,
   CardDetailDto,
+  PlayerDto,
   TeamDetailedDto,
   TransactionDto,
 } from '../api';
+import { PlayerBattleDto } from '../api/dto/player-battles.dto';
 import { Battle } from '../db';
 import { GameService } from './game.service';
 
@@ -71,14 +74,96 @@ export class MapperService {
     return _.last(sortedLeagues).name;
   }
 
-  static mapBattles(transactions: TransactionDto[], version: number): Battle[] {
-    return transactions
-      .filter((it) => it.success && !!it.result)
-      .map((it) => MapperService.mapBattle(it, version))
+  static mapBattlesFromPlayer(
+    playerBattles: PlayerBattleDto[],
+    version: number,
+  ): Battle[] {
+    return playerBattles
+      .map((it) => MapperService.mapBattleFromPlayer(it, version))
       .filter((it) => !!it);
   }
 
-  static mapBattle(transaction: TransactionDto, version: number): Battle {
+  static mapBattleId(player1: string, player2: string, timestamp: number) {
+    return [player1, player2, timestamp].join('|');
+  }
+
+  static mapPlayersFromPlayerBattle(
+    playerBattle: PlayerBattleDto,
+    battleDetails: BattleDetailsDto,
+  ) {
+    const player1: PlayerDto = {
+      name: playerBattle.player_1,
+      initial_rating: playerBattle.player_1_rating_initial,
+      final_rating: playerBattle.player_1_rating_final,
+      team: {
+        summoner: battleDetails.team1.summoner.uid,
+        monsters: battleDetails.team1.monsters.map((it) => it.uid),
+      },
+    };
+    const player2: PlayerDto = {
+      name: playerBattle.player_2,
+      initial_rating: playerBattle.player_2_rating_initial,
+      final_rating: playerBattle.player_2_rating_final,
+      team: {
+        summoner: battleDetails.team2.summoner.uid,
+        monsters: battleDetails.team2.monsters.map((it) => it.uid),
+      },
+    };
+
+    return [player1, player2];
+  }
+
+  static mapBattleFromPlayer(playerBattle: PlayerBattleDto, version: number) {
+    const battleDetails: BattleDetailsDto = JSON.parse(playerBattle.details);
+
+    if (battleDetails?.type === 'Surrender') {
+      return undefined;
+    }
+
+    const timestamp = moment(playerBattle.created_date).unix();
+
+    const players = this.mapPlayersFromPlayerBattle(
+      playerBattle,
+      battleDetails,
+    );
+
+    return {
+      id: this.mapBattleId(
+        playerBattle.player_1,
+        playerBattle.player_2,
+        timestamp,
+      ),
+      blockNumber: playerBattle.block_num,
+      timestamp: timestamp,
+      manaCap: playerBattle.mana_cap,
+      players,
+      rulesets: playerBattle.ruleset.split('|'),
+      team1: battleDetails.team1,
+      team2: battleDetails.team2,
+      winner: playerBattle.winner,
+      loser:
+        playerBattle.winner === battleDetails.team1.player
+          ? battleDetails.team2.player
+          : battleDetails.team1.player,
+      leagueName: MapperService.mapLeagueName(players[0].initial_rating),
+      version,
+    };
+  }
+
+  static mapBattlesFromTransactions(
+    transactions: TransactionDto[],
+    version: number,
+  ): Battle[] {
+    return transactions
+      .filter((it) => it.success && !!it.result)
+      .map((it) => MapperService.mapBattleFromTransaction(it, version))
+      .filter((it) => !!it);
+  }
+
+  static mapBattleFromTransaction(
+    transaction: TransactionDto,
+    version: number,
+  ): Battle {
     if (!transaction.success || !transaction.result) {
       return undefined;
     }

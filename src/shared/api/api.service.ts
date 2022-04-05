@@ -9,6 +9,7 @@ import {
   SettingsDto,
   TransactionDto,
 } from './dto';
+import { PlayerBattlesDto } from './dto/player-battles.dto';
 import { PlayerCollectionDto } from './dto/player-collection.dto';
 
 const BASE_URL = 'https://api2.splinterlands.com';
@@ -22,6 +23,12 @@ export class ApiService extends AbstractApiService {
   constructor() {
     super({
       name: 'SplinterlandsApiService',
+      limit: {
+        maxConcurrent: 25,
+        reservoir: 25,
+        reservoirRefreshAmount: 25,
+        reservoirRefreshInterval: 5000,
+      },
     });
 
     if (process.env.PROXY_HOST) {
@@ -92,6 +99,16 @@ export class ApiService extends AbstractApiService {
     const url = `${BASE_URL}/cards/collection/${playerName}`;
 
     return this.handleCall({ url, ttl: 60 }, async () => {
+      const response = await axios.get(url, { proxy: this.proxy });
+
+      return response.data;
+    });
+  }
+
+  async fetchPlayerBattles(playerName: string): Promise<PlayerBattlesDto> {
+    const url = `${BASE_URL}/battle/history?player=${playerName}`;
+
+    return this.handleCall({ url }, async () => {
       const response = await axios.get(url, { proxy: this.proxy });
 
       return response.data;

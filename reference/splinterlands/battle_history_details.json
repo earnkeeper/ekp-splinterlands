@@ -1,0 +1,714 @@
+{
+  "seed": "41636fad39ffbf66689680d2d31a32e7",
+  "rounds": [
+    {
+      "num": 1,
+      "actions": [
+        {
+          "type": "magic attack",
+          "result": "hit",
+          "initiator": "starter-373-rEDjD",
+          "target": "starter-367-wf0u0",
+          "damage": 2,
+          "state": {
+            "alive": false,
+            "stats": [1, 0, 0, 0, 0, 1],
+            "base_health": 2,
+            "other": []
+          }
+        },
+        { "type": "death", "target": "starter-367-wf0u0" },
+        {
+          "type": "magic attack",
+          "result": "hit",
+          "initiator": "starter-373-WRQgy",
+          "target": "starter-184ø-hWWd8",
+          "damage": 1,
+          "state": {
+            "alive": true,
+            "stats": [3, 0, 0, 0, 9, 4],
+            "base_health": 10,
+            "other": []
+          }
+        },
+        {
+          "type": "melee attack",
+          "result": "hit",
+          "hit_chance": 1,
+          "hit_val": 0.6455387083023121,
+          "initiator": "starter-184-7NX6g",
+          "target": "starter-184-hWWd8",
+          "damage": 3,
+          "state": {
+            "alive": true,
+            "stats": [3, 0, 0, 0, 6, 4],
+            "base_health": 10,
+            "other": []
+          }
+        },
+        {
+          "type": "melee attack",
+          "result": "hit",
+          "hit_chance": 1,
+          "hit_val": 0.9050498044755592,
+          "initiator": "starter-184-hWWd8",
+          "target": "starter-184-7NX6g",
+          "damage": 3,
+          "state": {
+            "alive": true,
+            "stats": [3, 0, 0, 0, 7, 4],
+            "base_health": 10,
+            "other": []
+          }
+        },
+        {
+          "type": "magic attack",
+          "result": "hit",
+          "initiator": "starter-183-D8yi9",
+          "target": "starter-184-7NX6g",
+          "damage": 1,
+          "state": {
+            "alive": true,
+            "stats": [3, 0, 0, 0, 6, 4],
+            "base_health": 10,
+            "other": []
+          }
+        },
+        {
+          "type": "magic attack",
+          "result": "hit",
+          "initiator": "starter-183-JOxnf",
+          "target": "starter-184-hWWd8",
+          "damage": 1,
+          "state": {
+            "alive": true,
+            "stats": [3, 0, 0, 0, 5, 4],
+            "base_health": 10,
+            "other": []
+          }
+        },
+        {
+          "type": "heal",
+          "initiator": "starter-371-WN6rU",
+          "target": "starter-184-hWWd8",
+          "damage": 3,
+          "state": {
+            "alive": true,
+            "stats": [3, 0, 0, 0, 8, 4],
+            "base_health": 10,
+            "other": []
+          }
+        },
+        {
+          "type": "magic attack",
+          "result": "hit",
+          "initiator": "starter-371-WN6rU",
+          "target": "starter-184-7NX6g",
+          "damage": 2,
+          "state": {
+            "alive": true,
+            "stats": [3, 0, 0, 0, 4, 4],
+            "base_health": 10,
+            "other": []
+          }
+        },
+        {
+          "type": "heal",
+          "initiator": "starter-371-r8jsS",
+          "target": "starter-184-7NX6g",
+          "damage": 3,
+          "state": {
+            "alive": true,
+            "stats": [3, 0, 0, 0, 7, 4],
+            "base_health": 10,
+            "other": []
+          }
+        },
+        {
+          "type": "magic attack",
+          "result": "hit",
+          "initiator": "starter-371-r8jsS",
+          "target": "starter-184-hWWd8",
+          "damage": 2,
+          "state": {
+            "alive": true,
+            "stats": [3, 0, 0, 0, 6, 4],
+            "base_health": 10,
+            "other": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "actions": [
+        {
+          "type": "magic attack",
+          "result": "hit",
+          "initiator": "starter-373-rEDjD",
+          "target": "starter-184-7NX6g",
+          "damage": 1,
+          "state": {
+            "alive": true,
+            "stats": [3, 0, 0, 0, 6, 4],
+            "base_health": 10,
+            "other": []
+          }
+        },
+        {
+          "type": "magic attack",
+          "result": "hit",
+          "initiator": "starter-373-WRQgy",
+          "target": "starter-184-hWWd8",
+          "damage": 1,
+          "state": {
+            "alive": true,
+            "stats": [3, 0, 0, 0, 5, 4],
+            "base_health": 10,
+            "other": []
+          }
+        },
+        {
+          "type": "melee attack",
+          "result": "hit",
+          "hit_chance": 1,
+          "hit_val": 0.7078966682906178,
+          "initiator": "starter-184-7NX6g",
+          "target": "starter-184-hWWd8",
+          "damage": 3,
+          "state": {
+            "alive": true,
+            "stats": [3, 0, 0, 0, 2, 4],
+            "base_health": 10,
+            "other": []
+          }
+        },
+        {
+          "type": "melee attack",
+          "result": "hit",
+          "hit_chance": 1,
+          "hit_val": 0.5557719296856475,
+          "initiator": "starter-184-hWWd8",
+          "target": "starter-184-7NX6g",
+          "damage": 3,
+          "state": {
+            "alive": true,
+            "stats": [3, 0, 0, 0, 3, 4],
+            "base_health": 10,
+            "other": []
+          }
+        },
+        {
+          "type": "magic attack",
+          "result": "hit",
+          "initiator": "starter-183-JOxnf",
+          "target": "starter-184-hWWd8",
+          "damage": 1,
+          "state": {
+            "alive": true,
+            "stats": [3, 0, 0, 0, 1, 4],
+            "base_health": 10,
+            "other": []
+          }
+        },
+        {
+          "type": "magic attack",
+          "result": "hit",
+          "initiator": "starter-183-D8yi9",
+          "target": "starter-184-7NX6g",
+          "damage": 1,
+          "state": {
+            "alive": true,
+            "stats": [3, 0, 0, 0, 2, 4],
+            "base_health": 10,
+            "other": []
+          }
+        },
+        {
+          "type": "heal",
+          "initiator": "starter-371-WN6rU",
+          "target": "starter-184-hWWd8",
+          "damage": 3,
+          "state": {
+            "alive": true,
+            "stats": [3, 0, 0, 0, 4, 4],
+            "base_health": 10,
+            "other": []
+          }
+        },
+        {
+          "type": "magic attack",
+          "result": "hit",
+          "initiator": "starter-371-WN6rU",
+          "target": "starter-184-7NX6g",
+          "damage": 2,
+          "state": {
+            "alive": false,
+            "stats": [3, 0, 0, 0, 0, 4],
+            "base_health": 10,
+            "other": []
+          }
+        },
+        { "type": "death", "target": "starter-184-7NX6g" },
+        {
+          "type": "magic attack",
+          "result": "hit",
+          "initiator": "starter-371-r8jsS",
+          "target": "starter-184-hWWd8",
+          "damage": 2,
+          "state": {
+            "alive": true,
+            "stats": [3, 0, 0, 0, 2, 4],
+            "base_health": 10,
+            "other": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "actions": [
+        {
+          "type": "magic attack",
+          "result": "hit",
+          "initiator": "starter-373-rEDjD",
+          "target": "starter-373-WRQgy",
+          "damage": 2,
+          "state": {
+            "alive": true,
+            "stats": [0, 0, 2, 0, 4, 5],
+            "base_health": 6,
+            "other": []
+          }
+        },
+        {
+          "type": "magic attack",
+          "result": "hit",
+          "initiator": "starter-373-WRQgy",
+          "target": "starter-184-hWWd8",
+          "damage": 1,
+          "state": {
+            "alive": true,
+            "stats": [3, 0, 0, 0, 1, 4],
+            "base_health": 10,
+            "other": []
+          }
+        },
+        {
+          "type": "melee attack",
+          "result": "miss",
+          "hit_chance": 0.65,
+          "hit_val": 0.871214847845253,
+          "initiator": "starter-184-hWWd8",
+          "target": "starter-373-WRQgy",
+          "damage": 0,
+          "state": {
+            "alive": true,
+            "stats": [0, 0, 2, 0, 4, 5],
+            "base_health": 6,
+            "other": []
+          }
+        },
+        {
+          "type": "magic attack",
+          "result": "hit",
+          "initiator": "starter-183-JOxnf",
+          "target": "starter-184-hWWd8",
+          "damage": 1,
+          "state": {
+            "alive": false,
+            "stats": [3, 0, 0, 0, 0, 4],
+            "base_health": 10,
+            "other": []
+          }
+        },
+        { "type": "death", "target": "starter-184-hWWd8" },
+        {
+          "type": "magic attack",
+          "result": "hit",
+          "initiator": "starter-183-D8yi9",
+          "target": "starter-373-WRQgy",
+          "damage": 2,
+          "state": {
+            "alive": true,
+            "stats": [0, 0, 2, 0, 2, 5],
+            "base_health": 6,
+            "other": []
+          }
+        },
+        {
+          "type": "magic attack",
+          "result": "hit",
+          "initiator": "starter-371-WN6rU",
+          "target": "starter-373-WRQgy",
+          "damage": 3,
+          "state": {
+            "alive": false,
+            "stats": [0, 0, 2, 0, 0, 5],
+            "base_health": 6,
+            "other": []
+          }
+        },
+        { "type": "death", "target": "starter-373-WRQgy" },
+        {
+          "type": "magic attack",
+          "result": "hit",
+          "initiator": "starter-371-r8jsS",
+          "target": "starter-426-uCJL1",
+          "damage": 3,
+          "state": {
+            "alive": false,
+            "stats": [0, 0, 0, 0, 0, 2],
+            "base_health": 1,
+            "other": []
+          }
+        },
+        { "type": "death", "target": "starter-426-uCJL1" }
+      ]
+    },
+    {
+      "num": 4,
+      "actions": [
+        {
+          "type": "magic attack",
+          "result": "hit",
+          "initiator": "starter-373-rEDjD",
+          "target": "starter-183-JOxnf",
+          "damage": 2,
+          "state": {
+            "alive": false,
+            "stats": [0, 0, 2, 0, 0, 1],
+            "base_health": 2,
+            "other": []
+          }
+        },
+        { "type": "death", "target": "starter-183-JOxnf" },
+        {
+          "type": "magic attack",
+          "result": "hit",
+          "initiator": "starter-183-D8yi9",
+          "target": "starter-371-r8jsS",
+          "damage": 2,
+          "state": {
+            "alive": true,
+            "stats": [0, 0, 3, 0, 1, 1],
+            "base_health": 3,
+            "other": []
+          }
+        },
+        {
+          "type": "heal",
+          "initiator": "starter-371-r8jsS",
+          "target": "starter-371-r8jsS",
+          "damage": 2,
+          "state": {
+            "alive": true,
+            "stats": [0, 0, 3, 0, 3, 1],
+            "base_health": 3,
+            "other": []
+          }
+        },
+        {
+          "type": "magic attack",
+          "result": "hit",
+          "initiator": "starter-371-r8jsS",
+          "target": "starter-371-WN6rU",
+          "damage": 3,
+          "state": {
+            "alive": false,
+            "stats": [0, 0, 3, 0, 0, 1],
+            "base_health": 3,
+            "other": []
+          }
+        },
+        { "type": "death", "target": "starter-371-WN6rU" }
+      ]
+    },
+    {
+      "num": 5,
+      "actions": [
+        {
+          "type": "magic attack",
+          "result": "hit",
+          "initiator": "starter-373-rEDjD",
+          "target": "starter-371-r8jsS",
+          "damage": 2,
+          "state": {
+            "alive": true,
+            "stats": [0, 0, 3, 0, 1, 1],
+            "base_health": 3,
+            "other": []
+          }
+        },
+        {
+          "type": "magic attack",
+          "result": "hit",
+          "initiator": "starter-183-D8yi9",
+          "target": "starter-371-r8jsS",
+          "damage": 2,
+          "state": {
+            "alive": false,
+            "stats": [0, 0, 3, 0, 0, 1],
+            "base_health": 3,
+            "other": []
+          }
+        },
+        { "type": "death", "target": "starter-371-r8jsS" }
+      ]
+    }
+  ],
+  "team1": {
+    "player": "earnkeeper",
+    "rating": 0,
+    "color": "Green",
+    "summoner": {
+      "uid": "starter-439-eCjwJ",
+      "xp": 1,
+      "gold": false,
+      "card_detail_id": 439,
+      "level": 1,
+      "edition": 7,
+      "state": { "stats": [0, 0, 1, 0, 0, 0], "abilities": [] }
+    },
+    "monsters": [
+      {
+        "uid": "starter-367-wf0u0",
+        "xp": 1,
+        "gold": false,
+        "card_detail_id": 367,
+        "level": 1,
+        "edition": 7,
+        "state": {
+          "alive": true,
+          "stats": [1, 0, 0, 0, 2, 1],
+          "base_health": 2,
+          "other": []
+        },
+        "abilities": []
+      },
+      {
+        "uid": "starter-184-7NX6g",
+        "xp": 1,
+        "gold": false,
+        "card_detail_id": 184,
+        "level": 1,
+        "edition": 4,
+        "state": {
+          "alive": true,
+          "stats": [3, 0, 0, 0, 10, 4],
+          "base_health": 10,
+          "other": []
+        },
+        "abilities": ["Void"]
+      },
+      {
+        "uid": "starter-373-WRQgy",
+        "xp": 1,
+        "gold": false,
+        "card_detail_id": 373,
+        "level": 1,
+        "edition": 7,
+        "state": {
+          "alive": true,
+          "stats": [0, 0, 1, 0, 6, 5],
+          "base_health": 6,
+          "other": []
+        },
+        "abilities": ["Flying"]
+      },
+      {
+        "uid": "starter-183-JOxnf",
+        "xp": 1,
+        "gold": false,
+        "card_detail_id": 183,
+        "level": 1,
+        "edition": 4,
+        "state": {
+          "alive": true,
+          "stats": [0, 0, 1, 0, 2, 1],
+          "base_health": 2,
+          "other": []
+        },
+        "abilities": []
+      },
+      {
+        "uid": "starter-371-r8jsS",
+        "xp": 1,
+        "gold": false,
+        "card_detail_id": 371,
+        "level": 1,
+        "edition": 7,
+        "state": {
+          "alive": true,
+          "stats": [0, 0, 2, 0, 3, 1],
+          "base_health": 3,
+          "other": []
+        },
+        "abilities": ["Tank Heal"]
+      }
+    ]
+  },
+  "team2": {
+    "player": "trannhatquybcug",
+    "rating": 0,
+    "color": "Green",
+    "summoner": {
+      "uid": "starter-439-XOuEd",
+      "xp": 1,
+      "gold": false,
+      "card_detail_id": 439,
+      "level": 1,
+      "edition": 7,
+      "state": { "stats": [0, 0, 1, 0, 0, 0], "abilities": [] }
+    },
+    "monsters": [
+      {
+        "uid": "starter-184-hWWd8",
+        "xp": 1,
+        "gold": false,
+        "card_detail_id": 184,
+        "level": 1,
+        "edition": 4,
+        "state": {
+          "alive": true,
+          "stats": [3, 0, 0, 0, 10, 4],
+          "base_health": 10,
+          "other": []
+        },
+        "abilities": ["Void"]
+      },
+      {
+        "uid": "starter-426-uCJL1",
+        "xp": 1,
+        "gold": false,
+        "card_detail_id": 426,
+        "level": 1,
+        "edition": 7,
+        "state": {
+          "alive": true,
+          "stats": [0, 0, 0, 0, 1, 2],
+          "base_health": 1,
+          "other": []
+        },
+        "abilities": []
+      },
+      {
+        "uid": "starter-371-WN6rU",
+        "xp": 1,
+        "gold": false,
+        "card_detail_id": 371,
+        "level": 1,
+        "edition": 7,
+        "state": {
+          "alive": true,
+          "stats": [0, 0, 2, 0, 3, 1],
+          "base_health": 3,
+          "other": []
+        },
+        "abilities": ["Tank Heal"]
+      },
+      {
+        "uid": "starter-183-D8yi9",
+        "xp": 1,
+        "gold": false,
+        "card_detail_id": 183,
+        "level": 1,
+        "edition": 4,
+        "state": {
+          "alive": true,
+          "stats": [0, 0, 1, 0, 2, 1],
+          "base_health": 2,
+          "other": []
+        },
+        "abilities": []
+      },
+      {
+        "uid": "starter-373-rEDjD",
+        "xp": 1,
+        "gold": false,
+        "card_detail_id": 373,
+        "level": 1,
+        "edition": 7,
+        "state": {
+          "alive": true,
+          "stats": [0, 0, 1, 0, 6, 5],
+          "base_health": 6,
+          "other": []
+        },
+        "abilities": ["Flying"]
+      }
+    ]
+  },
+  "pre_battle": [
+    {
+      "type": "buff",
+      "initiator": "starter-439-eCjwJ",
+      "details": { "name": "Summoner", "stats": { "magic": 1 } },
+      "group_state": [
+        {
+          "monster": "starter-373-WRQgy",
+          "state": {
+            "alive": true,
+            "stats": [0, 0, 2, 0, 6, 5],
+            "base_health": 6,
+            "other": []
+          }
+        },
+        {
+          "monster": "starter-183-JOxnf",
+          "state": {
+            "alive": true,
+            "stats": [0, 0, 2, 0, 2, 1],
+            "base_health": 2,
+            "other": []
+          }
+        },
+        {
+          "monster": "starter-371-r8jsS",
+          "state": {
+            "alive": true,
+            "stats": [0, 0, 3, 0, 3, 1],
+            "base_health": 3,
+            "other": []
+          }
+        }
+      ]
+    },
+    {
+      "type": "buff",
+      "initiator": "starter-439-XOuEd",
+      "details": { "name": "Summoner", "stats": { "magic": 1 } },
+      "group_state": [
+        {
+          "monster": "starter-371-WN6rU",
+          "state": {
+            "alive": true,
+            "stats": [0, 0, 3, 0, 3, 1],
+            "base_health": 3,
+            "other": []
+          }
+        },
+        {
+          "monster": "starter-183-D8yi9",
+          "state": {
+            "alive": true,
+            "stats": [0, 0, 2, 0, 2, 1],
+            "base_health": 2,
+            "other": []
+          }
+        },
+        {
+          "monster": "starter-373-rEDjD",
+          "state": {
+            "alive": true,
+            "stats": [0, 0, 2, 0, 6, 5],
+            "base_health": 6,
+            "other": []
+          }
+        }
+      ]
+    }
+  ],
+  "winner": "trannhatquybcug",
+  "loser": "earnkeeper"
+}

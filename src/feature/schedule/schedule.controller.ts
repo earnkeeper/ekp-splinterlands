@@ -8,9 +8,10 @@ import { OnQueueCompleted, Process, Processor } from '@nestjs/bull';
 import { Job } from 'bull';
 import { BattlePollService } from './battle-poll.service';
 import { CardPollService } from './card-poll.service';
+import { LeaderboardBattleService } from './leaderboard-battle.service';
 
 export const BATTLE_JOB = 'BATTLE_JOB';
-export const BATTLE_JOB_INTERVAL = 60000;
+export const BATTLE_JOB_INTERVAL = 1800000;
 
 export const BATTLE_PAGE_SIZE = 1000;
 
@@ -24,6 +25,7 @@ export class ScheduleController {
     private battlePollService: BattlePollService,
     private cardPollService: CardPollService,
     private workerService: WorkerService,
+    private leaderboardBattleService: LeaderboardBattleService,
   ) {}
 
   async onModuleInit() {
@@ -46,9 +48,15 @@ export class ScheduleController {
     }
 
     try {
-      logger.log(`Battle Poll Started`);
+      logger.log(`Battle Upgrade Started`);
 
       await this.battlePollService.upgradeBattles();
+
+      logger.log(`Leaderboard Poll Started`);
+
+      await this.leaderboardBattleService.fetchLeaderboardBattles();
+
+      logger.log(`Battle Poll Started`);
 
       await this.battlePollService.fetchBattles(BATTLE_PAGE_SIZE);
 

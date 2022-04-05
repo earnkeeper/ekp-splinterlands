@@ -3,6 +3,7 @@ import { Document } from 'mongoose';
 import { PlayerDto, TeamDetailedDto } from '../../api';
 
 export type BattleDocument = Battle & Document;
+export const BATTLE_VERSION = 2;
 
 @Schema()
 export class Battle {

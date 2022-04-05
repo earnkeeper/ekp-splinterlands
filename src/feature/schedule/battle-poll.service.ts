@@ -1,19 +1,18 @@
-import { logger, WORKER_QUEUE } from '@earnkeeper/ekp-sdk-nestjs';
-import { Processor } from '@nestjs/bull';
+import { logger } from '@earnkeeper/ekp-sdk-nestjs';
+import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import moment from 'moment';
-import { ApiService } from '../../shared/api/api.service';
-import { BattleRepository } from '../../shared/db/battle/battle.repository';
+import { ApiService } from '../../shared/api';
+import { BattleRepository, BATTLE_VERSION } from '../../shared/db';
 import { MapperService } from '../../shared/game';
 
 export const DEFAULT_START_BLOCK = 62695197; // 2022-03-17T07:29:00
-export const BATTLE_VERSION = 2;
 
-@Processor(WORKER_QUEUE)
+@Injectable()
 export class BattlePollService {
   constructor(
     private battleRepository: BattleRepository,
-    private splinterlandsApiService: ApiService,
+    private apiService: ApiService,
   ) {}
 
   async upgradeBattles() {
@@ -22,8 +21,8 @@ export class BattlePollService {
     while (true) {
       const battles = await this.battleRepository.findWithVersionLessThan(
         BATTLE_VERSION,
-        0,
-        10000,
+        oldestAllowed.unix(),
+        2000,
       );
 
       if (battles.length === 0) {
@@ -33,7 +32,6 @@ export class BattlePollService {
       for (const battle of battles) {
         if (!battle.rulesets || battle.rulesets.length === 0) {
           battle.rulesets = battle.ruleset.split('|');
-          console.log(battle.rulesets);
         }
 
         battle.version = BATTLE_VERSION;
@@ -61,11 +59,10 @@ export class BattlePollService {
     }
 
     while (true) {
-      const transactions =
-        await this.splinterlandsApiService.fetchBattleTransactions(
-          lastBlockNumber,
-          limit,
-        );
+      const transactions = await this.apiService.fetchBattleTransactions(
+        lastBlockNumber,
+        limit,
+      );
 
       if (!transactions || transactions.length === 0) {
         break;
@@ -74,7 +71,10 @@ export class BattlePollService {
       const firstTransaction = _.chain(transactions).minBy('block_num').value();
       const lastTransaction = _.chain(transactions).maxBy('block_num').value();
 
-      const battles = MapperService.mapBattles(transactions, BATTLE_VERSION);
+      const battles = MapperService.mapBattlesFromTransactions(
+        transactions,
+        BATTLE_VERSION,
+      );
 
       logger.debug(
         `Fetched ${transactions?.length} transactions from ${firstTransaction.created_date} (${firstTransaction.block_num}) to ${lastTransaction.created_date} (${lastTransaction.block_num})`,
