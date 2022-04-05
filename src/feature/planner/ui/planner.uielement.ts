@@ -25,7 +25,7 @@ import {
   UiElement,
 } from '@earnkeeper/ekp-sdk';
 import _ from 'lodash';
-import { GameService } from '../../../shared/game';
+import { LEAGUES, MANA_CAPS, RULESETS } from '../../../shared/game';
 import {
   DEFAULT_BATTLE_FORM,
   promptDeckNameModal,
@@ -108,10 +108,7 @@ function battleDetailsForm() {
                   Select({
                     label: 'League',
                     name: 'leagueName',
-                    options: [
-                      'All',
-                      ...GameService.LEAGUES.map((it) => it.name),
-                    ],
+                    options: ['All', ...LEAGUES.map((it) => it.name)],
                     minWidth: 160,
                   }),
                 ],
@@ -122,7 +119,7 @@ function battleDetailsForm() {
                   Select({
                     label: 'Mana Cap',
                     name: 'manaCap',
-                    options: GameService.MANA_CAPS,
+                    options: MANA_CAPS,
                     minWidth: 80,
                   }),
                 ],
@@ -135,7 +132,7 @@ function battleDetailsForm() {
                     name: 'ruleset',
                     options: [
                       'Standard',
-                      ..._.chain(GameService.RULESETS)
+                      ..._.chain(RULESETS)
                         .map((it) => it.name)
                         .filter((it) => it !== 'Standard')
                         .sort()

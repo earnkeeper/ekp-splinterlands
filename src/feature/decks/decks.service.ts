@@ -6,8 +6,9 @@ import _ from 'lodash';
 import moment from 'moment';
 import { PlayerCardDto } from '../../shared/api';
 import {
-  GameService,
   MarketPriceMap,
+  MarketService,
+  PlayerService,
   ResultsService,
   TeamResults,
 } from '../../shared/game';
@@ -18,7 +19,8 @@ import { DeckCard, DeckDocument } from './ui/deck.document';
 export class DecksService {
   constructor(
     private resultsService: ResultsService,
-    private gameService: GameService,
+    private marketService: MarketService,
+    private playerService: PlayerService,
     private coingeckoService: CoingeckoService,
   ) {}
 
@@ -38,10 +40,11 @@ export class DecksService {
       5,
     );
 
-    const cardPrices: MarketPriceMap = await this.gameService.getMarketPrices();
+    const cardPrices: MarketPriceMap =
+      await this.marketService.getMarketPrices();
 
     const playerCards = !!form.playerName
-      ? await this.gameService.getPlayerCards(form.playerName)
+      ? await this.playerService.getPlayerCards(form.playerName)
       : undefined;
 
     return await this.mapDocuments(

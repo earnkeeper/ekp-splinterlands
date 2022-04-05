@@ -3,8 +3,8 @@ import { CoingeckoService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import moment from 'moment';
 import { ApiService, LeaderboardDto, SettingsDto } from '../../shared/api';
+import { LEADERBOARD_LEAGUES } from '../../shared/game';
 import { LeaderboardForm } from '../../util';
-import { LEADERBOARD_LEAGUES } from '../../util/constants';
 import { LeaderboardDocument } from './ui/leaderboard.document';
 @Injectable()
 export class LeaderboardService {

@@ -5,8 +5,9 @@ import { validate } from 'bycontract';
 import _ from 'lodash';
 import moment from 'moment';
 import {
-  GameService,
   MarketPriceMap,
+  MarketService,
+  PlayerService,
   ResultsService,
   TeamMonster,
   TeamResults,
@@ -17,7 +18,8 @@ import { PlannerDocument } from './ui/planner.document';
 @Injectable()
 export class PlannerService {
   constructor(
-    private gameService: GameService,
+    private marketService: MarketService,
+    private playerService: PlayerService,
     private resultsService: ResultsService,
     private coingeckoService: CoingeckoService,
   ) {}
@@ -37,9 +39,12 @@ export class PlannerService {
       5,
     );
 
-    const cardPrices: MarketPriceMap = await this.gameService.getMarketPrices();
+    const cardPrices: MarketPriceMap =
+      await this.marketService.getMarketPrices();
 
-    const playerCards = await this.gameService.getPlayerCards(form.playerName);
+    const playerCards = await this.playerService.getPlayerCards(
+      form.playerName,
+    );
 
     for (const playerCard of playerCards) {
       delete cardPrices[playerCard.card_detail_id.toString()][

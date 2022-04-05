@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { PREMIUM_DAYS_TO_KEEP } from '../../../util';
 import { PlayerDto, TeamDetailedDto } from '../../api';
 
 export type BattleDocument = Battle & Document;
@@ -56,7 +57,7 @@ export const BattleSchema = SchemaFactory.createForClass(Battle)
       timestamp: 1,
     },
     {
-      expireAfterSeconds: 86400 * 14, // 14 days
+      expireAfterSeconds: 86400 * PREMIUM_DAYS_TO_KEEP,
     },
   )
   .index({

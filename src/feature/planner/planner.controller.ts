@@ -13,7 +13,7 @@ import {
 } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
-import { GameService } from '../../shared/game';
+import { MarketService } from '../../shared/game';
 import { PlannerService } from './planner.service';
 import { PlannerViewBag } from './ui/planner-view-bag.document';
 import { PlannerDocument } from './ui/planner.document';
@@ -28,7 +28,7 @@ export class PlannerController extends AbstractController {
   constructor(
     clientService: ClientService,
     private apmService: ApmService,
-    private gameService: GameService,
+    private gameService: MarketService,
     private plannerService: PlannerService,
   ) {
     super(clientService);

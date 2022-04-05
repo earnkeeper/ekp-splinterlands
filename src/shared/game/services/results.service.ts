@@ -2,11 +2,10 @@ import { ApmService, CacheService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import moment from 'moment';
-import { ApiService, CardDetailDto, TeamDetailedDto } from '../api';
-import { Battle, BattleRepository } from '../db';
+import { FREE_DAYS_TO_KEEP, PREMIUM_DAYS_TO_KEEP } from '../../../util';
+import { ApiService, CardDetailDto, TeamDetailedDto } from '../../api';
+import { Battle, BattleRepository } from '../../db';
 import { MapperService } from './mapper.service';
-
-const FREE_DAYS_TO_FETCH = 1;
 
 @Injectable()
 export class ResultsService {
@@ -47,8 +46,8 @@ export class ResultsService {
     });
 
     const fetchSince = !subscribed
-      ? moment().subtract(FREE_DAYS_TO_FETCH, 'days').unix()
-      : moment().subtract(14, 'days').unix();
+      ? moment().subtract(FREE_DAYS_TO_KEEP, 'days').unix()
+      : moment().subtract(PREMIUM_DAYS_TO_KEEP, 'days').unix();
 
     const sp1 = tx?.startChild({
       op: 'readBattles',

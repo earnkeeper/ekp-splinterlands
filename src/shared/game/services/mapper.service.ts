@@ -8,10 +8,10 @@ import {
   PlayerDto,
   TeamDetailedDto,
   TransactionDto,
-} from '../api';
-import { PlayerBattleDto } from '../api/dto/player-battles.dto';
-import { Battle } from '../db';
-import { GameService } from './game.service';
+} from '../../api';
+import { PlayerBattleDto } from '../../api/dto/player-battles.dto';
+import { Battle } from '../../db';
+import { LEAGUES } from '../constants';
 
 @Injectable()
 export class MapperService {
@@ -58,7 +58,7 @@ export class MapperService {
 
   static mapLeagueName(rating: number, power?: number): string {
     // TODO: could cache this, minor performance issue (cpu)
-    const sortedLeagues = _.chain(GameService.LEAGUES)
+    const sortedLeagues = _.chain(LEAGUES)
       .sortBy('min_rating')
       .reverse()
       .value();

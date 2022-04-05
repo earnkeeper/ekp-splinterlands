@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import fs from 'fs';
-import { MODULE_DEF } from '../../../src/app.module';
+import { MODULE_DEF } from '../../../src/worker.module';
 import { BattleRepository } from '../../../src/shared/db/battle/battle.repository';
 
 describe('BattleRepository (e2e)', () => {

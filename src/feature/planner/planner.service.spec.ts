@@ -8,7 +8,7 @@ import {
   PlayerCollectionDto,
 } from '../../shared/api';
 import { Battle, BattleRepository } from '../../shared/db';
-import { GameService } from '../../shared/game/game.service';
+import { MarketService } from '../../shared/game/services/market.service';
 import { PlannerService } from './planner.service';
 
 async function readFixture<T>(name: string): Promise<T> {
@@ -51,7 +51,7 @@ describe('PlannerService', () => {
             findBattleByManaCap: jest.fn().mockReturnValue(BATTLES),
           };
         }
-        if (token === GameService) {
+        if (token === MarketService) {
           return {
             getPlayerCards: jest.fn().mockReturnValue(PLAYER_CARDS),
           };
@@ -90,14 +90,14 @@ describe('PlannerService', () => {
         expect(viableTeam.summoner.mana).toBeGreaterThanOrEqual(0);
         expect(viableTeam.summoner.level).toBeGreaterThan(0);
         expect(viableTeam.summoner.name).toBeString();
-        expect(viableTeam.summoner.splinter).toBeOneOf(GameService.SPLINTERS);
+        expect(viableTeam.summoner.splinter).toBeOneOf(MarketService.SPLINTERS);
         expect(viableTeam.monsters).toBeArray();
         for (const monster of viableTeam.monsters) {
           expect(monster.cardDetailId).toBeGreaterThan(0);
           expect(monster.mana).toBeGreaterThan(0);
           expect(monster.level).toBeGreaterThan(0);
           expect(monster.name).toBeString();
-          expect(monster.splinter).toBeOneOf(GameService.SPLINTERS);
+          expect(monster.splinter).toBeOneOf(MarketService.SPLINTERS);
         }
       }
       await fs.promises.writeFile(

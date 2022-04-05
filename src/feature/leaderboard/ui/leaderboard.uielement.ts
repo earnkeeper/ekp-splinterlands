@@ -17,7 +17,8 @@ import {
   Span,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
-import { DEFAULT_LEADERBOARD_FORM, LEADERBOARD_LEAGUES } from '../../../util';
+import { LEADERBOARD_LEAGUES } from '../../../shared/game';
+import { DEFAULT_LEADERBOARD_FORM } from '../../../util';
 import { LeaderboardDocument } from './leaderboard.document';
 
 export default function element(): UiElement {

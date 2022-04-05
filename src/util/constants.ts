@@ -10,25 +10,5 @@ export const DEFAULT_LEADERBOARD_FORM = {
   season: 84,
 };
 
-export const LEADERBOARD_LEAGUES = [
-  {
-    id: 0,
-    name: 'Bronze',
-  },
-  {
-    id: 1,
-    name: 'Silver',
-  },
-  {
-    id: 2,
-    name: 'Gold',
-  },
-  {
-    id: 3,
-    name: 'Diamond',
-  },
-  {
-    id: 4,
-    name: 'Champion',
-  },
-];
+export const FREE_DAYS_TO_KEEP = 1;
+export const PREMIUM_DAYS_TO_KEEP = 14;
