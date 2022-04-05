@@ -10,6 +10,11 @@ export const DEFAULT_LEADERBOARD_FORM = {
   season: 84,
 };
 
+export const DEFAULT_HISTORY_FORM = {
+  playername: 'kiokizz',
+  leagueName: 'Bronze',
+ 
+};
 export const LEADERBOARD_LEAGUES = [
   {
     id: 0,

@@ -13,13 +13,13 @@ import {
   } from '@earnkeeper/ekp-sdk-nestjs';
   import { Injectable } from '@nestjs/common';
 import { PlayerHistoryForm } from 'src/util/forms/player-history-form';
-  import { DEFAULT_LEADERBOARD_FORM} from '../../util';
+  import { DEFAULT_HISTORY_FORM, DEFAULT_LEADERBOARD_FORM} from '../../util';
   import { PlayerhistoryService } from './playerhistory.service';
   import { PlayerhistoryDocument } from './ui/playerhistory.document';
   import Playerhistory from './ui/playerhistory.uielement';
   
   const COLLECTION_NAME = collection(PlayerhistoryDocument);
-  const PATH = 'playerhistory';
+  const PATH = 'history';
   
   @Injectable()
   export class PlayerHistoryController extends AbstractController {
@@ -36,7 +36,7 @@ import { PlayerHistoryForm } from 'src/util/forms/player-history-form';
         id: PATH,
         title: 'Player History',
         navLink: PATH,
-        icon: 'award',
+        icon: 'cil-history',
       });
   
       await this.clientService.emitPage(event, {
@@ -58,12 +58,11 @@ import { PlayerHistoryForm } from 'src/util/forms/player-history-form';
   
       try {
         const form: PlayerHistoryForm =
-          event.state.forms?.leaderboard ?? DEFAULT_LEADERBOARD_FORM;
+          event.state.forms?.battles ?? DEFAULT_HISTORY_FORM;
   
         const PlayerhistoryDocuments =
           await this.PlayerhistoryService.getPlayerHistoryDocuments(
             form,
-            event.state.client.selectedCurrency,
           );
   
         this.clientService.emitDocuments(

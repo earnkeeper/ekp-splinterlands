@@ -17,7 +17,7 @@ import {
     Span,
     UiElement,
   } from '@earnkeeper/ekp-sdk';
-  import { DEFAULT_LEADERBOARD_FORM, LEADERBOARD_LEAGUES } from '../../../util';
+  import { DEFAULT_HISTORY_FORM } from '../../../util';
   import { PlayerhistoryDocument } from './playerhistory.document';
   
   export default function element(): UiElement {
@@ -31,7 +31,7 @@ import {
               children: [
                 PageHeaderTile({
                   title: 'Player History',
-                  icon: 'time',
+                  icon: 'cid-history',
                 }),
               ],
             }),
@@ -56,7 +56,7 @@ import {
         properties: {
           playername: 'string',
         },
-        default: DEFAULT_LEADERBOARD_FORM,
+        default: DEFAULT_HISTORY_FORM,
       },
       children: [
         Row({
@@ -68,7 +68,7 @@ import {
                 Select({
                   label: 'Player',
                   name: 'playername',
-                  options: [...LEADERBOARD_LEAGUES.map((it) => it.name)],
+                  options: [DEFAULT_HISTORY_FORM.playername],
                   minWidth: 160,
                 }),
               ],
@@ -156,6 +156,7 @@ function historyRow(): UiElement {
           {
             label: 'Winner',
             value: '$.winner',
+            
           },
           
         ],
@@ -169,36 +170,76 @@ function historyRow(): UiElement {
     },
     columns: [
       {
-        id: 'Date',
+        id: 'created_date',
+        title: 'Date',
+        grow:0,
+        sortable: true,
+      },
+      {
+        id: 'current_streak',
+        title: 'Streak',
         grow: 0,
         sortable: true,
       },
       {
-        id: 'Streak',
+        title: 'Mana Cap',
+        id: 'mana_cap',
         grow: 0,
         sortable: true,
       },
+    
       {
-        id: 'Player 1',
-        searchable: true,
-      },
-      {
-        id: 'Player 2',
-        searchable: true,
-      },
-      {
+      title: 'Player 1',
+      id: 'player_1',
+    },
+    {
+      title: 'Final Rating',
+      id: 'player_1_rating_final',
+      grow:0,
+    },
+    {
+      title: 'Initial Rating',
+      id: 'player_1_rating_initial',
+      grow:0,
+    },
+    {
+      id: 'player_2',
+      searchable: true,
+      title: 'Player 2'
+    },
+    {
+      title: 'Final Rating',
+      grow:0,
+      id: 'player_2_rating_final',
+    },
+    {
+      title: 'Initial Rating',
+      grow:0,
+      id: 'player_2_rating_initial',
+    },
+    {
         id: 'match_type',
         searchable: true,
         sortable: true,
       },
       {
         id: 'ruleset',
-        grow: 0,
         sortable: true,
       },
       {
         id: 'winner',
-        grow: 0,
+        sortable: true,
+      },
+
+      {
+        title: 'R Share',
+        id: 'rshares',
+        grow:0,
+        sortable: true,
+      },
+      {
+        title: 'Ruleset',
+        id: 'ruleset',
         sortable: true,
       },
      
