@@ -1,6 +1,4 @@
 export type LeaderboardForm = Readonly<{
-  leagueName: string;
+  leagueGroup: string;
   season: number;
-  ruleset: string;
-  playerName: string;
 }>;

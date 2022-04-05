@@ -1,12 +1,14 @@
-export const DEFAULT_BATTLE_FORM = {
-  leagueName: 'All',
+import { BattleForm, LeaderboardForm } from './forms';
+
+export const DEFAULT_BATTLE_FORM: BattleForm = {
+  leagueGroup: 'All',
   manaCap: 13,
   playerName: '',
   ruleset: 'Standard',
 };
 
-export const DEFAULT_LEADERBOARD_FORM = {
-  leagueName: 'Bronze',
+export const DEFAULT_LEADERBOARD_FORM: LeaderboardForm = {
+  leagueGroup: 'Bronze',
   season: 84,
 };
 

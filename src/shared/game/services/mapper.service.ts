@@ -74,6 +74,14 @@ export class MapperService {
     return _.last(sortedLeagues).name;
   }
 
+  static mapLeagueGroup(leagueName: string): string {
+    if (!leagueName) {
+      return leagueName;
+    }
+
+    return leagueName.split(' ')[0];
+  }
+
   static mapBattlesFromPlayer(
     playerBattles: PlayerBattleDto[],
     version: number,
@@ -130,6 +138,9 @@ export class MapperService {
       battleDetails,
     );
 
+    const leagueName = MapperService.mapLeagueName(players[0].initial_rating);
+    const leagueGroup = MapperService.mapLeagueGroup(leagueName);
+
     return {
       id: this.mapBattleId(
         playerBattle.player_1,
@@ -148,7 +159,8 @@ export class MapperService {
         playerBattle.winner === battleDetails.team1.player
           ? battleDetails.team2.player
           : battleDetails.team1.player,
-      leagueName: MapperService.mapLeagueName(players[0].initial_rating),
+      leagueName,
+      leagueGroup,
       source: 'playerHistory',
       version,
     };
@@ -178,6 +190,11 @@ export class MapperService {
       return undefined;
     }
 
+    const leagueName = MapperService.mapLeagueName(
+      battle.players[0].initial_rating,
+    );
+    const leagueGroup = MapperService.mapLeagueGroup(leagueName);
+
     return {
       id: battle.id,
       blockNumber: transaction.block_num,
@@ -192,7 +209,8 @@ export class MapperService {
         battle.winner === battle.details.team1.player
           ? battle.details.team2.player
           : battle.details.team1.player,
-      leagueName: MapperService.mapLeagueName(battle.players[0].initial_rating),
+      leagueName,
+      leagueGroup,
       source: 'transaction',
       version,
     };

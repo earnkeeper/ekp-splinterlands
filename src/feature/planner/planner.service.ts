@@ -34,7 +34,7 @@ export class PlannerService {
     const { teams, battles } = await this.resultsService.getTeamResults(
       form.manaCap,
       form.ruleset,
-      form.leagueName,
+      form.leagueGroup,
       subscribed ?? false,
       5,
     );

@@ -17,7 +17,7 @@ import {
   Span,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
-import { LEADERBOARD_LEAGUES } from '../../../shared/game';
+import { LEAGUE_GROUPS } from '../../../shared/game';
 import { DEFAULT_LEADERBOARD_FORM } from '../../../util';
 import { LeaderboardDocument } from './leaderboard.document';
 
@@ -55,7 +55,7 @@ function formRow(): UiElement {
     schema: {
       type: 'object',
       properties: {
-        leagueName: 'string',
+        leagueGroup: 'string',
         season: 'number',
       },
       default: DEFAULT_LEADERBOARD_FORM,
@@ -69,8 +69,8 @@ function formRow(): UiElement {
             children: [
               Select({
                 label: 'League',
-                name: 'leagueName',
-                options: [...LEADERBOARD_LEAGUES.map((it) => it.name)],
+                name: 'leagueGroup',
+                options: [...LEAGUE_GROUPS.map((it) => it.name)],
                 minWidth: 160,
               }),
             ],

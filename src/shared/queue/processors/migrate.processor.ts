@@ -6,6 +6,7 @@ import {
 import { Process, Processor } from '@nestjs/bull';
 import _ from 'lodash';
 import moment from 'moment';
+import { MapperService } from '../../../shared/game';
 import { PREMIUM_DAYS_TO_KEEP } from '../../../util';
 import { BattleRepository, BATTLE_VERSION } from '../../db';
 import { MIGRATE_BATTLES } from '../constants';
@@ -26,7 +27,7 @@ export class MigrateProcessor {
         const battles = await this.battleRepository.findWithVersionLessThan(
           BATTLE_VERSION,
           oldestAllowed.unix(),
-          2000,
+          5000,
         );
 
         if (battles.length === 0) {
@@ -36,6 +37,12 @@ export class MigrateProcessor {
         for (const battle of battles) {
           if (!battle.rulesets || battle.rulesets.length === 0) {
             battle.rulesets = battle.ruleset.split('|');
+          }
+
+          if (!battle.leagueGroup) {
+            battle.leagueGroup = MapperService.mapLeagueGroup(
+              battle.leagueName,
+            );
           }
 
           battle.version = BATTLE_VERSION;

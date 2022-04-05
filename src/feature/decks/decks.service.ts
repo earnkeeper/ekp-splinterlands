@@ -35,7 +35,7 @@ export class DecksService {
     const { teams: teamResults } = await this.resultsService.getTeamResults(
       form.manaCap,
       form.ruleset,
-      form.leagueName,
+      form.leagueGroup,
       subscribed,
       5,
     );

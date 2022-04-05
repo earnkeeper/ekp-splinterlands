@@ -24,7 +24,7 @@ import {
   UiElement,
 } from '@earnkeeper/ekp-sdk';
 import _ from 'lodash';
-import { LEAGUES, MANA_CAPS, RULESETS } from '../../../shared/game';
+import { LEAGUE_GROUPS, MANA_CAPS, RULESETS } from '../../../shared/game';
 import {
   DEFAULT_BATTLE_FORM,
   statsCard,
@@ -124,7 +124,7 @@ function yourDetailsRow() {
             playerName: 'string',
             manaCap: 'number',
             ruleset: 'string',
-            leagueName: 'string',
+            leagueGroup: 'string',
           },
           default: DEFAULT_BATTLE_FORM,
         },
@@ -146,8 +146,8 @@ function yourDetailsRow() {
                 children: [
                   Select({
                     label: 'League',
-                    name: 'leagueName',
-                    options: ['All', ...LEAGUES.map((it) => it.name)],
+                    name: 'leagueGroup',
+                    options: ['All', ...LEAGUE_GROUPS.map((it) => it.name)],
                     minWidth: 160,
                   }),
                 ],

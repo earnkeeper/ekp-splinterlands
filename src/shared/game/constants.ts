@@ -264,7 +264,6 @@ export const MANA_CAPS = _.chain(_.range(12, 50))
   .map((it) => it.toString())
   .value();
 
-// TODO: can we fetch this from the settings api to always be up to date? Might be a problem for form generation
 export const LEAGUES = [
   {
     name: 'Novice',
@@ -412,7 +411,7 @@ export const LEAGUES = [
   },
 ];
 
-export const LEADERBOARD_LEAGUES = [
+export const LEAGUE_GROUPS = [
   {
     id: 0,
     name: 'Bronze',

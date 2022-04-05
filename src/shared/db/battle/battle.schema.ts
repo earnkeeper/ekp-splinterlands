@@ -4,7 +4,7 @@ import { PREMIUM_DAYS_TO_KEEP } from '../../../util';
 import { PlayerDto, TeamDetailedDto } from '../../api';
 
 export type BattleDocument = Battle & Document;
-export const BATTLE_VERSION = 2;
+export const BATTLE_VERSION = 3;
 
 @Schema()
 export class Battle {
@@ -40,6 +40,9 @@ export class Battle {
 
   @Prop()
   readonly leagueName: string;
+
+  @Prop()
+  leagueGroup: string;
 
   @Prop({ type: 'array' })
   readonly players: PlayerDto[];
