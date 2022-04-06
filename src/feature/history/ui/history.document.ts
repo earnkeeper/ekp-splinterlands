@@ -6,17 +6,14 @@ export class HistoryDocument extends DocumentDto {
   }
 
   readonly id: string;
-  readonly createdDate: Date;
   readonly currentStreak: number;
   readonly manaCap: number;
   readonly matchType: string;
-  readonly player1: string;
-  readonly player1RatingFinal: number;
-  readonly player1RatingInitial: number;
-  readonly player2: string;
-  readonly player2RatingFinal: number;
-  readonly player2RatingInitial: number;
-  readonly rShares: number;
+  readonly myFinalRating: number;
+  readonly opponentInitialRating: number;
+  readonly opponentName: string;
+  readonly result: string;
   readonly ruleSet: number;
-  readonly winner: string;
+  readonly timestamp: number;
+  readonly leagueName: string;
 }

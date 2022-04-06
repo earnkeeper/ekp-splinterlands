@@ -14,7 +14,6 @@ export const DEFAULT_LEADERBOARD_FORM: LeaderboardForm = {
 
 export const DEFAULT_HISTORY_FORM: HistoryForm = {
   playerName: '',
-  leagueName: 'Bronze',
 };
 
 export const LEADERBOARD_LEAGUES = [

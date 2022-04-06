@@ -6,6 +6,7 @@ import {
   Datatable,
   documents,
   Form,
+  formatAge,
   formatDatetime,
   formatToken,
   Fragment,
@@ -30,7 +31,7 @@ export default function element(): UiElement {
             className: 'col-auto',
             children: [
               PageHeaderTile({
-                title: 'Player History',
+                title: 'Battle History',
                 icon: 'cil-history',
               }),
             ],
@@ -55,7 +56,6 @@ function formRow(): UiElement {
       type: 'object',
       properties: {
         playerName: 'string',
-        leagueName: 'string',
       },
       default: DEFAULT_HISTORY_FORM,
     },
@@ -67,7 +67,7 @@ function formRow(): UiElement {
             className: 'col-12 col-md-auto',
             children: [
               Input({
-                label: 'Player',
+                label: 'Player Name',
                 name: 'playerName',
               }),
             ],
@@ -100,72 +100,58 @@ function historyRow(): UiElement {
     busyWhen: isBusy(collection(HistoryDocument)),
     filters: [
       {
-        columnId: 'manaCap',
-        type: 'slider',
+        columnId: 'result',
+        type: 'radio',
       },
-
       {
-        columnId: 'rShares',
-        type: 'slider',
+        columnId: 'ruleSet',
+        type: 'checkbox',
+      },
+      {
+        columnId: 'matchType',
+        type: 'checkbox',
       },
     ],
-
     gridView: {
       tileWidth: [12, 6, 4, 3],
       tile: GridTile({
         image: Fragment(),
         details: [
           {
-            label: 'Date',
-            value: '$.createdDate',
+            label: 'Timestamp',
+            value: formatAge('$.timestamp'),
           },
           {
-            label: 'Streak',
-            value: '$.currentStreak',
+            label: 'Opponent Rating',
+            value: '$.opponentInitialRating',
+          },
+          {
+            label: 'Opponent',
+            value: '$.opponentName',
           },
           {
             label: 'Mana Cap',
             value: '$.manaCap',
           },
           {
+            label: 'Rule Set',
+            value: '$.ruleSet',
+          },
+          {
             label: 'Match Type',
             value: '$.matchType',
           },
           {
-            label: 'Player 1',
-            value: '$.player1',
+            label: 'Result',
+            value: '$.result',
           },
           {
             label: 'Final Rating',
-            value: '$.player1RatingFinal',
+            value: '$.myFinalRating',
           },
           {
-            label: 'Initial Rating',
-            value: '$.player1RatingInitial',
-          },
-          {
-            label: 'Player 2',
-            value: '$.player2',
-          },
-          {
-            label: 'Final Rating',
-            value: '$.player2RatingFinal',
-          },
-          {
-            label: 'Initial Rating',
-            value: '$.player2RatingInitial',
-          },
-          {
-            label: 'R Share',
-            value: '$.rShares',
-          },
-          {
-            label: 'Ruleset',
-            value: '$.ruleSet',
-          },
-          {
-            label: 'Winner',
-            value: '$.winner',
+            label: 'Streak',
+            value: '$.currentStreak',
           },
         ],
         left: {
@@ -178,77 +164,48 @@ function historyRow(): UiElement {
     },
     columns: [
       {
-        id: 'created_date',
-        title: 'Date',
-        grow: 0,
+        id: 'timestamp',
+        title: 'Timestamp',
         sortable: true,
+        format: formatAge('$.timestamp'),
       },
       {
-        id: 'currentStreak',
-        title: 'Streak',
+        id: 'result',
+      },
+      {
+        id: 'leagueName',
+        title: 'League',
+      },
+      {
+        id: 'opponentInitialRating',
+        title: 'Opponent Rating',
         grow: 0,
-        sortable: true,
+      },
+      {
+        id: 'opponentName',
+        title: 'Opponent',
+        searchable: true,
       },
       {
         title: 'Mana Cap',
         id: 'manaCap',
         grow: 0,
-        sortable: true,
-      },
-
-      {
-        title: 'Player 1',
-        id: 'player1',
       },
       {
-        title: 'Final Rating',
-        id: 'player1RatingFinal',
-        grow: 0,
-      },
-      {
-        title: 'Initial Rating',
-        id: 'player1RatingInitial',
-        grow: 0,
-      },
-      {
-        id: 'player2',
-        searchable: true,
-        title: 'Player 2',
-      },
-      {
-        title: 'Final Rating',
-        grow: 0,
-        id: 'player2RatingFinal',
-      },
-      {
-        title: 'Initial Rating',
-        grow: 0,
-        id: 'player2RatingInitial',
+        id: 'ruleSet',
       },
       {
         id: 'matchType',
-        searchable: true,
-        sortable: true,
       },
       {
-        id: 'ruleSet',
-        sortable: true,
-      },
-      {
-        id: 'winner',
-        sortable: true,
-      },
-
-      {
-        title: 'R Share',
-        id: 'rShares',
+        id: 'myFinalRating',
+        title: 'Rating',
         grow: 0,
-        sortable: true,
       },
       {
-        title: 'Ruleset',
-        id: 'ruleSet',
-        sortable: true,
+        id: 'currentStreak',
+        title: 'Streak',
+        grow: 0,
       },
     ],
   });
