@@ -6,7 +6,7 @@ import { LeaderboardModule } from './feature/leaderboard/leaderboard.module';
 import { MarketplaceModule } from './feature/marketplace/marketplace.module';
 import { PlannerModule } from './feature/planner/planner.module';
 import { HistoryModule } from './feature/history/history.module';
-import { ScheduleModule } from './feature/schedule/schedule.module';
+import { QueueModule } from './shared/queue/queue.module';
 
 export const MODULE_DEF = {
   imports: [
@@ -14,12 +14,12 @@ export const MODULE_DEF = {
     DecksModule,
     LeaderboardModule,
     MarketplaceModule,
+    QueueModule,
     PlannerModule,
-    ScheduleModule,
     HistoryModule,
     SdkModule,
   ],
 };
 
 @Module(MODULE_DEF)
-export class AppModule {}
+export class WorkerModule {}

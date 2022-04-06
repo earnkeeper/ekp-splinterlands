@@ -3,8 +3,8 @@ import { CoingeckoService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import moment from 'moment';
 import { ApiService, LeaderboardDto, SettingsDto } from '../../shared/api';
+import { LEAGUE_GROUPS } from '../../shared/game';
 import { LeaderboardForm } from '../../util';
-import { LEADERBOARD_LEAGUES } from '../../util/constants';
 import { LeaderboardDocument } from './ui/leaderboard.document';
 @Injectable()
 export class LeaderboardService {
@@ -17,8 +17,8 @@ export class LeaderboardService {
     form: LeaderboardForm,
     selectedCurrency: CurrencyDto,
   ): Promise<LeaderboardDocument[]> {
-    const leagueId = LEADERBOARD_LEAGUES.find(
-      (it) => it.name === form.leagueName,
+    const leagueId = LEAGUE_GROUPS.find(
+      (it) => it.name === form.leagueGroup,
     ).id;
 
     const leaderboardDto = await this.apiService.fetchLeaderboard(
@@ -39,7 +39,7 @@ export class LeaderboardService {
   ) {
     const now = moment().unix();
 
-    const prizes = settings.leaderboard_prizes[form.leagueName];
+    const prizes = settings.leaderboard_prizes[form.leagueGroup];
 
     let conversionRate = 1;
 

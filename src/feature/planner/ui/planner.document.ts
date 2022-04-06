@@ -9,6 +9,7 @@ export class PlannerDocument extends DocumentDto {
   readonly fiatSymbol: string;
   readonly mana: number;
   readonly monsterCount: number;
+  readonly owned: string;
   readonly price: number;
   readonly splinter: string;
   readonly splinterIcon: string;

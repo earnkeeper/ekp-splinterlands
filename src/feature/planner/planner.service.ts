@@ -5,8 +5,9 @@ import { validate } from 'bycontract';
 import _ from 'lodash';
 import moment from 'moment';
 import {
-  GameService,
   MarketPriceMap,
+  MarketService,
+  PlayerService,
   ResultsService,
   TeamMonster,
   TeamResults,
@@ -17,7 +18,8 @@ import { PlannerDocument } from './ui/planner.document';
 @Injectable()
 export class PlannerService {
   constructor(
-    private gameService: GameService,
+    private marketService: MarketService,
+    private playerService: PlayerService,
     private resultsService: ResultsService,
     private coingeckoService: CoingeckoService,
   ) {}
@@ -32,13 +34,17 @@ export class PlannerService {
     const { teams, battles } = await this.resultsService.getTeamResults(
       form.manaCap,
       form.ruleset,
-      form.leagueName,
+      form.leagueGroup,
       subscribed ?? false,
+      5,
     );
 
-    const cardPrices: MarketPriceMap = await this.gameService.getMarketPrices();
+    const cardPrices: MarketPriceMap =
+      await this.marketService.getMarketPrices();
 
-    const playerCards = await this.gameService.getPlayerCards(form.playerName);
+    const playerCards = await this.playerService.getPlayerCards(
+      form.playerName,
+    );
 
     for (const playerCard of playerCards) {
       delete cardPrices[playerCard.card_detail_id.toString()][
@@ -47,7 +53,7 @@ export class PlannerService {
     }
 
     const plannerDocuments = await this.mapDocuments(
-      teams,
+      teams.filter((it) => it.battles > 5),
       cardPrices,
       currency,
     );
@@ -117,6 +123,12 @@ export class PlannerService {
           })),
         );
 
+        const price = _.chain(monsters)
+          .filter((it) => !!it.price)
+          .sumBy('price')
+          .thru((it) => it * conversionRate)
+          .value();
+
         return {
           id: team.id,
           updated: now,
@@ -126,11 +138,8 @@ export class PlannerService {
           mana,
           monsterCount: team.monsters.length,
           monsters,
-          price: _.chain(monsters)
-            .filter((it) => !!it.price)
-            .sumBy('price')
-            .thru((it) => it * conversionRate)
-            .value(),
+          owned: price === 0 ? 'Yes' : ' No',
+          price,
           splinter: team.summoner.splinter,
           summonerName: team.summoner.name,
           summonerIcon: `https://d36mxiodymuqjm.cloudfront.net/card_art/${team.summoner.name}.png`,
@@ -138,7 +147,7 @@ export class PlannerService {
             team.summoner.name
           }_lv${team.summoner.level}.png`,
           summonerEdition: team.summoner.edition,
-          winpc: team.wins / team.battles,
+          winpc: (team.wins * 100) / team.battles,
         };
       })
       .value();

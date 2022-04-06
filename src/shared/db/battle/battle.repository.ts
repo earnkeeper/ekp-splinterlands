@@ -31,9 +31,37 @@ export class BattleRepository {
     return results ?? [];
   }
 
+  async findWithVersionLessThan(
+    version: number,
+    oldestTimestamp: number,
+    limit: number,
+  ): Promise<Battle[]> {
+    const results = await this.battleModel
+      .find({
+        $and: [
+          { timestamp: { $gte: oldestTimestamp } },
+          {
+            $or: [
+              {
+                version: { $lt: version },
+              },
+              {
+                version: null,
+              },
+            ],
+          },
+        ],
+      })
+      .sort('timestamp')
+      .limit(limit)
+      .exec();
+
+    return results ?? [];
+  }
+
   async findLatestByBlockNumber(): Promise<Battle> {
     const results = await this.battleModel
-      .find()
+      .find({ source: { $not: { $eq: 'playerHistory' } } })
       .sort('-blockNumber')
       .limit(1)
       .exec();
@@ -48,29 +76,29 @@ export class BattleRepository {
   async findBattleByManaCap(
     manaCap: number,
     ruleset: string,
-    leagueName: string,
+    leagueGroup: string,
     startTimestamp: number,
   ): Promise<Battle[]> {
     validate(
-      [manaCap, ruleset, leagueName, startTimestamp],
+      [manaCap, ruleset, leagueGroup, startTimestamp],
       ['number', 'string', 'string', 'number'],
     );
 
     const query: {
       timestamp: any;
       manaCap: number;
-      leagueName?: string;
-      ruleset: string;
+      leagueGroup?: string;
+      rulesets: string;
     } = {
       timestamp: {
         $gte: startTimestamp,
       },
       manaCap,
-      ruleset,
+      rulesets: ruleset,
     };
 
-    if (leagueName !== 'All') {
-      query.leagueName = leagueName;
+    if (leagueGroup !== 'All') {
+      query.leagueGroup = leagueGroup;
     }
 
     return this.battleModel.where(query).sort('timestamp').exec();
@@ -93,15 +121,17 @@ export class BattleRepository {
             $set: _.pick(model, [
               'id',
               'blockNumber',
-              'timestamp',
-              'manaCap',
-              'ruleset',
-              'players',
-              'winner',
+              'leagueGroup',
+              'leagueName',
               'loser',
+              'manaCap',
+              'players',
+              'rulesets',
               'team1',
               'team2',
-              'leagueName',
+              'timestamp',
+              'version',
+              'winner',
             ]),
           },
           upsert: true,

@@ -1,3 +1,4 @@
+export * from './battle-details.dto';
 export * from './battle.dto';
 export * from './card-detail.dto';
 export * from './for-sale-grouped.dto';

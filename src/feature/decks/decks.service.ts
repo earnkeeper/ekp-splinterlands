@@ -6,8 +6,9 @@ import _ from 'lodash';
 import moment from 'moment';
 import { PlayerCardDto } from '../../shared/api';
 import {
-  GameService,
   MarketPriceMap,
+  MarketService,
+  PlayerService,
   ResultsService,
   TeamResults,
 } from '../../shared/game';
@@ -18,7 +19,8 @@ import { DeckCard, DeckDocument } from './ui/deck.document';
 export class DecksService {
   constructor(
     private resultsService: ResultsService,
-    private gameService: GameService,
+    private marketService: MarketService,
+    private playerService: PlayerService,
     private coingeckoService: CoingeckoService,
   ) {}
 
@@ -33,14 +35,16 @@ export class DecksService {
     const { teams: teamResults } = await this.resultsService.getTeamResults(
       form.manaCap,
       form.ruleset,
-      form.leagueName,
+      form.leagueGroup,
       subscribed,
+      5,
     );
 
-    const cardPrices: MarketPriceMap = await this.gameService.getMarketPrices();
+    const cardPrices: MarketPriceMap =
+      await this.marketService.getMarketPrices();
 
     const playerCards = !!form.playerName
-      ? await this.gameService.getPlayerCards(form.playerName)
+      ? await this.playerService.getPlayerCards(form.playerName)
       : undefined;
 
     return await this.mapDocuments(
@@ -105,7 +109,9 @@ export class DecksService {
           .sum()
           .thru((it) => it * conversionRate)
           .value(),
-        winpc: !!teamResult ? teamResult.wins / teamResult.battles : undefined,
+        winpc: !!teamResult
+          ? (teamResult.wins * 100) / teamResult.battles
+          : undefined,
         battles: !!teamResult ? teamResult.battles : undefined,
         updated: now,
       };

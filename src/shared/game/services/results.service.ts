@@ -1,13 +1,11 @@
-import { ApmService } from '@earnkeeper/ekp-sdk-nestjs';
+import { ApmService, CacheService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import moment from 'moment';
-import { ApiService, CardDetailDto, TeamDetailedDto } from '../api';
-import { Battle, BattleRepository } from '../db';
-import { GameService } from './game.service';
+import { FREE_DAYS_TO_KEEP, PREMIUM_DAYS_TO_KEEP } from '../../../util';
+import { ApiService, CardDetailDto, TeamDetailedDto } from '../../api';
+import { Battle, BattleRepository } from '../../db';
 import { MapperService } from './mapper.service';
-
-const FREE_DAYS_TO_FETCH = 1;
 
 @Injectable()
 export class ResultsService {
@@ -15,23 +13,41 @@ export class ResultsService {
     private apiService: ApiService,
     private apmService: ApmService,
     private battleRepository: BattleRepository,
-    private gameService: GameService,
+    private cacheService: CacheService,
   ) {}
 
   async getTeamResults(
     manaCap: number,
     ruleset: string,
-    leagueName: string,
+    leagueGroup: string,
     subscribed: boolean,
+    minBattles: number,
   ): Promise<{ teams: TeamResults[]; battles: Battle[] }> {
+    const cacheKey = _.chain([
+      manaCap,
+      ruleset,
+      leagueGroup,
+      subscribed,
+      minBattles,
+    ])
+      .join('|')
+      .value();
+
+    const cached: { teams: TeamResults[]; battles: Battle[] } =
+      await this.cacheService.get(cacheKey);
+
+    if (!!cached) {
+      return cached;
+    }
+
     const tx = this.apmService.startTransaction({
       name: 'PlannerService',
       op: 'getViableTeams',
     });
 
     const fetchSince = !subscribed
-      ? moment().subtract(FREE_DAYS_TO_FETCH, 'days').unix()
-      : 0;
+      ? moment().subtract(FREE_DAYS_TO_KEEP, 'days').unix()
+      : moment().subtract(PREMIUM_DAYS_TO_KEEP, 'days').unix();
 
     const sp1 = tx?.startChild({
       op: 'readBattles',
@@ -45,7 +61,7 @@ export class ResultsService {
     const battles = await this.battleRepository.findBattleByManaCap(
       manaCap,
       ruleset,
-      leagueName,
+      leagueGroup,
       fetchSince,
     );
 
@@ -84,7 +100,14 @@ export class ResultsService {
 
     tx?.finish();
 
-    return { teams, battles };
+    const result = {
+      teams: teams.filter((it) => it.battles >= minBattles),
+      battles,
+    };
+
+    await this.cacheService.set(cacheKey, result, { ttl: 3600 });
+
+    return result;
   }
 
   private updateResultsWith(

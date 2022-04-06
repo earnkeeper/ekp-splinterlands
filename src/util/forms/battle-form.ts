@@ -1,5 +1,5 @@
 export type BattleForm = Readonly<{
-  leagueName: string;
+  leagueGroup: string;
   manaCap: number;
   ruleset: string;
   playerName: string;

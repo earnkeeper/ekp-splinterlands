@@ -8,15 +8,15 @@ import {
   ForSaleGroupedDto,
   PlayerCardDto,
 } from '../../shared/api';
-import { CardRepository } from '../../shared/db/card/card.repository';
-import { GameService } from '../../shared/game/game.service';
+import { CardRepository } from '../../shared/db';
+import { PlayerService } from '../../shared/game';
 
 @Injectable()
 export class MarketplaceService {
   constructor(
     private apiService: ApiService,
     private cardRepository: CardRepository,
-    private gameService: GameService,
+    private playerService: PlayerService,
   ) {}
 
   async getEnhancedSales(playerName: string): Promise<EnhancedSale[]> {
@@ -30,7 +30,7 @@ export class MarketplaceService {
 
     const cardsMap = _.keyBy(cards, 'id');
 
-    const playerCards = await this.gameService.getPlayerCards(playerName);
+    const playerCards = await this.playerService.getPlayerCards(playerName);
 
     return _.chain(sales)
       .map((sale) => {

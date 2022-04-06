@@ -9,6 +9,7 @@ import {
   SettingsDto,
   TransactionDto,
 } from './dto';
+import { PlayerBattlesDto } from './dto/player-battles.dto';
 import { PlayerCollectionDto } from './dto/player-collection.dto';
 import { HistoryDto } from './dto/history.dto';
 
@@ -23,6 +24,12 @@ export class ApiService extends AbstractApiService {
   constructor() {
     super({
       name: 'SplinterlandsApiService',
+      limit: {
+        maxConcurrent: 25,
+        reservoir: 25,
+        reservoirRefreshAmount: 25,
+        reservoirRefreshInterval: 5000,
+      },
     });
 
     if (process.env.PROXY_HOST) {
@@ -45,7 +52,7 @@ export class ApiService extends AbstractApiService {
   async fetchCardSales(): Promise<ForSaleGroupedDto[]> {
     const url = `${BASE_URL}/market/for_sale_grouped`;
 
-    return this.handleCall({ url, ttl: 30 }, async () => {
+    return this.handleCall({ url, ttl: 60 }, async () => {
       const response = await axios.get(url, { proxy: this.proxy });
       return response.data;
     });
@@ -57,7 +64,7 @@ export class ApiService extends AbstractApiService {
   ): Promise<LeaderboardDto> {
     const url = `${CACHE_BASE_URL}/players/leaderboard_with_player?season=${season}&leaderboard=${leagueId}`;
 
-    return this.handleCall({ url, ttl: 300 }, async () => {
+    return this.handleCall({ url, ttl: 3600 }, async () => {
       const response = await axios.get(url, { proxy: this.proxy });
       return response.data;
     });
@@ -66,7 +73,7 @@ export class ApiService extends AbstractApiService {
   async fetchCardDetails(): Promise<CardDetailDto[]> {
     const url = `${BASE_URL}/cards/get_details`;
 
-    return this.handleCall({ url, ttl: 300 }, async () => {
+    return this.handleCall({ url, ttl: 3600 }, async () => {
       const response = await axios.get(url, { proxy: this.proxy });
       return response.data;
     });
@@ -92,7 +99,17 @@ export class ApiService extends AbstractApiService {
   ): Promise<PlayerCollectionDto> {
     const url = `${BASE_URL}/cards/collection/${playerName}`;
 
-    return this.handleCall({ url, ttl: 15 }, async () => {
+    return this.handleCall({ url, ttl: 60 }, async () => {
+      const response = await axios.get(url, { proxy: this.proxy });
+
+      return response.data;
+    });
+  }
+
+  async fetchPlayerBattles(playerName: string): Promise<PlayerBattlesDto> {
+    const url = `${BASE_URL}/battle/history?player=${playerName}`;
+
+    return this.handleCall({ url }, async () => {
       const response = await axios.get(url, { proxy: this.proxy });
 
       return response.data;

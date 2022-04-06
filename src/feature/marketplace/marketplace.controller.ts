@@ -20,6 +20,7 @@ import { ListingDocument } from './ui/listing.document';
 import marketplace from './ui/marketplace.uielement';
 
 const COLLECTION_NAME = collection(ListingDocument);
+const PATH = 'marketplace';
 
 @Injectable()
 export class MarketplaceController extends AbstractController {
@@ -33,31 +34,55 @@ export class MarketplaceController extends AbstractController {
 
   async onClientConnected(event: ClientConnectedEvent) {
     await this.clientService.emitMenu(event, {
-      id: `marketplace`,
+      id: PATH,
       title: 'Marketplace',
-      navLink: `marketplace`,
+      navLink: PATH,
       icon: 'cil-cart',
     });
 
     await this.clientService.emitPage(event, {
-      id: `marketplace`,
+      id: PATH,
       element: marketplace(),
     });
   }
 
   async onClientStateChanged(event: ClientStateChangedEvent) {
+    const currency = event.state.client.selectedCurrency;
+    let conversionRate = 1;
+
+    if (currency.id !== 'usd') {
+      const prices = await this.coingeckoService.latestPricesOf(
+        ['usd-coin'],
+        currency.id,
+      );
+
+      conversionRate = prices[0].price;
+    }
+
+    await this.clientService.emitPage(event, {
+      id: PATH,
+      element: marketplace(currency.symbol, [
+        10 * conversionRate,
+        100 * conversionRate,
+        500 * conversionRate,
+      ]),
+    });
+
+    if (PATH !== event?.state?.client?.path) {
+      return;
+    }
+
     await this.clientService.emitBusy(event, COLLECTION_NAME);
 
     const enhancedSales = await this.marketplaceService.getEnhancedSales(
       'earnkeeper',
     );
 
-    const currency = event.state.client.selectedCurrency;
-
     const documents = await this.mapListingDocuments(
       enhancedSales,
       event,
       currency,
+      conversionRate,
     );
 
     await this.clientService.emitDocuments(event, COLLECTION_NAME, documents);
@@ -79,18 +104,8 @@ export class MarketplaceController extends AbstractController {
     sales: EnhancedSale[],
     clientEvent: ClientStateChangedEvent,
     currency: CurrencyDto,
+    conversionRate: number,
   ) {
-    let conversionRate = 1;
-
-    if (currency.id !== 'usd') {
-      const prices = await this.coingeckoService.latestPricesOf(
-        ['usd-coin'],
-        currency.id,
-      );
-
-      conversionRate = prices[0].price;
-    }
-
     const nowMoment = moment.unix(clientEvent.received);
 
     return _.chain(sales)
@@ -134,7 +149,7 @@ export class MarketplaceController extends AbstractController {
           rarity: MapperService.mapRarityNumberToString(sale.cardDetail.rarity),
           splinterLandsUrl: '#',
           updated: nowMoment.unix(),
-          winPc: !!battles ? wins / battles : undefined,
+          winPc: !!battles ? (wins * 100) / battles : undefined,
         });
 
         return document;

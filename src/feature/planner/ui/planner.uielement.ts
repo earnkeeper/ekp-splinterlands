@@ -25,7 +25,7 @@ import {
   UiElement,
 } from '@earnkeeper/ekp-sdk';
 import _ from 'lodash';
-import { GameService } from '../../../shared/game';
+import { LEAGUE_GROUPS, MANA_CAPS, RULESETS } from '../../../shared/game';
 import {
   DEFAULT_BATTLE_FORM,
   promptDeckNameModal,
@@ -85,7 +85,7 @@ function battleDetailsForm() {
             playerName: 'string',
             manaCap: 'number',
             ruleset: 'string',
-            leagueName: 'string',
+            leagueGroup: 'string',
           },
           default: DEFAULT_BATTLE_FORM,
         },
@@ -107,11 +107,8 @@ function battleDetailsForm() {
                 children: [
                   Select({
                     label: 'League',
-                    name: 'leagueName',
-                    options: [
-                      'All',
-                      ...GameService.LEAGUES.map((it) => it.name),
-                    ],
+                    name: 'leagueGroup',
+                    options: ['All', ...LEAGUE_GROUPS.map((it) => it.name)],
                     minWidth: 160,
                   }),
                 ],
@@ -122,7 +119,7 @@ function battleDetailsForm() {
                   Select({
                     label: 'Mana Cap',
                     name: 'manaCap',
-                    options: GameService.MANA_CAPS,
+                    options: MANA_CAPS,
                     minWidth: 80,
                   }),
                 ],
@@ -135,7 +132,7 @@ function battleDetailsForm() {
                     name: 'ruleset',
                     options: [
                       'Standard',
-                      ..._.chain(GameService.RULESETS)
+                      ..._.chain(RULESETS)
                         .map((it) => it.name)
                         .filter((it) => it !== 'Standard')
                         .sort()
@@ -181,13 +178,56 @@ function teamRow(): UiElement {
       }),
 
       Datatable({
-        defaultSortFieldId: 'winpc',
+        defaultSortFieldId: 'battles',
         defaultSortAsc: false,
         data: documents(PlannerDocument),
         busyWhen: isBusy(collection(PlannerDocument)),
         onRowClicked: showModal(TEAM_MODAL_ID, '$'),
         pointerOnHover: true,
         showExport: false,
+        filters: [
+          {
+            columnId: 'owned',
+            type: 'radio',
+          },
+          {
+            columnId: 'splinter',
+            type: 'checkbox',
+          },
+          {
+            columnId: 'battles',
+            type: 'radio',
+            allowCustomOption: true,
+            options: [
+              {
+                label: 'All',
+              },
+              {
+                label: '> 50',
+                query: '> 50',
+              },
+            ],
+          },
+
+          {
+            columnId: 'winpc',
+            type: 'radio',
+            allowCustomOption: true,
+            options: [
+              {
+                label: 'All',
+              },
+              {
+                label: '> 50 %',
+                query: '> 50',
+              },
+              {
+                label: '> 75 %',
+                query: '> 75',
+              },
+            ],
+          },
+        ],
         defaultView: {
           xs: 'grid',
           lg: 'column',
@@ -251,6 +291,7 @@ function teamRow(): UiElement {
             id: 'summonerName',
             sortable: true,
             title: 'Summoner',
+            searchable: true,
           },
           {
             id: 'winpc',
@@ -281,6 +322,11 @@ function teamRow(): UiElement {
             sortable: true,
             format: formatCurrency('$.price', '$.fiatSymbol'),
             grow: 0,
+          },
+          {
+            id: 'owned',
+            title: 'Owned Already',
+            omit: true,
           },
         ],
       }),

@@ -1,14 +1,14 @@
-import { HistoryForm } from './forms/history-form';
+import { HistoryForm, BattleForm, LeaderboardForm } from './forms';
 
-export const DEFAULT_BATTLE_FORM = {
-  leagueName: 'All',
+export const DEFAULT_BATTLE_FORM: BattleForm = {
+  leagueGroup: 'All',
   manaCap: 13,
   playerName: '',
   ruleset: 'Standard',
 };
 
-export const DEFAULT_LEADERBOARD_FORM = {
-  leagueName: 'Bronze',
+export const DEFAULT_LEADERBOARD_FORM: LeaderboardForm = {
+  leagueGroup: 'Bronze',
   season: 84,
 };
 
@@ -39,3 +39,6 @@ export const LEADERBOARD_LEAGUES = [
     name: 'Champion',
   },
 ];
+
+export const FREE_DAYS_TO_KEEP = 1;
+export const PREMIUM_DAYS_TO_KEEP = 14;

@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MODULE_DEF } from '../src/app.module';
+import { MODULE_DEF } from '../src/worker.module';
 
 describe('WorkerApp (e2e)', () => {
   it('loads all modules', async () => {
