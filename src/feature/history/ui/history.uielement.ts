@@ -42,7 +42,7 @@ import {
         Span({
           className: 'd-block mt-1 mb-2 font-small-3',
           content:
-            'The official splinterlands player history, select player to update.',
+            'The official splinterlands player history, select player to view history',
         }),
         formRow(),
         historyRow(),

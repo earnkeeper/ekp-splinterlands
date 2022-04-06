@@ -11,7 +11,7 @@ export const DEFAULT_LEADERBOARD_FORM = {
 };
 
 export const DEFAULT_HISTORY_FORM:  {playerName : string, leagueName: string} = {
-  playerName: 'kiokizz',
+  playerName: '',
   leagueName: 'Bronze',
  
 };
