@@ -2,36 +2,36 @@ import { CurrencyDto } from '@earnkeeper/ekp-sdk';
 import { CoingeckoService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import moment from 'moment';
-import { PlayerHistoryDto } from 'src/shared/api/dto/player-histroy.dto';
-import { PlayerHistoryForm } from 'src/util/forms/player-history-form';
+import { HistoryDto } from 'src/shared/api/dto/history.dto';
+import { HistoryForm } from 'src/util/forms/history-form';
 import { ApiService, LeaderboardDto, SettingsDto } from '../../shared/api';
 import { DEFAULT_HISTORY_FORM } from '../../util/constants';
-import { PlayerhistoryDocument } from './ui/playerhistory.document';
+import { HistoryDocument } from './ui/history.document';
 
 @Injectable()
-export class PlayerhistoryService {
+export class HistoryService {
   constructor(
     private coingeckoService: CoingeckoService,
     private apiService: ApiService,
   ) {}
 
-  async getPlayerHistoryDocuments(
-    form: PlayerHistoryForm,
-  ): Promise<PlayerhistoryDocument[]> {
+  async getHistoryDocuments(
+    form: HistoryForm,
+  ): Promise<HistoryDocument[]> {
   
-    const playerHistoryDto = await this.apiService.fetchPlayerHistory(
-      form.playername,
+    const historyDto = await this.apiService.fetchHistory(
+      form.playerName
     );
 
-    return this.mapDocuments(playerHistoryDto, form);
+    return this.mapDocuments(historyDto, form);
   }
 
   async mapDocuments(
-    playerHistoryDto: PlayerHistoryDto,
-    form: PlayerHistoryForm,
+    historyDto: HistoryDto,
+    form: HistoryForm,
   ) {
     const now = moment().unix();
-    const documents: PlayerhistoryDocument[] = playerHistoryDto.battles.map(
+    const documents: HistoryDocument[] = historyDto.battles.map(
       (battles) => {
         return {
           

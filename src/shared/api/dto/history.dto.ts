@@ -1,4 +1,4 @@
-export type PlayerHistoryDto = Readonly<{
+export type HistoryDto = Readonly<{
    player_name: string;
    battles: BattlesDto[];
   }>;

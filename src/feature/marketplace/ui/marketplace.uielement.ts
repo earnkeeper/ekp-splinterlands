@@ -48,20 +48,6 @@ export default function element(): UiElement {
     ],
   });
 }
-function cardsRow() {
-  return Row({
-    children: [
-      Col({
-        className: 'col-auto',
-        children: [
-          userCard(
-            'Dennis',
-             ),
-        ],
-      }),
-    ],
-  });
-}
 
 
 function marketRow(): UiElement {

@@ -12,20 +12,20 @@ import {
     logger,
   } from '@earnkeeper/ekp-sdk-nestjs';
   import { Injectable } from '@nestjs/common';
-import { PlayerHistoryForm } from 'src/util/forms/player-history-form';
+import { HistoryForm } from 'src/util/forms/history-form';
   import { DEFAULT_HISTORY_FORM, DEFAULT_LEADERBOARD_FORM} from '../../util';
-  import { PlayerhistoryService } from './playerhistory.service';
-  import { PlayerhistoryDocument } from './ui/playerhistory.document';
-  import Playerhistory from './ui/playerhistory.uielement';
+  import { HistoryService } from './history.service';
+  import { HistoryDocument } from './ui/history.document';
+  import Playerhistory from './ui/history.uielement';
   
-  const COLLECTION_NAME = collection(PlayerhistoryDocument);
+  const COLLECTION_NAME = collection(HistoryDocument);
   const PATH = 'history';
   
   @Injectable()
-  export class PlayerHistoryController extends AbstractController {
+  export class HistoryController extends AbstractController {
     constructor(
       clientService: ClientService,
-      private PlayerhistoryService: PlayerhistoryService,
+      private historyService: HistoryService,
       private apmService: ApmService,
     ) {
       super(clientService);
@@ -41,7 +41,7 @@ import { PlayerHistoryForm } from 'src/util/forms/player-history-form';
   
       await this.clientService.emitPage(event, {
         id: PATH,
-        element: Playerhistory(),
+        element: new History(),
       });
     }
   
@@ -57,18 +57,17 @@ import { PlayerHistoryForm } from 'src/util/forms/player-history-form';
       await this.clientService.emitBusy(event, COLLECTION_NAME);
   
       try {
-        const form: PlayerHistoryForm =
+        const form: HistoryForm =
           event.state.forms?.playername ?? DEFAULT_HISTORY_FORM;
-  
-        const PlayerhistoryDocuments =
-          await this.PlayerhistoryService.getPlayerHistoryDocuments(
+          const historyDocuments =
+          await this.historyService.getHistoryDocuments(
             form,
           );
   
         this.clientService.emitDocuments(
           event,
           COLLECTION_NAME,
-          PlayerhistoryDocuments,
+          historyDocuments,
         );
       } catch (error) {
         this.apmService.captureError(error);

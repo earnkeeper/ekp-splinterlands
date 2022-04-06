@@ -20,7 +20,7 @@ import {
     UiElement,
   } from '@earnkeeper/ekp-sdk';
   import { DEFAULT_HISTORY_FORM } from '../../../util';
-  import { PlayerhistoryDocument } from './playerhistory.document';
+  import { HistoryDocument } from './history.document';
   
   export default function element(): UiElement {
     return Container({
@@ -52,7 +52,7 @@ import {
   
   function formRow(): UiElement {
     return Form({
-      name: 'playerhistory',
+      name: 'history',
       schema: {
         type: 'object',
         properties: {
@@ -70,7 +70,6 @@ import {
                 Input({
                   label: 'Player',
                   name: 'playername',
-                  
                 }),
               ],
             }),
@@ -80,7 +79,7 @@ import {
                 Button({
                   label: 'View',
                   isSubmit: true,
-                  busyWhen: isBusy(collection(PlayerhistoryDocument)),
+                  busyWhen: isBusy(collection(HistoryDocument)),
                 }),
               ],
             }),
@@ -98,8 +97,8 @@ function historyRow(): UiElement {
       xs: 'grid',
       lg: 'column',
     },
-    data: documents(PlayerhistoryDocument),
-    busyWhen: isBusy(collection(PlayerhistoryDocument)),
+    data: documents(HistoryDocument),
+    busyWhen: isBusy(collection(HistoryDocument)),
     filters: [
       {
         columnId: 'mana_cap',
