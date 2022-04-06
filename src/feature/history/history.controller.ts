@@ -16,7 +16,7 @@ import { HistoryForm } from 'src/util/forms/history-form';
   import { DEFAULT_HISTORY_FORM, DEFAULT_LEADERBOARD_FORM} from '../../util';
   import { HistoryService } from './history.service';
   import { HistoryDocument } from './ui/history.document';
-  import Playerhistory from './ui/history.uielement';
+  import history from './ui/history.uielement';
   
   const COLLECTION_NAME = collection(HistoryDocument);
   const PATH = 'history';
@@ -41,7 +41,7 @@ import { HistoryForm } from 'src/util/forms/history-form';
   
       await this.clientService.emitPage(event, {
         id: PATH,
-        element: new History(),
+        element: history(),
       });
     }
   
