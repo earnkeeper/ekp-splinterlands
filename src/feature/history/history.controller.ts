@@ -12,8 +12,7 @@ import {
   logger,
 } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
-import { HistoryForm } from 'src/util/forms/history-form';
-import { DEFAULT_HISTORY_FORM } from '../../util';
+import { DEFAULT_HISTORY_FORM, HistoryForm } from '../../util';
 import { HistoryService } from './history.service';
 import { HistoryDocument } from './ui/history.document';
 import history from './ui/history.uielement';

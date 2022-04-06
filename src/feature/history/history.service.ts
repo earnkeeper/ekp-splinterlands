@@ -1,10 +1,9 @@
 import { CoingeckoService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import moment from 'moment';
-import { HistoryDto } from 'src/shared/api/dto/history.dto';
-import { HistoryForm } from 'src/util/forms/history-form';
-import { ApiService } from '../../shared/api';
+import { ApiService, HistoryDto } from '../../shared/api';
 import { MapperService } from '../../shared/game/services/mapper.service';
+import { HistoryForm } from '../../util';
 import { HistoryDocument } from './ui/history.document';
 
 @Injectable()
