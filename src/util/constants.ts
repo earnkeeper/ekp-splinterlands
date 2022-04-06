@@ -10,8 +10,8 @@ export const DEFAULT_LEADERBOARD_FORM = {
   season: 84,
 };
 
-export const DEFAULT_HISTORY_FORM = {
-  playerName: 'nhan385',
+export const DEFAULT_HISTORY_FORM:  {playerName : string, leagueName: string} = {
+  playerName: 'kiokizz',
   leagueName: 'Bronze',
  
 };

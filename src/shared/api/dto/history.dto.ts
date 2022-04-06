@@ -1,5 +1,5 @@
 export type HistoryDto = Readonly<{
-   player_name: string;
+   playerame: string;
    battles: BattlesDto[];
   }>;
   

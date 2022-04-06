@@ -33,7 +33,7 @@ import {
               children: [
                 PageHeaderTile({
                   title: 'Player History',
-                  icon: 'cid-history',
+                  icon: 'cil-history',
                 }),
               ],
             }),
@@ -56,7 +56,8 @@ import {
       schema: {
         type: 'object',
         properties: {
-          playername: 'string',
+          playerName: 'string',
+          leagueName: 'string',
         },
         default: DEFAULT_HISTORY_FORM,
       },
@@ -69,7 +70,7 @@ import {
               children: [
                 Input({
                   label: 'Player',
-                  name: 'playername',
+                  name: 'playerName',
                 }),
               ],
             }),
@@ -101,12 +102,12 @@ function historyRow(): UiElement {
     busyWhen: isBusy(collection(HistoryDocument)),
     filters: [
       {
-        columnId: 'mana_cap',
+        columnId: 'manaCap',
         type: 'slider',
       },
       
       {
-        columnId: 'rshares',
+        columnId: 'rShares',
         type: 'slider',
       },
       
@@ -119,51 +120,51 @@ function historyRow(): UiElement {
         details: [
           {
             label: 'Date',
-            value: '$.created_date',
+            value: '$.createdDate',
           },
           {
             label: 'Streak',
-            value: '$.current_streak',
+            value: '$.currentStreak',
           },
           {
             label: 'Mana Cap',
-            value: '$.mana_cap',
+            value: '$.manaCap',
           },
           {
             label: 'Match Type',
-            value: '$.match_type',
+            value: '$.matchType',
           },
           {
             label: 'Player 1',
-            value: '$.player_1',
+            value: '$.player1',
           },
           {
             label: 'Final Rating',
-            value: '$.player_1_rating_final',
+            value: '$.player1RatingFinal',
           },
           {
             label: 'Initial Rating',
-            value: '$.player_1_rating_initial',
+            value: '$.player1RatingInitial',
           },
           {
             label: 'Player 2',
-            value: '$.player_2',
+            value: '$.player2',
           },
           {
             label: 'Final Rating',
-            value: '$.player_2_rating_final',
+            value: '$.player2RatingFinal',
           },
           {
             label: 'Initial Rating',
-            value: '$.player_2_rating_initial',
+            value: '$.player2RatingInitial',
           },
           {
             label: 'R Share',
-            value: '$.rshares',
+            value: '$.rShares',
           },
           {
             label: 'Ruleset',
-            value: '$.ruleset',
+            value: '$.ruleSet',
           },
           {
             label: 'Winner',
@@ -189,54 +190,54 @@ function historyRow(): UiElement {
         sortable: true,
       },
       {
-        id: 'current_streak',
+        id: 'currentStreak',
         title: 'Streak',
         grow: 0,
         sortable: true,
       },
       {
         title: 'Mana Cap',
-        id: 'mana_cap',
+        id: 'manaCap',
         grow: 0,
         sortable: true,
       },
     
       {
       title: 'Player 1',
-      id: 'player_1',
+      id: 'player1',
     },
     {
       title: 'Final Rating',
-      id: 'player_1_rating_final',
+      id: 'player1RatingFinal',
       grow:0,
     },
     {
       title: 'Initial Rating',
-      id: 'player_1_rating_initial',
+      id: 'player1RatingInitial',
       grow:0,
     },
     {
-      id: 'player_2',
+      id: 'player2',
       searchable: true,
       title: 'Player 2'
     },
     {
       title: 'Final Rating',
       grow:0,
-      id: 'player_2_rating_final',
+      id: 'player2RatingFinal',
     },
     {
       title: 'Initial Rating',
       grow:0,
-      id: 'player_2_rating_initial',
+      id: 'player2RatingInitial',
     },
     {
-        id: 'match_type',
+        id: 'matchType',
         searchable: true,
         sortable: true,
       },
       {
-        id: 'ruleset',
+        id: 'ruleSet',
         sortable: true,
       },
       {
@@ -246,13 +247,13 @@ function historyRow(): UiElement {
 
       {
         title: 'R Share',
-        id: 'rshares',
+        id: 'rShares',
         grow:0,
         sortable: true,
       },
       {
         title: 'Ruleset',
-        id: 'ruleset',
+        id: 'ruleSet',
         sortable: true,
       },
      

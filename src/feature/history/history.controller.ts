@@ -12,8 +12,9 @@ import {
     logger,
   } from '@earnkeeper/ekp-sdk-nestjs';
   import { Injectable } from '@nestjs/common';
+import { format } from 'path';
 import { HistoryForm } from 'src/util/forms/history-form';
-  import { DEFAULT_HISTORY_FORM, DEFAULT_LEADERBOARD_FORM} from '../../util';
+  import { DEFAULT_HISTORY_FORM} from '../../util';
   import { HistoryService } from './history.service';
   import { HistoryDocument } from './ui/history.document';
   import history from './ui/history.uielement';
@@ -53,12 +54,12 @@ import { HistoryForm } from 'src/util/forms/history-form';
       if (PATH !== event?.state?.client?.path) {
         return;
       }
-  
+   
       await this.clientService.emitBusy(event, COLLECTION_NAME);
   
       try {
         const form: HistoryForm =
-          event.state.forms?.playername ?? DEFAULT_HISTORY_FORM;
+          event.state.forms?.playerName ?? DEFAULT_HISTORY_FORM;
           const historyDocuments =
           await this.historyService.getHistoryDocuments(
             form,

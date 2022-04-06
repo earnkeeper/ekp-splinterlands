@@ -102,8 +102,6 @@ export class ApiService extends AbstractApiService {
     playerName: string,
   ): Promise<HistoryDto> {
     const url = `${BASE_URL}/battle/history?player=${playerName}`;
-    console.log(playerName);
-    console.log(url);
     return this.handleCall({ url, ttl: 15 }, async () => {
       const response = await axios.get(url, { proxy: this.proxy });
 
