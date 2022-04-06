@@ -1,6 +1,4 @@
-export type HistoryForm= Readonly<{
-    playerName: 'string';
-    leagueName: 'string';
-
-  }>;
-  
+export type HistoryForm = Readonly<{
+  playerName: string;
+  leagueName: string;
+}>;

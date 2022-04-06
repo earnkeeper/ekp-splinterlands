@@ -1,3 +1,5 @@
+import { HistoryForm } from './forms/history-form';
+
 export const DEFAULT_BATTLE_FORM = {
   leagueName: 'All',
   manaCap: 13,
@@ -10,11 +12,11 @@ export const DEFAULT_LEADERBOARD_FORM = {
   season: 84,
 };
 
-export const DEFAULT_HISTORY_FORM:  {playerName : string, leagueName: string} = {
+export const DEFAULT_HISTORY_FORM: HistoryForm = {
   playerName: '',
   leagueName: 'Bronze',
- 
 };
+
 export const LEADERBOARD_LEAGUES = [
   {
     id: 0,
