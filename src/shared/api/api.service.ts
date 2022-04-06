@@ -10,6 +10,7 @@ import {
   TransactionDto,
 } from './dto';
 import { PlayerCollectionDto } from './dto/player-collection.dto';
+import { HistoryDto } from './dto/history.dto';
 
 const BASE_URL = 'https://api2.splinterlands.com';
 const STEEM_BASE_URL = 'https://api.steemmonsters.io';
@@ -91,6 +92,16 @@ export class ApiService extends AbstractApiService {
   ): Promise<PlayerCollectionDto> {
     const url = `${BASE_URL}/cards/collection/${playerName}`;
 
+    return this.handleCall({ url, ttl: 15 }, async () => {
+      const response = await axios.get(url, { proxy: this.proxy });
+
+      return response.data;
+    });
+  }
+  async fetchHistory(
+    playerName: string,
+  ): Promise<HistoryDto> {
+    const url = `${BASE_URL}/battle/history?player=${playerName}`;
     return this.handleCall({ url, ttl: 15 }, async () => {
       const response = await axios.get(url, { proxy: this.proxy });
 
