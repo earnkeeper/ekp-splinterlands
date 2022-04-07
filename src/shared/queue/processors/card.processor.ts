@@ -8,7 +8,12 @@ import _ from 'lodash';
 import moment from 'moment';
 import { PREMIUM_DAYS_TO_KEEP } from '../../../util';
 import { TeamDetailedDto } from '../../api';
-import { Battle, BattleRepository, CardStats, CardStatsRepository } from '../../db';
+import {
+  Battle,
+  BattleRepository,
+  CardStats,
+  CardStatsRepository,
+} from '../../db';
 import { MapperService } from '../../game';
 import { GROUP_CARDS } from '../constants';
 
