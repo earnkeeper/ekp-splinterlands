@@ -7,7 +7,6 @@ import {
   documents,
   Form,
   formatAge,
-  formatDatetime,
   formatToken,
   Fragment,
   GridTile,
@@ -41,7 +40,7 @@ export default function element(): UiElement {
       Span({
         className: 'd-block mt-1 mb-2 font-small-3',
         content:
-          'The official splinterlands player history, select player to view history',
+          'Enter a player name to view, search and filter their battle history',
       }),
       formRow(),
       historyRow(),
@@ -155,7 +154,7 @@ function historyRow(): UiElement {
           },
         ],
         left: {
-          content: formatDatetime('date_created'),
+          content: formatAge('$.timestamp'),
         },
         right: {
           content: formatToken('$.qty'),
