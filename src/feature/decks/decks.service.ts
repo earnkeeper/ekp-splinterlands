@@ -1,5 +1,4 @@
 import { CurrencyDto } from '@earnkeeper/ekp-sdk';
-import { CoingeckoService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import { validate } from 'bycontract';
 import _ from 'lodash';
@@ -20,7 +19,6 @@ export class DecksService {
     private resultsService: ResultsService,
     private marketService: MarketService,
     private cardService: CardService,
-    private coingeckoService: CoingeckoService,
   ) {}
 
   async updateTeams(

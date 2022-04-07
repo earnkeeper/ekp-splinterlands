@@ -126,7 +126,7 @@ function historyRow(): UiElement {
         }),
         details: [
           {
-            label: 'Market Price',
+            label: 'Value',
             value: formatCurrency('$.marketPrice', '$.fiatSymbol'),
           },
         ],
