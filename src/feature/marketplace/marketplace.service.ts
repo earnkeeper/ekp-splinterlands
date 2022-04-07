@@ -1,94 +1,92 @@
+import { CurrencyDto } from '@earnkeeper/ekp-sdk';
 import { logger } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
-import {
-  ApiService,
-  CardDetailDto,
-  CardDistributionDto,
-  ForSaleGroupedDto,
-  PlayerCardDto,
-} from '../../shared/api';
-import { CardRepository } from '../../shared/db';
-import { PlayerService } from '../../shared/game';
+import moment from 'moment';
+import { ApiService } from '../../shared/api';
+import { CardStatsRepository } from '../../shared/db';
+import { CardService } from '../../shared/game';
+import { ListingDocument } from './ui/listing.document';
 
 @Injectable()
 export class MarketplaceService {
   constructor(
     private apiService: ApiService,
-    private cardRepository: CardRepository,
-    private playerService: PlayerService,
+    private cardStatsRepository: CardStatsRepository,
+    private cardService: CardService,
   ) {}
 
-  async getEnhancedSales(playerName: string): Promise<EnhancedSale[]> {
+  async getListingDocuments(
+    currency: CurrencyDto,
+    conversionRate: number,
+  ): Promise<ListingDocument[]> {
     const sales = await this.apiService.fetchCardSales();
-
-    const cardDetails = await this.apiService.fetchCardDetails();
-
-    const cardDetailsMap = _.keyBy(cardDetails, 'id');
-
-    const cards = await this.cardRepository.findAll();
-
-    const cardsMap = _.keyBy(cards, 'id');
-
-    const playerCards = await this.playerService.getPlayerCards(playerName);
+    const cardStatsRecords = await this.cardStatsRepository.findAll();
+    const allCardTemplates = await this.cardService.getAllCardTemplates();
+    const now = moment().unix();
 
     return _.chain(sales)
       .map((sale) => {
-        const cardDetail = cardDetailsMap[sale.card_detail_id];
+        const cardTemplate = allCardTemplates.find(
+          (it) => it.id === sale.card_detail_id,
+        );
 
-        if (!cardDetail) {
+        if (!cardTemplate) {
           logger.warn(
             'Could not find card detail for id: ' + sale.card_detail_id,
           );
           return undefined;
         }
 
-        const distribution = cardDetail.distribution.find(
-          (it) => it.gold === sale.gold && it.edition === sale.edition,
+        const card = this.cardService.mapCard(
+          cardTemplate,
+          sale.level,
+          sale.edition,
+          sale.gold,
         );
 
-        if (!distribution) {
-          logger.warn(
-            'Could not find distribution for id: ' + sale.card_detail_id,
-          );
-          return undefined;
-        }
-
-        const card = cardsMap[sale.card_detail_id];
-
-        let stats: { battles: number; wins: number };
-
-        if (!!card) {
-          stats = {
-            battles: _.chain(card.dailyStats).values().sumBy('battles').value(),
-            wins: _.chain(card.dailyStats).values().sumBy('wins').value(),
-          };
-        }
-
-        const playerCard = playerCards.find(
-          (it) =>
-            it.card_detail_id === sale.card_detail_id && it.level <= sale.level,
+        const cardStatsRecord = cardStatsRecords.find(
+          (it) => it.id === cardTemplate.id,
         );
 
-        const enhancedSale: EnhancedSale = {
-          ...sale,
-          cardDetail,
-          distribution,
-          stats,
-          playerCard,
-        };
+        let battles: number;
+        let wins: number;
 
-        return enhancedSale;
+        if (!!cardStatsRecord) {
+          battles = _.chain(cardStatsRecord.dailyStats)
+            .values()
+            .sumBy('battles')
+            .value();
+
+          wins = _.chain(cardStatsRecord.dailyStats)
+            .values()
+            .sumBy('wins')
+            .value();
+        }
+
+        const document = new ListingDocument({
+          id: card.id,
+          updated: now,
+
+          fiatSymbol: currency.symbol,
+          battles,
+          splinter: card.splinter,
+          gold: card.gold,
+
+          cardArtUrl: this.cardService.getCardArtUrl(card),
+          cardByLevelUrl: this.cardService.getCardByLevelUrl(card),
+          level: card.level,
+          name: card.name,
+          price: sale.low_price * conversionRate,
+          qty: sale.qty,
+          rarity: card.rarity,
+
+          winpc: !!battles ? (wins * 100) / battles : undefined,
+        });
+
+        return document;
       })
       .filter((it) => !!it)
       .value();
   }
 }
-
-export type EnhancedSale = Readonly<{
-  cardDetail: CardDetailDto;
-  distribution: CardDistributionDto;
-  stats?: { wins?: number; battles: number };
-  playerCard?: PlayerCardDto;
-}> &
-  ForSaleGroupedDto;

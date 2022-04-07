@@ -8,7 +8,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import { PREMIUM_DAYS_TO_KEEP } from '../../../util';
 import { TeamDetailedDto } from '../../api';
-import { Battle, BattleRepository, Card, CardRepository } from '../../db';
+import { Battle, BattleRepository, CardStats, CardStatsRepository } from '../../db';
 import { MapperService } from '../../game';
 import { GROUP_CARDS } from '../constants';
 
@@ -17,7 +17,7 @@ export class CardPollProcessor {
   constructor(
     private apmService: ApmService,
     private battleRepository: BattleRepository,
-    private cardRepository: CardRepository,
+    private cardRepository: CardStatsRepository,
   ) {}
 
   @Process(GROUP_CARDS)
@@ -101,7 +101,7 @@ export class CardPollProcessor {
   }
 
   private mapCardsFromBattles(
-    cardsMap: Record<string, Card>,
+    cardsMap: Record<string, CardStats>,
     battles: Battle[],
   ) {
     const sortedBattles = _.chain(battles).sortBy('blockNumber').value();
@@ -158,7 +158,7 @@ export class CardPollProcessor {
     return _.values(cardsMap);
   }
 
-  private createCard(battleCard: BattleCard): Card {
+  private createCard(battleCard: BattleCard): CardStats {
     return {
       id: battleCard.card_detail_id,
       blockNumber: 0,

@@ -6,20 +6,15 @@ export class ListingDocument extends DocumentDto {
   }
 
   readonly battles: number;
-  readonly burned: number;
-  readonly editionString: string;
-  readonly elementString: string;
+  readonly cardArtUrl: string;
+  readonly cardByLevelUrl: string;
   readonly fiatSymbol: string;
   readonly gold: boolean;
-  readonly imageSmall: string;
-  readonly imageTile: string;
   readonly level: number;
   readonly name: string;
-  readonly playerOwned: string;
   readonly price: number;
-  readonly printed: number;
   readonly qty: number;
   readonly rarity: string;
-  readonly splinterLandsUrl: string;
-  readonly winPc: number;
+  readonly splinter: string;
+  readonly winpc: number;
 }

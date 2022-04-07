@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type CardDocument = Card & Document;
+export type CardStatsDocument = CardStats & Document;
 
 @Schema()
-export class Card {
+export class CardStats {
   @Prop({ index: true })
   readonly id: number;
 
@@ -15,4 +15,4 @@ export class Card {
   readonly dailyStats: Record<string, { wins: number; battles: number }>;
 }
 
-export const CardSchema = SchemaFactory.createForClass(Card);
+export const CardStatsSchema = SchemaFactory.createForClass(CardStats);

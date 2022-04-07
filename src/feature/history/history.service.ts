@@ -1,4 +1,3 @@
-import { CoingeckoService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import moment from 'moment';
 import { ApiService, HistoryDto } from '../../shared/api';
@@ -8,10 +7,7 @@ import { HistoryDocument } from './ui/history.document';
 
 @Injectable()
 export class HistoryService {
-  constructor(
-    private coingeckoService: CoingeckoService,
-    private apiService: ApiService,
-  ) {}
+  constructor(private apiService: ApiService) {}
 
   async getHistoryDocuments(form: HistoryForm): Promise<HistoryDocument[]> {
     const historyDto = await this.apiService.fetchHistory(form.playerName);

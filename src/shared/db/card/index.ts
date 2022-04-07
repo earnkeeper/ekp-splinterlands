@@ -1,2 +1,2 @@
-export * from './card.repository';
-export * from './card.schema';
+export * from './card-stats.repository';
+export * from './card-stats.schema';

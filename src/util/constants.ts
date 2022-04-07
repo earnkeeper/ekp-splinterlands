@@ -1,4 +1,9 @@
-import { HistoryForm, BattleForm, LeaderboardForm } from './forms';
+import {
+  BattleForm,
+  CollectionForm,
+  HistoryForm,
+  LeaderboardForm,
+} from './forms';
 
 export const DEFAULT_BATTLE_FORM: BattleForm = {
   leagueGroup: 'All',
@@ -13,6 +18,10 @@ export const DEFAULT_LEADERBOARD_FORM: LeaderboardForm = {
 };
 
 export const DEFAULT_HISTORY_FORM: HistoryForm = {
+  playerName: '',
+};
+
+export const DEFAULT_COLLECTION_FORM: CollectionForm = {
   playerName: '',
 };
 

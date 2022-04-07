@@ -5,11 +5,11 @@ import { validate } from 'bycontract';
 import {
   CardDetailDto,
   ForSaleGroupedDto,
+  HistoryDto,
   LeaderboardDto,
   SettingsDto,
   TransactionDto,
 } from './dto';
-import { HistoryDto } from './dto/history.dto';
 import { PlayerBattlesDto } from './dto/player-battles.dto';
 import { PlayerCollectionDto } from './dto/player-collection.dto';
 

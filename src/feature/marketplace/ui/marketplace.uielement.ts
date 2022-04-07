@@ -11,7 +11,6 @@ import {
   Image,
   isBusy,
   PageHeaderTile,
-  path,
   Row,
   Span,
   UiElement,

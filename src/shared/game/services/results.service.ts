@@ -3,8 +3,10 @@ import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import moment from 'moment';
 import { FREE_DAYS_TO_KEEP, PREMIUM_DAYS_TO_KEEP } from '../../../util';
-import { ApiService, CardDetailDto, TeamDetailedDto } from '../../api';
+import { ApiService, TeamDetailedDto } from '../../api';
 import { Battle, BattleRepository } from '../../db';
+import { Card, CardTemplate } from '../domain';
+import { CardService } from './card.service';
 import { MapperService } from './mapper.service';
 
 @Injectable()
@@ -14,6 +16,7 @@ export class ResultsService {
     private apmService: ApmService,
     private battleRepository: BattleRepository,
     private cacheService: CacheService,
+    private cardService: CardService,
   ) {}
 
   async getTeamResults(
@@ -73,9 +76,9 @@ export class ResultsService {
       op: 'fetchCardDetails',
     });
 
-    const allCards = await this.apiService.fetchCardDetails();
+    const cardTemplates = await this.cardService.getAllCardTemplates();
 
-    tx?.setData('allCardCount', allCards.length);
+    tx?.setData('allCardCount', cardTemplates.length);
 
     sp2?.finish();
 
@@ -88,8 +91,8 @@ export class ResultsService {
     for (const battle of battles) {
       const { winner, loser } = MapperService.mapWinnerAndLoser(battle);
 
-      this.updateResultsWith(viableTeams, winner, allCards, true);
-      this.updateResultsWith(viableTeams, loser, allCards, false);
+      this.updateResultsWith(viableTeams, winner, cardTemplates, true);
+      this.updateResultsWith(viableTeams, loser, cardTemplates, false);
     }
 
     const teams = _.values(viableTeams);
@@ -113,7 +116,7 @@ export class ResultsService {
   private updateResultsWith(
     viableTeams: Record<string, TeamResults>,
     team: TeamDetailedDto,
-    allCards: CardDetailDto[],
+    cardTemplates: CardTemplate[],
     win: boolean,
   ) {
     const id: string = this.mapTeamId(team);
@@ -121,7 +124,11 @@ export class ResultsService {
     let viableTeam = viableTeams[id];
 
     if (!viableTeam) {
-      viableTeams[id] = viableTeam = this.createTeamResults(id, team, allCards);
+      viableTeams[id] = viableTeam = this.createTeamResults(
+        id,
+        team,
+        cardTemplates,
+      );
     }
 
     if (win) {
@@ -134,62 +141,43 @@ export class ResultsService {
   private createTeamResults(
     teamId: string,
     battleTeam: TeamDetailedDto,
-    allCards: CardDetailDto[],
+    cardTemplates: CardTemplate[],
   ): TeamResults {
-    const summonerCard = MapperService.mapCardDetailIdsToCards(
-      [battleTeam.summoner.card_detail_id],
-      allCards,
-    )[0];
+    const summonerTemplate = cardTemplates.find(
+      (it) => it.id === battleTeam.summoner.card_detail_id,
+    );
+
+    const summoner = this.cardService.mapCard(
+      summonerTemplate,
+      battleTeam.summoner.level,
+      battleTeam.summoner.edition,
+      battleTeam.summoner.gold,
+      battleTeam.summoner.xp,
+    );
+
+    const monsters = _.chain(battleTeam.monsters)
+      .map((monster) => {
+        const monsterTemplate = cardTemplates.find(
+          (it) => it.id === monster.card_detail_id,
+        );
+
+        return this.cardService.mapCard(
+          monsterTemplate,
+          monster.level,
+          monster.edition,
+          monster.gold,
+          monster.xp,
+        );
+      })
+      .value();
 
     return {
       id: teamId,
       wins: 0,
       battles: 0,
-      summoner: {
-        cardDetailId: summonerCard.id,
-        level: battleTeam.summoner.level,
-        mana: MapperService.mapCardMana(
-          summonerCard,
-          battleTeam.summoner.level,
-        ),
-        name: summonerCard.name,
-        splinter: MapperService.mapColorToSplinter(summonerCard.color),
-        edition: MapperService.mapEditionString(battleTeam.summoner.edition),
-      },
-      monsters: battleTeam.monsters.map((monster) => {
-        const monsterCard = MapperService.mapCardDetailIdsToCards(
-          [monster.card_detail_id],
-          allCards,
-        )[0];
-
-        return {
-          cardDetailId: monsterCard.id,
-          level: battleTeam.summoner.level,
-          mana: MapperService.mapCardMana(
-            monsterCard,
-            battleTeam.summoner.level,
-          ),
-          name: monsterCard.name,
-          splinter: MapperService.mapColorToSplinter(monsterCard.color),
-          edition: MapperService.mapEditionString(battleTeam.summoner.edition),
-        };
-      }),
+      summoner,
+      monsters,
     };
-  }
-
-  private playerHasCards(
-    playerCardDetailIds: number[],
-    otherTeam: TeamDetailedDto,
-  ): boolean {
-    const monsterCardDetailIds = otherTeam.monsters.map(
-      (monster) => monster.card_detail_id,
-    );
-
-    // TODO: this can be optimized, many loops
-    return (
-      playerCardDetailIds.includes(otherTeam.summoner.card_detail_id) &&
-      _.difference(monsterCardDetailIds, playerCardDetailIds).length === 0
-    );
   }
 
   private mapTeamId(team: TeamDetailedDto): string {
@@ -207,15 +195,6 @@ export type TeamResults = {
   readonly id: string;
   battles: number;
   wins: number;
-  readonly summoner: TeamMonster;
-  readonly monsters: TeamMonster[];
+  readonly summoner: Card;
+  readonly monsters: Card[];
 };
-
-export type TeamMonster = Readonly<{
-  cardDetailId: number;
-  level: number;
-  mana: number;
-  name: string;
-  edition: string;
-  splinter: string;
-}>;

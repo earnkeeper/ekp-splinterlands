@@ -5,11 +5,9 @@ import { validate } from 'bycontract';
 import _ from 'lodash';
 import moment from 'moment';
 import {
-  MarketPriceMap,
+  CardService,
   MarketService,
-  PlayerService,
   ResultsService,
-  TeamMonster,
   TeamResults,
 } from '../../shared/game';
 import { BattleForm } from '../../util';
@@ -19,7 +17,7 @@ import { PlannerDocument } from './ui/planner.document';
 export class PlannerService {
   constructor(
     private marketService: MarketService,
-    private playerService: PlayerService,
+    private cardService: CardService,
     private resultsService: ResultsService,
     private coingeckoService: CoingeckoService,
   ) {}
@@ -39,17 +37,13 @@ export class PlannerService {
       5,
     );
 
-    const cardPrices: MarketPriceMap =
+    const cardPrices: Record<string, number> =
       await this.marketService.getMarketPrices();
 
-    const playerCards = await this.playerService.getPlayerCards(
-      form.playerName,
-    );
+    const playerCards = await this.cardService.getPlayerCards(form.playerName);
 
-    for (const playerCard of playerCards) {
-      delete cardPrices[playerCard.card_detail_id.toString()][
-        playerCard.level.toString()
-      ];
+    for (const card of playerCards) {
+      delete cardPrices[card.hash];
     }
 
     const plannerDocuments = await this.mapDocuments(
@@ -63,21 +57,15 @@ export class PlannerService {
 
   async mapDocuments(
     detailedTeams: TeamResults[],
-    cardPrices: MarketPriceMap,
+    cardPrices: Record<string, number>,
     currency: CurrencyDto,
   ): Promise<PlannerDocument[]> {
     const now = moment().unix();
 
-    let conversionRate = 1;
-
-    if (currency.id !== 'usd') {
-      const prices = await this.coingeckoService.latestPricesOf(
-        ['usd-coin'],
-        currency.id,
-      );
-
-      conversionRate = prices[0].price;
-    }
+    const conversionRate = await this.marketService.getConversionRate(
+      'usd-coin',
+      currency.id,
+    );
 
     return _.chain(detailedTeams)
       .map((team) => {
@@ -85,24 +73,14 @@ export class PlannerService {
 
         const monsters = [];
 
-        const getPrice = (monster: TeamMonster) => {
-          if (!cardPrices[monster.cardDetailId.toString()]) {
-            return undefined;
-          }
-
-          return cardPrices[monster.cardDetailId.toString()][
-            monster.level.toString()
-          ];
-        };
-
         monsters.push({
-          id: team.summoner.cardDetailId,
+          id: team.summoner.id,
           fiatSymbol: currency.symbol,
           icon: `https://d36mxiodymuqjm.cloudfront.net/card_art/${team.summoner.name}.png`,
           level: team.summoner.level,
           mana: team.summoner.mana,
           name: team.summoner.name,
-          price: getPrice(team.summoner),
+          price: cardPrices[team.summoner.hash],
           splinter: team.summoner.splinter,
           type: 'Summoner',
         });
@@ -110,14 +88,14 @@ export class PlannerService {
         // TODO: check if these are added in the right order, order is important
         monsters.push(
           ...team.monsters.map((monster) => ({
-            id: monster.cardDetailId,
+            id: monster.id,
             edition: monster.edition,
             fiatSymbol: currency.symbol,
             icon: `https://d36mxiodymuqjm.cloudfront.net/card_art/${monster.name}.png`,
             level: team.summoner.level,
             mana: monster.mana,
             name: monster.name,
-            price: getPrice(monster),
+            price: cardPrices[monster.hash],
             splinter: monster.splinter,
             type: 'Monster',
           })),

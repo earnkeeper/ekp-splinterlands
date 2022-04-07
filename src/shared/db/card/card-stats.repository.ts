@@ -3,22 +3,22 @@ import { InjectModel } from '@nestjs/mongoose';
 import { validate } from 'bycontract';
 import _ from 'lodash';
 import { Model } from 'mongoose';
-import { Card } from './card.schema';
+import { CardStats } from './card-stats.schema';
 
 @Injectable()
-export class CardRepository {
+export class CardStatsRepository {
   constructor(
-    @InjectModel(Card.name)
-    public cardModel: Model<Card>,
+    @InjectModel(CardStats.name)
+    public cardModel: Model<CardStats>,
   ) {}
 
-  async findAll(): Promise<Card[]> {
+  async findAll(): Promise<CardStats[]> {
     const results = await this.cardModel.find().exec();
 
     return results ?? [];
   }
 
-  async save(cards: Card[]): Promise<void> {
+  async save(cards: CardStats[]): Promise<void> {
     validate([cards], ['Array.<object>']);
 
     if (cards.length === 0) {

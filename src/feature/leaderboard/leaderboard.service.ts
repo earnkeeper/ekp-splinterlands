@@ -1,15 +1,14 @@
 import { CurrencyDto } from '@earnkeeper/ekp-sdk';
-import { CoingeckoService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import moment from 'moment';
 import { ApiService, LeaderboardDto, SettingsDto } from '../../shared/api';
-import { LEAGUE_GROUPS } from '../../shared/game';
+import { LEAGUE_GROUPS, MarketService } from '../../shared/game';
 import { LeaderboardForm } from '../../util';
 import { LeaderboardDocument } from './ui/leaderboard.document';
 @Injectable()
 export class LeaderboardService {
   constructor(
-    private coingeckoService: CoingeckoService,
+    private marketService: MarketService,
     private apiService: ApiService,
   ) {}
 
@@ -41,14 +40,10 @@ export class LeaderboardService {
 
     const prizes = settings.leaderboard_prizes[form.leagueGroup];
 
-    let conversionRate = 1;
-
-    const prices = await this.coingeckoService.latestPricesOf(
-      ['dark-energy-crystals'],
+    const conversionRate = await this.marketService.getConversionRate(
+      'dark-energy-crystals',
       currency.id,
     );
-
-    conversionRate = prices[0].price;
 
     const documents: LeaderboardDocument[] = leaderboardDto.leaderboard.map(
       (leader) => {

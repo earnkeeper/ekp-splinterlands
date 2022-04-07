@@ -4,11 +4,10 @@ import { Injectable } from '@nestjs/common';
 import { validate } from 'bycontract';
 import _ from 'lodash';
 import moment from 'moment';
-import { PlayerCardDto } from '../../shared/api';
 import {
-  MarketPriceMap,
+  Card,
+  CardService,
   MarketService,
-  PlayerService,
   ResultsService,
   TeamResults,
 } from '../../shared/game';
@@ -20,7 +19,7 @@ export class DecksService {
   constructor(
     private resultsService: ResultsService,
     private marketService: MarketService,
-    private playerService: PlayerService,
+    private cardService: CardService,
     private coingeckoService: CoingeckoService,
   ) {}
 
@@ -40,11 +39,10 @@ export class DecksService {
       5,
     );
 
-    const cardPrices: MarketPriceMap =
-      await this.marketService.getMarketPrices();
+    const cardPrices = await this.marketService.getMarketPrices();
 
     const playerCards = !!form.playerName
-      ? await this.playerService.getPlayerCards(form.playerName)
+      ? await this.cardService.getPlayerCards(form.playerName)
       : undefined;
 
     return await this.mapDocuments(
@@ -57,24 +55,18 @@ export class DecksService {
   }
 
   async mapDocuments(
-    cardPrices: MarketPriceMap,
+    cardPrices: Record<string, number>,
     clientTeams: DeckDocument[],
-    playerCards: PlayerCardDto[],
+    playerCards: Card[],
     teamResults: TeamResults[],
     currency: CurrencyDto,
   ) {
     const now = moment().unix();
 
-    let conversionRate = 1;
-
-    if (currency.id !== 'usd') {
-      const prices = await this.coingeckoService.latestPricesOf(
-        ['usd-coin'],
-        currency.id,
-      );
-
-      conversionRate = prices[0].price;
-    }
+    const conversionRate = await this.marketService.getConversionRate(
+      'usd-coin',
+      currency.id,
+    );
 
     const deckDocuments: DeckDocument[] = clientTeams.map((document) => {
       const getPrice = (monster: DeckCard) => {
@@ -87,8 +79,7 @@ export class DecksService {
 
       const newMonsters = document.monsters.map((monster) => {
         const cardOwned = playerCards?.find(
-          (it) =>
-            it.card_detail_id === monster.id && it.level === monster.level,
+          (it) => it.templateId === monster.id && it.level === monster.level,
         );
 
         return {

@@ -89,8 +89,8 @@ function formRow(): UiElement {
 
 function historyRow(): UiElement {
   return Datatable({
-    defaultSortFieldId: 'created_date',
-    defaultSortAsc: true,
+    defaultSortFieldId: 'timestamp',
+    defaultSortAsc: false,
     defaultView: {
       xs: 'grid',
       lg: 'column',

@@ -1,11 +1,33 @@
+import { CoingeckoService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import { ApiService } from '../../api';
+import { CardService } from './card.service';
 
 @Injectable()
 export class MarketService {
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private cardService: CardService,
+    private coingeckoService: CoingeckoService,
+  ) {}
 
-  async getMarketPrices(): Promise<MarketPriceMap> {
+  async getConversionRate(
+    fromCurrencyId: string,
+    toCurrencyId: string,
+  ): Promise<number> {
+    if (fromCurrencyId === 'usd-coin' && toCurrencyId === 'usd') {
+      return 1;
+    }
+
+    const prices = await this.coingeckoService.latestPricesOf(
+      [fromCurrencyId],
+      toCurrencyId,
+    );
+
+    return prices[0]?.price;
+  }
+
+  async getMarketPrices(): Promise<Record<string, number>> {
     const sales = await this.apiService.fetchCardSales();
 
     const map = {};
@@ -15,23 +37,20 @@ export class MarketService {
         continue;
       }
 
-      if (!map[sale.card_detail_id.toString()]) {
-        map[sale.card_detail_id.toString()] = {};
-      }
+      const hash = this.cardService.getCardHash(
+        sale.card_detail_id,
+        sale.level,
+        sale.edition,
+        sale.gold,
+      );
 
-      if (!map[sale.card_detail_id.toString()][sale.level.toString()]) {
-        map[sale.card_detail_id.toString()][sale.level.toString()] = 0;
+      if (!map[hash]) {
+        map[hash] = sale.low_price;
+      } else {
+        map[hash] += sale.low_price;
       }
-
-      map[sale.card_detail_id.toString()][sale.level.toString()] =
-        map[sale.card_detail_id.toString()][sale.level.toString()] +
-        sale.low_price;
     }
 
     return map;
   }
 }
-
-export type MarketPriceMap = {
-  [cardDetailId: string]: { [level: string]: number };
-};
