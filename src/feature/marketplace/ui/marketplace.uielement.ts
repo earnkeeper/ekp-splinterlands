@@ -59,20 +59,16 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
     busyWhen: isBusy(collection(ListingDocument)),
     filters: [
       {
-        columnId: 'battles',
-        type: 'slider',
-      },
-      {
-        columnId: 'elementString',
+        columnId: 'splinter',
         type: 'checkbox',
       },
       {
-        columnId: 'level',
-        type: 'slider',
+        columnId: 'rarity',
+        type: 'checkbox',
       },
 
       {
-        columnId: 'rarity',
+        columnId: 'level',
         type: 'checkbox',
       },
       {
@@ -99,13 +95,27 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
               },
             ],
       },
+      {
+        columnId: 'battles',
+        type: 'radio',
+        allowCustomOption: true,
+        options: [
+          {
+            label: 'All',
+          },
+          {
+            label: '> 50',
+            query: '> 50',
+          },
+        ],
+      },
     ],
     gridView: {
       tileWidth: [12, 6, 4, 3],
       tile: GridTile({
         image: Image({
           className: 'card-img-top',
-          src: '$.imageTile',
+          src: '$.cardByLevelUrl',
         }),
         details: [
           {
@@ -135,7 +145,7 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
         title: '',
         width: '48px',
         cell: Image({
-          src: '$.imageSmall',
+          src: '$.cardArtUrl',
           size: 32,
           rounded: true,
         }),
@@ -149,8 +159,7 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
         id: 'rarity',
       },
       {
-        id: 'elementString',
-        title: 'Element',
+        id: 'splinter',
       },
       {
         id: 'level',
@@ -171,9 +180,9 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
         sortable: true,
       },
       {
-        id: 'winPc',
+        id: 'winpc',
         title: 'Win Rate',
-        format: formatPercent('$.winPc'),
+        format: formatPercent('$.winpc'),
         sortable: true,
       },
       {
