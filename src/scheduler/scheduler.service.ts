@@ -1,4 +1,8 @@
-import { logger, SCHEDULER_QUEUE } from '@earnkeeper/ekp-sdk-nestjs';
+import {
+  ApmService,
+  logger,
+  SCHEDULER_QUEUE,
+} from '@earnkeeper/ekp-sdk-nestjs';
 import { InjectQueue, Processor } from '@nestjs/bull';
 import { Cron } from '@nestjs/schedule';
 import { Queue } from 'bull';
@@ -11,22 +15,30 @@ import {
 
 @Processor(SCHEDULER_QUEUE)
 export class SchedulerService {
-  constructor(@InjectQueue(SCHEDULER_QUEUE) private queue: Queue) {}
+  constructor(
+    @InjectQueue(SCHEDULER_QUEUE) private queue: Queue,
+    private apmService: ApmService,
+  ) {}
 
   async addJob<T>(jobName: string, data?: T, delay = 0, jobId?: string) {
-    if (!!jobId) {
-      await this.queue.add(jobName, data, {
-        jobId,
-        removeOnComplete: true,
-        removeOnFail: true,
-        delay,
-      });
-    } else {
-      await this.queue.add(jobName, data, {
-        removeOnComplete: true,
-        removeOnFail: true,
-        delay,
-      });
+    try {
+      if (!!jobId) {
+        await this.queue.add(jobName, data, {
+          jobId,
+          removeOnComplete: true,
+          removeOnFail: true,
+          delay,
+        });
+      } else {
+        await this.queue.add(jobName, data, {
+          removeOnComplete: true,
+          removeOnFail: true,
+          delay,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      this.apmService.captureError(error);
     }
   }
 
