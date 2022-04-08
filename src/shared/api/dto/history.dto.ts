@@ -16,6 +16,6 @@ export type BattlesDto = Readonly<{
   player_2_rating_final: number;
   player_2_rating_initial: number;
   rshares: number;
-  ruleset: number;
+  ruleset: string;
   winner: string;
 }>;

@@ -23,7 +23,11 @@ import {
   Span,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
-import { LEAGUE_GROUPS, MANA_CAPS } from '../../../shared/game';
+import {
+  LEAGUE_GROUPS,
+  MANA_CAPS,
+  RULESET_IMAGE_MAP,
+} from '../../../shared/game';
 import {
   DEFAULT_BATTLE_FORM,
   promptDeckNameModal,
@@ -179,6 +183,7 @@ function teamRow(): UiElement {
           {
             columnId: 'rulesets',
             type: 'checkbox',
+            imageMap: RULESET_IMAGE_MAP,
           },
           {
             columnId: 'owned',

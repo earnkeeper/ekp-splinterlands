@@ -259,6 +259,18 @@ export const RULESETS = [
   },
 ];
 
+export const RULESET_IMAGE_MAP = _.chain(RULESETS)
+  .map((it) => {
+    const snakeCase = _.snakeCase(it.name);
+    return {
+      key: it.name,
+      value: `https://d36mxiodymuqjm.cloudfront.net/website/icons/rulesets/new/img_combat-rule_${snakeCase}_150.png`,
+    };
+  })
+  .keyBy('key')
+  .mapValues((it) => it.value)
+  .value();
+
 export const MANA_CAPS = _.chain(_.range(12, 50))
   .union([99])
   .map((it) => it.toString())

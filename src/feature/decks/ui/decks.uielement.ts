@@ -3,7 +3,6 @@ import {
   Col,
   collection,
   Container,
-  Datatable,
   documents,
   Form,
   formatCurrency,
@@ -17,20 +16,21 @@ import {
   PageHeaderTile,
   path,
   Row,
-  Select,
   showModal,
   Span,
   sum,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
-import _ from 'lodash';
-import { LEAGUE_GROUPS, MANA_CAPS, RULESETS } from '../../../shared/game';
 import {
   DEFAULT_BATTLE_FORM,
+  SPLINTER_IMAGE_MAP,
   statsCard,
   teamModal,
   TEAM_MODAL_ID,
 } from '../../../util';
+import { Datatable } from '../../../util/ekp/datatable';
+import { switchCase } from '../../../util/ekp/switchCase.rpc';
+import { imageLabelCell } from '../../../util/ui/imageLabelCell';
 import { DeckDocument } from './deck.document';
 
 export default function element(): UiElement {
@@ -107,14 +107,9 @@ function yourDetailsRow() {
         content: 'Your Details',
       }),
       Span({
-        className: 'd-block mt-1 font-small-3',
-        content:
-          'Enter your details beow to update win rate and battle metrics.',
-      }),
-      Span({
         className: 'd-block mt-1 mb-2 font-small-3',
         content:
-          'Optionally, enter your player name to exclude already owned cards from your purchase cost.',
+          'Enter your player name below to update the cost of decks based on the cards you already own',
       }),
       Form({
         name: 'planner',
@@ -122,9 +117,6 @@ function yourDetailsRow() {
           type: 'object',
           properties: {
             playerName: 'string',
-            manaCap: 'number',
-            ruleset: 'string',
-            leagueGroup: 'string',
           },
           default: DEFAULT_BATTLE_FORM,
         },
@@ -141,52 +133,12 @@ function yourDetailsRow() {
                   }),
                 ],
               }),
-              Col({
-                className: 'col-12 col-md-auto',
-                children: [
-                  Select({
-                    label: 'League',
-                    name: 'leagueGroup',
-                    options: ['All', ...LEAGUE_GROUPS.map((it) => it.name)],
-                    minWidth: 160,
-                  }),
-                ],
-              }),
-              Col({
-                className: 'col-12 col-md-auto',
-                children: [
-                  Select({
-                    label: 'Mana Cap',
-                    name: 'manaCap',
-                    options: MANA_CAPS,
-                    minWidth: 80,
-                  }),
-                ],
-              }),
-              Col({
-                className: 'col-12 col-md-auto',
-                children: [
-                  Select({
-                    label: 'Ruleset',
-                    name: 'ruleset',
-                    options: [
-                      'Standard',
-                      ..._.chain(RULESETS)
-                        .map((it) => it.name)
-                        .filter((it) => it !== 'Standard')
-                        .sort()
-                        .value(),
-                    ],
 
-                    minWidth: 160,
-                  }),
-                ],
-              }),
               Col({
                 className: 'col-12 col-md-auto my-auto',
                 children: [
                   Button({
-                    label: 'Save',
+                    label: 'Update',
                     isSubmit: true,
                     busyWhen: isBusy(collection(DeckDocument)),
                   }),
@@ -216,6 +168,17 @@ export function decksTable() {
           xs: 'grid',
           lg: 'column',
         },
+        filters: [
+          {
+            columnId: 'splinter',
+            type: 'checkbox',
+            imageMap: SPLINTER_IMAGE_MAP,
+          },
+          {
+            columnId: 'mana',
+            type: 'checkbox',
+          },
+        ],
         gridView: {
           tileWidth: [12, 6, 4, 3],
           tile: GridTile({
@@ -267,18 +230,10 @@ export function decksTable() {
             id: 'splinter',
             sortable: true,
             width: '120px',
-            cell: Row({
-              children: [
-                Col({
-                  className: 'col-auto pr-0',
-                  children: [Image({ src: '$.splinterIcon' })],
-                }),
-                Col({
-                  className: 'col-auto',
-                  children: [Span({ content: '$.splinter' })],
-                }),
-              ],
-            }),
+            cell: imageLabelCell(
+              switchCase('$.splinter', SPLINTER_IMAGE_MAP),
+              '$.splinter',
+            ),
           },
           {
             id: 'summonerName',
@@ -293,18 +248,6 @@ export function decksTable() {
           },
           {
             id: 'mana',
-            sortable: true,
-            grow: 0,
-          },
-          {
-            id: 'winpc',
-            title: 'Win',
-            format: formatPercent('$.winpc'),
-            sortable: true,
-            width: '60px',
-          },
-          {
-            id: 'battles',
             sortable: true,
             grow: 0,
           },

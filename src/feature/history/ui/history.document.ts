@@ -13,7 +13,7 @@ export class HistoryDocument extends DocumentDto {
   readonly opponentInitialRating: number;
   readonly opponentName: string;
   readonly result: string;
-  readonly ruleSet: number;
+  readonly rulesets: string[];
   readonly timestamp: number;
   readonly leagueName: string;
 }

@@ -3,7 +3,6 @@ import {
   Col,
   collection,
   Container,
-  Datatable,
   documents,
   Form,
   formatAge,
@@ -17,8 +16,11 @@ import {
   Span,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
+import { RULESET_IMAGE_MAP } from '../../../shared/game';
 import { DEFAULT_HISTORY_FORM } from '../../../util';
+import { arrayJoin } from '../../../util/ekp/arrayJoin.rpc';
 import { Badge } from '../../../util/ekp/badge';
+import { Datatable } from '../../../util/ekp/datatable';
 import { switchCase } from '../../../util/ekp/switchCase.rpc';
 import { HistoryDocument } from './history.document';
 
@@ -101,11 +103,12 @@ function historyRow(): UiElement {
     busyWhen: isBusy(collection(HistoryDocument)),
     filters: [
       {
-        columnId: 'result',
+        columnId: 'rulesets',
         type: 'checkbox',
+        imageMap: RULESET_IMAGE_MAP,
       },
       {
-        columnId: 'ruleSet',
+        columnId: 'result',
         type: 'checkbox',
       },
       {
@@ -199,7 +202,8 @@ function historyRow(): UiElement {
         grow: 0,
       },
       {
-        id: 'ruleSet',
+        id: 'rulesets',
+        format: arrayJoin('$.rulesets', ', '),
       },
       {
         id: 'matchType',

@@ -4,6 +4,7 @@ import {
   Datatable,
   formatCurrency,
   formatPercent,
+  formatTemplate,
   hideModal,
   Image,
   Modal,
@@ -16,6 +17,8 @@ import {
   Span,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
+import { SPLINTER_IMAGE_MAP } from './constants';
+import { switchCase } from './ekp/switchCase.rpc';
 import { PROMPT_DECK_NAME_MODAL_ID } from './prompt-deck-name.modal';
 import { statsCard } from './stats-card';
 
@@ -35,7 +38,7 @@ export function teamModal(): UiElement {
                 className: 'col-auto',
                 children: [
                   Image({
-                    src: '$.splinterIcon',
+                    src: switchCase('$.splinter', SPLINTER_IMAGE_MAP),
                   }),
                 ],
               }),
@@ -43,7 +46,9 @@ export function teamModal(): UiElement {
                 className: 'col-auto',
                 children: [
                   Span({
-                    content: 'Team Viewer',
+                    content: formatTemplate('{{ summonerName }} Team', {
+                      summonerName: '$.summonerName',
+                    }),
                   }),
                 ],
               }),
@@ -71,6 +76,7 @@ export function teamModal(): UiElement {
                       }),
                       Col({
                         className: 'col-auto',
+                        when: '$.winpc',
                         children: [
                           statsCard('Win Rate', formatPercent('$.winpc')),
                         ],

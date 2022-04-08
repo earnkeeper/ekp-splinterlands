@@ -1,6 +1,5 @@
 import { CurrencyDto } from '@earnkeeper/ekp-sdk';
 import { Injectable } from '@nestjs/common';
-import { validate } from 'bycontract';
 import _ from 'lodash';
 import moment from 'moment';
 import {
@@ -8,9 +7,8 @@ import {
   CardService,
   MarketService,
   ResultsService,
-  TeamResults,
 } from '../../shared/game';
-import { BattleForm, DEFAULT_BATTLE_FORM } from '../../util';
+import { BattleForm } from '../../util';
 import { DeckCard, DeckDocument } from './ui/deck.document';
 
 @Injectable()
@@ -27,15 +25,6 @@ export class DecksService {
     subscribed: boolean,
     currency: CurrencyDto,
   ) {
-    validate([form, form.manaCap], ['object', 'number']);
-
-    const { teams: teamResults } = await this.resultsService.getTeamResults(
-      form.manaCap,
-      form.leagueGroup ?? DEFAULT_BATTLE_FORM.leagueGroup,
-      subscribed,
-      5,
-    );
-
     const cardPrices = await this.marketService.getMarketPrices();
 
     const playerCards = !!form.playerName
@@ -46,7 +35,6 @@ export class DecksService {
       cardPrices,
       clientTeams,
       playerCards,
-      teamResults,
       currency,
     );
   }
@@ -55,7 +43,6 @@ export class DecksService {
     cardPrices: Record<string, number>,
     clientTeams: DeckDocument[],
     playerCards: Card[],
-    teamResults: TeamResults[],
     currency: CurrencyDto,
   ) {
     const now = moment().unix();
@@ -65,7 +52,7 @@ export class DecksService {
       currency.id,
     );
 
-    const deckDocuments: DeckDocument[] = clientTeams.map((document) => {
+    const deckDocuments: DeckDocument[] = clientTeams.map((clientDocument) => {
       const getPrice = (monster: DeckCard) => {
         if (!cardPrices[monster.id.toString()]) {
           return undefined;
@@ -74,7 +61,7 @@ export class DecksService {
         return cardPrices[monster.id.toString()][monster.level.toString()];
       };
 
-      const newMonsters = document.monsters.map((monster) => {
+      const newMonsters = clientDocument.monsters.map((monster) => {
         const cardOwned = playerCards?.find(
           (it) => it.templateId === monster.id && it.level === monster.level,
         );
@@ -85,10 +72,8 @@ export class DecksService {
         };
       });
 
-      const teamResult = teamResults.find((it) => it.id === document.id);
-
-      return {
-        ...document,
+      const document: DeckDocument = {
+        ...clientDocument,
         fiatSymbol: currency.symbol,
         monsters: newMonsters,
         price: _.chain(newMonsters)
@@ -97,12 +82,10 @@ export class DecksService {
           .sum()
           .thru((it) => it * conversionRate)
           .value(),
-        winpc: !!teamResult
-          ? (teamResult.wins * 100) / teamResult.battles
-          : undefined,
-        battles: !!teamResult ? teamResult.battles : undefined,
         updated: now,
       };
+
+      return document;
     });
 
     return deckDocuments;

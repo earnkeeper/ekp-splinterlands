@@ -40,7 +40,9 @@ export class HistoryService {
 
       const currentStreak = result === 'Loss' ? 0 : battle.current_streak;
 
-      return {
+      const rulesets = battle.ruleset.split('|');
+
+      const document: HistoryDocument = {
         id: battle.id,
         updated: now,
         opponentName,
@@ -51,9 +53,11 @@ export class HistoryService {
         timestamp: moment(battle.created_date).unix(),
         manaCap: battle.mana_cap,
         matchType: battle.match_type,
-        ruleSet: battle.ruleset,
+        rulesets,
         leagueName: MapperService.mapLeagueName(myInitialRating),
       };
+
+      return document;
     });
 
     return documents;
