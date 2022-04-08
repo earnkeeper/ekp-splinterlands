@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import moment from 'moment';
 import { FREE_DAYS_TO_KEEP, PREMIUM_DAYS_TO_KEEP } from '../../../util';
-import { ApiService, TeamDetailedDto } from '../../api';
+import { TeamDetailedDto } from '../../api';
 import { Battle, BattleRepository } from '../../db';
 import { Card, CardTemplate } from '../domain';
 import { CardService } from './card.service';
@@ -12,7 +12,6 @@ import { MapperService } from './mapper.service';
 @Injectable()
 export class ResultsService {
   constructor(
-    private apiService: ApiService,
     private apmService: ApmService,
     private battleRepository: BattleRepository,
     private cacheService: CacheService,
@@ -21,14 +20,13 @@ export class ResultsService {
 
   async getTeamResults(
     manaCap: number,
-    ruleset: string,
     leagueGroup: string,
     subscribed: boolean,
     minBattles: number,
   ): Promise<{ teams: TeamResults[]; battles: Battle[] }> {
     const cacheKey = _.chain([
+      'v1',
       manaCap,
-      ruleset,
       leagueGroup,
       subscribed,
       minBattles,
@@ -56,14 +54,12 @@ export class ResultsService {
       op: 'readBattles',
       data: {
         manaCap,
-        ruleset,
         subscribed,
       },
     });
 
     const battles = await this.battleRepository.findBattleByManaCap(
       manaCap,
-      ruleset,
       leagueGroup,
       fetchSince,
     );
@@ -91,8 +87,20 @@ export class ResultsService {
     for (const battle of battles) {
       const { winner, loser } = MapperService.mapWinnerAndLoser(battle);
 
-      this.updateResultsWith(viableTeams, winner, cardTemplates, true);
-      this.updateResultsWith(viableTeams, loser, cardTemplates, false);
+      this.updateResultsWith(
+        viableTeams,
+        winner,
+        battle.rulesets,
+        cardTemplates,
+        true,
+      );
+      this.updateResultsWith(
+        viableTeams,
+        loser,
+        battle.rulesets,
+        cardTemplates,
+        false,
+      );
     }
 
     const teams = _.values(viableTeams);
@@ -116,10 +124,11 @@ export class ResultsService {
   private updateResultsWith(
     viableTeams: Record<string, TeamResults>,
     team: TeamDetailedDto,
+    rulesets: string[],
     cardTemplates: CardTemplate[],
     win: boolean,
   ) {
-    const id: string = this.mapTeamId(team);
+    const id: string = this.mapTeamId(team, rulesets);
 
     let viableTeam = viableTeams[id];
 
@@ -127,6 +136,7 @@ export class ResultsService {
       viableTeams[id] = viableTeam = this.createTeamResults(
         id,
         team,
+        rulesets,
         cardTemplates,
       );
     }
@@ -141,6 +151,7 @@ export class ResultsService {
   private createTeamResults(
     teamId: string,
     battleTeam: TeamDetailedDto,
+    rulesets: string[],
     cardTemplates: CardTemplate[],
   ): TeamResults {
     const summonerTemplate = cardTemplates.find(
@@ -173,6 +184,7 @@ export class ResultsService {
 
     return {
       id: teamId,
+      rulesets,
       wins: 0,
       battles: 0,
       summoner,
@@ -180,14 +192,16 @@ export class ResultsService {
     };
   }
 
-  private mapTeamId(team: TeamDetailedDto): string {
+  private mapTeamId(team: TeamDetailedDto, rulesets: string[]): string {
     const orderedMonstersId = _.chain(team.monsters)
       .map((monster) => monster.card_detail_id)
       .sort()
       .join('|')
       .value();
 
-    return `${team.summoner.card_detail_id}|${orderedMonstersId}`;
+    const orderedRulesets = _.chain(rulesets).sort().join(',').value();
+
+    return `${team.summoner.card_detail_id}|${orderedMonstersId}|${orderedRulesets}`;
   }
 }
 
@@ -195,6 +209,7 @@ export type TeamResults = {
   readonly id: string;
   battles: number;
   wins: number;
+  readonly rulesets: string[];
   readonly summoner: Card;
   readonly monsters: Card[];
 };

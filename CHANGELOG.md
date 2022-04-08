@@ -10,6 +10,10 @@
 - ✨ Wins and losses in Battle History are shown in red and green now
 - ✨ Table cells are using splinterlands icons when available now
 
+### Changed
+
+- 🔨 Fetching more battle data, and fetching all rule sets, user can filter by rule set in the client
+  
 ## [1.2.1]
 
 ### Added

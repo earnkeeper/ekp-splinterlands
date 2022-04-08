@@ -75,26 +75,23 @@ export class BattleRepository {
 
   async findBattleByManaCap(
     manaCap: number,
-    ruleset: string,
     leagueGroup: string,
     startTimestamp: number,
   ): Promise<Battle[]> {
     validate(
-      [manaCap, ruleset, leagueGroup, startTimestamp],
-      ['number', 'string', 'string', 'number'],
+      [manaCap, leagueGroup, startTimestamp],
+      ['number', 'string', 'number'],
     );
 
     const query: {
       timestamp: any;
       manaCap: number;
       leagueGroup?: string;
-      rulesets: string;
     } = {
       timestamp: {
         $gte: startTimestamp,
       },
       manaCap,
-      rulesets: ruleset,
     };
 
     if (leagueGroup !== 'All') {

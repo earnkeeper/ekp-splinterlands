@@ -71,7 +71,6 @@ export const BattleSchema = SchemaFactory.createForClass(Battle)
   .index({
     timestamp: 1,
     manaCap: 1,
-    rulesets: 1,
   })
   .index({
     version: 1,
@@ -80,6 +79,5 @@ export const BattleSchema = SchemaFactory.createForClass(Battle)
   .index({
     timestamp: 1,
     manaCap: 1,
-    rulesets: 1,
     leagueName: 1,
   });

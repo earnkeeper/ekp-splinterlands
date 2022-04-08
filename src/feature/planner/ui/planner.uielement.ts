@@ -3,7 +3,6 @@ import {
   Col,
   collection,
   Container,
-  Datatable,
   documents,
   Form,
   formatAge,
@@ -24,14 +23,18 @@ import {
   Span,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
-import _ from 'lodash';
-import { LEAGUE_GROUPS, MANA_CAPS, RULESETS } from '../../../shared/game';
+import { LEAGUE_GROUPS, MANA_CAPS } from '../../../shared/game';
 import {
   DEFAULT_BATTLE_FORM,
   promptDeckNameModal,
+  SPLINTER_IMAGE_MAP,
   teamModal,
   TEAM_MODAL_ID,
 } from '../../../util';
+import { arrayJoin } from '../../../util/ekp/arrayJoin.rpc';
+import { Datatable } from '../../../util/ekp/datatable';
+import { switchCase } from '../../../util/ekp/switchCase.rpc';
+import { imageLabelCell } from '../../../util/ui/imageLabelCell';
 import { PlannerViewBag } from './planner-view-bag.document';
 import { PlannerDocument } from './planner.document';
 
@@ -125,24 +128,6 @@ function battleDetailsForm() {
                 ],
               }),
               Col({
-                className: 'col-12 col-md-auto',
-                children: [
-                  Select({
-                    label: 'Ruleset',
-                    name: 'ruleset',
-                    options: [
-                      'Standard',
-                      ..._.chain(RULESETS)
-                        .map((it) => it.name)
-                        .filter((it) => it !== 'Standard')
-                        .sort()
-                        .value(),
-                    ],
-                    minWidth: 160,
-                  }),
-                ],
-              }),
-              Col({
                 className: 'col-12 col-md-auto my-auto',
                 children: [
                   Button({
@@ -187,12 +172,17 @@ function teamRow(): UiElement {
         showExport: false,
         filters: [
           {
-            columnId: 'owned',
-            type: 'radio',
-          },
-          {
             columnId: 'splinter',
             type: 'checkbox',
+            imageMap: SPLINTER_IMAGE_MAP,
+          },
+          {
+            columnId: 'rulesets',
+            type: 'checkbox',
+          },
+          {
+            columnId: 'owned',
+            type: 'radio',
           },
           {
             columnId: 'battles',
@@ -274,24 +264,20 @@ function teamRow(): UiElement {
             id: 'splinter',
             sortable: true,
             width: '120px',
-            cell: Row({
-              children: [
-                Col({
-                  className: 'col-auto pr-0',
-                  children: [Image({ src: '$.splinterIcon' })],
-                }),
-                Col({
-                  className: 'col-auto',
-                  children: [Span({ content: '$.splinter' })],
-                }),
-              ],
-            }),
+            cell: imageLabelCell(
+              switchCase('$.splinter', SPLINTER_IMAGE_MAP),
+              '$.splinter',
+            ),
           },
           {
             id: 'summonerName',
             sortable: true,
             title: 'Summoner',
             searchable: true,
+          },
+          {
+            id: 'rulesets',
+            format: arrayJoin('$.rulesets', ', '),
           },
           {
             id: 'winpc',

@@ -1,5 +1,4 @@
 import { CurrencyDto } from '@earnkeeper/ekp-sdk';
-import { CoingeckoService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import { validate } from 'bycontract';
 import _ from 'lodash';
@@ -19,7 +18,6 @@ export class PlannerService {
     private marketService: MarketService,
     private cardService: CardService,
     private resultsService: ResultsService,
-    private coingeckoService: CoingeckoService,
   ) {}
 
   async getPlannerDocuments(
@@ -31,7 +29,6 @@ export class PlannerService {
 
     const { teams, battles } = await this.resultsService.getTeamResults(
       form.manaCap,
-      form.ruleset ?? DEFAULT_BATTLE_FORM.ruleset,
       form.leagueGroup ?? DEFAULT_BATTLE_FORM.leagueGroup,
       subscribed ?? false,
       5,
@@ -47,7 +44,7 @@ export class PlannerService {
     }
 
     const plannerDocuments = await this.mapDocuments(
-      teams.filter((it) => it.battles > 5),
+      teams,
       cardPrices,
       currency,
     );
@@ -107,17 +104,17 @@ export class PlannerService {
           .thru((it) => it * conversionRate)
           .value();
 
-        return {
+        const document: PlannerDocument = {
           id: team.id,
           updated: now,
           battles: team.battles,
-          splinterIcon: `https://d36mxiodymuqjm.cloudfront.net/website/icons/icon-element-${team.summoner.splinter.toLowerCase()}-2.svg`,
           fiatSymbol: currency.symbol,
           mana,
           monsterCount: team.monsters.length,
           monsters,
           owned: price === 0 ? 'Yes' : ' No',
           price,
+          rulesets: [...team.rulesets],
           splinter: team.summoner.splinter,
           summonerName: team.summoner.name,
           summonerIcon: `https://d36mxiodymuqjm.cloudfront.net/card_art/${team.summoner.name}.png`,
@@ -127,6 +124,8 @@ export class PlannerService {
           summonerEdition: team.summoner.edition,
           winpc: (team.wins * 100) / team.battles,
         };
+
+        return document;
       })
       .value();
   }
