@@ -21,7 +21,9 @@ import {
   ROLE_IMAGE_MAP,
   SPLINTER_IMAGE_MAP,
 } from '../../../util';
-import { Datatable } from '../../../util/datatable';
+import { Datatable } from '../../../util/ekp/datatable';
+import { switchCase } from '../../../util/ekp/switchCase.rpc';
+import { imageLabelCell } from '../../../util/ui/imageLabelCell';
 import { ListingDocument } from './listing.document';
 
 export default function element(
@@ -179,28 +181,48 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
         minWidth: '160px',
       },
       {
+        id: 'level',
+        width: '70px',
+      },
+      {
         id: 'rarity',
         sortable: true,
+        minWidth: '140px',
+        cell: imageLabelCell(
+          switchCase('$.rarity', RARITY_IMAGE_MAP),
+          '$.rarity',
+        ),
       },
       {
         id: 'splinter',
-      },
-      {
-        id: 'level',
+        cell: imageLabelCell(
+          switchCase('$.splinter', SPLINTER_IMAGE_MAP),
+          '$.splinter',
+        ),
       },
       {
         id: 'edition',
+        cell: imageLabelCell(
+          switchCase('$.edition', EDITION_IMAGE_MAP),
+          '$.edition',
+        ),
+        minWidth: '120px',
       },
       {
         id: 'role',
+        cell: imageLabelCell(switchCase('$.role', ROLE_IMAGE_MAP), '$.role'),
+        minWidth: '130px',
       },
       {
         id: 'foil',
+        cell: imageLabelCell(switchCase('$.foil', FOIL_IMAGE_MAP), '$.foil'),
+        minWidth: '110px',
       },
       {
         id: 'qty',
         format: formatToken('$.qty'),
         sortable: true,
+        width: '80px',
       },
       {
         id: 'price',
@@ -214,7 +236,7 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
       },
       {
         id: 'winpc',
-        title: 'Win Rate',
+        title: 'Win',
         format: formatPercent('$.winpc'),
         sortable: true,
       },

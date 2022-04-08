@@ -6,7 +6,9 @@
 
 ### Added
 
-- 🎨 Edition, Foil, Role, Rarity & Splinter now use images for all checkboxes
+- ✨ Filters checkboxes are using splinterlands icons when available now
+- ✨ Wins and losses in Battle History are shown in red and green now
+- ✨ Table cells are using splinterlands icons when available now
 
 ## [1.2.1]
 

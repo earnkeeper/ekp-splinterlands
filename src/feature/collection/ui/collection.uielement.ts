@@ -26,7 +26,7 @@ import {
   SPLINTER_IMAGE_MAP,
   statsCard,
 } from '../../../util';
-import { Datatable } from '../../../util/datatable';
+import { Datatable } from '../../../util/ekp/datatable';
 import { CollectionDocument } from './collection.document';
 
 export default function element(): UiElement {

@@ -18,6 +18,8 @@ import {
   UiElement,
 } from '@earnkeeper/ekp-sdk';
 import { DEFAULT_HISTORY_FORM } from '../../../util';
+import { Badge } from '../../../util/ekp/badge';
+import { switchCase } from '../../../util/ekp/switchCase.rpc';
 import { HistoryDocument } from './history.document';
 
 export default function element(): UiElement {
@@ -100,7 +102,7 @@ function historyRow(): UiElement {
     filters: [
       {
         columnId: 'result',
-        type: 'radio',
+        type: 'checkbox',
       },
       {
         columnId: 'ruleSet',
@@ -170,6 +172,11 @@ function historyRow(): UiElement {
       },
       {
         id: 'result',
+        cell: Badge({
+          color: switchCase('$.result', { Loss: 'danger', Win: 'success' }),
+          children: [Span({ content: '$.result' })],
+        }),
+        width: '80px',
       },
       {
         id: 'leagueName',
@@ -184,6 +191,7 @@ function historyRow(): UiElement {
         id: 'opponentName',
         title: 'Opponent',
         searchable: true,
+        minWidth: '160px',
       },
       {
         title: 'Mana Cap',
