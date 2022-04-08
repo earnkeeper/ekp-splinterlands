@@ -7,8 +7,8 @@ import {
   Form,
   formatAge,
   formatToken,
-  Fragment,
   GridTile,
+  Image,
   Input,
   isBusy,
   PageHeaderTile,
@@ -17,7 +17,7 @@ import {
   UiElement,
 } from '@earnkeeper/ekp-sdk';
 import { RULESET_IMAGE_MAP } from '../../../shared/game';
-import { DEFAULT_HISTORY_FORM } from '../../../util';
+import { DEFAULT_HISTORY_FORM, SPLINTER_IMAGE_MAP } from '../../../util';
 import { arrayJoin } from '../../../util/ekp/arrayJoin.rpc';
 import { Badge } from '../../../util/ekp/badge';
 import { Datatable } from '../../../util/ekp/datatable';
@@ -111,23 +111,47 @@ function historyRow(): UiElement {
         columnId: 'result',
         type: 'checkbox',
       },
-      {
-        columnId: 'matchType',
-        type: 'checkbox',
-      },
     ],
     gridView: {
-      tileWidth: [12, 6, 4, 3],
+      tileWidth: [12, 6, 4, 4],
       tile: GridTile({
-        image: Fragment(),
+        image: Row({
+          className: 'my-4',
+          children: [
+            Col({
+              children: [
+                Image({
+                  src: switchCase('$.mySplinter', SPLINTER_IMAGE_MAP),
+                  size: 48,
+                }),
+              ],
+            }),
+            Col({
+              className: 'my-auto col-auto p-0',
+              children: [
+                Span({
+                  content: 'vs',
+                }),
+              ],
+            }),
+            Col({
+              children: [
+                Image({
+                  src: switchCase('$.opponentSplinter', SPLINTER_IMAGE_MAP),
+                  size: 48,
+                }),
+              ],
+            }),
+          ],
+        }),
         details: [
+          {
+            label: 'Result',
+            value: '$.result',
+          },
           {
             label: 'Timestamp',
             value: formatAge('$.timestamp'),
-          },
-          {
-            label: 'Opponent Rating',
-            value: '$.opponentInitialRating',
           },
           {
             label: 'Opponent',
@@ -138,24 +162,17 @@ function historyRow(): UiElement {
             value: '$.manaCap',
           },
           {
-            label: 'Rule Set',
-            value: '$.ruleSet',
+            label: 'Rule Sets',
+            value: '$.rulesets',
           },
           {
-            label: 'Match Type',
-            value: '$.matchType',
+            label: 'Opponent Rating',
+            value: '$.opponentInitialRating',
           },
-          {
-            label: 'Result',
-            value: '$.result',
-          },
+
           {
             label: 'Final Rating',
             value: '$.myFinalRating',
-          },
-          {
-            label: 'Streak',
-            value: '$.currentStreak',
           },
         ],
         left: {
@@ -206,16 +223,8 @@ function historyRow(): UiElement {
         format: arrayJoin('$.rulesets', ', '),
       },
       {
-        id: 'matchType',
-      },
-      {
         id: 'myFinalRating',
         title: 'Rating',
-        grow: 0,
-      },
-      {
-        id: 'currentStreak',
-        title: 'Streak',
         grow: 0,
       },
     ],

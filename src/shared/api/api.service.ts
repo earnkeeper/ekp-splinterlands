@@ -5,7 +5,6 @@ import { validate } from 'bycontract';
 import {
   CardDetailDto,
   ForSaleGroupedDto,
-  HistoryDto,
   LeaderboardDto,
   SettingsDto,
   TransactionDto,
@@ -110,14 +109,6 @@ export class ApiService extends AbstractApiService {
     const url = `${BASE_URL}/battle/history?player=${playerName}`;
 
     return this.handleCall({ url }, async () => {
-      const response = await axios.get(url, { proxy: this.proxy });
-
-      return response.data;
-    });
-  }
-  async fetchHistory(playerName: string): Promise<HistoryDto> {
-    const url = `${BASE_URL}/battle/history?player=${playerName}`;
-    return this.handleCall({ url, ttl: 15 }, async () => {
       const response = await axios.get(url, { proxy: this.proxy });
 
       return response.data;

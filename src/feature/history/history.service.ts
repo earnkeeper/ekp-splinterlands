@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import moment from 'moment';
-import { ApiService, HistoryDto } from '../../shared/api';
-import { MapperService } from '../../shared/game/services/mapper.service';
+import { ApiService } from '../../shared/api';
+import { Battle, BATTLE_VERSION } from '../../shared/db';
+import { MapperService } from '../../shared/game';
 import { HistoryForm } from '../../util';
 import { HistoryDocument } from './ui/history.document';
 
@@ -10,51 +11,63 @@ export class HistoryService {
   constructor(private apiService: ApiService) {}
 
   async getHistoryDocuments(form: HistoryForm): Promise<HistoryDocument[]> {
-    const historyDto = await this.apiService.fetchHistory(form.playerName);
+    const response = await this.apiService.fetchPlayerBattles(form.playerName);
 
-    return this.mapDocuments(historyDto, form);
+    const battles = MapperService.mapBattlesFromPlayer(
+      response.battles,
+      BATTLE_VERSION,
+    );
+
+    return this.mapDocuments(battles, form);
   }
 
-  async mapDocuments(historyDto: HistoryDto, form: HistoryForm) {
+  async mapDocuments(playerBattles: Battle[], form: HistoryForm) {
     const now = moment().unix();
-    const documents: HistoryDocument[] = historyDto.battles.map((battle) => {
+    const documents: HistoryDocument[] = playerBattles.map((battle) => {
       const opponentName =
-        battle.player_1 === form.playerName ? battle.player_2 : battle.player_1;
+        battle.players[0].name === form.playerName
+          ? battle.players[1].name
+          : battle.players[0].name;
 
       const myInitialRating =
-        battle.player_1 === form.playerName
-          ? battle.player_1_rating_initial
-          : battle.player_2_rating_initial;
+        battle.players[0].name === form.playerName
+          ? battle.players[0].initial_rating
+          : battle.players[1].initial_rating;
 
       const myFinalRating =
-        battle.player_1 === form.playerName
-          ? battle.player_1_rating_final
-          : battle.player_2_rating_final;
+        battle.players[0].name === form.playerName
+          ? battle.players[0].final_rating
+          : battle.players[1].final_rating;
 
       const opponentInitialRating =
-        battle.player_1 === form.playerName
-          ? battle.player_2_rating_initial
-          : battle.player_1_rating_initial;
+        battle.players[0].name === form.playerName
+          ? battle.players[1].initial_rating
+          : battle.players[0].initial_rating;
 
       const result = battle.winner === form.playerName ? 'Win' : 'Loss';
 
-      const currentStreak = result === 'Loss' ? 0 : battle.current_streak;
-
-      const rulesets = battle.ruleset.split('|');
+      const myColor =
+        battle.players[0].name === form.playerName
+          ? battle.team1.color
+          : battle.team2.color;
+      const opponentColor =
+        battle.players[0].name === form.playerName
+          ? battle.team2.color
+          : battle.team1.color;
 
       const document: HistoryDocument = {
         id: battle.id,
         updated: now,
-        opponentName,
-        myFinalRating,
-        opponentInitialRating,
-        result,
-        currentStreak,
-        timestamp: moment(battle.created_date).unix(),
-        manaCap: battle.mana_cap,
-        matchType: battle.match_type,
-        rulesets,
         leagueName: MapperService.mapLeagueName(myInitialRating),
+        manaCap: battle.manaCap,
+        myFinalRating,
+        mySplinter: MapperService.mapColorToSplinter(myColor),
+        opponentSplinter: MapperService.mapColorToSplinter(opponentColor),
+        opponentInitialRating,
+        opponentName,
+        result,
+        rulesets: battle.rulesets,
+        timestamp: battle.timestamp,
       };
 
       return document;

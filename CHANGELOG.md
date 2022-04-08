@@ -9,11 +9,12 @@
 - ✨ Filters checkboxes are using splinterlands icons when available now
 - ✨ Table cells are using splinterlands icons when available now
 - ✨ Wins and losses in Battle History are shown in red and green now
+- ✨ Slightly better tile view for Battle History on mobile 🙂
+- ✨ New filters for Saved Teams page: Splinter & Mana
 
 ### Changed
 
 - 🔨 Fetching more battle data, and fetching all rule sets, user can filter by rule set in the client
-- 
   
 ## [1.2.1]
 
