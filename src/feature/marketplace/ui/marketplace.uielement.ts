@@ -2,7 +2,6 @@ import {
   Col,
   collection,
   Container,
-  Datatable,
   documents,
   formatCurrency,
   formatPercent,
@@ -15,6 +14,14 @@ import {
   Span,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
+import {
+  EDITION_IMAGE_MAP,
+  FOIL_IMAGE_MAP,
+  RARITY_IMAGE_MAP,
+  ROLE_IMAGE_MAP,
+  SPLINTER_IMAGE_MAP,
+} from '../../../util';
+import { Datatable } from '../../../util/datatable';
 import { ListingDocument } from './listing.document';
 
 export default function element(
@@ -59,14 +66,30 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
     busyWhen: isBusy(collection(ListingDocument)),
     filters: [
       {
-        columnId: 'splinter',
+        columnId: 'edition',
         type: 'checkbox',
+        imageMap: EDITION_IMAGE_MAP,
+      },
+      {
+        columnId: 'foil',
+        type: 'checkbox',
+        imageMap: FOIL_IMAGE_MAP,
+      },
+      {
+        columnId: 'role',
+        type: 'checkbox',
+        imageMap: ROLE_IMAGE_MAP,
       },
       {
         columnId: 'rarity',
         type: 'checkbox',
+        imageMap: RARITY_IMAGE_MAP,
       },
-
+      {
+        columnId: 'splinter',
+        type: 'checkbox',
+        imageMap: SPLINTER_IMAGE_MAP,
+      },
       {
         columnId: 'level',
         type: 'checkbox',
@@ -128,7 +151,7 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
           },
           {
             label: 'Win Rate',
-            value: formatPercent('$.winPc'),
+            value: formatPercent('$.winpc'),
           },
         ],
         left: {
@@ -157,12 +180,22 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
       },
       {
         id: 'rarity',
+        sortable: true,
       },
       {
         id: 'splinter',
       },
       {
         id: 'level',
+      },
+      {
+        id: 'edition',
+      },
+      {
+        id: 'role',
+      },
+      {
+        id: 'foil',
       },
       {
         id: 'qty',

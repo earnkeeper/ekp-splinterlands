@@ -67,20 +67,20 @@ export class MarketplaceService {
         const document = new ListingDocument({
           id: card.id,
           updated: now,
-
-          fiatSymbol: currency.symbol,
           battles,
-          splinter: card.splinter,
-          gold: card.gold,
-
           cardArtUrl: this.cardService.getCardArtUrl(card),
           cardByLevelUrl: this.cardService.getCardByLevelUrl(card),
+          edition: card.edition,
+          fiatSymbol: currency.symbol,
+          foil: card.gold ? 'Gold' : 'Regular',
+          gold: card.gold,
           level: card.level,
           name: card.name,
           price: sale.low_price * conversionRate,
           qty: sale.qty,
           rarity: card.rarity,
-
+          role: card.type,
+          splinter: card.splinter,
           winpc: !!battles ? (wins * 100) / battles : undefined,
         });
 

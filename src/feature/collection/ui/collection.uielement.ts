@@ -3,7 +3,6 @@ import {
   Col,
   collection,
   Container,
-  Datatable,
   documents,
   Form,
   formatCurrency,
@@ -18,7 +17,16 @@ import {
   sum,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
-import { DEFAULT_COLLECTION_FORM, statsCard } from '../../../util';
+import {
+  DEFAULT_COLLECTION_FORM,
+  EDITION_IMAGE_MAP,
+  FOIL_IMAGE_MAP,
+  RARITY_IMAGE_MAP,
+  ROLE_IMAGE_MAP,
+  SPLINTER_IMAGE_MAP,
+  statsCard,
+} from '../../../util';
+import { Datatable } from '../../../util/datatable';
 import { CollectionDocument } from './collection.document';
 
 export default function element(): UiElement {
@@ -136,22 +144,27 @@ function historyRow(): UiElement {
       {
         columnId: 'edition',
         type: 'checkbox',
+        imageMap: EDITION_IMAGE_MAP,
       },
       {
         columnId: 'foil',
         type: 'checkbox',
+        imageMap: FOIL_IMAGE_MAP,
       },
       {
         columnId: 'role',
         type: 'checkbox',
+        imageMap: ROLE_IMAGE_MAP,
       },
       {
         columnId: 'rarity',
         type: 'checkbox',
+        imageMap: RARITY_IMAGE_MAP,
       },
       {
         columnId: 'splinter',
         type: 'checkbox',
+        imageMap: SPLINTER_IMAGE_MAP,
       },
       {
         columnId: 'level',
