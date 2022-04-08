@@ -4,15 +4,15 @@ import { PREMIUM_DAYS_TO_KEEP } from '../../../util';
 import { PlayerDto, TeamDetailedDto } from '../../api';
 
 export type BattleDocument = Battle & Document;
-export const BATTLE_VERSION = 3;
+export const BATTLE_VERSION = 1;
 
-@Schema()
+@Schema({ collection: 'battles_v2' })
 export class Battle {
-  @Prop({ index: true })
+  @Prop()
   readonly id: string;
 
   @Prop()
-  version: number;
+  readonly version: number;
 
   @Prop()
   readonly blockNumber: number;
@@ -27,10 +27,10 @@ export class Battle {
   readonly ruleset?: string;
 
   @Prop([String])
-  rulesets: string[];
+  readonly rulesets: string[];
 
   @Prop()
-  source: string;
+  readonly source: string;
 
   @Prop()
   readonly winner: string;
@@ -42,7 +42,7 @@ export class Battle {
   readonly leagueName: string;
 
   @Prop()
-  leagueGroup: string;
+  readonly leagueGroup: string;
 
   @Prop({ type: 'array' })
   readonly players: PlayerDto[];
@@ -55,6 +55,7 @@ export class Battle {
 }
 
 export const BattleSchema = SchemaFactory.createForClass(Battle)
+  .index({ id: 1 }, { unique: true })
   .index({
     blockNumber: 1,
     source: 1,
@@ -64,7 +65,7 @@ export const BattleSchema = SchemaFactory.createForClass(Battle)
       timestamp: 1,
     },
     {
-      expireAfterSeconds: 86400 * PREMIUM_DAYS_TO_KEEP,
+      expires: `${PREMIUM_DAYS_TO_KEEP}d`,
     },
   )
   .index({

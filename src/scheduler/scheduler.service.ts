@@ -1,4 +1,4 @@
-import { logger, SCHEDULER_QUEUE } from '@earnkeeper/ekp-sdk-nestjs';
+import { SCHEDULER_QUEUE } from '@earnkeeper/ekp-sdk-nestjs';
 import { InjectQueue, Processor } from '@nestjs/bull';
 import { Cron } from '@nestjs/schedule';
 import { Queue } from 'bull';
@@ -6,7 +6,6 @@ import {
   FETCH_BATTLE_TRANSACTIONS,
   FETCH_LEADER_BATTLES,
   GROUP_CARDS,
-  MIGRATE_BATTLES,
 } from '../shared/queue/constants';
 
 @Processor(SCHEDULER_QUEUE)
@@ -41,9 +40,7 @@ export class SchedulerService {
     await this.queue.clean(0, 'delayed');
     await this.queue.clean(0, 'paused');
 
-    logger.log(`Job count: ${await this.queue.count()}`);
-
-    this.addJob(MIGRATE_BATTLES, {}, 5000, MIGRATE_BATTLES);
+    // this.addJob(MIGRATE_BATTLES, {}, 5000, MIGRATE_BATTLES); // No migrate needed at the moment
     this.addJob(FETCH_BATTLE_TRANSACTIONS, {}, 5000, FETCH_BATTLE_TRANSACTIONS);
     this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 0 }, 5000);
     this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 1 }, 5000);
