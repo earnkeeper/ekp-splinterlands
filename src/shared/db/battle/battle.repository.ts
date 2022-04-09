@@ -75,18 +75,18 @@ export class BattleRepository {
 
   async findBattleByManaCap(
     manaCap: number,
-    leagueGroup: string,
+    leagueName: string,
     startTimestamp: number,
   ): Promise<Battle[]> {
     validate(
-      [manaCap, leagueGroup, startTimestamp],
+      [manaCap, leagueName, startTimestamp],
       ['number', 'string', 'number'],
     );
 
     const query: {
       timestamp: any;
       manaCap: number;
-      leagueGroup?: string;
+      leagueName?: string;
     } = {
       timestamp: {
         $gte: startTimestamp,
@@ -94,8 +94,8 @@ export class BattleRepository {
       manaCap,
     };
 
-    if (leagueGroup !== 'All') {
-      query.leagueGroup = leagueGroup;
+    if (leagueName !== 'All') {
+      query.leagueName = leagueName;
     }
 
     return this.battleModel.where(query).sort('timestamp').exec();

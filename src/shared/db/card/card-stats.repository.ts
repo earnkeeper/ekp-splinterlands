@@ -32,7 +32,16 @@ export class CardStatsRepository {
             id: model.id,
           },
           update: {
-            $set: _.pick(model, ['id', 'blockNumber', 'dailyStats']),
+            $set: _.pick(model, [
+              'id',
+              'blockNumber',
+              'hash',
+              'level',
+              'dailyBattleStats',
+              'templateId',
+              'gold',
+              'editionNumber',
+            ]),
           },
           upsert: true,
         },

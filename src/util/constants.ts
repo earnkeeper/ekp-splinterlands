@@ -1,20 +1,24 @@
 import {
-  BattleForm,
+  PlannerForm,
   CollectionForm,
   HistoryForm,
   LeaderboardForm,
+  MarketplaceForm,
 } from './forms';
 
-export const DEFAULT_BATTLE_FORM: BattleForm = {
-  leagueGroup: 'All',
+export const DEFAULT_PLANNER_FORM: PlannerForm = {
+  leagueName: 'All',
   manaCap: 13,
   playerName: '',
-  ruleset: 'Standard',
 };
 
 export const DEFAULT_LEADERBOARD_FORM: LeaderboardForm = {
   leagueGroup: 'Bronze',
   season: 84,
+};
+
+export const DEFAULT_MARKETPLACE_FORM: MarketplaceForm = {
+  leagueName: 'All',
 };
 
 export const DEFAULT_HISTORY_FORM: HistoryForm = {

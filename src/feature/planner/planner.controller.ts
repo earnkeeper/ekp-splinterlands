@@ -18,7 +18,7 @@ import { PlannerService } from './planner.service';
 import { PlannerViewBag } from './ui/planner-view-bag.document';
 import { PlannerDocument } from './ui/planner.document';
 import planner from './ui/planner.uielement';
-import { DEFAULT_BATTLE_FORM } from '../../util/constants';
+import { DEFAULT_PLANNER_FORM } from '../../util/constants';
 
 const COLLECTION_NAME = collection(PlannerDocument);
 const PATH = 'planner';
@@ -56,7 +56,7 @@ export class PlannerController extends AbstractController {
     await this.clientService.emitBusy(event, COLLECTION_NAME);
 
     try {
-      const form = event.state.forms?.planner ?? DEFAULT_BATTLE_FORM;
+      const form = event.state.forms?.planner ?? DEFAULT_PLANNER_FORM;
 
       const { plannerDocuments, battles } =
         await this.plannerService.getPlannerDocuments(

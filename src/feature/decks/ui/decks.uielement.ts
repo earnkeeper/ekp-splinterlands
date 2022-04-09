@@ -22,7 +22,7 @@ import {
   UiElement,
 } from '@earnkeeper/ekp-sdk';
 import {
-  DEFAULT_BATTLE_FORM,
+  DEFAULT_PLANNER_FORM,
   SPLINTER_IMAGE_MAP,
   statsCard,
   teamModal,
@@ -118,7 +118,7 @@ function yourDetailsRow() {
           properties: {
             playerName: 'string',
           },
-          default: DEFAULT_BATTLE_FORM,
+          default: DEFAULT_PLANNER_FORM,
         },
         children: [
           Row({

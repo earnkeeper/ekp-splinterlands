@@ -1,6 +1,5 @@
-export type BattleForm = Readonly<{
-  leagueGroup: string;
+export type PlannerForm = Readonly<{
+  leagueName: string;
   manaCap: number;
-  ruleset: string;
   playerName: string;
 }>;

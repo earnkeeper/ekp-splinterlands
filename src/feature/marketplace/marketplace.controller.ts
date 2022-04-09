@@ -8,6 +8,8 @@ import {
 import { AbstractController, ClientService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import { MarketService } from '../../shared/game';
+import { MarketplaceForm } from '../../util';
+import { DEFAULT_MARKETPLACE_FORM } from '../../util/constants';
 import { MarketplaceService } from './marketplace.service';
 import { ListingDocument } from './ui/listing.document';
 import marketplace from './ui/marketplace.uielement';
@@ -60,11 +62,15 @@ export class MarketplaceController extends AbstractController {
       return;
     }
 
+    const form: MarketplaceForm =
+      event.state.forms?.marketplace ?? DEFAULT_MARKETPLACE_FORM;
+
     await this.clientService.emitBusy(event, COLLECTION_NAME);
 
     const listingDocuments = await this.marketplaceService.getListingDocuments(
       currency,
       conversionRate,
+      form.leagueName ?? DEFAULT_MARKETPLACE_FORM.leagueName,
     );
 
     await this.clientService.emitDocuments(

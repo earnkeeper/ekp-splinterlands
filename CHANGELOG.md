@@ -2,6 +2,16 @@
 
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [1.2.3]
+
+### Added
+
+- ✨ Marketplace battles and win rates can now be filtered by league
+
+### Fixed
+
+- 🐛 Marketplace battle count now takes level into account
+
 ## [1.2.2]
 
 ### Added
@@ -15,7 +25,7 @@
 ### Changed
 
 - 🔨 Fetching more battle data, and fetching all rule sets, user can filter by rule set in the client
-  
+
 ## [1.2.1]
 
 ### Added

@@ -8,7 +8,7 @@ import {
   MarketService,
   ResultsService,
 } from '../../shared/game';
-import { BattleForm } from '../../util';
+import { PlannerForm } from '../../util';
 import { DeckCard, DeckDocument } from './ui/deck.document';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class DecksService {
 
   async updateTeams(
     clientTeams: DeckDocument[],
-    form: BattleForm,
+    form: PlannerForm,
     subscribed: boolean,
     currency: CurrencyDto,
   ) {

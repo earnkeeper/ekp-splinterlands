@@ -20,14 +20,14 @@ export class ResultsService {
 
   async getTeamResults(
     manaCap: number,
-    leagueGroup: string,
+    leagueName: string,
     subscribed: boolean,
     minBattles: number,
   ): Promise<{ teams: TeamResults[]; battles: Battle[] }> {
     const cacheKey = _.chain([
-      'v1',
+      'v2',
       manaCap,
-      leagueGroup,
+      leagueName,
       subscribed,
       minBattles,
     ])
@@ -60,7 +60,7 @@ export class ResultsService {
 
     const battles = await this.battleRepository.findBattleByManaCap(
       manaCap,
-      leagueGroup,
+      leagueName,
       fetchSince,
     );
 

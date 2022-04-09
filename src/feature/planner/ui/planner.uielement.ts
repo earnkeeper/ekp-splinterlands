@@ -24,12 +24,13 @@ import {
   UiElement,
 } from '@earnkeeper/ekp-sdk';
 import {
+  LEAGUES,
   LEAGUE_GROUPS,
   MANA_CAPS,
   RULESET_IMAGE_MAP,
 } from '../../../shared/game';
 import {
-  DEFAULT_BATTLE_FORM,
+  DEFAULT_PLANNER_FORM,
   promptDeckNameModal,
   SPLINTER_IMAGE_MAP,
   teamModal,
@@ -94,7 +95,7 @@ function battleDetailsForm() {
             ruleset: 'string',
             leagueGroup: 'string',
           },
-          default: DEFAULT_BATTLE_FORM,
+          default: DEFAULT_PLANNER_FORM,
         },
         children: [
           Row({
@@ -113,9 +114,9 @@ function battleDetailsForm() {
                 className: 'col-12 col-md-auto',
                 children: [
                   Select({
-                    label: 'League',
-                    name: 'leagueGroup',
-                    options: ['All', ...LEAGUE_GROUPS.map((it) => it.name)],
+                    label: 'League Name',
+                    name: 'leagueName',
+                    options: ['All', ...LEAGUES.map((it) => it.name)],
                     minWidth: 160,
                   }),
                 ],

@@ -2,7 +2,7 @@ import { CacheService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import { ApiService, CardDetailDto } from '../../api';
-import { BASE_CARD_DETAIL_IDS } from '../constants';
+import { BASE_CARD_DETAIL_IDS, calculatePower } from '../constants';
 import { Card, CardTemplate } from '../domain';
 import { MapperService } from './mapper.service';
 
@@ -91,6 +91,15 @@ export class CardService {
       .value();
   }
 
+  async getAllCardTemplatesMap(): Promise<Record<number, CardTemplate>> {
+    const cardDetails = await this.apiService.fetchCardDetails();
+
+    return _.chain(cardDetails)
+      .map((cardDetail) => this.mapCardTemplate(cardDetail))
+      .keyBy('id')
+      .value();
+  }
+
   getCardHash(
     templateId: number,
     level: number,
@@ -110,10 +119,13 @@ export class CardService {
   ): Card {
     const hash = this.getCardHash(cardTemplate.id, level, editionNumber, gold);
 
+    const edition = MapperService.mapEditionString(editionNumber);
+    const rarity = MapperService.mapRarityNumberToString(cardTemplate.rarity);
+
     return {
       id: id ?? hash,
       editionNumber,
-      edition: MapperService.mapEditionString(editionNumber),
+      edition,
       foil: gold ? 'Gold' : 'Regular',
       gold,
       hash,
@@ -121,7 +133,8 @@ export class CardService {
       mana:
         cardTemplate.mana[level] ?? cardTemplate.mana[0] ?? cardTemplate.mana,
       name: cardTemplate.name,
-      rarity: MapperService.mapRarityNumberToString(cardTemplate.rarity),
+      power: calculatePower(edition, rarity, gold) * xp,
+      rarity,
       rarityNumber: cardTemplate.rarity,
       splinter: cardTemplate.splinter,
       type: cardTemplate.type,

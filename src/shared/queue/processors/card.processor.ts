@@ -14,15 +14,16 @@ import {
   CardStats,
   CardStatsRepository,
 } from '../../db';
-import { MapperService } from '../../game';
+import { Card, CardService, CardTemplate, MapperService } from '../../game';
 import { GROUP_CARDS } from '../constants';
 
 @Processor(SCHEDULER_QUEUE)
-export class CardPollProcessor {
+export class CardProcessor {
   constructor(
     private apmService: ApmService,
     private battleRepository: BattleRepository,
-    private cardRepository: CardStatsRepository,
+    private cardStatsRepository: CardStatsRepository,
+    private cardService: CardService,
   ) {}
 
   @Process(GROUP_CARDS)
@@ -30,30 +31,25 @@ export class CardPollProcessor {
     try {
       const battlePageSize = 10000;
 
-      const cards = await this.cardRepository.findAll();
-
-      const cardsMap = _.chain(cards)
-        .groupBy((card) => card.id.toString())
-        .mapValues((cards) => cards[0])
-        .value();
+      const cardStatsRecords = await this.cardStatsRepository.findAll();
 
       const now = moment();
 
       // Remove stale statistics
-      // TODO: this might be able to be improved performance wise
-      for (const card of cards) {
-        const keys = _.keys(card.dailyStats);
-
-        for (const key of keys) {
-          if (now.diff(moment(key), 'days') > PREMIUM_DAYS_TO_KEEP) {
-            delete card.dailyStats[key];
-          }
-        }
+      for (const cardStatsRecord of cardStatsRecords) {
+        _.remove(
+          cardStatsRecord.dailyBattleStats,
+          (it) => now.diff(moment(it.day), 'days') > PREMIUM_DAYS_TO_KEEP,
+        );
       }
 
-      let latestBlock = _.chain(cards)
+      let latestBlock = _.chain(cardStatsRecords)
         .maxBy('blockNumber')
         .get('blockNumber', 0)
+        .value();
+
+      const cardStatsRecordMap = _.chain(cardStatsRecords)
+        .keyBy((it) => it.id)
         .value();
 
       while (true) {
@@ -75,11 +71,11 @@ export class CardPollProcessor {
           )}, updating cards`,
         );
 
-        this.mapCardsFromBattles(cardsMap, battles);
+        await this.mapCardsFromBattles(cardStatsRecordMap, battles);
 
-        const updatedCards = _.values(cardsMap);
+        const updatedCards = _.values(cardStatsRecordMap);
 
-        await this.cardRepository.save(updatedCards);
+        await this.cardStatsRepository.save(updatedCards);
 
         logger.debug(`Saved ${updatedCards?.length} cards to the database`);
 
@@ -95,86 +91,144 @@ export class CardPollProcessor {
     }
   }
 
-  private mapSummonerCard(team: TeamDetailedDto): BattleCard {
-    return _.pick(team.summoner, ['uid', 'gold', 'card_detail_id', 'edition']);
-  }
+  private mapSummonerCard(
+    team: TeamDetailedDto,
+    cardTemplatesMap: Record<number, CardTemplate>,
+  ): Card {
+    const cardTemplate = cardTemplatesMap[team.summoner.card_detail_id];
 
-  private mapMonsterCards(team: TeamDetailedDto): BattleCard[] {
-    return team.monsters.map((monster) =>
-      _.pick(monster, ['uid', 'gold', 'card_detail_id', 'edition']),
+    const card = this.cardService.mapCard(
+      cardTemplate,
+      team.summoner.level,
+      team.summoner.edition,
+      team.summoner.gold,
+      team.summoner.xp,
+      team.summoner.uid,
     );
+
+    return card;
   }
 
-  private mapCardsFromBattles(
-    cardsMap: Record<string, CardStats>,
+  private mapMonsterCards(
+    team: TeamDetailedDto,
+    cardTemplatesMap: Record<number, CardTemplate>,
+  ): Card[] {
+    return team.monsters.map((monster) => {
+      const cardTemplate = cardTemplatesMap[monster.card_detail_id];
+
+      const card = this.cardService.mapCard(
+        cardTemplate,
+        monster.level,
+        monster.edition,
+        monster.gold,
+        monster.xp,
+        monster.uid,
+      );
+
+      return card;
+    });
+  }
+
+  private async mapCardsFromBattles(
+    cardStatsRecordMap: Record<string, CardStats>,
     battles: Battle[],
   ) {
     const sortedBattles = _.chain(battles).sortBy('blockNumber').value();
+
+    const cardTemplatesMap = await this.cardService.getAllCardTemplatesMap();
 
     for (const battle of sortedBattles) {
       const { winner, loser } = MapperService.mapWinnerAndLoser(battle);
 
       const battleDate = moment.unix(battle.timestamp).format('YYYY-MM-DD');
 
-      const winnerCards = [
-        this.mapSummonerCard(winner),
-        ...this.mapMonsterCards(winner),
+      const winnerCards: Card[] = [
+        this.mapSummonerCard(winner, cardTemplatesMap),
+        ...this.mapMonsterCards(winner, cardTemplatesMap),
       ];
 
-      const loserCards = [
-        this.mapSummonerCard(loser),
-        ...this.mapMonsterCards(loser),
+      const loserCards: Card[] = [
+        this.mapSummonerCard(loser, cardTemplatesMap),
+        ...this.mapMonsterCards(loser, cardTemplatesMap),
       ];
 
-      const allCards = _.chain(winnerCards)
-        .unionWith(loserCards, (a, b) => a.card_detail_id === b.card_detail_id)
+      const allBattleCards = _.chain(winnerCards)
+        .unionWith(loserCards, (a, b) => a.hash === b.hash)
         .value();
 
-      for (const battleCard of allCards) {
-        let card = cardsMap[battleCard.card_detail_id];
+      const battleLeagueName: string = this.getLeagueName(
+        battle,
+        winnerCards,
+        loserCards,
+      );
 
-        if (!card) {
-          card = this.createCard(battleCard);
-          cardsMap[battleCard.card_detail_id] = card;
+      for (const card of allBattleCards) {
+        let cardStatsRecord = cardStatsRecordMap[card.hash];
+
+        if (!cardStatsRecord) {
+          cardStatsRecord = this.createCardStatsRecord(card);
+          cardStatsRecordMap[cardStatsRecord.id] = cardStatsRecord;
         }
 
-        card.blockNumber = battle.blockNumber;
+        cardStatsRecord.blockNumber = battle.blockNumber;
 
-        if (!card.dailyStats[battleDate]) {
-          card.dailyStats[battleDate] = {
+        let dailyStatsRecord = cardStatsRecord.dailyBattleStats.find(
+          (it) => it.day === battleDate && it.leagueName === battleLeagueName,
+        );
+
+        if (!dailyStatsRecord) {
+          dailyStatsRecord = {
+            day: battleDate,
+            leagueName: battleLeagueName,
             wins: 0,
             battles: 0,
           };
+          cardStatsRecord.dailyBattleStats.push(dailyStatsRecord);
         }
 
-        card.dailyStats[battleDate].battles++;
+        dailyStatsRecord.battles++;
 
         const winnerHasCard = _.some(
           winnerCards,
-          (it) => it.card_detail_id === battleCard.card_detail_id,
+          (it) => it.hash === card.hash,
         );
 
         if (winnerHasCard) {
-          card.dailyStats[battleDate].wins++;
+          dailyStatsRecord.wins++;
         }
       }
     }
 
-    return _.values(cardsMap);
+    return _.values(cardStatsRecordMap);
   }
 
-  private createCard(battleCard: BattleCard): CardStats {
-    return {
-      id: battleCard.card_detail_id,
+  private getLeagueName(
+    battle: Battle,
+    winnerCards: Card[],
+    loserCards: Card[],
+  ): string {
+    const minRating = _.min(battle.players.map((it) => it.initial_rating));
+
+    const minPower = _.min(
+      [winnerCards, loserCards].map((cards) =>
+        _.sum(cards.map((card) => card.power)),
+      ),
+    );
+
+    return MapperService.mapLeagueName(minRating, minPower);
+  }
+
+  private createCardStatsRecord(card: Card): CardStats {
+    const cardStatsRecord: CardStats = {
+      id: card.hash,
       blockNumber: 0,
-      dailyStats: {},
+      dailyBattleStats: [],
+      editionNumber: card.editionNumber,
+      gold: card.gold,
+      hash: card.hash,
+      level: card.level,
+      templateId: card.templateId,
     };
+    return cardStatsRecord;
   }
 }
-
-type BattleCard = Readonly<{
-  uid: string;
-  gold: boolean;
-  card_detail_id: number;
-  edition: number;
-}>;

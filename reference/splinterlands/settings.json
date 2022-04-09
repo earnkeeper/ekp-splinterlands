@@ -29,7 +29,16 @@
     "lastdragon",
     "quickmatch",
     "foreveraverage",
-    "bulldog1205"
+    "bulldog1205",
+    "st-tourney1",
+    "st-tourney2",
+    "st-tourney3",
+    "st-tourney4",
+    "st-tourney5",
+    "st-tourney6",
+    "st-tourney7",
+    "st-tourney8",
+    "st-tourney9"
   ],
   "bat_event_list": [
     {
@@ -1790,7 +1799,7 @@
       "currency": "EOS",
       "type": "eos",
       "tournament_enabled": false,
-      "payment_enabled": true,
+      "payment_enabled": false,
       "precision": 4,
       "payment_address": "splinterland"
     },
@@ -2053,7 +2062,7 @@
     "cancel_unlock_assets"
   ],
   "version": "0.7.139",
-  "config_version": 6,
+  "config_version": 11,
   "land_sale": {
     "plot_price": 20,
     "tract_price": 1700,
@@ -2208,16 +2217,16 @@
     "waka_promo"
   ],
   "sps": {
-    "staking_rewards_last_reward_block": 63213027,
-    "unstaking_periods": 4,
     "unstaking_interval_seconds": 604800,
+    "unstaking_periods": 4,
     "staking_rewards": {
       "tokens_per_block": 8.56164,
       "reduction_blocks": 864000,
       "reduction_pct": 1,
       "start_block": 56186000
     },
-    "staking_rewards_acc_sps_per_share": 0.5148197245830188
+    "staking_rewards_last_reward_block": 63357454,
+    "staking_rewards_acc_sps_per_share": 0.5184471495801962
   },
   "battles_disabled": 0,
   "rpc_nodes": [
@@ -2227,8 +2236,8 @@
     "https://api.openhive.network",
     "https://api.hive.blog"
   ],
-  "dec_price": 0.0017863,
-  "sps_price": 0.1142507,
+  "dec_price": 0.0016495,
+  "sps_price": 0.107833,
   "maintenance_mode": false,
   "season": {
     "id": 84,
@@ -2255,12 +2264,12 @@
     "reset_block_num": null
   },
   "brawl_cycle": {
-    "id": 75,
-    "name": "Brawl Cycle 75",
-    "start": "2022-04-01T16:00:00.000Z",
+    "id": 76,
+    "name": "Brawl Cycle 76",
+    "start": "2022-04-06T17:00:00.000Z",
     "status": 1,
     "reset_block_num": null,
-    "end": "2022-04-06T17:00:00.000Z"
+    "end": "2022-04-11T18:00:00.000Z"
   },
   "quests": [
     {
@@ -2712,13 +2721,13 @@
       "symbol": "PWRSTONE"
     }
   ],
-  "last_block": 63213027,
-  "timestamp": 1649060605156,
+  "last_block": 63357454,
+  "timestamp": 1649495123415,
   "chain_props": {
-    "time": "2022-04-04T08:23:24",
-    "ref_block_num": 63213009,
-    "ref_block_id": "03c48dd1e26360f970d66fbf853bc86e2da9d786",
-    "ref_block_prefix": 4183843810
+    "time": "2022-04-09T09:05:21",
+    "ref_block_num": 63357436,
+    "ref_block_id": "03c6c1fc36f85297b60facee38d2b7e455cfbcbc",
+    "ref_block_prefix": 2538797110
   },
   "circle_payments_enabled": 0,
   "transak_payments_enabled": 1,
@@ -2823,7 +2832,7 @@
   },
   "sps_airdrop": {
     "start_date": "2021-07-27T16:00:00.000Z",
-    "current_airdrop_day": 251,
+    "current_airdrop_day": 256,
     "sps_per_day": 1095890.411
   },
   "api_ops": [

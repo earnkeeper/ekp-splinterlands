@@ -3,16 +3,40 @@ import { Document } from 'mongoose';
 
 export type CardStatsDocument = CardStats & Document;
 
-@Schema()
+@Schema({ collection: 'cardstats_v2' })
 export class CardStats {
-  @Prop({ index: true })
-  readonly id: number;
+  @Prop()
+  readonly id: string;
 
-  @Prop({ index: true })
+  @Prop()
+  readonly hash: string;
+
+  @Prop()
   blockNumber: number;
 
-  @Prop({ type: 'object' })
-  readonly dailyStats: Record<string, { wins: number; battles: number }>;
+  @Prop()
+  readonly level: number;
+
+  @Prop()
+  readonly templateId: number;
+
+  @Prop()
+  readonly gold: boolean;
+
+  @Prop()
+  readonly editionNumber: number;
+
+  @Prop({ type: 'array' })
+  readonly dailyBattleStats: DailyBattleStats[];
 }
 
-export const CardStatsSchema = SchemaFactory.createForClass(CardStats);
+export const CardStatsSchema = SchemaFactory.createForClass(CardStats)
+  .index({ id: 1 }, { unique: true })
+  .index({ blockNumber: 1 });
+
+export type DailyBattleStats = {
+  battles: number;
+  readonly day: string;
+  readonly leagueName: string;
+  wins: number;
+};

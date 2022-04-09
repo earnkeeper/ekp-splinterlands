@@ -1,20 +1,26 @@
 import {
+  Button,
   Col,
   collection,
   Container,
   documents,
+  Form,
   formatCurrency,
   formatPercent,
   formatToken,
+  Fragment,
   GridTile,
   Image,
   isBusy,
   PageHeaderTile,
   Row,
+  Select,
   Span,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
+import { LEAGUES } from '../../../shared/game';
 import {
+  DEFAULT_MARKETPLACE_FORM,
   EDITION_IMAGE_MAP,
   FOIL_IMAGE_MAP,
   RARITY_IMAGE_MAP,
@@ -32,26 +38,85 @@ export default function element(
 ): UiElement {
   return Container({
     children: [
-      Row({
-        className: 'mb-2',
+      titleRow(),
+      instructionsRow(),
+      formRow(),
+      marketRow(fiatSymbol, priceRanges),
+    ],
+  });
+}
+
+function instructionsRow() {
+  return Span({
+    className: 'd-block mt-1 mb-2 font-small-4',
+    content:
+      'Search and filter the table below for the cards available on the Splinterlands Marketplace, with added info on their popularity and win rate.',
+  });
+}
+
+function formRow() {
+  return Fragment({
+    children: [
+      Span({
+        className: 'd-block mt-1 mb-2 font-small-4',
+        content:
+          'Choose a league to restrict card win rates below to a certain league',
+      }),
+      Form({
+        name: 'marketplace',
+        schema: {
+          type: 'object',
+          properties: {
+            leagueName: 'string',
+          },
+          default: DEFAULT_MARKETPLACE_FORM,
+        },
         children: [
-          Col({
-            className: 'col-auto',
+          Row({
+            className: 'mb-1',
             children: [
-              PageHeaderTile({
-                title: 'Marketplace',
-                icon: 'cil-cart',
+              Col({
+                className: 'col-12 col-md-auto',
+                children: [
+                  Select({
+                    label: 'League',
+                    name: 'leagueName',
+                    options: ['All', ...LEAGUES.map((it) => it.name)],
+                    minWidth: 160,
+                  }),
+                ],
+              }),
+              Col({
+                className: 'col-12 col-md-auto my-auto',
+                children: [
+                  Button({
+                    label: 'Update',
+                    isSubmit: true,
+                    busyWhen: isBusy(collection(ListingDocument)),
+                  }),
+                ],
               }),
             ],
           }),
         ],
       }),
-      Span({
-        className: 'd-block mt-1 mb-2 font-small-4',
-        content:
-          'Search and filter the table below for the cards available on the Splinterlands Marketplace, with added info on their popularity and win rate.',
+    ],
+  });
+}
+
+function titleRow() {
+  return Row({
+    className: 'mb-2',
+    children: [
+      Col({
+        className: 'col-auto',
+        children: [
+          PageHeaderTile({
+            title: 'Marketplace',
+            icon: 'cil-cart',
+          }),
+        ],
       }),
-      marketRow(fiatSymbol, priceRanges),
     ],
   });
 }
@@ -67,6 +132,11 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
     data: documents(ListingDocument),
     busyWhen: isBusy(collection(ListingDocument)),
     filters: [
+      {
+        columnId: 'splinter',
+        type: 'checkbox',
+        imageMap: SPLINTER_IMAGE_MAP,
+      },
       {
         columnId: 'edition',
         type: 'checkbox',
@@ -86,11 +156,6 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
         columnId: 'rarity',
         type: 'checkbox',
         imageMap: RARITY_IMAGE_MAP,
-      },
-      {
-        columnId: 'splinter',
-        type: 'checkbox',
-        imageMap: SPLINTER_IMAGE_MAP,
       },
       {
         columnId: 'level',
@@ -129,8 +194,8 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
             label: 'All',
           },
           {
-            label: '> 50',
-            query: '> 50',
+            label: '> 10',
+            query: '> 10',
           },
         ],
       },
@@ -178,12 +243,31 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
       {
         id: 'name',
         searchable: true,
-        minWidth: '160px',
+        sortable: true,
+        minWidth: '200px',
       },
       {
         id: 'level',
         width: '70px',
       },
+      {
+        id: 'price',
+        format: formatCurrency('$.price', '$.fiatSymbol'),
+        sortable: true,
+      },
+      {
+        id: 'battles',
+        format: formatToken('$.battles'),
+        sortable: true,
+      },
+      {
+        id: 'winpc',
+        title: 'Win',
+        format: formatPercent('$.winpc'),
+        sortable: true,
+        width: '80px',
+      },
+
       {
         id: 'rarity',
         sortable: true,
@@ -223,22 +307,6 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
         format: formatToken('$.qty'),
         sortable: true,
         width: '80px',
-      },
-      {
-        id: 'price',
-        format: formatCurrency('$.price', '$.fiatSymbol'),
-        sortable: true,
-      },
-      {
-        id: 'battles',
-        format: formatToken('$.battles'),
-        sortable: true,
-      },
-      {
-        id: 'winpc',
-        title: 'Win',
-        format: formatPercent('$.winpc'),
-        sortable: true,
       },
       {
         id: 'playerOwned',

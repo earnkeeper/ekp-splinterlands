@@ -8,6 +8,7 @@ export type Card = Readonly<{
   level: number;
   mana: number;
   name: string;
+  power: number;
   rarityNumber: number;
   rarity: string;
   splinter: string;

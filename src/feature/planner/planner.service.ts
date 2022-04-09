@@ -9,7 +9,7 @@ import {
   ResultsService,
   TeamResults,
 } from '../../shared/game';
-import { BattleForm, DEFAULT_BATTLE_FORM } from '../../util';
+import { PlannerForm, DEFAULT_PLANNER_FORM } from '../../util';
 import { PlannerDocument } from './ui/planner.document';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class PlannerService {
   ) {}
 
   async getPlannerDocuments(
-    form: BattleForm,
+    form: PlannerForm,
     subscribed: boolean,
     currency: CurrencyDto,
   ) {
@@ -29,7 +29,7 @@ export class PlannerService {
 
     const { teams, battles } = await this.resultsService.getTeamResults(
       form.manaCap,
-      form.leagueGroup ?? DEFAULT_BATTLE_FORM.leagueGroup,
+      form.leagueName ?? DEFAULT_PLANNER_FORM.leagueName,
       subscribed ?? false,
       5,
     );

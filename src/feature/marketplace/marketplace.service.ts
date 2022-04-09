@@ -19,6 +19,7 @@ export class MarketplaceService {
   async getListingDocuments(
     currency: CurrencyDto,
     conversionRate: number,
+    leagueName: string,
   ): Promise<ListingDocument[]> {
     const sales = await this.apiService.fetchCardSales();
     const cardStatsRecords = await this.cardStatsRepository.findAll();
@@ -46,20 +47,24 @@ export class MarketplaceService {
         );
 
         const cardStatsRecord = cardStatsRecords.find(
-          (it) => it.id === cardTemplate.id,
+          (it) => it.hash === card.hash,
         );
 
         let battles: number;
         let wins: number;
 
         if (!!cardStatsRecord) {
-          battles = _.chain(cardStatsRecord.dailyStats)
-            .values()
+          battles = _.chain(cardStatsRecord.dailyBattleStats)
+            .filter(
+              (it) => leagueName === 'All' || it.leagueName === leagueName,
+            )
             .sumBy('battles')
             .value();
 
-          wins = _.chain(cardStatsRecord.dailyStats)
-            .values()
+          wins = _.chain(cardStatsRecord.dailyBattleStats)
+            .filter(
+              (it) => leagueName === 'All' || it.leagueName === leagueName,
+            )
             .sumBy('wins')
             .value();
         }
