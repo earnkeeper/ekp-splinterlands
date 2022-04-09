@@ -13,9 +13,9 @@ export class SchedulerService {
   constructor(@InjectQueue(SCHEDULER_QUEUE) private queue: Queue) {}
 
   async addJob<T>(jobName: string, data?: T, delay = 0, jobId?: string) {
-    // if (process.env.NODE_ENV === 'development') {
-    //   return;
-    // }
+    if (process.env.NODE_ENV === 'development') {
+      return;
+    }
 
     try {
       if (!!jobId) {
@@ -45,13 +45,13 @@ export class SchedulerService {
     await this.queue.clean(0, 'paused');
 
     // this.addJob(MIGRATE_BATTLES, {}, 5000, MIGRATE_BATTLES); // No migrate needed at the moment
-    // this.addJob(FETCH_BATTLE_TRANSACTIONS, {}, 5000, FETCH_BATTLE_TRANSACTIONS);
+    this.addJob(FETCH_BATTLE_TRANSACTIONS, {}, 5000, FETCH_BATTLE_TRANSACTIONS);
     this.addJob(GROUP_CARDS, undefined, 0, GROUP_CARDS);
-    // this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 0 }, 5000);
-    // this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 1 }, 5000);
-    // this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 2 }, 5000);
-    // this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 3 }, 5000);
-    // this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 4 }, 5000);
+    this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 0 }, 5000);
+    this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 1 }, 5000);
+    this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 2 }, 5000);
+    this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 3 }, 5000);
+    this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 4 }, 5000);
   }
 
   @Cron('0 5,15,25,35,45,55 * * * *')
