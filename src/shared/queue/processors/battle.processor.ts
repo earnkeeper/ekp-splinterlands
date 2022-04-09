@@ -9,7 +9,7 @@ import { validate } from 'bycontract';
 import _ from 'lodash';
 import { ApiService } from '../../api';
 import { BattleRepository, BATTLE_VERSION } from '../../db';
-import { MapperService } from '../../game';
+import { SettingsMapper } from '../../game';
 import { FETCH_BATTLE_TRANSACTIONS, FETCH_LEADER_BATTLES } from '../constants';
 
 export const DEFAULT_START_BLOCK = 62695197; // 2022-03-17T07:29:00
@@ -53,7 +53,7 @@ export class BattleProcessor {
             return;
           }
 
-          const battles = MapperService.mapBattlesFromPlayer(
+          const battles = SettingsMapper.mapBattlesFromPlayer(
             playerBattles.battles,
             BATTLE_VERSION,
           );
@@ -101,7 +101,7 @@ export class BattleProcessor {
           .maxBy('block_num')
           .value();
 
-        const battles = MapperService.mapBattlesFromTransactions(
+        const battles = SettingsMapper.mapBattlesFromTransactions(
           transactions,
           BATTLE_VERSION,
         );

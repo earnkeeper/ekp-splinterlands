@@ -4,9 +4,7 @@ import moment from 'moment';
 import {
   BattleDetailsDto,
   BattleDto,
-  CardDetailDto,
   PlayerDto,
-  TeamDetailedDto,
   TransactionDto,
 } from '../../api';
 import { PlayerBattleDto } from '../../api/dto/player-battles.dto';
@@ -14,49 +12,8 @@ import { Battle } from '../../db';
 import { LEAGUES } from '../constants';
 
 @Injectable()
-export class MapperService {
-  /**
-   * Map a list of numeric card_detail_ids to full CardDetails objects
-   *
-   * @param {number[]} cardDetailIds list of numeric card details ids, usually card_detail_id on api responses
-   * @param {CardDetailDto[]} allCards list of all cards in the game, returned by getDetails on the api
-   * @returns {CardDetailDto[]} the card details for the given ids
-   */
-  static mapCardDetailIdsToCards(
-    cardDetailIds: number[],
-    allCards: CardDetailDto[],
-  ): CardDetailDto[] {
-    return _.chain(cardDetailIds)
-      .map((id) => allCards.find((card) => card.id === id))
-      .value();
-  }
-
-  static mapCardMana(card: CardDetailDto, level: number): number {
-    let mana = card.stats.mana;
-
-    if (Array.isArray(mana)) {
-      mana = mana[level];
-    }
-
-    return mana;
-  }
-
-  static mapWinnerAndLoser(battle: Battle) {
-    let winner: TeamDetailedDto;
-    let loser: TeamDetailedDto;
-
-    if (battle.winner === battle.team1.player) {
-      winner = battle.team1;
-      loser = battle.team2;
-    } else {
-      winner = battle.team2;
-      loser = battle.team1;
-    }
-
-    return { winner, loser };
-  }
-
-  static mapLeagueName(rating: number, power?: number): string {
+export class SettingsMapper {
+  static mapToLeagueName(rating: number, power?: number): string {
     // TODO: could cache this, minor performance issue (cpu)
     const sortedLeagues = _.chain(LEAGUES)
       .sortBy('min_rating')
@@ -87,7 +44,7 @@ export class MapperService {
     version: number,
   ): Battle[] {
     return playerBattles
-      .map((it) => MapperService.mapBattleFromPlayer(it, version))
+      .map((it) => SettingsMapper.mapBattleFromPlayer(it, version))
       .filter((it) => !!it);
   }
 
@@ -138,8 +95,10 @@ export class MapperService {
       battleDetails,
     );
 
-    const leagueName = MapperService.mapLeagueName(players[0].initial_rating);
-    const leagueGroup = MapperService.mapLeagueGroup(leagueName);
+    const leagueName = SettingsMapper.mapToLeagueName(
+      players[0].initial_rating,
+    );
+    const leagueGroup = SettingsMapper.mapLeagueGroup(leagueName);
 
     return {
       id: this.mapBattleId(
@@ -172,7 +131,7 @@ export class MapperService {
   ): Battle[] {
     return transactions
       .filter((it) => it.success && !!it.result)
-      .map((it) => MapperService.mapBattleFromTransaction(it, version))
+      .map((it) => SettingsMapper.mapBattleFromTransaction(it, version))
       .filter((it) => !!it);
   }
 
@@ -190,10 +149,10 @@ export class MapperService {
       return undefined;
     }
 
-    const leagueName = MapperService.mapLeagueName(
+    const leagueName = SettingsMapper.mapToLeagueName(
       battle.players[0].initial_rating,
     );
-    const leagueGroup = MapperService.mapLeagueGroup(leagueName);
+    const leagueGroup = SettingsMapper.mapLeagueGroup(leagueName);
 
     return {
       id: battle.id,
@@ -214,62 +173,5 @@ export class MapperService {
       source: 'transaction',
       version,
     };
-  }
-
-  static mapRarityNumberToString(rarity: number): string {
-    switch (rarity) {
-      case 1:
-        return 'Common';
-      case 2:
-        return 'Rare';
-      case 3:
-        return 'Epic';
-      case 4:
-        return 'Legendary';
-      default:
-        return 'Unknown';
-    }
-  }
-
-  static mapColorToSplinter(color: string) {
-    switch (color) {
-      case 'Red':
-        return 'Fire';
-      case 'Blue':
-        return 'Water';
-      case 'Green':
-        return 'Earth';
-      case 'White':
-        return 'Life';
-      case 'Black':
-        return 'Death';
-      case 'Gold':
-        return 'Dragon';
-      case 'Gray':
-        return 'Neutral';
-      default:
-        return 'Unknown';
-    }
-  }
-
-  static mapEditionString(editionIndex: number) {
-    switch (editionIndex) {
-      case 0:
-        return 'Alpha';
-      case 1:
-        return 'Beta';
-      case 2:
-        return 'Promo';
-      case 3:
-        return 'Reward';
-      case 4:
-        return 'Untamed';
-      case 5:
-        return 'Dice';
-      case 7:
-        return 'Chaos';
-      default:
-        return 'Unknown';
-    }
   }
 }

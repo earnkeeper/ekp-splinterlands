@@ -7,14 +7,14 @@ import { Process, Processor } from '@nestjs/bull';
 import _ from 'lodash';
 import moment from 'moment';
 import { PREMIUM_DAYS_TO_KEEP } from '../../../util';
-import { TeamDetailedDto } from '../../api';
 import {
   Battle,
   BattleRepository,
   CardStats,
   CardStatsRepository,
 } from '../../db';
-import { Card, CardService, CardTemplate, MapperService } from '../../game';
+import { Card, CardService, SettingsMapper } from '../../game';
+import { BattleMapper } from '../../game/mappers/battle.mapper';
 import { GROUP_CARDS } from '../constants';
 
 @Processor(SCHEDULER_QUEUE)
@@ -71,7 +71,7 @@ export class CardProcessor {
           )}, updating cards`,
         );
 
-        await this.mapCardsFromBattles(cardStatsRecordMap, battles);
+        await this.getCardsFromBattles(cardStatsRecordMap, battles);
 
         const updatedCards = _.values(cardStatsRecordMap);
 
@@ -91,45 +91,7 @@ export class CardProcessor {
     }
   }
 
-  private mapSummonerCard(
-    team: TeamDetailedDto,
-    cardTemplatesMap: Record<number, CardTemplate>,
-  ): Card {
-    const cardTemplate = cardTemplatesMap[team.summoner.card_detail_id];
-
-    const card = this.cardService.mapCard(
-      cardTemplate,
-      team.summoner.level,
-      team.summoner.edition,
-      team.summoner.gold,
-      team.summoner.xp,
-      team.summoner.uid,
-    );
-
-    return card;
-  }
-
-  private mapMonsterCards(
-    team: TeamDetailedDto,
-    cardTemplatesMap: Record<number, CardTemplate>,
-  ): Card[] {
-    return team.monsters.map((monster) => {
-      const cardTemplate = cardTemplatesMap[monster.card_detail_id];
-
-      const card = this.cardService.mapCard(
-        cardTemplate,
-        monster.level,
-        monster.edition,
-        monster.gold,
-        monster.xp,
-        monster.uid,
-      );
-
-      return card;
-    });
-  }
-
-  private async mapCardsFromBattles(
+  private async getCardsFromBattles(
     cardStatsRecordMap: Record<string, CardStats>,
     battles: Battle[],
   ) {
@@ -138,19 +100,16 @@ export class CardProcessor {
     const cardTemplatesMap = await this.cardService.getAllCardTemplatesMap();
 
     for (const battle of sortedBattles) {
-      const { winner, loser } = MapperService.mapWinnerAndLoser(battle);
+      const { winner, loser } = BattleMapper.mapToWinnerAndLoser(
+        battle,
+        cardTemplatesMap,
+      );
 
       const battleDate = moment.unix(battle.timestamp).format('YYYY-MM-DD');
 
-      const winnerCards: Card[] = [
-        this.mapSummonerCard(winner, cardTemplatesMap),
-        ...this.mapMonsterCards(winner, cardTemplatesMap),
-      ];
+      const winnerCards: Card[] = [winner.summoner, ...winner.monsters];
 
-      const loserCards: Card[] = [
-        this.mapSummonerCard(loser, cardTemplatesMap),
-        ...this.mapMonsterCards(loser, cardTemplatesMap),
-      ];
+      const loserCards: Card[] = [loser.summoner, ...loser.monsters];
 
       const allBattleCards = _.chain(winnerCards)
         .unionWith(loserCards, (a, b) => a.hash === b.hash)
@@ -215,7 +174,7 @@ export class CardProcessor {
       ),
     );
 
-    return MapperService.mapLeagueName(minRating, minPower);
+    return SettingsMapper.mapToLeagueName(minRating, minPower);
   }
 
   private createCardStatsRecord(card: Card): CardStats {

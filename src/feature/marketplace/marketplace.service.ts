@@ -5,7 +5,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import { ApiService } from '../../shared/api';
 import { CardStatsRepository } from '../../shared/db';
-import { CardService } from '../../shared/game';
+import { CardMapper, CardService } from '../../shared/game';
 import { ListingDocument } from './ui/listing.document';
 
 @Injectable()
@@ -39,7 +39,7 @@ export class MarketplaceService {
           return undefined;
         }
 
-        const card = this.cardService.mapCard(
+        const card = CardMapper.mapToCard(
           cardTemplate,
           sale.level,
           sale.edition,
@@ -73,8 +73,8 @@ export class MarketplaceService {
           id: card.id,
           updated: now,
           battles,
-          cardArtUrl: this.cardService.getCardArtUrl(card),
-          cardByLevelUrl: this.cardService.getCardByLevelUrl(card),
+          cardArtUrl: CardMapper.mapToCardArtUrl(card),
+          cardByLevelUrl: CardMapper.mapToCardByLevelUrl(card),
           edition: card.edition,
           fiatSymbol: currency.symbol,
           foil: card.gold ? 'Gold' : 'Regular',

@@ -2,7 +2,12 @@ import { CurrencyDto } from '@earnkeeper/ekp-sdk';
 import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import moment from 'moment';
-import { Card, CardService, MarketService } from '../../shared/game';
+import {
+  Card,
+  CardMapper,
+  CardService,
+  MarketService,
+} from '../../shared/game';
 import { CollectionForm } from '../../util';
 import { CollectionDocument } from './ui/collection.document';
 
@@ -48,8 +53,8 @@ export class CollectionService {
         const document: CollectionDocument = {
           id: card.id,
           updated: now,
-          cardArtUrl: this.cardService.getCardArtUrl(card),
-          cardByLevelUrl: this.cardService.getCardByLevelUrl(card),
+          cardArtUrl: CardMapper.mapToCardArtUrl(card),
+          cardByLevelUrl: CardMapper.mapToCardByLevelUrl(card),
           edition: card.edition,
           editionNumber: card.editionNumber,
           fiatSymbol: currency.symbol,

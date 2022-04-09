@@ -24,41 +24,6 @@ export const SPLINTERS = [
   'Neutral',
 ];
 
-export function calculatePower(edition: string, rarity: string, gold: boolean) {
-  let power = 5;
-
-  switch (edition) {
-    case 'Dice':
-    case 'Untamed':
-      power *= 2;
-      break;
-    case 'Beta':
-      power *= 3;
-      break;
-    case 'Alpha':
-      power *= 6;
-      break;
-  }
-
-  switch (rarity) {
-    case 'Rare':
-      power *= 4;
-      break;
-    case 'Epic':
-      power *= 20;
-      break;
-    case 'Legendary':
-      power *= 100;
-      break;
-  }
-
-  if (gold) {
-    power *= 50;
-  }
-
-  return power;
-}
-
 // TODO: dynamically fetch from settings api
 export const RULESETS = [
   {

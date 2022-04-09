@@ -2,9 +2,9 @@ import { CacheService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import { ApiService, CardDetailDto } from '../../api';
-import { BASE_CARD_DETAIL_IDS, calculatePower } from '../constants';
+import { BASE_CARD_DETAIL_IDS } from '../constants';
 import { Card, CardTemplate } from '../domain';
-import { MapperService } from './mapper.service';
+import { CardMapper } from '../mappers';
 
 @Injectable()
 export class CardService {
@@ -13,12 +13,6 @@ export class CardService {
     private cacheService: CacheService,
   ) {}
 
-  /**
-   * Get the list of cards owned by a given player name, including base cards
-   *
-   * @param {string} playerName The in game name of the player to retrieve cards for
-   * @returns {Card} Details of the cards owned by the player, including base cards.
-   */
   async getPlayerCards(
     playerName: string,
     includeStarterCards = true,
@@ -37,9 +31,10 @@ export class CardService {
       .map((cardDto) => {
         const cardDetail = cardDetailsMap[cardDto.card_detail_id];
 
-        const cardTemplate: CardTemplate = this.mapCardTemplate(cardDetail);
+        const cardTemplate: CardTemplate =
+          CardMapper.mapToCardTemplate(cardDetail);
 
-        return this.mapCard(
+        return CardMapper.mapToCard(
           cardTemplate,
           cardDto.level,
           cardDto.edition,
@@ -87,7 +82,7 @@ export class CardService {
     const cardDetails = await this.apiService.fetchCardDetails();
 
     return _.chain(cardDetails)
-      .map((cardDetail) => this.mapCardTemplate(cardDetail))
+      .map((cardDetail) => CardMapper.mapToCardTemplate(cardDetail))
       .value();
   }
 
@@ -95,68 +90,9 @@ export class CardService {
     const cardDetails = await this.apiService.fetchCardDetails();
 
     return _.chain(cardDetails)
-      .map((cardDetail) => this.mapCardTemplate(cardDetail))
+      .map((cardDetail) => CardMapper.mapToCardTemplate(cardDetail))
       .keyBy('id')
       .value();
-  }
-
-  getCardHash(
-    templateId: number,
-    level: number,
-    editionNumber: number,
-    gold: boolean,
-  ): string {
-    return `${templateId}|${level}|${editionNumber}${gold ? '|G' : ''}`;
-  }
-
-  mapCard(
-    cardTemplate: CardTemplate,
-    level: number,
-    editionNumber: number,
-    gold: boolean,
-    xp?: number,
-    id?: string,
-  ): Card {
-    const hash = this.getCardHash(cardTemplate.id, level, editionNumber, gold);
-
-    const edition = MapperService.mapEditionString(editionNumber);
-    const rarity = MapperService.mapRarityNumberToString(cardTemplate.rarity);
-
-    return {
-      id: id ?? hash,
-      editionNumber,
-      edition,
-      foil: gold ? 'Gold' : 'Regular',
-      gold,
-      hash,
-      level,
-      mana:
-        cardTemplate.mana[level] ?? cardTemplate.mana[0] ?? cardTemplate.mana,
-      name: cardTemplate.name,
-      power: calculatePower(edition, rarity, gold) * xp,
-      rarity,
-      rarityNumber: cardTemplate.rarity,
-      splinter: cardTemplate.splinter,
-      type: cardTemplate.type,
-      templateId: cardTemplate.id,
-      xp,
-    };
-  }
-
-  mapCardTemplate(cardDetail: CardDetailDto): CardTemplate {
-    return {
-      id: cardDetail.id,
-      distributions: cardDetail.distribution.map((it) => ({
-        edition: MapperService.mapEditionString(it.edition),
-        editionNumber: it.edition,
-        gold: it.gold,
-      })),
-      mana: cardDetail.stats.mana,
-      name: cardDetail.name,
-      rarity: cardDetail.rarity,
-      splinter: MapperService.mapColorToSplinter(cardDetail.color),
-      type: cardDetail.type,
-    };
   }
 
   async getCardTemplates(templateIds: number[]) {
@@ -165,7 +101,7 @@ export class CardService {
     return _.chain(templateIds)
       .map((templateId) => {
         const cardDetail = cardDetailsMap[templateId];
-        return this.mapCardTemplate(cardDetail);
+        return CardMapper.mapToCardTemplate(cardDetail);
       })
       .value();
   }
@@ -177,7 +113,7 @@ export class CardService {
       return undefined;
     }
 
-    return this.mapCardTemplate(cardDetailsMap[templateId]);
+    return CardMapper.mapToCardTemplate(cardDetailsMap[templateId]);
   }
 
   async getStarterCards(): Promise<Card[]> {
@@ -187,7 +123,7 @@ export class CardService {
 
     return _.chain(starterCardTemplates)
       .map((cardTemplate) =>
-        this.mapCard(
+        CardMapper.mapToCard(
           cardTemplate,
           1,
           cardTemplate.distributions[0]?.editionNumber,
@@ -197,21 +133,5 @@ export class CardService {
         ),
       )
       .value();
-  }
-
-  getCardByLevelUrl(card: Card): string {
-    const baseUrl = 'https://d36mxiodymuqjm.cloudfront.net';
-    const edition = card.edition.toLowerCase();
-    const name = card.name;
-    const level = card.level.toString();
-
-    return `${baseUrl}/cards_by_level/${edition}/${name}_lv${level}.png`;
-  }
-
-  getCardArtUrl(card: Card): string {
-    const baseUrl = 'https://d36mxiodymuqjm.cloudfront.net';
-    const name = card.name;
-
-    return `${baseUrl}/card_art/${name}.png`;
   }
 }

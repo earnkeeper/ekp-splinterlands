@@ -1,6 +1,7 @@
 import { CoingeckoService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import { ApiService } from '../../api';
+import { CardMapper } from '../mappers';
 import { CardService } from './card.service';
 
 @Injectable()
@@ -37,7 +38,7 @@ export class MarketService {
         continue;
       }
 
-      const hash = this.cardService.getCardHash(
+      const hash = CardMapper.mapToCardHash(
         sale.card_detail_id,
         sale.level,
         sale.edition,

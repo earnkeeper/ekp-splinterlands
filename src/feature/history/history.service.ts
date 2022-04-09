@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import moment from 'moment';
 import { ApiService } from '../../shared/api';
 import { Battle, BATTLE_VERSION } from '../../shared/db';
-import { MapperService } from '../../shared/game';
+import { CardMapper, SettingsMapper } from '../../shared/game';
 import { HistoryForm } from '../../util';
 import { HistoryDocument } from './ui/history.document';
 
@@ -13,7 +13,7 @@ export class HistoryService {
   async getHistoryDocuments(form: HistoryForm): Promise<HistoryDocument[]> {
     const response = await this.apiService.fetchPlayerBattles(form.playerName);
 
-    const battles = MapperService.mapBattlesFromPlayer(
+    const battles = SettingsMapper.mapBattlesFromPlayer(
       response.battles,
       BATTLE_VERSION,
     );
@@ -58,11 +58,11 @@ export class HistoryService {
       const document: HistoryDocument = {
         id: battle.id,
         updated: now,
-        leagueName: MapperService.mapLeagueName(myInitialRating),
+        leagueName: SettingsMapper.mapToLeagueName(myInitialRating),
         manaCap: battle.manaCap,
         myFinalRating,
-        mySplinter: MapperService.mapColorToSplinter(myColor),
-        opponentSplinter: MapperService.mapColorToSplinter(opponentColor),
+        mySplinter: CardMapper.mapToSplinter(myColor),
+        opponentSplinter: CardMapper.mapToSplinter(opponentColor),
         opponentInitialRating,
         opponentName,
         result,

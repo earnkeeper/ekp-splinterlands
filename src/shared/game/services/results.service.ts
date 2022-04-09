@@ -3,11 +3,10 @@ import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import moment from 'moment';
 import { FREE_DAYS_TO_KEEP, PREMIUM_DAYS_TO_KEEP } from '../../../util';
-import { TeamDetailedDto } from '../../api';
 import { Battle, BattleRepository } from '../../db';
-import { Card, CardTemplate } from '../domain';
+import { Card, Team } from '../domain';
+import { BattleMapper } from '../mappers/battle.mapper';
 import { CardService } from './card.service';
-import { MapperService } from './mapper.service';
 
 @Injectable()
 export class ResultsService {
@@ -25,7 +24,7 @@ export class ResultsService {
     minBattles: number,
   ): Promise<{ teams: TeamResults[]; battles: Battle[] }> {
     const cacheKey = _.chain([
-      'v2',
+      'v3',
       manaCap,
       leagueName,
       subscribed,
@@ -72,9 +71,7 @@ export class ResultsService {
       op: 'fetchCardDetails',
     });
 
-    const cardTemplates = await this.cardService.getAllCardTemplates();
-
-    tx?.setData('allCardCount', cardTemplates.length);
+    const cardTemplatesMap = await this.cardService.getAllCardTemplatesMap();
 
     sp2?.finish();
 
@@ -85,22 +82,13 @@ export class ResultsService {
     const viableTeams: Record<string, TeamResults> = {};
 
     for (const battle of battles) {
-      const { winner, loser } = MapperService.mapWinnerAndLoser(battle);
+      const { winner, loser } = BattleMapper.mapToWinnerAndLoser(
+        battle,
+        cardTemplatesMap,
+      );
 
-      this.updateResultsWith(
-        viableTeams,
-        winner,
-        battle.rulesets,
-        cardTemplates,
-        true,
-      );
-      this.updateResultsWith(
-        viableTeams,
-        loser,
-        battle.rulesets,
-        cardTemplates,
-        false,
-      );
+      this.updateResultsWith(viableTeams, winner, battle.rulesets, true);
+      this.updateResultsWith(viableTeams, loser, battle.rulesets, false);
     }
 
     const teams = _.values(viableTeams);
@@ -123,9 +111,8 @@ export class ResultsService {
 
   private updateResultsWith(
     viableTeams: Record<string, TeamResults>,
-    team: TeamDetailedDto,
+    team: Team,
     rulesets: string[],
-    cardTemplates: CardTemplate[],
     win: boolean,
   ) {
     const id: string = this.mapTeamId(team, rulesets);
@@ -133,12 +120,7 @@ export class ResultsService {
     let viableTeam = viableTeams[id];
 
     if (!viableTeam) {
-      viableTeams[id] = viableTeam = this.createTeamResults(
-        id,
-        team,
-        rulesets,
-        cardTemplates,
-      );
+      viableTeams[id] = viableTeam = this.createTeamResults(id, team, rulesets);
     }
 
     if (win) {
@@ -150,58 +132,29 @@ export class ResultsService {
 
   private createTeamResults(
     teamId: string,
-    battleTeam: TeamDetailedDto,
+    team: Team,
     rulesets: string[],
-    cardTemplates: CardTemplate[],
   ): TeamResults {
-    const summonerTemplate = cardTemplates.find(
-      (it) => it.id === battleTeam.summoner.card_detail_id,
-    );
-
-    const summoner = this.cardService.mapCard(
-      summonerTemplate,
-      battleTeam.summoner.level,
-      battleTeam.summoner.edition,
-      battleTeam.summoner.gold,
-      battleTeam.summoner.xp,
-    );
-
-    const monsters = _.chain(battleTeam.monsters)
-      .map((monster) => {
-        const monsterTemplate = cardTemplates.find(
-          (it) => it.id === monster.card_detail_id,
-        );
-
-        return this.cardService.mapCard(
-          monsterTemplate,
-          monster.level,
-          monster.edition,
-          monster.gold,
-          monster.xp,
-        );
-      })
-      .value();
-
     return {
       id: teamId,
       rulesets,
       wins: 0,
       battles: 0,
-      summoner,
-      monsters,
+      summoner: team.summoner,
+      monsters: team.monsters,
     };
   }
 
-  private mapTeamId(team: TeamDetailedDto, rulesets: string[]): string {
+  private mapTeamId(team: Team, rulesets: string[]): string {
     const orderedMonstersId = _.chain(team.monsters)
-      .map((monster) => monster.card_detail_id)
+      .map((monster) => monster.hash)
       .sort()
-      .join('|')
+      .join(',')
       .value();
 
     const orderedRulesets = _.chain(rulesets).sort().join(',').value();
 
-    return `${team.summoner.card_detail_id}|${orderedMonstersId}|${orderedRulesets}`;
+    return `${team.summoner.hash}|${orderedMonstersId}|${orderedRulesets}`;
   }
 }
 
