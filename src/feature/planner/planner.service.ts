@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { validate } from 'bycontract';
 import _ from 'lodash';
 import moment from 'moment';
+import { IgnRepository } from '../../shared/db';
 import {
   CardService,
   MarketService,
@@ -15,8 +16,9 @@ import { PlannerDocument } from './ui/planner.document';
 @Injectable()
 export class PlannerService {
   constructor(
-    private marketService: MarketService,
     private cardService: CardService,
+    private ignRepository: IgnRepository,
+    private marketService: MarketService,
     private resultsService: ResultsService,
   ) {}
 
@@ -26,6 +28,10 @@ export class PlannerService {
     currency: CurrencyDto,
   ) {
     validate([form, form.manaCap], ['object', 'number']);
+
+    if (!!form.playerName) {
+      this.ignRepository.save([{ id: form.playerName }]);
+    }
 
     const { teams, battles } = await this.resultsService.getTeamResults(
       form.manaCap,

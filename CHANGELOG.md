@@ -10,6 +10,7 @@
 - ✨ New Battles page, view the battles that created the win stats on the planner and marketplace pages
 - ✨ New market sale details popup when clicking on a listing in the marketplace
 - ✨ Card attributes added to listings in the marketplace, you can sort by these now
+- ✨ Now syncing battles for all entered igns as well, so that player history could be more than last 50 battles
 
 ### Fixed
 

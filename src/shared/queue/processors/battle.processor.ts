@@ -9,8 +9,13 @@ import { validate } from 'bycontract';
 import _ from 'lodash';
 import { ApiService } from '../../api';
 import { BattleRepository, BATTLE_VERSION } from '../../db';
+import { IgnRepository } from '../../db/ign/ign.repository';
 import { CardService, SettingsMapper } from '../../game';
-import { FETCH_BATTLE_TRANSACTIONS, FETCH_LEADER_BATTLES } from '../constants';
+import {
+  FETCH_BATTLE_TRANSACTIONS,
+  FETCH_IGN_BATTLES,
+  FETCH_LEADER_BATTLES,
+} from '../constants';
 
 export const DEFAULT_START_BLOCK = 62695197; // 2022-03-17T07:29:00
 
@@ -21,7 +26,45 @@ export class BattleProcessor {
     private apmService: ApmService,
     private battleRepository: BattleRepository,
     private cardService: CardService,
+    private ignRepository: IgnRepository,
   ) {}
+
+  @Process(FETCH_IGN_BATTLES)
+  async fetchIgnBattles() {
+    const igns = await this.ignRepository.findAll();
+
+    const cardTemplatesMap = await this.cardService.getAllCardTemplatesMap();
+
+    await Promise.all(
+      igns.map(async (ign) => {
+        const playerBattles = await this.apiService.fetchPlayerBattles(ign.id);
+
+        if (
+          !Array.isArray(playerBattles?.battles) ||
+          playerBattles.battles.length === 0
+        ) {
+          await this.ignRepository.delete(ign.id);
+          return;
+        }
+
+        const battles = SettingsMapper.mapBattlesFromPlayer(
+          playerBattles.battles,
+          cardTemplatesMap,
+          BATTLE_VERSION,
+        );
+
+        await this.battleRepository.save(battles);
+
+        logger.log(
+          `Saved ${battles?.length} battles from player ${ign} to the db.`,
+        );
+      }),
+    );
+  }
+  catch(error) {
+    this.apmService.captureError(error);
+    logger.error(error);
+  }
 
   @Process(FETCH_LEADER_BATTLES)
   async fetchLeaderBattles(job: Job<{ leagueNumber: number }>) {

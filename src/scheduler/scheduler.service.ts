@@ -4,9 +4,9 @@ import { Cron } from '@nestjs/schedule';
 import { Queue } from 'bull';
 import {
   FETCH_BATTLE_TRANSACTIONS,
+  FETCH_IGN_BATTLES,
   FETCH_LEADER_BATTLES,
   GROUP_CARDS,
-  MIGRATE_BATTLES,
 } from '../shared/queue/constants';
 
 @Processor(SCHEDULER_QUEUE)
@@ -48,6 +48,7 @@ export class SchedulerService {
     // this.addJob(MIGRATE_BATTLES, {}, 5000, MIGRATE_BATTLES); // No need to migrate at the moment
     this.addJob(FETCH_BATTLE_TRANSACTIONS, {}, 5000, FETCH_BATTLE_TRANSACTIONS);
     this.addJob(GROUP_CARDS, undefined, 5000, GROUP_CARDS);
+    this.addJob(FETCH_IGN_BATTLES, {}, 5000, FETCH_IGN_BATTLES);
     this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 0 }, 5000);
     this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 1 }, 5000);
     this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 2 }, 5000);
@@ -58,6 +59,7 @@ export class SchedulerService {
   @Cron('0 5,15,25,35,45,55 * * * *')
   every10minutes() {
     this.addJob(FETCH_BATTLE_TRANSACTIONS, {}, 0, FETCH_BATTLE_TRANSACTIONS);
+    this.addJob(FETCH_IGN_BATTLES, {}, 5000, FETCH_IGN_BATTLES);
     this.addJob(GROUP_CARDS, undefined, 0, GROUP_CARDS);
   }
 
