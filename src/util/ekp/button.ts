@@ -1,6 +1,4 @@
-import { DefaultProps } from '../default-props';
-import { Rpc } from '../rpc';
-import { UiElement } from '../ui-element';
+import { DefaultProps, Rpc, UiElement } from "@earnkeeper/ekp-sdk";
 
 /**
  * Creates an Earn Keeper Protocol object with the given properties

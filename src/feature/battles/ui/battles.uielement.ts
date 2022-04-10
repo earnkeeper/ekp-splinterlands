@@ -10,6 +10,7 @@ import {
   Span,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
+import { Badge } from '../../../util/ekp/badge';
 import { Datatable } from '../../../util/ekp/datatable';
 import { BattleDocument } from './battle.document';
 
@@ -59,7 +60,23 @@ function tableRow(): UiElement {
       },
       {
         id: 'winnerName',
-        title: 'winner',
+        title: 'Winner',
+        cell: Row({
+          children: [
+            Col({
+              className: 'col-12',
+              children: [
+                Badge({ color: 'success', children: [Span({ className: 'font-small-3', content: '$.winnerName' })] })
+              ]
+            }),
+            Col({
+              className: 'col-12',
+              children: [
+                Span({ className: 'font-small-2', content: '$.winnerSummonerName' })
+              ]
+            })
+          ]
+        }),
       },
       {
         id: 'loserName',

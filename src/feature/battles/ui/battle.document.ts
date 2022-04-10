@@ -8,4 +8,8 @@ export class BattleDocument extends DocumentDto {
   readonly timestamp: number;
   readonly winnerName: string;
   readonly loserName: string;
+  readonly winnerSummonerName: string;
+  readonly loserSummonerName: string;
+  readonly manaCap: number;
+  readonly leagueName: string;
 }
