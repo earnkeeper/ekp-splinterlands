@@ -73,6 +73,7 @@ export class MarketplaceService {
           id: card.id,
           updated: now,
           battles,
+          cardHash: card.hash,
           cardArtUrl: CardMapper.mapToCardArtUrl(card),
           cardByLevelUrl: CardMapper.mapToCardByLevelUrl(card),
           edition: card.edition,

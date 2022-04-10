@@ -8,6 +8,7 @@ export class ListingDocument extends DocumentDto {
   readonly battles: number;
   readonly cardArtUrl: string;
   readonly cardByLevelUrl: string;
+  readonly cardHash: string;
   readonly edition: string;
   readonly fiatSymbol: string;
   readonly foil: string;

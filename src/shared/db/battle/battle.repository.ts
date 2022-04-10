@@ -12,6 +12,18 @@ export class BattleRepository {
     public battleModel: Model<Battle>,
   ) {}
 
+  async findByCardId(cardId: string, limit: number): Promise<Battle[]> {
+    const results = await this.battleModel
+      .find({
+        cardHashes: cardId,
+      })
+      .sort('-timestamp')
+      .limit(limit)
+      .exec();
+
+    return results ?? [];
+  }
+
   async findAllAfterBlockNumber(
     blockNumber: number,
     limit: number,
@@ -129,6 +141,7 @@ export class BattleRepository {
               'timestamp',
               'version',
               'winner',
+              'cardHashes',
             ]),
           },
           upsert: true,

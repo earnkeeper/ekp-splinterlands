@@ -4,7 +4,7 @@ import { PREMIUM_DAYS_TO_KEEP } from '../../../util';
 import { PlayerDto, TeamDetailedDto } from '../../api';
 
 export type BattleDocument = Battle & Document;
-export const BATTLE_VERSION = 1;
+export const BATTLE_VERSION = 4;
 
 @Schema({ collection: 'battles_v2' })
 export class Battle {
@@ -12,7 +12,7 @@ export class Battle {
   readonly id: string;
 
   @Prop()
-  readonly version: number;
+  version: number;
 
   @Prop()
   readonly blockNumber: number;
@@ -28,6 +28,9 @@ export class Battle {
 
   @Prop([String])
   readonly rulesets: string[];
+
+  @Prop([String])
+  cardHashes: string[];
 
   @Prop()
   readonly source: string;
@@ -80,4 +83,8 @@ export const BattleSchema = SchemaFactory.createForClass(Battle)
     timestamp: 1,
     manaCap: 1,
     leagueName: 1,
+  })
+  .index({
+    timestamp: -1,
+    cardHashes: 1,
   });

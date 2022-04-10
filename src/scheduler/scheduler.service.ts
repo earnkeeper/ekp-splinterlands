@@ -6,6 +6,7 @@ import {
   FETCH_BATTLE_TRANSACTIONS,
   FETCH_LEADER_BATTLES,
   GROUP_CARDS,
+  MIGRATE_BATTLES,
 } from '../shared/queue/constants';
 
 @Processor(SCHEDULER_QUEUE)
@@ -44,9 +45,9 @@ export class SchedulerService {
     await this.queue.clean(0, 'delayed');
     await this.queue.clean(0, 'paused');
 
-    // this.addJob(MIGRATE_BATTLES, {}, 5000, MIGRATE_BATTLES); // No migrate needed at the moment
+    this.addJob(MIGRATE_BATTLES, {}, 5000, MIGRATE_BATTLES);
     this.addJob(FETCH_BATTLE_TRANSACTIONS, {}, 5000, FETCH_BATTLE_TRANSACTIONS);
-    this.addJob(GROUP_CARDS, undefined, 0, GROUP_CARDS);
+    this.addJob(GROUP_CARDS, undefined, 5000, GROUP_CARDS);
     this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 0 }, 5000);
     this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 1 }, 5000);
     this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 2 }, 5000);

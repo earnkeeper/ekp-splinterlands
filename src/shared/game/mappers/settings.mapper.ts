@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import moment from 'moment';
+import { TeamDetailedDto } from 'src/shared/api';
 import {
   BattleDetailsDto,
   BattleDto,
@@ -10,6 +11,7 @@ import {
 import { PlayerBattleDto } from '../../api/dto/player-battles.dto';
 import { Battle } from '../../db';
 import { LEAGUES } from '../constants';
+import { CardMapper } from './card.mapper';
 
 @Injectable()
 export class SettingsMapper {
@@ -121,8 +123,27 @@ export class SettingsMapper {
       leagueName,
       leagueGroup,
       source: 'playerHistory',
+      cardHashes: SettingsMapper.mapToCardHashes([
+        battleDetails.team1,
+        battleDetails.team2,
+      ]),
       version,
     };
+  }
+
+  static mapToCardHashes(teams: TeamDetailedDto[]) {
+    return _.chain(teams)
+      .flatMap((team) => [team.summoner, ...team.monsters])
+      .map((monster) =>
+        CardMapper.mapToCardHash(
+          monster.card_detail_id,
+          monster.level,
+          monster.edition,
+          monster.gold,
+        ),
+      )
+      .uniq()
+      .value();
   }
 
   static mapBattlesFromTransactions(
@@ -152,6 +173,7 @@ export class SettingsMapper {
     const leagueName = SettingsMapper.mapToLeagueName(
       battle.players[0].initial_rating,
     );
+
     const leagueGroup = SettingsMapper.mapLeagueGroup(leagueName);
 
     return {
@@ -171,6 +193,10 @@ export class SettingsMapper {
       leagueName,
       leagueGroup,
       source: 'transaction',
+      cardHashes: SettingsMapper.mapToCardHashes([
+        battle.details.team1,
+        battle.details.team2,
+      ]),
       version,
     };
   }

@@ -7,6 +7,7 @@ import {
   Form,
   formatCurrency,
   formatPercent,
+  formatTemplate,
   formatToken,
   Fragment,
   GridTile,
@@ -28,6 +29,7 @@ import {
   SPLINTER_IMAGE_MAP,
 } from '../../../util';
 import { Datatable } from '../../../util/ekp/datatable';
+import { navigate } from '../../../util/ekp/navigate.rpc';
 import { switchCase } from '../../../util/ekp/switchCase.rpc';
 import { imageLabelCell } from '../../../util/ui/imageLabelCell';
 import { ListingDocument } from './listing.document';
@@ -131,6 +133,11 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
     },
     data: documents(ListingDocument),
     busyWhen: isBusy(collection(ListingDocument)),
+    onRowClicked: navigate(
+      formatTemplate('battles/byCard/{{ cardHash }}', {
+        cardHash: '$.cardHash',
+      }),
+    ),
     filters: [
       {
         columnId: 'splinter',

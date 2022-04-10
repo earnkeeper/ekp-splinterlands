@@ -186,7 +186,6 @@ function historyRow(): UiElement {
     columns: [
       {
         id: 'timestamp',
-        title: 'Timestamp',
         sortable: true,
         format: formatAge('$.timestamp'),
       },
