@@ -14,6 +14,7 @@
 ### Fixed
 
 - 🐛 Marketplace battle count now takes level into account
+- 🐛 Ruleset icons now being displayed correclty
 
 ## [1.2.2]
 
