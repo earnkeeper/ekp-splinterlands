@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import moment from 'moment';
-import { TeamDetailedDto } from 'src/shared/api';
 import {
   BattleDetailsDto,
   BattleDto,
   PlayerDto,
+  TeamDetailedDto,
   TransactionDto,
 } from '../../api';
 import { PlayerBattleDto } from '../../api/dto/player-battles.dto';

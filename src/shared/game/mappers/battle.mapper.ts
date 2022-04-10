@@ -1,5 +1,5 @@
-import { TeamDetailedDto } from 'src/shared/api';
 import { Battle } from '../../db';
+import { TeamDetailedDto } from '../../api';
 import { CardTemplate, Team } from '../domain';
 import { CardMapper } from './card.mapper';
 
