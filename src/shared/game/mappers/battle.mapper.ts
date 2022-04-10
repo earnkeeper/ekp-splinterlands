@@ -8,26 +8,29 @@ export class BattleMapper {
     teamDetailedDto: TeamDetailedDto,
     cardTemplatesMap: Record<number, CardTemplate>,
   ) {
+    const summonerCardTemplate =
+      cardTemplatesMap[teamDetailedDto.summoner.card_detail_id];
     return {
       playerName: teamDetailedDto.player,
       summoner: CardMapper.mapToCard(
-        cardTemplatesMap[teamDetailedDto.summoner.card_detail_id],
+        summonerCardTemplate,
         teamDetailedDto.summoner.level,
         teamDetailedDto.summoner.edition,
         teamDetailedDto.summoner.gold,
         teamDetailedDto.summoner.xp,
         teamDetailedDto.summoner.uid,
       ),
-      monsters: teamDetailedDto.monsters.map((monster) =>
-        CardMapper.mapToCard(
-          cardTemplatesMap[monster.card_detail_id],
+      monsters: teamDetailedDto.monsters.map((monster) => {
+        const monsterCardTemplate = cardTemplatesMap[monster.card_detail_id];
+        return CardMapper.mapToCard(
+          monsterCardTemplate,
           monster.level,
           monster.edition,
           monster.gold,
           monster.xp,
           monster.uid,
-        ),
-      ),
+        );
+      }),
     };
   }
 

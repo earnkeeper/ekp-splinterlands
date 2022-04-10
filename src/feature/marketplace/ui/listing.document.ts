@@ -21,4 +21,10 @@ export class ListingDocument extends DocumentDto {
   readonly role: string;
   readonly splinter: string;
   readonly winpc: number;
+
+  readonly melee: number;
+  readonly speed: number;
+  readonly defense: number;
+  readonly health: number;
+  readonly mana: number;
 }

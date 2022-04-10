@@ -10,15 +10,15 @@ import {
   Modal,
   ModalBody,
   ModalFooter,
-  ModalHeader,
+  navigate,
   Row,
   runAll,
   showModal,
   Span,
+  switchCase,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
 import { SPLINTER_IMAGE_MAP } from './constants';
-import { switchCase } from './ekp/switchCase.rpc';
 import { PROMPT_DECK_NAME_MODAL_ID } from './prompt-deck-name.modal';
 import { statsCard } from './stats-card';
 
@@ -29,33 +29,30 @@ export function teamModal(): UiElement {
     id: TEAM_MODAL_ID,
     centered: true,
     size: 'lg',
+    header: Row({
+      children: [
+        Col({
+          className: 'col-auto',
+          children: [
+            Image({
+              src: switchCase('$.splinter', SPLINTER_IMAGE_MAP),
+            }),
+          ],
+        }),
+        Col({
+          className: 'col-auto',
+          children: [
+            Span({
+              content: formatTemplate('{{ summonerName }} Team', {
+                summonerName: '$.summonerName',
+              }),
+            }),
+          ],
+        }),
+      ],
+    }),
+
     children: [
-      ModalHeader({
-        children: [
-          Row({
-            children: [
-              Col({
-                className: 'col-auto',
-                children: [
-                  Image({
-                    src: switchCase('$.splinter', SPLINTER_IMAGE_MAP),
-                  }),
-                ],
-              }),
-              Col({
-                className: 'col-auto',
-                children: [
-                  Span({
-                    content: formatTemplate('{{ summonerName }} Team', {
-                      summonerName: '$.summonerName',
-                    }),
-                  }),
-                ],
-              }),
-            ],
-          }),
-        ],
-      }),
       ModalBody({
         children: [
           Row({
@@ -141,8 +138,8 @@ export function teamModal(): UiElement {
                 when: '$.teamName',
                 children: [
                   Button({
-                    icon: 'trash',
-                    color: 'flat-danger',
+                    color: 'danger',
+                    outline: true,
                     label: 'Remove',
                     onClick: runAll(
                       {
@@ -154,14 +151,35 @@ export function teamModal(): UiElement {
                   }),
                 ],
               }),
+              Col({ children: [] }),
               Col({
-                when: { not: '$.teamName' },
+                className: 'col-auto',
                 children: [
                   Button({
                     className: 'float-right',
-                    icon: 'user-plus',
+                    label: 'View Battles',
+                    outline: true,
+                    onClick: navigate(
+                      formatTemplate(
+                        'battles?team={{ teamHash }}&mana={{ mana }}',
+                        {
+                          teamHash: '$.id',
+                          mana: '$.mana',
+                        },
+                      ),
+                      true,
+                    ),
+                  }),
+                ],
+              }),
+              Col({
+                className: 'col-auto',
+                when: { not: '$.teamName' },
+                children: [
+                  Button({
                     label: 'Save Team',
                     onClick: showModal(PROMPT_DECK_NAME_MODAL_ID, '$'),
+                    outline: true,
                   }),
                 ],
               }),

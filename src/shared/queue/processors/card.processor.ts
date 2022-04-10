@@ -115,12 +115,6 @@ export class CardProcessor {
         .unionWith(loserCards, (a, b) => a.hash === b.hash)
         .value();
 
-      const battleLeagueName: string = this.getLeagueName(
-        battle,
-        winnerCards,
-        loserCards,
-      );
-
       for (const card of allBattleCards) {
         let cardStatsRecord = cardStatsRecordMap[card.hash];
 
@@ -132,13 +126,13 @@ export class CardProcessor {
         cardStatsRecord.blockNumber = battle.blockNumber;
 
         let dailyStatsRecord = cardStatsRecord.dailyBattleStats.find(
-          (it) => it.day === battleDate && it.leagueName === battleLeagueName,
+          (it) => it.day === battleDate && it.leagueName === battle.leagueName,
         );
 
         if (!dailyStatsRecord) {
           dailyStatsRecord = {
             day: battleDate,
-            leagueName: battleLeagueName,
+            leagueName: battle.leagueName,
             wins: 0,
             battles: 0,
           };
@@ -168,13 +162,11 @@ export class CardProcessor {
   ): string {
     const minRating = _.min(battle.players.map((it) => it.initial_rating));
 
-    const minPower = _.min(
-      [winnerCards, loserCards].map((cards) =>
-        _.sum(cards.map((card) => card.power)),
-      ),
+    return SettingsMapper.mapToLeagueNameFromTeams(
+      minRating,
+      winnerCards,
+      loserCards,
     );
-
-    return SettingsMapper.mapToLeagueName(minRating, minPower);
   }
 
   private createCardStatsRecord(card: Card): CardStats {

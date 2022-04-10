@@ -5,7 +5,6 @@ export class HistoryDocument extends DocumentDto {
     super(properties);
   }
 
-  readonly id: string;
   readonly manaCap: number;
   readonly myFinalRating: number;
   readonly opponentInitialRating: number;

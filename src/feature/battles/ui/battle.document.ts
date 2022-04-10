@@ -5,11 +5,15 @@ export class BattleDocument extends DocumentDto {
     super(properties);
   }
 
-  readonly timestamp: number;
-  readonly winnerName: string;
+  readonly leagueName: string;
   readonly loserName: string;
-  readonly winnerSummonerName: string;
+  readonly loserSplinter: string;
   readonly loserSummonerName: string;
   readonly manaCap: number;
-  readonly leagueName: string;
+  readonly rulesets: string[];
+  readonly splinters: string[];
+  readonly timestamp: number;
+  readonly winnerName: string;
+  readonly winnerSplinter: string;
+  readonly winnerSummonerName: string;
 }

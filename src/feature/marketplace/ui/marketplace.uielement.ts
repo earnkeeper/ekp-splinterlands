@@ -1,38 +1,52 @@
 import {
   Button,
+  Card,
   Col,
   collection,
   Container,
+  Datatable,
   documents,
   Form,
   formatCurrency,
   formatPercent,
   formatTemplate,
   formatToken,
+  formValue,
   Fragment,
   GridTile,
   Image,
   isBusy,
+  Modal,
+  ModalBody,
+  navigate,
   PageHeaderTile,
   Row,
+  Rpc,
   Select,
+  showModal,
   Span,
+  switchCase,
+  Table,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
 import { LEAGUES } from '../../../shared/game';
 import {
   DEFAULT_MARKETPLACE_FORM,
+  DEFENSE_IMAGE,
   EDITION_IMAGE_MAP,
   FOIL_IMAGE_MAP,
+  HEALTH_IMAGE,
+  MANA_IMAGE,
+  MELEE_IMAGE,
   RARITY_IMAGE_MAP,
   ROLE_IMAGE_MAP,
+  SPEED_IMAGE,
   SPLINTER_IMAGE_MAP,
 } from '../../../util';
-import { Datatable } from '../../../util/ekp/datatable';
-import { navigate } from '../../../util/ekp/navigate.rpc';
-import { switchCase } from '../../../util/ekp/switchCase.rpc';
 import { imageLabelCell } from '../../../util/ui/imageLabelCell';
 import { ListingDocument } from './listing.document';
+
+export const DETAILS_MODAL_ID = 'DETAILS_MODAL_ID';
 
 export default function element(
   fiatSymbol?: string,
@@ -44,6 +58,7 @@ export default function element(
       instructionsRow(),
       formRow(),
       marketRow(fiatSymbol, priceRanges),
+      detailsModal(),
     ],
   });
 }
@@ -133,11 +148,7 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
     },
     data: documents(ListingDocument),
     busyWhen: isBusy(collection(ListingDocument)),
-    onRowClicked: navigate(
-      formatTemplate('battles/byCard/{{ cardHash }}', {
-        cardHash: '$.cardHash',
-      }),
-    ),
+    onRowClicked: showModal(DETAILS_MODAL_ID, '$'),
     filters: [
       {
         columnId: 'splinter',
@@ -305,9 +316,29 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
         minWidth: '130px',
       },
       {
-        id: 'foil',
-        cell: imageLabelCell(switchCase('$.foil', FOIL_IMAGE_MAP), '$.foil'),
-        minWidth: '110px',
+        id: 'mana',
+        cell: imageLabelCell(MANA_IMAGE, '$.mana'),
+        width: '80px',
+      },
+      {
+        id: 'melee',
+        cell: imageLabelCell(MELEE_IMAGE, '$.melee'),
+        width: '80px',
+      },
+      {
+        id: 'speed',
+        cell: imageLabelCell(SPEED_IMAGE, '$.speed'),
+        width: '80px',
+      },
+      {
+        id: 'defense',
+        cell: imageLabelCell(DEFENSE_IMAGE, '$.defense'),
+        width: '80px',
+      },
+      {
+        id: 'health',
+        cell: imageLabelCell(HEALTH_IMAGE, '$.health'),
+        width: '80px',
       },
       {
         id: 'qty',
@@ -321,5 +352,171 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
         omit: true,
       },
     ],
+  });
+}
+
+export function detailsModal(): UiElement {
+  return Modal({
+    id: DETAILS_MODAL_ID,
+    centered: true,
+    size: 'lg',
+    header: '$.name',
+    children: [
+      ModalBody({
+        children: [
+          Row({
+            children: [
+              Col({
+                className: 'col-12 col-lg-6',
+                children: [
+                  Image({
+                    src: '$.cardByLevelUrl',
+                  }),
+                ],
+              }),
+              Col({
+                children: [
+                  Row({
+                    children: [
+                      Col({
+                        className: 'col-12',
+                        children: [
+                          Card({
+                            className: 'mt-2',
+                            children: [
+                              StatsTable({
+                                rows: [
+                                  {
+                                    name: 'Price',
+                                    value: formatCurrency(
+                                      '$.price',
+                                      '$.fiatSymbol',
+                                    ),
+                                  },
+                                  {
+                                    name: 'Level',
+                                    value: '$.level',
+                                  },
+                                  {
+                                    name: 'League',
+                                    value: formValue(
+                                      'marketplace',
+                                      'leagueName',
+                                    ),
+                                  },
+                                  {
+                                    name: 'Win Rate',
+                                    value: formatPercent('$.winpc'),
+                                  },
+                                  {
+                                    name: 'Battles',
+                                    value: '$.battles',
+                                  },
+                                  {
+                                    imageUrl: MANA_IMAGE,
+                                    name: 'Mana',
+                                    value: '$.mana',
+                                  },
+                                  {
+                                    imageUrl: MELEE_IMAGE,
+                                    name: 'Melee',
+                                    value: '$.melee',
+                                  },
+                                  {
+                                    imageUrl: SPEED_IMAGE,
+                                    name: 'Speed',
+                                    value: '$.speed',
+                                  },
+                                  {
+                                    imageUrl: DEFENSE_IMAGE,
+                                    name: 'Defense',
+                                    value: '$.defense',
+                                  },
+                                  {
+                                    imageUrl: HEALTH_IMAGE,
+                                    name: 'Health',
+                                    value: '$.health',
+                                  },
+                                ],
+                              }),
+                            ],
+                          }),
+                        ],
+                      }),
+                      Col({
+                        children: [
+                          Button({
+                            className: 'my-1 float-right',
+                            icon: 'cil-spreadsheet',
+                            label: 'View Battles',
+                            outline: true,
+                            onClick: navigate(
+                              formatTemplate(
+                                'battles?card={{ cardId }}&leagueName={{ leagueName }}',
+                                {
+                                  cardId: '$.cardHash',
+                                  leagueName: formValue(
+                                    'marketplace',
+                                    'leagueName',
+                                  ),
+                                },
+                              ),
+                              true,
+                            ),
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+            ],
+          }),
+        ],
+      }),
+    ],
+  });
+}
+
+function StatsTable(props: {
+  rows: {
+    imageUrl?: string;
+    name: string;
+    value: Rpc;
+  }[];
+}) {
+  return Table({
+    className: 'w-100',
+    widths: ['32px', , '16px'],
+    body: props.rows.map((row) => [
+      Row({
+        children: [
+          Col({
+            className: 'col-auto pr-0 w-3',
+            children: [
+              Image({
+                src: row.imageUrl ?? '',
+                size: 24,
+              }),
+            ],
+          }),
+          Col({
+            children: [
+              Span({
+                content: row.name,
+              }),
+            ],
+          }),
+          Col({
+            className: 'col-auto mr-1 text-right',
+            children: [
+              Span({
+                content: row.value,
+              }),
+            ],
+          }),
+        ],
+      }),
+    ]),
   });
 }

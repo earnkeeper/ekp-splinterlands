@@ -64,7 +64,7 @@ export class CollectionService {
             !!cardPrice && !card.id.startsWith('starter-')
               ? cardPrice * conversionRate
               : 0,
-          mana: card.mana,
+          mana: card.stats.mana,
           name: card.name,
           rarity: card.rarity,
           rarityNumber: card.rarityNumber,

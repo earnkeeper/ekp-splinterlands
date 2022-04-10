@@ -1,9 +1,9 @@
 import {
-  PlannerForm,
   CollectionForm,
   HistoryForm,
   LeaderboardForm,
   MarketplaceForm,
+  PlannerForm,
 } from './forms';
 
 export const DEFAULT_PLANNER_FORM: PlannerForm = {
@@ -108,3 +108,14 @@ export const RARITY_IMAGE_MAP = {
   Legendary:
     'https://d36mxiodymuqjm.cloudfront.net/website/icons/icon-rarity-legendary.svg',
 };
+
+export const MANA_IMAGE =
+  'https://d36mxiodymuqjm.cloudfront.net/website/stats/stat_bg_mana.png';
+export const MELEE_IMAGE =
+  'https://d36mxiodymuqjm.cloudfront.net/website/stats/melee-attack.png';
+export const SPEED_IMAGE =
+  'https://d36mxiodymuqjm.cloudfront.net/website/stats/speed.png';
+export const DEFENSE_IMAGE =
+  'https://d36mxiodymuqjm.cloudfront.net/website/stats/defense.png';
+export const HEALTH_IMAGE =
+  'https://d36mxiodymuqjm.cloudfront.net/website/stats/health.png';

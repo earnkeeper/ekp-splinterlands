@@ -1,8 +1,12 @@
+import { validate } from 'bycontract';
+import _ from 'lodash';
 import { CardDetailDto } from '../../api';
 import { Card, CardTemplate } from '../domain';
 
 export class CardMapper {
   static mapToCardTemplate(cardDetail: CardDetailDto): CardTemplate {
+    validate(cardDetail, 'object');
+
     return {
       id: cardDetail.id,
       distributions: cardDetail.distribution.map((it) => ({
@@ -10,7 +14,7 @@ export class CardMapper {
         editionNumber: it.edition,
         gold: it.gold,
       })),
-      mana: cardDetail.stats.mana,
+      stats: cardDetail.stats,
       name: cardDetail.name,
       rarity: cardDetail.rarity,
       splinter: CardMapper.mapToSplinter(cardDetail.color),
@@ -26,6 +30,8 @@ export class CardMapper {
     xp?: number,
     id?: string,
   ): Card {
+    validate(cardTemplate, 'object');
+
     const hash = this.mapToCardHash(
       cardTemplate.id,
       level,
@@ -45,8 +51,22 @@ export class CardMapper {
       gold,
       hash,
       level,
-      mana:
-        cardTemplate.mana[level] ?? cardTemplate.mana[0] ?? cardTemplate.mana,
+      stats: {
+        abilities: _.chain(cardTemplate.stats.abilities)
+          .slice(0, level - 1)
+          .flatMap((it) => it)
+          .value(),
+        armor: cardTemplate.stats.armor[level - 1],
+        attack: cardTemplate.stats.attack[level - 1],
+        health: cardTemplate.stats.health[level - 1],
+        magic: cardTemplate.stats.magic[level - 1],
+        mana:
+          cardTemplate.stats.mana[level - 1] ??
+          cardTemplate.stats.mana[0] ??
+          cardTemplate.stats.mana,
+        ranged: cardTemplate.stats.ranged[level - 1],
+        speed: cardTemplate.stats.speed[level - 1],
+      },
       name: cardTemplate.name,
       power: CardMapper.mapToPower(edition, rarity, gold) * xp,
       rarity,

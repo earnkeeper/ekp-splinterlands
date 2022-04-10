@@ -12,7 +12,7 @@ export class QueueEventsService {
   @OnQueueActive()
   onQueueActive(job: Job) {
     logger.log(
-      `Processing job ${job.id} of type ${job.name} with data ${job.data}`,
+      `Processing job ${job?.id} of type ${job?.name} with data ${job?.data}`,
     );
   }
 

@@ -11,6 +11,8 @@ import {
 import { PlayerBattleDto } from '../../api/dto/player-battles.dto';
 import { Battle } from '../../db';
 import { LEAGUES } from '../constants';
+import { Card, CardTemplate } from '../domain';
+import { BattleMapper } from './battle.mapper';
 import { CardMapper } from './card.mapper';
 
 @Injectable()
@@ -33,6 +35,18 @@ export class SettingsMapper {
     return _.last(sortedLeagues).name;
   }
 
+  static mapToLeagueNameFromTeams(
+    rating: number,
+    team1: Card[],
+    team2: Card[],
+  ): string {
+    const minPower = _.min(
+      [team1, team2].map((cards) => _.sum(cards.map((card) => card.power))),
+    );
+
+    return SettingsMapper.mapToLeagueName(rating, minPower);
+  }
+
   static mapLeagueGroup(leagueName: string): string {
     if (!leagueName) {
       return leagueName;
@@ -43,10 +57,13 @@ export class SettingsMapper {
 
   static mapBattlesFromPlayer(
     playerBattles: PlayerBattleDto[],
+    cardTemplatesMap: Record<number, CardTemplate>,
     version: number,
   ): Battle[] {
     return playerBattles
-      .map((it) => SettingsMapper.mapBattleFromPlayer(it, version))
+      .map((it) =>
+        SettingsMapper.mapBattleFromPlayer(it, cardTemplatesMap, version),
+      )
       .filter((it) => !!it);
   }
 
@@ -82,6 +99,7 @@ export class SettingsMapper {
 
   static mapBattleFromPlayer(
     playerBattle: PlayerBattleDto,
+    cardTemplatesMap: Record<number, CardTemplate>,
     version: number,
   ): Battle {
     const battleDetails: BattleDetailsDto = JSON.parse(playerBattle.details);
@@ -97,9 +115,20 @@ export class SettingsMapper {
       battleDetails,
     );
 
-    const leagueName = SettingsMapper.mapToLeagueName(
-      players[0].initial_rating,
+    const team1 = BattleMapper.mapToTeam(battleDetails.team1, cardTemplatesMap);
+    const team2 = BattleMapper.mapToTeam(battleDetails.team2, cardTemplatesMap);
+
+    const minRating = _.chain(players)
+      .map((it) => it.initial_rating)
+      .min()
+      .value();
+
+    const leagueName = SettingsMapper.mapToLeagueNameFromTeams(
+      minRating,
+      [team1.summoner, ...team1.monsters],
+      [team2.summoner, ...team2.monsters],
     );
+
     const leagueGroup = SettingsMapper.mapLeagueGroup(leagueName);
 
     return {
@@ -148,16 +177,20 @@ export class SettingsMapper {
 
   static mapBattlesFromTransactions(
     transactions: TransactionDto[],
+    cardTemplatesMap: Record<number, CardTemplate>,
     version: number,
   ): Battle[] {
     return transactions
       .filter((it) => it.success && !!it.result)
-      .map((it) => SettingsMapper.mapBattleFromTransaction(it, version))
+      .map((it) =>
+        SettingsMapper.mapBattleFromTransaction(it, cardTemplatesMap, version),
+      )
       .filter((it) => !!it);
   }
 
   static mapBattleFromTransaction(
     transaction: TransactionDto,
+    cardTemplatesMap: Record<number, CardTemplate>,
     version: number,
   ): Battle {
     if (!transaction.success || !transaction.result) {
@@ -170,8 +203,24 @@ export class SettingsMapper {
       return undefined;
     }
 
-    const leagueName = SettingsMapper.mapToLeagueName(
-      battle.players[0].initial_rating,
+    const team1 = BattleMapper.mapToTeam(
+      battle.details.team1,
+      cardTemplatesMap,
+    );
+    const team2 = BattleMapper.mapToTeam(
+      battle.details.team2,
+      cardTemplatesMap,
+    );
+
+    const minRating = _.chain(battle.players)
+      .map((it) => it.initial_rating)
+      .min()
+      .value();
+
+    const leagueName = SettingsMapper.mapToLeagueNameFromTeams(
+      minRating,
+      [team1.summoner, ...team1.monsters],
+      [team2.summoner, ...team2.monsters],
     );
 
     const leagueGroup = SettingsMapper.mapLeagueGroup(leagueName);

@@ -9,7 +9,7 @@ import {
   ResultsService,
   TeamResults,
 } from '../../shared/game';
-import { PlannerForm, DEFAULT_PLANNER_FORM } from '../../util';
+import { DEFAULT_PLANNER_FORM, PlannerForm } from '../../util';
 import { PlannerDocument } from './ui/planner.document';
 
 @Injectable()
@@ -66,7 +66,12 @@ export class PlannerService {
 
     return _.chain(detailedTeams)
       .map((team) => {
-        const mana = team.summoner.mana + _.sumBy(team.monsters, 'mana');
+        const mana =
+          team.summoner.stats.mana +
+          _.chain(team.monsters)
+            .map((it) => it.stats.mana)
+            .sum()
+            .value();
 
         const monsters = [];
 
@@ -75,7 +80,7 @@ export class PlannerService {
           fiatSymbol: currency.symbol,
           icon: `https://d36mxiodymuqjm.cloudfront.net/card_art/${team.summoner.name}.png`,
           level: team.summoner.level,
-          mana: team.summoner.mana,
+          mana: team.summoner.stats.mana,
           name: team.summoner.name,
           price: cardPrices[team.summoner.hash],
           splinter: team.summoner.splinter,
@@ -90,7 +95,7 @@ export class PlannerService {
             fiatSymbol: currency.symbol,
             icon: `https://d36mxiodymuqjm.cloudfront.net/card_art/${monster.name}.png`,
             level: team.summoner.level,
-            mana: monster.mana,
+            mana: monster.stats.mana,
             name: monster.name,
             price: cardPrices[monster.hash],
             splinter: monster.splinter,

@@ -7,6 +7,9 @@
 ### Added
 
 - ✨ Marketplace battles and win rates can now be filtered by league
+- ✨ New Battles page, view the battles that created the win stats on the planner and marketplace pages
+- ✨ New market sale details popup when clicking on a listing in the marketplace
+- ✨ Card attributes added to listings in the marketplace, you can sort by these now
 
 ### Fixed
 

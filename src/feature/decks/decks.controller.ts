@@ -58,6 +58,7 @@ export class DecksController extends AbstractController {
       const clientTeams = event.state?.forms?.savedTeams;
 
       if (!clientTeams) {
+        this.clientService.emitDocuments(event, COLLECTION_NAME, []);
         return;
       }
 

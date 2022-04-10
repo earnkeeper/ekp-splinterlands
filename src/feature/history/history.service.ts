@@ -2,19 +2,25 @@ import { Injectable } from '@nestjs/common';
 import moment from 'moment';
 import { ApiService } from '../../shared/api';
 import { Battle, BATTLE_VERSION } from '../../shared/db';
-import { CardMapper, SettingsMapper } from '../../shared/game';
+import { CardMapper, CardService, SettingsMapper } from '../../shared/game';
 import { HistoryForm } from '../../util';
 import { HistoryDocument } from './ui/history.document';
 
 @Injectable()
 export class HistoryService {
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private cardService: CardService,
+  ) {}
 
   async getHistoryDocuments(form: HistoryForm): Promise<HistoryDocument[]> {
     const response = await this.apiService.fetchPlayerBattles(form.playerName);
 
+    const cardDetailsMap = await this.cardService.getAllCardTemplates();
+
     const battles = SettingsMapper.mapBattlesFromPlayer(
       response.battles,
+      cardDetailsMap,
       BATTLE_VERSION,
     );
 

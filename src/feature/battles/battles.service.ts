@@ -1,39 +1,84 @@
 import { Injectable } from '@nestjs/common';
+import { validate } from 'bycontract';
+import _ from 'lodash';
 import moment from 'moment';
-import { CardService, CardTemplate } from '../../shared/game';
 import { Battle, BattleRepository } from '../../shared/db';
-import { BattleDocument } from './ui/battle.document';
+import { CardService, CardTemplate } from '../../shared/game';
 import { BattleMapper } from '../../shared/game/mappers/battle.mapper';
-import { SettingsMapper } from '../../shared/game/mappers/settings.mapper';
+import { BattleDocument } from './ui/battle.document';
 
 @Injectable()
 export class BattlesService {
-  constructor(private battleRepository: BattleRepository, private cardService: CardService) { }
+  constructor(
+    private battleRepository: BattleRepository,
+    private cardService: CardService,
+  ) {}
 
-  async getBattleDocuments(cardId: string) {
-    const battles = await this.battleRepository.findByCardId(cardId, 50);
+  async getBattleDocumentsByCardId(
+    cardHash: string,
+    leagueName: string,
+    limit: number,
+  ): Promise<BattleDocument[]> {
+    const battles = await this.battleRepository.findByCardHashAndLeagueName(
+      cardHash,
+      leagueName,
+      limit,
+    );
 
     const cardTemplatesMap = await this.cardService.getAllCardTemplatesMap();
 
     return this.mapBattleDocuments(battles, cardTemplatesMap);
   }
 
-  mapBattleDocuments(battles: Battle[], cardTemplatesMap: Record<number, CardTemplate>) {
+  async getBattleDocumentsByTeamIdAndMana(
+    teamId: string,
+    mana: number,
+    limit: number,
+  ): Promise<BattleDocument[]> {
+    const cardHashes = _.chain(teamId)
+      .split(',')
+      .filter((it) => it.includes('|'))
+      .value();
+
+    const battles = await this.battleRepository.findByCardHashesAndMana(
+      cardHashes,
+      mana,
+      limit,
+    );
+
+    const cardTemplatesMap = await this.cardService.getAllCardTemplatesMap();
+
+    return this.mapBattleDocuments(battles, cardTemplatesMap);
+  }
+
+  mapBattleDocuments(
+    battles: Battle[],
+    cardTemplatesMap: Record<number, CardTemplate>,
+  ) {
     const now = moment().unix();
 
     return battles.map((battle) => {
-      const { winner, loser } = BattleMapper.mapToWinnerAndLoser(battle, cardTemplatesMap);
+      validate(battle, 'object');
+
+      const { winner, loser } = BattleMapper.mapToWinnerAndLoser(
+        battle,
+        cardTemplatesMap,
+      );
 
       const document: BattleDocument = {
         id: battle.id,
         updated: now,
-        timestamp: battle.timestamp,
-        winnerName: battle.winner,
+        leagueName: battle.leagueName,
         loserName: battle.loser,
-        winnerSummonerName: winner.summoner.name,
+        loserSplinter: loser.summoner.splinter,
         loserSummonerName: loser.summoner.name,
         manaCap: battle.manaCap,
-        leagueName: battle.leagueName
+        rulesets: battle.rulesets,
+        splinters: [winner.summoner.splinter, loser.summoner.splinter],
+        timestamp: battle.timestamp,
+        winnerName: battle.winner,
+        winnerSplinter: winner.summoner.splinter,
+        winnerSummonerName: winner.summoner.name,
       };
 
       return document;

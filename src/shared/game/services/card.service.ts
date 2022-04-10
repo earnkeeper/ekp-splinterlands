@@ -1,11 +1,11 @@
 import { CacheService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
+import { validate } from 'bycontract';
 import _ from 'lodash';
 import { ApiService, CardDetailDto } from '../../api';
 import { BASE_CARD_DETAIL_IDS } from '../constants';
 import { Card, CardTemplate } from '../domain';
 import { CardMapper } from '../mappers';
-
 @Injectable()
 export class CardService {
   constructor(
@@ -81,18 +81,22 @@ export class CardService {
   async getAllCardTemplates(): Promise<CardTemplate[]> {
     const cardDetails = await this.apiService.fetchCardDetails();
 
-    return _.chain(cardDetails)
+    const cardTemplates = _.chain(cardDetails)
       .map((cardDetail) => CardMapper.mapToCardTemplate(cardDetail))
       .value();
+
+    return cardTemplates;
   }
 
   async getAllCardTemplatesMap(): Promise<Record<number, CardTemplate>> {
     const cardDetails = await this.apiService.fetchCardDetails();
 
-    return _.chain(cardDetails)
+    const map = _.chain(cardDetails)
       .map((cardDetail) => CardMapper.mapToCardTemplate(cardDetail))
       .keyBy('id')
       .value();
+
+    return map;
   }
 
   async getCardTemplates(templateIds: number[]) {
@@ -122,16 +126,18 @@ export class CardService {
     );
 
     return _.chain(starterCardTemplates)
-      .map((cardTemplate) =>
-        CardMapper.mapToCard(
+      .map((cardTemplate) => {
+        validate(cardTemplate, 'object');
+
+        return CardMapper.mapToCard(
           cardTemplate,
           1,
           cardTemplate.distributions[0]?.editionNumber,
           false,
           1,
           `starter-${cardTemplate.id}`,
-        ),
-      )
+        );
+      })
       .value();
   }
 }

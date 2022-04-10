@@ -25,21 +25,39 @@ export class BattlesController extends AbstractController {
 
   async onClientConnected(event: ClientConnectedEvent) {
     await this.clientService.emitPage(event, {
-      id: `${PATH}/byCard/:cardId`,
+      id: PATH,
       element: uielement(),
     });
   }
 
   async onClientStateChanged(event: ClientStateChangedEvent) {
-    const path = event?.state?.client?.path;
-
-    if (!path?.startsWith(`${PATH}/byCard/`)) {
+    if (PATH !== event?.state?.client?.path) {
       return;
     }
 
-    const cardId = path.replace(`${PATH}/byCard/`, '');
+    const cardId = event.state?.client?.queryParams?.card;
+    const leagueName = event.state?.client?.queryParams?.leagueName;
 
-    const documents = await this.battlesService.getBattleDocuments(cardId);
+    const teamId = event.state?.client?.queryParams?.team;
+    const mana = Number(event.state?.client?.queryParams?.mana);
+
+    let documents: BattleDocument[] = [];
+
+    if (!!cardId) {
+      documents = await this.battlesService.getBattleDocumentsByCardId(
+        cardId,
+        leagueName,
+        event.state?.client.subscribed ? 1000 : 50,
+      );
+    }
+
+    if (!!teamId && !isNaN(mana)) {
+      documents = await this.battlesService.getBattleDocumentsByTeamIdAndMana(
+        teamId,
+        mana,
+        event.state?.client.subscribed ? 1000 : 50,
+      );
+    }
 
     await this.clientService.emitDocuments(event, COLLECTION_NAME, documents);
 

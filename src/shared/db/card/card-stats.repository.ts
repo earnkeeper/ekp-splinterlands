@@ -4,7 +4,6 @@ import { validate } from 'bycontract';
 import _ from 'lodash';
 import { Model } from 'mongoose';
 import { CardStats } from './card-stats.schema';
-
 @Injectable()
 export class CardStatsRepository {
   constructor(
@@ -26,26 +25,29 @@ export class CardStatsRepository {
     }
 
     await this.cardModel.bulkWrite(
-      cards.map((model) => ({
-        updateOne: {
-          filter: {
-            id: model.id,
+      cards.map((model) => {
+        validate(model, 'object');
+        return ({
+          updateOne: {
+            filter: {
+              id: model.id,
+            },
+            update: {
+              $set: _.pick(model, [
+                'id',
+                'blockNumber',
+                'hash',
+                'level',
+                'dailyBattleStats',
+                'templateId',
+                'gold',
+                'editionNumber',
+              ]),
+            },
+            upsert: true,
           },
-          update: {
-            $set: _.pick(model, [
-              'id',
-              'blockNumber',
-              'hash',
-              'level',
-              'dailyBattleStats',
-              'templateId',
-              'gold',
-              'editionNumber',
-            ]),
-          },
-          upsert: true,
-        },
-      })),
+        });
+      }),
     );
   }
 }

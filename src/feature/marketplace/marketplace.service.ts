@@ -88,6 +88,12 @@ export class MarketplaceService {
           role: card.type,
           splinter: card.splinter,
           winpc: !!battles ? (wins * 100) / battles : undefined,
+
+          melee: card.stats.attack,
+          speed: card.stats.speed,
+          defense: card.stats.armor,
+          health: card.stats.health,
+          mana: card.stats.mana,
         });
 
         return document;

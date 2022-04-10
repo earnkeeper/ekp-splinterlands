@@ -9,7 +9,7 @@ import { validate } from 'bycontract';
 import _ from 'lodash';
 import { ApiService } from '../../api';
 import { BattleRepository, BATTLE_VERSION } from '../../db';
-import { SettingsMapper } from '../../game';
+import { CardService, SettingsMapper } from '../../game';
 import { FETCH_BATTLE_TRANSACTIONS, FETCH_LEADER_BATTLES } from '../constants';
 
 export const DEFAULT_START_BLOCK = 62695197; // 2022-03-17T07:29:00
@@ -20,6 +20,7 @@ export class BattleProcessor {
     private apiService: ApiService,
     private apmService: ApmService,
     private battleRepository: BattleRepository,
+    private cardService: CardService,
   ) {}
 
   @Process(FETCH_LEADER_BATTLES)
@@ -31,12 +32,16 @@ export class BattleProcessor {
 
       const settings = await this.apiService.fetchSettings();
 
+      validate(settings?.season?.id, 'number');
+
       const currentSeason = settings.season.id;
 
       const leagueLeaderboard = await this.apiService.fetchLeaderboard(
         currentSeason,
         leagueNumber,
       );
+
+      const cardTemplatesMap = await this.cardService.getAllCardTemplatesMap();
 
       const leaders = leagueLeaderboard.leaderboard.map((it) => it.player);
 
@@ -55,6 +60,7 @@ export class BattleProcessor {
 
           const battles = SettingsMapper.mapBattlesFromPlayer(
             playerBattles.battles,
+            cardTemplatesMap,
             BATTLE_VERSION,
           );
 
@@ -84,6 +90,8 @@ export class BattleProcessor {
         lastBlockNumber = DEFAULT_START_BLOCK;
       }
 
+      const cardTemplatesMap = await this.cardService.getAllCardTemplatesMap();
+
       while (true) {
         const transactions = await this.apiService.fetchBattleTransactions(
           lastBlockNumber,
@@ -103,6 +111,7 @@ export class BattleProcessor {
 
         const battles = SettingsMapper.mapBattlesFromTransactions(
           transactions,
+          cardTemplatesMap,
           BATTLE_VERSION,
         );
 

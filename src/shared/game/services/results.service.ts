@@ -152,9 +152,9 @@ export class ResultsService {
       .join(',')
       .value();
 
-    const orderedRulesets = _.chain(rulesets).sort().join(',').value();
+    const orderedRulesets = _.chain(rulesets).sort().join(';').value();
 
-    return `${team.summoner.hash}|${orderedMonstersId}|${orderedRulesets}`;
+    return `${team.summoner.hash},${orderedMonstersId},${orderedRulesets}`;
   }
 }
 

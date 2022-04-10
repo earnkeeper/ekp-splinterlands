@@ -1,8 +1,11 @@
 import {
+  arrayJoin,
+  Badge,
   Button,
   Col,
   collection,
   Container,
+  Datatable,
   documents,
   Form,
   formatAge,
@@ -14,14 +17,11 @@ import {
   PageHeaderTile,
   Row,
   Span,
+  switchCase,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
 import { RULESET_IMAGE_MAP } from '../../../shared/game';
 import { DEFAULT_HISTORY_FORM, SPLINTER_IMAGE_MAP } from '../../../util';
-import { arrayJoin } from '../../../util/ekp/arrayJoin.rpc';
-import { Badge } from '../../../util/ekp/badge';
-import { Datatable } from '../../../util/ekp/datatable';
-import { switchCase } from '../../../util/ekp/switchCase.rpc';
 import { HistoryDocument } from './history.document';
 
 export default function element(): UiElement {

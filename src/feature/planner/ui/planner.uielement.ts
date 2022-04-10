@@ -1,8 +1,10 @@
 import {
+  arrayJoin,
   Button,
   Col,
   collection,
   Container,
+  Datatable,
   documents,
   Form,
   formatAge,
@@ -21,14 +23,10 @@ import {
   Select,
   showModal,
   Span,
+  switchCase,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
-import {
-  LEAGUES,
-  LEAGUE_GROUPS,
-  MANA_CAPS,
-  RULESET_IMAGE_MAP,
-} from '../../../shared/game';
+import { LEAGUES, MANA_CAPS, RULESET_IMAGE_MAP } from '../../../shared/game';
 import {
   DEFAULT_PLANNER_FORM,
   promptDeckNameModal,
@@ -36,9 +34,6 @@ import {
   teamModal,
   TEAM_MODAL_ID,
 } from '../../../util';
-import { arrayJoin } from '../../../util/ekp/arrayJoin.rpc';
-import { Datatable } from '../../../util/ekp/datatable';
-import { switchCase } from '../../../util/ekp/switchCase.rpc';
 import { imageLabelCell } from '../../../util/ui/imageLabelCell';
 import { PlannerViewBag } from './planner-view-bag.document';
 import { PlannerDocument } from './planner.document';
@@ -93,7 +88,7 @@ function battleDetailsForm() {
             playerName: 'string',
             manaCap: 'number',
             ruleset: 'string',
-            leagueGroup: 'string',
+            leagueName: 'string',
           },
           default: DEFAULT_PLANNER_FORM,
         },
@@ -149,6 +144,7 @@ function battleDetailsForm() {
     ],
   });
 }
+
 function teamRow(): UiElement {
   return Fragment({
     children: [
@@ -166,7 +162,6 @@ function teamRow(): UiElement {
           },
         ),
       }),
-
       Datatable({
         defaultSortFieldId: 'battles',
         defaultSortAsc: false,

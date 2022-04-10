@@ -3,6 +3,7 @@ import {
   Col,
   collection,
   Container,
+  Datatable,
   documents,
   Form,
   formatCurrency,
@@ -19,6 +20,7 @@ import {
   showModal,
   Span,
   sum,
+  switchCase,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
 import {
@@ -28,8 +30,6 @@ import {
   teamModal,
   TEAM_MODAL_ID,
 } from '../../../util';
-import { Datatable } from '../../../util/ekp/datatable';
-import { switchCase } from '../../../util/ekp/switchCase.rpc';
 import { imageLabelCell } from '../../../util/ui/imageLabelCell';
 import { DeckDocument } from './deck.document';
 

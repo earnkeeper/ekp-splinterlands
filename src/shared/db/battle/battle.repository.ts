@@ -4,7 +4,6 @@ import { validate } from 'bycontract';
 import _ from 'lodash';
 import { Model } from 'mongoose';
 import { Battle } from './battle.schema';
-
 @Injectable()
 export class BattleRepository {
   constructor(
@@ -12,11 +11,62 @@ export class BattleRepository {
     public battleModel: Model<Battle>,
   ) {}
 
-  async findByCardId(cardId: string, limit: number): Promise<Battle[]> {
+  async findByCardHashAndLeagueName(
+    cardHash: string,
+    leagueName: string,
+    limit: number,
+  ): Promise<Battle[]> {
+    const query: { cardHashes: string; leagueName?: string } = {
+      cardHashes: cardHash,
+    };
+
+    if (!!leagueName && leagueName !== 'All') {
+      query.leagueName = leagueName;
+    }
+
     const results = await this.battleModel
-      .find({
-        cardHashes: cardId,
-      })
+      .find(query)
+      .sort('-timestamp')
+      .limit(limit)
+      .exec();
+
+    return results ?? [];
+  }
+
+  async findByCardHashesAndMana(
+    cardHashes: string[],
+    mana: number,
+    limit: number,
+  ): Promise<Battle[]> {
+    const query: { cardHashes: any; manaCap: number } = {
+      cardHashes: { $all: cardHashes },
+      manaCap: mana,
+    };
+
+    const results = await this.battleModel
+      .find(query)
+      .sort('-timestamp')
+      .limit(limit)
+      .exec();
+
+    return results ?? [];
+  }
+
+  async findByTeamIdAndLeagueName(
+    teamId: string,
+    leagueName: string,
+    limit: number,
+  ): Promise<Battle[]> {
+    const query: { cardHashes: string; leagueName?: string } = {
+      cardHashes: teamId,
+    };
+
+    if (!!leagueName && leagueName !== 'All') {
+      query.leagueName = leagueName;
+    }
+
+    const results = await this.battleModel
+      .find(query)
       .sort('-timestamp')
       .limit(limit)
       .exec();
@@ -121,32 +171,35 @@ export class BattleRepository {
     }
 
     await this.battleModel.bulkWrite(
-      battles.map((model) => ({
-        updateOne: {
-          filter: {
-            id: model.id,
+      battles.map((model) => {
+        validate(model, 'object');
+        return {
+          updateOne: {
+            filter: {
+              id: model.id,
+            },
+            update: {
+              $set: _.pick(model, [
+                'id',
+                'blockNumber',
+                'leagueGroup',
+                'leagueName',
+                'loser',
+                'manaCap',
+                'players',
+                'rulesets',
+                'team1',
+                'team2',
+                'timestamp',
+                'version',
+                'winner',
+                'cardHashes',
+              ]),
+            },
+            upsert: true,
           },
-          update: {
-            $set: _.pick(model, [
-              'id',
-              'blockNumber',
-              'leagueGroup',
-              'leagueName',
-              'loser',
-              'manaCap',
-              'players',
-              'rulesets',
-              'team1',
-              'team2',
-              'timestamp',
-              'version',
-              'winner',
-              'cardHashes',
-            ]),
-          },
-          upsert: true,
-        },
-      })),
+        };
+      }),
     );
   }
 }
