@@ -1,0 +1,1228 @@
+{
+  "id": "cb39c4ee8d0e1e43d59e47795213ae8e551798d5",
+  "match_type": "Ranked",
+  "mana_cap": 19,
+  "ruleset": "Weak Magic",
+  "players": [
+    {
+      "name": "daum028",
+      "initial_rating": 1265,
+      "final_rating": 1246,
+      "team": {
+        "summoner": "starter-437-WL8PUL",
+        "monsters": [
+          "starter-169-10KJ0U",
+          "starter-381-2Y2IBX",
+          "starter-383-F70CPM",
+          "starter-427-KRACIR",
+          "starter-385-8PQABF",
+          "starter-172-660DE5"
+        ]
+      }
+    },
+    {
+      "name": "tytjtyjsty",
+      "initial_rating": 1275,
+      "final_rating": 1294,
+      "team": {
+        "summoner": "starter-156-A5IZs",
+        "monsters": [
+          "starter-413-QkQhM",
+          "starter-426-UnkgV",
+          "starter-150-yA2ef",
+          "starter-411-qd0oX",
+          "starter-414-62hNp",
+          "starter-409-v8oaP"
+        ],
+        "secret": "Aip7JbQzvW"
+      }
+    }
+  ],
+  "winner": "tytjtyjsty",
+  "dec_info": {
+    "rshares": 189199,
+    "capture_rate": 5253.338918933333,
+    "reward": 0.115,
+    "bonuses": {
+      "streak": { "wins": 1, "bonus": 0.05 },
+      "gold": { "cards": 0, "bonus": 0 },
+      "alpha": { "cards": 0, "bonus": 0 },
+      "beta": { "cards": 0, "bonus": 0 },
+      "guild": { "level": 0, "bonus": 0 }
+    }
+  },
+  "details": {
+    "seed": "1170b2e50af3a01bf1032c1addd29a98",
+    "rounds": [
+      {
+        "num": 1,
+        "actions": [
+          {
+            "type": "magic attack",
+            "result": "hit",
+            "initiator": "starter-172-660DE5",
+            "target": "starter-413-QkQhM",
+            "damage": 1,
+            "state": {
+              "alive": true,
+              "stats": [2, 0, 0, 4, 5, 2],
+              "base_health": 5,
+              "other": [["Protected", 1]]
+            }
+          },
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.12476968042907191,
+            "initiator": "starter-385-8PQABF",
+            "target": "starter-426-UnkgV",
+            "damage": 3,
+            "state": {
+              "alive": true,
+              "stats": [0, 0, 0, 0, 2, 2],
+              "base_health": 2,
+              "other": [["Protected", 1]]
+            }
+          },
+          {
+            "type": "ranged attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.4261768945998082,
+            "initiator": "starter-427-KRACIR",
+            "target": "starter-413-QkQhM",
+            "damage": 0,
+            "state": {
+              "alive": true,
+              "stats": [2, 0, 0, 4, 5, 2],
+              "base_health": 5,
+              "other": [["Protected", 1]]
+            }
+          },
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.7589512576363895,
+            "initiator": "starter-414-62hNp",
+            "target": "starter-169-10KJ0U",
+            "damage": 1,
+            "state": {
+              "alive": true,
+              "stats": [0, 0, 0, 0, 1, 2],
+              "base_health": 1,
+              "other": []
+            }
+          },
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 0.75,
+            "hit_val": 0.09526047894563675,
+            "initiator": "starter-413-QkQhM",
+            "target": "starter-169-10KJ0U",
+            "damage": 2,
+            "state": {
+              "alive": false,
+              "stats": [0, 0, 0, 0, 0, 2],
+              "base_health": 1,
+              "other": []
+            }
+          },
+          { "type": "death", "target": "starter-169-10KJ0U" },
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 0.44999999999999996,
+            "hit_val": 0.028046926482571077,
+            "initiator": "starter-411-qd0oX",
+            "target": "starter-172-660DE5",
+            "damage": 2,
+            "state": {
+              "alive": true,
+              "stats": [0, 0, 1, 0, 1, 4],
+              "base_health": 1,
+              "other": []
+            }
+          }
+        ]
+      },
+      {
+        "num": 2,
+        "actions": [
+          {
+            "type": "magic attack",
+            "result": "hit",
+            "initiator": "starter-172-660DE5",
+            "target": "starter-413-QkQhM",
+            "damage": 1,
+            "state": {
+              "alive": true,
+              "stats": [2, 0, 0, 3, 5, 2],
+              "base_health": 5,
+              "other": [["Protected", 1]]
+            }
+          },
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.6927712123913866,
+            "initiator": "starter-385-8PQABF",
+            "target": "starter-426-UnkgV",
+            "damage": 3,
+            "state": {
+              "alive": false,
+              "stats": [0, 0, 0, 0, 0, 2],
+              "base_health": 2,
+              "other": [["Protected", 1]]
+            }
+          },
+          { "type": "death", "target": "starter-426-UnkgV" },
+          {
+            "type": "ranged attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.8449645325718723,
+            "initiator": "starter-427-KRACIR",
+            "target": "starter-413-QkQhM",
+            "damage": 0,
+            "state": {
+              "alive": true,
+              "stats": [2, 0, 0, 3, 5, 2],
+              "base_health": 5,
+              "other": [["Protected", 1]]
+            }
+          },
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.49824024770884723,
+            "initiator": "starter-414-62hNp",
+            "target": "starter-381-2Y2IBX",
+            "damage": 1,
+            "state": {
+              "alive": true,
+              "stats": [1, 0, 0, 1, 1, 2],
+              "base_health": 1,
+              "other": []
+            }
+          },
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.7118350021870788,
+            "initiator": "starter-413-QkQhM",
+            "target": "starter-381-2Y2IBX",
+            "damage": 2,
+            "state": {
+              "alive": true,
+              "stats": [1, 0, 0, 0, 1, 2],
+              "base_health": 1,
+              "other": []
+            }
+          },
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.24195324309805838,
+            "initiator": "starter-381-2Y2IBX",
+            "target": "starter-413-QkQhM",
+            "damage": 0,
+            "state": {
+              "alive": true,
+              "stats": [2, 0, 0, 3, 5, 2],
+              "base_health": 5,
+              "other": [["Protected", 1]]
+            }
+          },
+          {
+            "type": "melee attack",
+            "result": "miss",
+            "hit_chance": 0.44999999999999996,
+            "hit_val": 0.6434201539678821,
+            "initiator": "starter-411-qd0oX",
+            "target": "starter-172-660DE5",
+            "damage": 0,
+            "state": {
+              "alive": true,
+              "stats": [0, 0, 1, 0, 1, 4],
+              "base_health": 1,
+              "other": []
+            }
+          }
+        ]
+      },
+      {
+        "num": 3,
+        "actions": [
+          {
+            "type": "magic attack",
+            "result": "hit",
+            "initiator": "starter-172-660DE5",
+            "target": "starter-413-QkQhM",
+            "damage": 1,
+            "state": {
+              "alive": true,
+              "stats": [2, 0, 0, 2, 5, 2],
+              "base_health": 5,
+              "other": [["Protected", 1]]
+            }
+          },
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.0653344828465714,
+            "initiator": "starter-385-8PQABF",
+            "target": "starter-150-yA2ef",
+            "damage": 3,
+            "state": {
+              "alive": true,
+              "stats": [0, 0, 0, 0, 2, 2],
+              "base_health": 2,
+              "other": [["Protected", 1]]
+            }
+          },
+          {
+            "type": "ranged attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.7275708801359805,
+            "initiator": "starter-427-KRACIR",
+            "target": "starter-413-QkQhM",
+            "damage": 0,
+            "state": {
+              "alive": true,
+              "stats": [2, 0, 0, 2, 5, 2],
+              "base_health": 5,
+              "other": [["Protected", 1]]
+            }
+          },
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.39553655341996174,
+            "initiator": "starter-414-62hNp",
+            "target": "starter-381-2Y2IBX",
+            "damage": 1,
+            "state": {
+              "alive": false,
+              "stats": [1, 0, 0, 0, 0, 2],
+              "base_health": 1,
+              "other": []
+            }
+          },
+          { "type": "death", "target": "starter-381-2Y2IBX" },
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.29345023376882734,
+            "initiator": "starter-413-QkQhM",
+            "target": "starter-383-F70CPM",
+            "damage": 2,
+            "state": {
+              "alive": true,
+              "stats": [1, 0, 0, 2, 4, 2],
+              "base_health": 4,
+              "other": []
+            }
+          },
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.5663488433181613,
+            "initiator": "starter-383-F70CPM",
+            "target": "starter-413-QkQhM",
+            "damage": 0,
+            "state": {
+              "alive": true,
+              "stats": [2, 0, 0, 2, 5, 2],
+              "base_health": 5,
+              "other": [["Protected", 1]]
+            }
+          },
+          {
+            "type": "melee attack",
+            "result": "miss",
+            "hit_chance": 0.44999999999999996,
+            "hit_val": 0.8510037035185555,
+            "initiator": "starter-411-qd0oX",
+            "target": "starter-172-660DE5",
+            "damage": 0,
+            "state": {
+              "alive": true,
+              "stats": [0, 0, 1, 0, 1, 4],
+              "base_health": 1,
+              "other": []
+            }
+          }
+        ]
+      },
+      {
+        "num": 4,
+        "actions": [
+          {
+            "type": "magic attack",
+            "result": "hit",
+            "initiator": "starter-172-660DE5",
+            "target": "starter-413-QkQhM",
+            "damage": 1,
+            "state": {
+              "alive": true,
+              "stats": [2, 0, 0, 1, 5, 2],
+              "base_health": 5,
+              "other": [["Protected", 1]]
+            }
+          },
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.5316767002176995,
+            "initiator": "starter-385-8PQABF",
+            "target": "starter-150-yA2ef",
+            "damage": 3,
+            "state": {
+              "alive": false,
+              "stats": [0, 0, 0, 0, 0, 2],
+              "base_health": 2,
+              "other": [["Protected", 1]]
+            }
+          },
+          { "type": "death", "target": "starter-150-yA2ef" },
+          {
+            "type": "remove_buff",
+            "initiator": "starter-150-yA2ef",
+            "details": { "name": "Protect" },
+            "group_state": [
+              {
+                "monster": "starter-150-yA2ef",
+                "state": {
+                  "alive": false,
+                  "stats": [0, 0, 0, 0, 0, 2],
+                  "base_health": 2,
+                  "other": []
+                }
+              },
+              {
+                "monster": "starter-413-QkQhM",
+                "state": {
+                  "alive": true,
+                  "stats": [2, 0, 0, 1, 5, 2],
+                  "base_health": 5,
+                  "other": []
+                }
+              },
+              {
+                "monster": "starter-411-qd0oX",
+                "state": {
+                  "alive": true,
+                  "stats": [2, 0, 0, 0, 4, 1],
+                  "base_health": 4,
+                  "other": []
+                }
+              },
+              {
+                "monster": "starter-414-62hNp",
+                "state": {
+                  "alive": true,
+                  "stats": [1, 0, 0, 0, 3, 2],
+                  "base_health": 3,
+                  "other": []
+                }
+              },
+              {
+                "monster": "starter-409-v8oaP",
+                "state": {
+                  "alive": true,
+                  "stats": [1, 0, 0, 0, 3, 2],
+                  "base_health": 3,
+                  "other": []
+                }
+              }
+            ]
+          },
+          {
+            "type": "ranged attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.7701248507051126,
+            "initiator": "starter-427-KRACIR",
+            "target": "starter-413-QkQhM",
+            "damage": 0,
+            "state": {
+              "alive": true,
+              "stats": [2, 0, 0, 1, 5, 2],
+              "base_health": 5,
+              "other": []
+            }
+          },
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 0.8,
+            "hit_val": 0.13605568081676092,
+            "initiator": "starter-414-62hNp",
+            "target": "starter-172-660DE5",
+            "damage": 1,
+            "state": {
+              "alive": false,
+              "stats": [0, 0, 1, 0, 0, 4],
+              "base_health": 1,
+              "other": []
+            }
+          },
+          { "type": "death", "target": "starter-172-660DE5" },
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.22547423376381684,
+            "initiator": "starter-383-F70CPM",
+            "target": "starter-413-QkQhM",
+            "damage": 0,
+            "state": {
+              "alive": true,
+              "stats": [2, 0, 0, 1, 5, 2],
+              "base_health": 5,
+              "other": []
+            }
+          },
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.6260411560425607,
+            "initiator": "starter-413-QkQhM",
+            "target": "starter-383-F70CPM",
+            "damage": 2,
+            "state": {
+              "alive": true,
+              "stats": [1, 0, 0, 0, 4, 2],
+              "base_health": 4,
+              "other": []
+            }
+          },
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 0.8,
+            "hit_val": 0.2092275341849033,
+            "initiator": "starter-411-qd0oX",
+            "target": "starter-385-8PQABF",
+            "damage": 2,
+            "state": {
+              "alive": true,
+              "stats": [3, 0, 0, 0, 6, 3],
+              "base_health": 6,
+              "other": []
+            }
+          }
+        ]
+      },
+      {
+        "num": 5,
+        "actions": [
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 0.75,
+            "hit_val": 0.20856881717513956,
+            "initiator": "starter-385-8PQABF",
+            "target": "starter-414-62hNp",
+            "damage": 3,
+            "state": {
+              "alive": false,
+              "stats": [1, 0, 0, 0, 0, 2],
+              "base_health": 3,
+              "other": []
+            }
+          },
+          { "type": "death", "target": "starter-414-62hNp" },
+          {
+            "type": "ranged attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.49470637090860997,
+            "initiator": "starter-427-KRACIR",
+            "target": "starter-413-QkQhM",
+            "damage": 0,
+            "state": {
+              "alive": true,
+              "stats": [2, 0, 0, 1, 5, 2],
+              "base_health": 5,
+              "other": []
+            }
+          },
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.21834616345826358,
+            "initiator": "starter-413-QkQhM",
+            "target": "starter-383-F70CPM",
+            "damage": 2,
+            "state": {
+              "alive": true,
+              "stats": [1, 0, 0, 0, 2, 2],
+              "base_health": 4,
+              "other": []
+            }
+          },
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.49072568361290037,
+            "initiator": "starter-383-F70CPM",
+            "target": "starter-413-QkQhM",
+            "damage": 0,
+            "state": {
+              "alive": true,
+              "stats": [2, 0, 0, 1, 5, 2],
+              "base_health": 5,
+              "other": []
+            }
+          },
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 0.8,
+            "hit_val": 0.20549464863485167,
+            "initiator": "starter-411-qd0oX",
+            "target": "starter-385-8PQABF",
+            "damage": 2,
+            "state": {
+              "alive": true,
+              "stats": [3, 0, 0, 0, 4, 3],
+              "base_health": 6,
+              "other": []
+            }
+          }
+        ]
+      },
+      {
+        "num": 6,
+        "actions": [
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.7650343689339881,
+            "initiator": "starter-385-8PQABF",
+            "target": "starter-409-v8oaP",
+            "damage": 3,
+            "state": {
+              "alive": false,
+              "stats": [1, 0, 0, 0, 0, 2],
+              "base_health": 3,
+              "other": []
+            }
+          },
+          { "type": "death", "target": "starter-409-v8oaP" },
+          {
+            "type": "ranged attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.9493989414626051,
+            "initiator": "starter-427-KRACIR",
+            "target": "starter-413-QkQhM",
+            "damage": 0,
+            "state": {
+              "alive": true,
+              "stats": [2, 0, 0, 1, 5, 2],
+              "base_health": 5,
+              "other": []
+            }
+          },
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.7843002910550501,
+            "initiator": "starter-383-F70CPM",
+            "target": "starter-413-QkQhM",
+            "damage": 0,
+            "state": {
+              "alive": true,
+              "stats": [2, 0, 0, 1, 5, 2],
+              "base_health": 5,
+              "other": []
+            }
+          },
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.9438926165231841,
+            "initiator": "starter-413-QkQhM",
+            "target": "starter-383-F70CPM",
+            "damage": 2,
+            "state": {
+              "alive": false,
+              "stats": [1, 0, 0, 0, 0, 2],
+              "base_health": 4,
+              "other": []
+            }
+          },
+          { "type": "death", "target": "starter-383-F70CPM" },
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 0.8,
+            "hit_val": 0.19034145642691488,
+            "initiator": "starter-411-qd0oX",
+            "target": "starter-385-8PQABF",
+            "damage": 2,
+            "state": {
+              "alive": true,
+              "stats": [3, 0, 0, 0, 2, 3],
+              "base_health": 6,
+              "other": []
+            }
+          }
+        ]
+      },
+      {
+        "num": 7,
+        "actions": [
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.24189177718398622,
+            "initiator": "starter-385-8PQABF",
+            "target": "starter-411-qd0oX",
+            "damage": 3,
+            "state": {
+              "alive": true,
+              "stats": [2, 0, 0, 0, 1, 1],
+              "base_health": 4,
+              "other": []
+            }
+          },
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.9283603391822157,
+            "initiator": "starter-413-QkQhM",
+            "target": "starter-427-KRACIR",
+            "damage": 2,
+            "state": {
+              "alive": true,
+              "stats": [0, 1, 0, 0, 2, 2],
+              "base_health": 2,
+              "other": []
+            }
+          },
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 0.8,
+            "hit_val": 0.5242776874212308,
+            "initiator": "starter-411-qd0oX",
+            "target": "starter-385-8PQABF",
+            "damage": 2,
+            "state": {
+              "alive": false,
+              "stats": [3, 0, 0, 0, 0, 3],
+              "base_health": 6,
+              "other": []
+            }
+          },
+          { "type": "death", "target": "starter-385-8PQABF" }
+        ]
+      },
+      {
+        "num": 8,
+        "actions": [
+          {
+            "type": "melee attack",
+            "result": "hit",
+            "hit_chance": 1,
+            "hit_val": 0.0015861044859794835,
+            "initiator": "starter-413-QkQhM",
+            "target": "starter-427-KRACIR",
+            "damage": 2,
+            "state": {
+              "alive": false,
+              "stats": [0, 1, 0, 0, 0, 2],
+              "base_health": 2,
+              "other": []
+            }
+          },
+          { "type": "death", "target": "starter-427-KRACIR" }
+        ]
+      }
+    ],
+    "team1": {
+      "player": "daum028",
+      "rating": 1305,
+      "color": "Blue",
+      "summoner": {
+        "uid": "starter-437-WL8PUL",
+        "xp": 1,
+        "gold": false,
+        "card_detail_id": 437,
+        "level": 1,
+        "edition": 7,
+        "state": { "stats": [0, 0, 0, 1, 0, 1], "abilities": [] }
+      },
+      "monsters": [
+        {
+          "uid": "starter-169-10KJ0U",
+          "xp": 1,
+          "gold": false,
+          "card_detail_id": 169,
+          "level": 1,
+          "edition": 4,
+          "state": {
+            "alive": true,
+            "stats": [0, 0, 0, 0, 1, 1],
+            "base_health": 1,
+            "other": []
+          },
+          "abilities": ["Flying"]
+        },
+        {
+          "uid": "starter-381-2Y2IBX",
+          "xp": 1,
+          "gold": false,
+          "card_detail_id": 381,
+          "level": 1,
+          "edition": 7,
+          "state": {
+            "alive": true,
+            "stats": [1, 0, 0, 1, 1, 1],
+            "base_health": 1,
+            "other": []
+          },
+          "abilities": []
+        },
+        {
+          "uid": "starter-383-F70CPM",
+          "xp": 1,
+          "gold": false,
+          "card_detail_id": 383,
+          "level": 1,
+          "edition": 7,
+          "state": {
+            "alive": true,
+            "stats": [1, 0, 0, 3, 4, 1],
+            "base_health": 4,
+            "other": []
+          },
+          "abilities": []
+        },
+        {
+          "uid": "starter-427-KRACIR",
+          "xp": 1,
+          "gold": false,
+          "card_detail_id": 427,
+          "level": 1,
+          "edition": 7,
+          "state": {
+            "alive": true,
+            "stats": [0, 1, 0, 0, 2, 1],
+            "base_health": 2,
+            "other": []
+          },
+          "abilities": []
+        },
+        {
+          "uid": "starter-385-8PQABF",
+          "xp": 1,
+          "gold": false,
+          "card_detail_id": 385,
+          "level": 1,
+          "edition": 7,
+          "state": {
+            "alive": true,
+            "stats": [3, 0, 0, 0, 6, 2],
+            "base_health": 6,
+            "other": []
+          },
+          "abilities": ["Opportunity"]
+        },
+        {
+          "uid": "starter-172-660DE5",
+          "xp": 1,
+          "gold": false,
+          "card_detail_id": 172,
+          "level": 1,
+          "edition": 4,
+          "state": {
+            "alive": true,
+            "stats": [0, 0, 1, 0, 1, 3],
+            "base_health": 1,
+            "other": []
+          },
+          "abilities": ["Flying"]
+        }
+      ]
+    },
+    "team2": {
+      "player": "tytjtyjsty",
+      "rating": 1336,
+      "color": "White",
+      "summoner": {
+        "uid": "starter-156-A5IZs",
+        "xp": 1,
+        "gold": false,
+        "card_detail_id": 156,
+        "level": 1,
+        "edition": 4,
+        "state": { "stats": [0, 0, 0, 0, 1, 0], "abilities": [] }
+      },
+      "monsters": [
+        {
+          "uid": "starter-413-QkQhM",
+          "xp": 1,
+          "gold": false,
+          "card_detail_id": 413,
+          "level": 1,
+          "edition": 7,
+          "state": {
+            "alive": true,
+            "stats": [2, 0, 0, 3, 4, 2],
+            "base_health": 4,
+            "other": []
+          },
+          "abilities": ["Shield"]
+        },
+        {
+          "uid": "starter-426-UnkgV",
+          "xp": 1,
+          "gold": false,
+          "card_detail_id": 426,
+          "level": 1,
+          "edition": 7,
+          "state": {
+            "alive": true,
+            "stats": [0, 0, 0, 0, 1, 2],
+            "base_health": 1,
+            "other": []
+          },
+          "abilities": []
+        },
+        {
+          "uid": "starter-150-yA2ef",
+          "xp": 1,
+          "gold": false,
+          "card_detail_id": 150,
+          "level": 1,
+          "edition": 4,
+          "state": {
+            "alive": true,
+            "stats": [0, 0, 0, 0, 1, 2],
+            "base_health": 1,
+            "other": []
+          },
+          "abilities": ["Protect"]
+        },
+        {
+          "uid": "starter-411-qd0oX",
+          "xp": 1,
+          "gold": false,
+          "card_detail_id": 411,
+          "level": 1,
+          "edition": 7,
+          "state": {
+            "alive": true,
+            "stats": [2, 0, 0, 0, 3, 1],
+            "base_health": 3,
+            "other": []
+          },
+          "abilities": ["Sneak"]
+        },
+        {
+          "uid": "starter-414-62hNp",
+          "xp": 1,
+          "gold": false,
+          "card_detail_id": 414,
+          "level": 1,
+          "edition": 7,
+          "state": {
+            "alive": true,
+            "stats": [1, 0, 0, 0, 2, 2],
+            "base_health": 2,
+            "other": []
+          },
+          "abilities": ["Flying", "Opportunity"]
+        },
+        {
+          "uid": "starter-409-v8oaP",
+          "xp": 1,
+          "gold": false,
+          "card_detail_id": 409,
+          "level": 1,
+          "edition": 7,
+          "state": {
+            "alive": true,
+            "stats": [1, 0, 0, 0, 2, 2],
+            "base_health": 2,
+            "other": []
+          },
+          "abilities": []
+        }
+      ]
+    },
+    "pre_battle": [
+      {
+        "type": "buff",
+        "initiator": "starter-437-WL8PUL",
+        "details": { "name": "Summoner", "stats": { "armor": 1 } },
+        "group_state": [
+          {
+            "monster": "starter-169-10KJ0U",
+            "state": {
+              "alive": true,
+              "stats": [0, 0, 0, 1, 1, 1],
+              "base_health": 1,
+              "other": []
+            }
+          },
+          {
+            "monster": "starter-381-2Y2IBX",
+            "state": {
+              "alive": true,
+              "stats": [1, 0, 0, 2, 1, 1],
+              "base_health": 1,
+              "other": []
+            }
+          },
+          {
+            "monster": "starter-383-F70CPM",
+            "state": {
+              "alive": true,
+              "stats": [1, 0, 0, 4, 4, 1],
+              "base_health": 4,
+              "other": []
+            }
+          },
+          {
+            "monster": "starter-427-KRACIR",
+            "state": {
+              "alive": true,
+              "stats": [0, 1, 0, 1, 2, 1],
+              "base_health": 2,
+              "other": []
+            }
+          },
+          {
+            "monster": "starter-385-8PQABF",
+            "state": {
+              "alive": true,
+              "stats": [3, 0, 0, 1, 6, 2],
+              "base_health": 6,
+              "other": []
+            }
+          },
+          {
+            "monster": "starter-172-660DE5",
+            "state": {
+              "alive": true,
+              "stats": [0, 0, 1, 1, 1, 3],
+              "base_health": 1,
+              "other": []
+            }
+          }
+        ]
+      },
+      {
+        "type": "buff",
+        "initiator": "starter-437-WL8PUL",
+        "details": { "name": "Summoner", "stats": { "speed": 1 } },
+        "group_state": [
+          {
+            "monster": "starter-169-10KJ0U",
+            "state": {
+              "alive": true,
+              "stats": [0, 0, 0, 1, 1, 2],
+              "base_health": 1,
+              "other": []
+            }
+          },
+          {
+            "monster": "starter-381-2Y2IBX",
+            "state": {
+              "alive": true,
+              "stats": [1, 0, 0, 2, 1, 2],
+              "base_health": 1,
+              "other": []
+            }
+          },
+          {
+            "monster": "starter-383-F70CPM",
+            "state": {
+              "alive": true,
+              "stats": [1, 0, 0, 4, 4, 2],
+              "base_health": 4,
+              "other": []
+            }
+          },
+          {
+            "monster": "starter-427-KRACIR",
+            "state": {
+              "alive": true,
+              "stats": [0, 1, 0, 1, 2, 2],
+              "base_health": 2,
+              "other": []
+            }
+          },
+          {
+            "monster": "starter-385-8PQABF",
+            "state": {
+              "alive": true,
+              "stats": [3, 0, 0, 1, 6, 3],
+              "base_health": 6,
+              "other": []
+            }
+          },
+          {
+            "monster": "starter-172-660DE5",
+            "state": {
+              "alive": true,
+              "stats": [0, 0, 1, 1, 1, 4],
+              "base_health": 1,
+              "other": []
+            }
+          }
+        ]
+      },
+      {
+        "type": "buff",
+        "initiator": "starter-156-A5IZs",
+        "details": { "name": "Summoner", "stats": { "health": 1 } },
+        "group_state": [
+          {
+            "monster": "starter-413-QkQhM",
+            "state": {
+              "alive": true,
+              "stats": [2, 0, 0, 3, 5, 2],
+              "base_health": 5,
+              "other": []
+            }
+          },
+          {
+            "monster": "starter-426-UnkgV",
+            "state": {
+              "alive": true,
+              "stats": [0, 0, 0, 0, 2, 2],
+              "base_health": 2,
+              "other": []
+            }
+          },
+          {
+            "monster": "starter-150-yA2ef",
+            "state": {
+              "alive": true,
+              "stats": [0, 0, 0, 0, 2, 2],
+              "base_health": 2,
+              "other": []
+            }
+          },
+          {
+            "monster": "starter-411-qd0oX",
+            "state": {
+              "alive": true,
+              "stats": [2, 0, 0, 0, 4, 1],
+              "base_health": 4,
+              "other": []
+            }
+          },
+          {
+            "monster": "starter-414-62hNp",
+            "state": {
+              "alive": true,
+              "stats": [1, 0, 0, 0, 3, 2],
+              "base_health": 3,
+              "other": []
+            }
+          },
+          {
+            "monster": "starter-409-v8oaP",
+            "state": {
+              "alive": true,
+              "stats": [1, 0, 0, 0, 3, 2],
+              "base_health": 3,
+              "other": []
+            }
+          }
+        ]
+      },
+      {
+        "type": "buff",
+        "initiator": "starter-150-yA2ef",
+        "details": { "name": "Protect" },
+        "group_state": [
+          {
+            "monster": "starter-413-QkQhM",
+            "state": {
+              "alive": true,
+              "stats": [2, 0, 0, 5, 5, 2],
+              "base_health": 5,
+              "other": [["Protected", 1]]
+            }
+          },
+          {
+            "monster": "starter-426-UnkgV",
+            "state": {
+              "alive": true,
+              "stats": [0, 0, 0, 2, 2, 2],
+              "base_health": 2,
+              "other": [["Protected", 1]]
+            }
+          },
+          {
+            "monster": "starter-150-yA2ef",
+            "state": {
+              "alive": true,
+              "stats": [0, 0, 0, 2, 2, 2],
+              "base_health": 2,
+              "other": [["Protected", 1]]
+            }
+          },
+          {
+            "monster": "starter-411-qd0oX",
+            "state": {
+              "alive": true,
+              "stats": [2, 0, 0, 2, 4, 1],
+              "base_health": 4,
+              "other": [["Protected", 1]]
+            }
+          },
+          {
+            "monster": "starter-414-62hNp",
+            "state": {
+              "alive": true,
+              "stats": [1, 0, 0, 2, 3, 2],
+              "base_health": 3,
+              "other": [["Protected", 1]]
+            }
+          },
+          {
+            "monster": "starter-409-v8oaP",
+            "state": {
+              "alive": true,
+              "stats": [1, 0, 0, 2, 3, 2],
+              "base_health": 3,
+              "other": [["Protected", 1]]
+            }
+          }
+        ]
+      }
+    ],
+    "winner": "tytjtyjsty",
+    "loser": "daum028"
+  }
+}

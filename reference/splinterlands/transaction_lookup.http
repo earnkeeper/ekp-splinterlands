@@ -1,1 +1,1 @@
-GET https://api.steemmonsters.io/transactions/history?from_block=32181482&limit=1000&types=sm_battle,battle
+GET https://api.splinterlands.io/transactions/history
