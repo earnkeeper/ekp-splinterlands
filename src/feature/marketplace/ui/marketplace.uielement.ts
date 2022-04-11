@@ -319,26 +319,31 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
         id: 'mana',
         cell: imageLabelCell(MANA_IMAGE, '$.mana'),
         width: '80px',
+        sortable: true,
       },
       {
         id: 'melee',
         cell: imageLabelCell(MELEE_IMAGE, '$.melee'),
         width: '80px',
+        sortable: true,
       },
       {
         id: 'speed',
         cell: imageLabelCell(SPEED_IMAGE, '$.speed'),
         width: '80px',
+        sortable: true,
       },
       {
         id: 'defense',
         cell: imageLabelCell(DEFENSE_IMAGE, '$.defense'),
         width: '80px',
+        sortable: true,
       },
       {
         id: 'health',
         cell: imageLabelCell(HEALTH_IMAGE, '$.health'),
         width: '80px',
+        sortable: true,
       },
       {
         id: 'qty',
