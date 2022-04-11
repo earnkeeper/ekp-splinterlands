@@ -67,6 +67,11 @@ function statsRow() {
             method: 'count',
             params: [`${path(CollectionDocument)}.*`],
           }),
+        ],
+      }),
+      Col({
+        className: 'col-auto',
+        children: [
           statsCard(
             'Market Value',
             formatCurrency(
