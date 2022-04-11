@@ -7,7 +7,6 @@ import {
   documents,
   Form,
   formatCurrency,
-  formatPercent,
   formatToken,
   Fragment,
   GridTile,
@@ -79,7 +78,7 @@ function statsRow() {
         children: [
           statsCard('Number of Teams', {
             method: 'count',
-            params: [path(DeckDocument)],
+            params: [`${path(DeckDocument)}.*`],
           }),
         ],
       }),
@@ -196,20 +195,12 @@ export function decksTable() {
                 value: formatCurrency('$.price', '$.fiatSymbol'),
               },
               {
-                label: 'Battles',
-                value: formatToken('$.battles'),
-              },
-              {
                 label: 'Mana',
                 value: '$.mana',
               },
               {
                 label: 'Monsters',
                 value: '$.monsterCount',
-              },
-              {
-                label: 'Win Rate',
-                value: formatPercent('$.winpc'),
               },
             ],
             left: {

@@ -119,16 +119,16 @@ function tableRow(): UiElement {
         image: Fragment(),
         details: [
           {
+            label: 'Player',
+            value: '$.player',
+          },
+          {
             label: 'Rank',
             value: '$.rank',
           },
           {
             label: 'Rating',
             value: '$.rating',
-          },
-          {
-            label: 'Player',
-            value: '$.player',
           },
           {
             label: 'Gulid',

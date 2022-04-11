@@ -149,6 +149,7 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
     data: documents(ListingDocument),
     busyWhen: isBusy(collection(ListingDocument)),
     onRowClicked: showModal(DETAILS_MODAL_ID, '$'),
+    paginationPerPage: 50,
     filters: [
       {
         columnId: 'splinter',
@@ -219,7 +220,6 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
       },
     ],
     gridView: {
-      tileWidth: [12, 6, 4, 3],
       tile: GridTile({
         image: Image({
           className: 'card-img-top',
