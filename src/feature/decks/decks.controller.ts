@@ -67,7 +67,6 @@ export class DecksController extends AbstractController {
       const updatedTeams = await this.decksService.updateTeams(
         clientTeams,
         form,
-        event.state.client.subscribed,
         event.state.client.selectedCurrency,
       );
 

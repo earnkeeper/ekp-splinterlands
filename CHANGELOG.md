@@ -16,6 +16,7 @@
 ### Fixed
 
 - 🐛 Marketplace battle count now takes level into account
+- 🐛 Zero purchase cost in Saved Teams page
 - 🐛 Ruleset icons now being displayed correclty
 - 🐛 Correctly show DRAW results in Battle History
 

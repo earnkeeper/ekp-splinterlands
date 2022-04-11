@@ -89,7 +89,7 @@ function statsRow() {
           statsCard(
             'Total Purchase Cost',
             formatCurrency(
-              sum(`${path(DeckDocument)}.price`),
+              sum(`${path(DeckDocument)}.*.price`),
               `${path(DeckDocument)}.0.fiatSymbol`,
             ),
           ),
