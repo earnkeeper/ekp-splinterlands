@@ -11,11 +11,13 @@
 - ✨ New market sale details popup when clicking on a listing in the marketplace
 - ✨ Card attributes added to listings in the marketplace, you can sort by these now
 - ✨ Now syncing battles for all entered igns as well, so that player history could be more than last 50 battles
+- ✨ Link to watch battle replay from Battle History
 
 ### Fixed
 
 - 🐛 Marketplace battle count now takes level into account
 - 🐛 Ruleset icons now being displayed correclty
+- 🐛 Correctly show DRAW results in Battle History
 
 ## [1.2.2]
 

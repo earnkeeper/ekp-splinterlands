@@ -9,11 +9,13 @@ import {
   documents,
   Form,
   formatAge,
+  formatTemplate,
   formatToken,
   GridTile,
   Image,
   Input,
   isBusy,
+  navigate,
   PageHeaderTile,
   Row,
   Span,
@@ -100,6 +102,7 @@ function historyRow(): UiElement {
       lg: 'column',
     },
     data: documents(HistoryDocument),
+    paginationPerPage: 50,
     busyWhen: isBusy(collection(HistoryDocument)),
     filters: [
       {
@@ -225,6 +228,31 @@ function historyRow(): UiElement {
         id: 'myFinalRating',
         title: 'Rating',
         grow: 0,
+      },
+      {
+        id: 'actions',
+        title: '',
+        cell: Row({
+          children: [
+            Col({
+              children: [
+                Button({
+                  color: 'flat-primary',
+                  icon: 'cil-media-play',
+                  tooltip: 'Replay this battle on splinterlands.com',
+                  onClick: navigate(
+                    formatTemplate(
+                      'https://splinterlands.com/?p=battle&id={{ id }}',
+                      { id: '$.id' },
+                    ),
+                    true,
+                    true,
+                  ),
+                }),
+              ],
+            }),
+          ],
+        }),
       },
     ],
   });

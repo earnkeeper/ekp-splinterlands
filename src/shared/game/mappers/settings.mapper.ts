@@ -132,11 +132,7 @@ export class SettingsMapper {
     const leagueGroup = SettingsMapper.mapLeagueGroup(leagueName);
 
     return {
-      id: this.mapBattleId(
-        playerBattle.player_1,
-        playerBattle.player_2,
-        timestamp,
-      ),
+      id: playerBattle.battle_queue_id_1,
       blockNumber: playerBattle.block_num,
       timestamp: timestamp,
       manaCap: playerBattle.mana_cap,

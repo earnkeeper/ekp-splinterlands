@@ -50,7 +50,15 @@ export class HistoryService {
           ? battle.players[1].initial_rating
           : battle.players[0].initial_rating;
 
-      const result = battle.winner === form.playerName ? 'Win' : 'Loss';
+      let result: string;
+
+      if (battle.winner === 'DRAW') {
+        result = 'Draw';
+      } else if (battle.winner === form.playerName) {
+        result = 'Win';
+      } else {
+        result = 'Loss';
+      }
 
       const myColor =
         battle.players[0].name === form.playerName
@@ -75,7 +83,6 @@ export class HistoryService {
         rulesets: battle.rulesets,
         timestamp: battle.timestamp,
       };
-
       return document;
     });
 
