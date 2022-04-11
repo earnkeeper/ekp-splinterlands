@@ -20,7 +20,7 @@ export class BattleRepository {
       cardHashes: cardHash,
     };
 
-    if (!!leagueName && leagueName !== 'All') {
+    if (!!leagueName && leagueName !== 'All' && leagueName !== '0') {
       query.leagueName = leagueName;
     }
 
