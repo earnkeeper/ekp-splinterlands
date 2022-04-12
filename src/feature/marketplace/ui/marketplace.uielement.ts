@@ -4,6 +4,7 @@ import {
   Col,
   collection,
   Container,
+  count,
   Datatable,
   documents,
   Form,
@@ -14,17 +15,23 @@ import {
   formValue,
   Fragment,
   GridTile,
+  Icon,
+  iif,
   Image,
   isBusy,
   Modal,
   ModalBody,
   navigate,
+  not,
   PageHeaderTile,
+  path,
   Row,
   Rpc,
   Select,
+  setFormValue,
   showModal,
   Span,
+  sum,
   switchCase,
   Table,
   UiElement,
@@ -42,6 +49,7 @@ import {
   ROLE_IMAGE_MAP,
   SPEED_IMAGE,
   SPLINTER_IMAGE_MAP,
+  statsCard,
 } from '../../../util';
 import { imageLabelCell } from '../../../util/ui/imageLabelCell';
 import { ListingDocument } from './listing.document';
@@ -57,8 +65,38 @@ export default function element(
       titleRow(),
       instructionsRow(),
       formRow(),
+      statsRow(),
       marketRow(fiatSymbol, priceRanges),
       detailsModal(),
+    ],
+  });
+}
+
+function statsRow() {
+  return Row({
+    when: `${path(ListingDocument)}[?(@.starred == 'Yes')]`,
+    children: [
+      Col({
+        className: 'col-auto',
+        children: [
+          statsCard(
+            'Starred Cards',
+            count(`${path(ListingDocument)}[?(@.starred == 'Yes')]`),
+          ),
+        ],
+      }),
+      Col({
+        className: 'col-auto',
+        children: [
+          statsCard(
+            'Total Starred Cost',
+            formatCurrency(
+              sum(`${path(ListingDocument)}[?(@.starred == 'Yes')].price`),
+              `${path(ListingDocument)}.0.fiatSymbol`,
+            ),
+          ),
+        ],
+      }),
     ],
   });
 }
@@ -151,6 +189,21 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
     onRowClicked: showModal(DETAILS_MODAL_ID, '$'),
     paginationPerPage: 50,
     filters: [
+      {
+        columnId: 'starred',
+        type: 'checkbox',
+        elementMap: {
+          Yes: Icon({
+            className: 'filled-star',
+            name: 'star',
+            size: 'sm',
+          }),
+          No: Icon({
+            name: 'star',
+            size: 'sm',
+          }),
+        },
+      },
       {
         columnId: 'splinter',
         type: 'checkbox',
@@ -248,6 +301,27 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
       }),
     },
     columns: [
+      {
+        id: 'star',
+        title: '',
+        width: '40px',
+        cell: Button({
+          icon: 'star',
+          size: 'sm',
+          className: 'p-0',
+          iconClassName: iif(
+            formValue('marketplace-favourites', '$.id'),
+            'filled-star',
+            '',
+          ),
+          color: 'flat-primary',
+          onClick: setFormValue(
+            'marketplace-favourites',
+            '$.id',
+            not(formValue('marketplace-favourites', '$.id')),
+          ),
+        }),
+      },
       {
         id: 'imageUrl',
         title: '',
@@ -354,6 +428,10 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
       {
         id: 'playerOwned',
         title: 'Owned',
+        omit: true,
+      },
+      {
+        id: 'starred',
         omit: true,
       },
     ],

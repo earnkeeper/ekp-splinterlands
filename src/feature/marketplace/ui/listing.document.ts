@@ -19,6 +19,7 @@ export class ListingDocument extends DocumentDto {
   readonly qty: number;
   readonly rarity: string;
   readonly role: string;
+  readonly starred: string;
   readonly splinter: string;
   readonly winpc: number;
 

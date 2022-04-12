@@ -3,6 +3,7 @@ import {
   Col,
   collection,
   Container,
+  count,
   Datatable,
   documents,
   Form,
@@ -63,10 +64,7 @@ function statsRow() {
       Col({
         className: 'col-auto',
         children: [
-          statsCard('Total Cards', {
-            method: 'count',
-            params: [`${path(CollectionDocument)}.*`],
-          }),
+          statsCard('Total Cards', count(`${path(CollectionDocument)}.*`)),
         ],
       }),
       Col({

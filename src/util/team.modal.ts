@@ -11,6 +11,7 @@ import {
   ModalBody,
   ModalFooter,
   navigate,
+  removeFormRecord,
   Row,
   runAll,
   showModal,
@@ -142,10 +143,7 @@ export function teamModal(): UiElement {
                     outline: true,
                     label: 'Remove',
                     onClick: runAll(
-                      {
-                        method: 'removeFormRecord',
-                        params: ['savedTeams', 'teamName', '$.teamName'],
-                      },
+                      removeFormRecord('savedTeams', 'teamName', '$.teamName'),
                       hideModal(TEAM_MODAL_ID),
                     ),
                   }),

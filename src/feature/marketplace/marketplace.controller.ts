@@ -62,15 +62,18 @@ export class MarketplaceController extends AbstractController {
       return;
     }
 
-    const form: MarketplaceForm =
+    const marketplaceForm: MarketplaceForm =
       event.state.forms?.marketplace ?? DEFAULT_MARKETPLACE_FORM;
+
+    const favouritesForm = event.state.forms['marketplace-favourites'] ?? {};
 
     await this.clientService.emitBusy(event, COLLECTION_NAME);
 
     const listingDocuments = await this.marketplaceService.getListingDocuments(
       currency,
       conversionRate,
-      form.leagueName ?? DEFAULT_MARKETPLACE_FORM.leagueName,
+      marketplaceForm.leagueName ?? DEFAULT_MARKETPLACE_FORM.leagueName,
+      favouritesForm
     );
 
     await this.clientService.emitDocuments(

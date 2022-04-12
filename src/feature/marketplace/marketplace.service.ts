@@ -20,6 +20,7 @@ export class MarketplaceService {
     currency: CurrencyDto,
     conversionRate: number,
     leagueName: string,
+    favouritesForm: Record<string, boolean>,
   ): Promise<ListingDocument[]> {
     const sales = await this.apiService.fetchCardSales();
     const cardStatsRecords = await this.cardStatsRepository.findAll();
@@ -87,8 +88,8 @@ export class MarketplaceService {
           rarity: card.rarity,
           role: card.type,
           splinter: card.splinter,
+          starred: !!favouritesForm[card.id] ? 'Yes' : 'No',
           winpc: !!battles ? (wins * 100) / battles : undefined,
-
           melee: card.stats.attack,
           speed: card.stats.speed,
           defense: card.stats.armor,
