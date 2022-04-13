@@ -27,9 +27,9 @@ spec:
             - name: MONGO_HOST
               value: '{{ .Values.mongodb.host }}'
             - name: MONGO_DB_NAME
-              value: '{{ .Release.Name }}'
+              value: 'splinterlands'
             - name: MONGO_USER
-              value: '{{ .Release.Name }}'
+              value: 'splinterlands'
             - name: MONGO_PASSWORD
               value: '{{ .Values.mongodb.password }}'
             - name: REDIS_HOST

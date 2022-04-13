@@ -14,7 +14,7 @@ export class SchedulerService {
   constructor(@InjectQueue(SCHEDULER_QUEUE) private queue: Queue) {}
 
   async addJob<T>(jobName: string, data?: T, delay = 0, jobId?: string) {
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV !== 'production') {
       return;
     }
 
