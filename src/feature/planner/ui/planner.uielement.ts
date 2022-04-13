@@ -30,6 +30,7 @@ import { LEAGUES, MANA_CAPS, RULESET_IMAGE_MAP } from '../../../shared/game';
 import {
   DEFAULT_PLANNER_FORM,
   promptDeckNameModal,
+  QUEST_IMAGE_MAP,
   SPLINTER_IMAGE_MAP,
   teamModal,
   TEAM_MODAL_ID,
@@ -171,6 +172,11 @@ function teamRow(): UiElement {
         pointerOnHover: true,
         showExport: false,
         filters: [
+          {
+            columnId: 'quests',
+            type: 'checkbox',
+            imageMap: QUEST_IMAGE_MAP,
+          },
           {
             columnId: 'splinter',
             type: 'checkbox',
@@ -314,6 +320,10 @@ function teamRow(): UiElement {
             id: 'owned',
             title: 'Owned Already',
             omit: true,
+          },
+          {
+            id: 'quests',
+            format: arrayJoin('$.quests', ', '),
           },
         ],
       }),

@@ -1,9 +1,44 @@
 import { validate } from 'bycontract';
 import _ from 'lodash';
-import { CardDetailDto } from '../../api';
+import { CardDetailDto, SettingsDto } from '../../api';
 import { Card, CardTemplate } from '../domain';
 
 export class CardMapper {
+  static mapToXp(
+    templateId: number,
+    level: number,
+    editionNumber: number,
+    rarityNumber: number,
+    tier: number,
+    gold: boolean,
+    settings: SettingsDto,
+  ) {
+    if (editionNumber === 4 || tier >= 4) {
+      const rates = gold
+        ? settings.combine_rates_gold[rarityNumber - 1]
+        : settings.combine_rates[rarityNumber - 1];
+
+      return rates[level];
+    }
+
+    const levels = settings.xp_levels[rarityNumber - 1];
+
+    const xpArray =
+      editionNumber == 1 ||
+      editionNumber == 3 ||
+      (editionNumber == 2 && templateId > 100)
+        ? gold
+          ? 'beta_gold_xp'
+          : 'beta_xp'
+        : gold
+        ? 'gold_xp'
+        : 'alpha_xp';
+
+    const xpPerCard = settings[xpArray][rarityNumber - 1];
+
+    return levels[level] / xpPerCard;
+  }
+
   static mapToCardTemplate(cardDetail: CardDetailDto): CardTemplate {
     validate(cardDetail, 'object');
 

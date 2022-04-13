@@ -97,6 +97,17 @@ function statsRow() {
           ),
         ],
       }),
+      Col({
+        className: 'col-auto',
+        children: [
+          statsCard(
+            'Total Starred Power',
+            formatToken(
+              sum(`${path(ListingDocument)}[?(@.starred == 'Yes')].power`),
+            ),
+          ),
+        ],
+      }),
     ],
   });
 }
@@ -178,8 +189,8 @@ function titleRow() {
 
 function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
   return Datatable({
-    defaultSortFieldId: 'price',
-    defaultSortAsc: true,
+    defaultSortFieldId: 'battles',
+    defaultSortAsc: false,
     defaultView: {
       xs: 'grid',
       lg: 'column',
@@ -341,6 +352,7 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
       {
         id: 'level',
         width: '70px',
+        sortable: true,
       },
       {
         id: 'price',
@@ -359,7 +371,10 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
         sortable: true,
         width: '80px',
       },
-
+      {
+        id: 'power',
+        sortable: true,
+      },
       {
         id: 'rarity',
         sortable: true,
@@ -527,12 +542,12 @@ export function detailsModal(): UiElement {
                         ],
                       }),
                       Col({
+                        className: 'col-12 pt-0',
                         children: [
                           Button({
-                            className: 'my-1 float-right',
                             icon: 'cil-spreadsheet',
                             label: 'View Battles',
-                            outline: true,
+                            color: 'flat-primary',
                             onClick: navigate(
                               formatTemplate(
                                 'battles?card={{ cardId }}&leagueName={{ leagueName }}',
@@ -544,6 +559,28 @@ export function detailsModal(): UiElement {
                                   ),
                                 },
                               ),
+                              true,
+                            ),
+                          }),
+                        ],
+                      }),
+                      Col({
+                        className: 'col-12',
+                        children: [
+                          Button({
+                            icon: 'cil-globe-alt',
+                            label: 'View on Splinterlands.com',
+                            color: 'flat-primary',
+                            onClick: navigate(
+                              formatTemplate(
+                                'https://splinterlands.com/?p=card_details&id={{ templateId }}&gold={{ gold }}&edition={{ editionNumber }}&tab=',
+                                {
+                                  templateId: '$.cardTemplateId',
+                                  gold: '$.gold',
+                                  editionNumber: '$.editionNumber',
+                                },
+                              ),
+                              true,
                               true,
                             ),
                           }),

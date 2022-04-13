@@ -5,6 +5,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import { IgnRepository } from '../../shared/db';
 import {
+  Card,
   CardService,
   MarketService,
   ResultsService,
@@ -56,6 +57,39 @@ export class PlannerService {
     );
 
     return { plannerDocuments, battles };
+  }
+
+  mapToQuests(summoner: Card, monsters: Card[]) {
+    const quests = [];
+
+    if (summoner.splinter === 'Earth') {
+      quests.push('Earth');
+    }
+    if (summoner.splinter === 'Death') {
+      quests.push('Death');
+    }
+    if (summoner.splinter === 'Life') {
+      quests.push('Life');
+    }
+    if (summoner.splinter === 'Water') {
+      quests.push('Water');
+    }
+    if (summoner.splinter === 'Fire') {
+      quests.push('Fire');
+    }
+    if (summoner.splinter === 'Dragon') {
+      quests.push('Dragon');
+    }
+    if (!_.some(monsters, (it) => it.splinter === 'Neutral')) {
+      quests.push('No Neutral');
+    }
+    if (_.some(monsters, (it) => it.stats.abilities.includes('Sneak'))) {
+      quests.push('Sneak');
+    }
+    if (_.some(monsters, (it) => it.stats.abilities.includes('Snipe'))) {
+      quests.push('Snipe');
+    }
+    return quests;
   }
 
   async mapDocuments(
@@ -125,6 +159,7 @@ export class PlannerService {
           monsters,
           owned: price === 0 ? 'Yes' : ' No',
           price,
+          quests: this.mapToQuests(team.summoner, team.monsters),
           rulesets: [...team.rulesets],
           splinter: team.summoner.splinter,
           summonerName: team.summoner.name,

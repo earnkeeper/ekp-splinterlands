@@ -11,6 +11,7 @@ export class PlannerDocument extends DocumentDto {
   readonly monsterCount: number;
   readonly owned: string;
   readonly price: number;
+  readonly quests: string[];
   readonly rulesets: string[];
   readonly splinter: string;
   readonly summonerName: string;

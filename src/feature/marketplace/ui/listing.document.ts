@@ -9,12 +9,15 @@ export class ListingDocument extends DocumentDto {
   readonly cardArtUrl: string;
   readonly cardByLevelUrl: string;
   readonly cardHash: string;
+  readonly cardTemplateId: number;
   readonly edition: string;
+  readonly editionNumber: number;
   readonly fiatSymbol: string;
   readonly foil: string;
   readonly gold: boolean;
   readonly level: number;
   readonly name: string;
+  readonly power: number;
   readonly price: number;
   readonly qty: number;
   readonly rarity: string;

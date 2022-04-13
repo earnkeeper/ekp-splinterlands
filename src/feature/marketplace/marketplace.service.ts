@@ -25,6 +25,7 @@ export class MarketplaceService {
     const sales = await this.apiService.fetchCardSales();
     const cardStatsRecords = await this.cardStatsRepository.findAll();
     const allCardTemplates = await this.cardService.getAllCardTemplates();
+    const settingsDto = await this.apiService.fetchSettings();
     const now = moment().unix();
 
     return _.chain(sales)
@@ -45,6 +46,15 @@ export class MarketplaceService {
           sale.level,
           sale.edition,
           sale.gold,
+          CardMapper.mapToXp(
+            cardTemplate.id,
+            sale.level,
+            sale.edition,
+            cardTemplate.rarity,
+            undefined,
+            sale.gold,
+            settingsDto,
+          ),
         );
 
         const cardStatsRecord = cardStatsRecords.find(
@@ -77,12 +87,15 @@ export class MarketplaceService {
           cardHash: card.hash,
           cardArtUrl: CardMapper.mapToCardArtUrl(card),
           cardByLevelUrl: CardMapper.mapToCardByLevelUrl(card),
+          cardTemplateId: cardTemplate.id,
           edition: card.edition,
+          editionNumber: card.editionNumber,
           fiatSymbol: currency.symbol,
           foil: card.gold ? 'Gold' : 'Regular',
           gold: card.gold,
           level: card.level,
           name: card.name,
+          power: card.power,
           price: sale.low_price * conversionRate,
           qty: sale.qty,
           rarity: card.rarity,

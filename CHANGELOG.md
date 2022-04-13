@@ -2,6 +2,13 @@
 
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [1.2.5]
+
+### Added
+
+- ✨ Add power ratings to the Marketplace, total power for starred cards
+- ✨ Add filter by current quest to Battle Planner
+
 ## [1.2.4]
 
 ### Added
@@ -23,7 +30,7 @@
 
 - 🐛 Marketplace battle count now takes level into account
 - 🐛 Zero purchase cost in Saved Teams page
-- 🐛 Ruleset icons now being displayed correclty
+- 🐛 Ruleset icons now being displayed correctly
 - 🐛 Correctly show DRAW results in Battle History
 
 ## [1.2.2]

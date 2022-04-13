@@ -119,3 +119,22 @@ export const DEFENSE_IMAGE =
   'https://d36mxiodymuqjm.cloudfront.net/website/stats/defense.png';
 export const HEALTH_IMAGE =
   'https://d36mxiodymuqjm.cloudfront.net/website/stats/health.png';
+
+export const QUEST_IMAGE_MAP = {
+  Earth:
+    'https://d36mxiodymuqjm.cloudfront.net/website/ui_elements/quests/btn_round_earth_active.svg',
+  Death:
+    'https://d36mxiodymuqjm.cloudfront.net/website/ui_elements/quests/btn_round_death_active.svg',
+  Life: 'https://d36mxiodymuqjm.cloudfront.net/website/ui_elements/quests/btn_round_life_active.svg',
+  Water:
+    'https://d36mxiodymuqjm.cloudfront.net/website/ui_elements/quests/btn_round_water_active.svg',
+  Fire: 'https://d36mxiodymuqjm.cloudfront.net/website/ui_elements/quests/btn_round_fire_active.svg',
+  Dragon:
+    'https://d36mxiodymuqjm.cloudfront.net/website/ui_elements/quests/btn_round_dragon_active.svg',
+  'No Neutral':
+    'https://d36mxiodymuqjm.cloudfront.net/website/ui_elements/quests/btn_round_no_neutral_active.svg',
+  Sneak:
+    'https://d36mxiodymuqjm.cloudfront.net/website/ui_elements/quests/btn_round_sneak_active.svg',
+  Snipe:
+    'https://d36mxiodymuqjm.cloudfront.net/website/ui_elements/quests/btn_round_snipe_active.svg',
+};
