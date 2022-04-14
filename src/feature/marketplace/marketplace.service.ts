@@ -46,7 +46,7 @@ export class MarketplaceService {
           sale.level,
           sale.edition,
           sale.gold,
-          CardMapper.mapToXp(
+          CardMapper.mapToCardsToLevel(
             cardTemplate.id,
             sale.level,
             sale.edition,

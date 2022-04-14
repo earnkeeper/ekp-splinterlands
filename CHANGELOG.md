@@ -7,13 +7,17 @@
 ### Added
 
 - ✨ New page: Card Browser, browse and filter all cards in the game in detail. With links out to splinterlands pages
+- ✨ Add power ratings to the Marketplace, total power for starred cards
+
+### Fixed
+
+- 🐛 Incorrect power calculations for most cards
 
 ## [1.2.5]
 
 ### Added
 
-- ✨ Add power ratings to the Marketplace, total power for starred cards
-- ✨ Add filter by current quest to Battle Planner
+- ✨ Can now filter the Battle Planner by quest to see which teams satisfy your current quest
 
 ## [1.2.4]
 

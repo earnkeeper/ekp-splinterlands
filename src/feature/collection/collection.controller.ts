@@ -33,7 +33,7 @@ export class CollectionController extends AbstractController {
   async onClientConnected(event: ClientConnectedEvent) {
     await this.clientService.emitMenu(event, {
       id: PATH,
-      title: 'Card Collection',
+      title: 'Player Cards',
       navLink: PATH,
       icon: 'cil-color-palette',
     });

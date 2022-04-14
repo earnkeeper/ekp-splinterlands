@@ -11,16 +11,21 @@ import {
   PageHeaderTile,
   Row,
   Span,
-  switchCase,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
 import {
+  EDITION_COLUMN,
   EDITION_IMAGE_MAP,
+  FOIL_COLUMN,
   FOIL_IMAGE_MAP,
-  imageLabelCell,
-  MANA_IMAGE,
+  LEVEL_COLUMN,
+  MANA_COLUMN,
+  POWER_COLUMN,
+  RARITY_COLUMN,
   RARITY_IMAGE_MAP,
+  ROLE_COLUMN,
   ROLE_IMAGE_MAP,
+  SPLINTER_COLUMN,
   SPLINTER_IMAGE_MAP,
 } from '../../../util';
 import { CardDocument } from './cards.document';
@@ -99,6 +104,16 @@ function historyRow(): UiElement {
         columnId: 'level',
         type: 'checkbox',
       },
+      {
+        columnId: 'cardDetailId',
+        type: 'radio',
+        allowCustomOption: true,
+        options: [
+          {
+            label: 'All',
+          },
+        ],
+      },
     ],
     columns: [
       {
@@ -122,47 +137,19 @@ function historyRow(): UiElement {
         sortable: true,
         minWidth: '160px',
       },
+      LEVEL_COLUMN,
+      EDITION_COLUMN,
+      FOIL_COLUMN,
+      RARITY_COLUMN,
+      MANA_COLUMN,
+      SPLINTER_COLUMN,
+      ROLE_COLUMN,
       {
-        id: 'level',
-        width: '60px',
-      },
-      {
-        id: 'edition',
-        cell: imageLabelCell(
-          switchCase('$.edition', EDITION_IMAGE_MAP),
-          '$.edition',
-        ),
-      },
-      {
-        id: 'foil',
-        cell: imageLabelCell(switchCase('$.foil', FOIL_IMAGE_MAP), '$.foil'),
-      },
-      {
-        id: 'rarity',
+        id: 'xp',
+        title: 'BCX',
         sortable: true,
-        cell: imageLabelCell(
-          switchCase('$.rarity', RARITY_IMAGE_MAP),
-          '$.rarity',
-        ),
       },
-      {
-        id: 'mana',
-        sortable: true,
-        cell: imageLabelCell(MANA_IMAGE, '$.mana'),
-        width: '80px',
-      },
-      {
-        id: 'splinter',
-        sortable: true,
-        cell: imageLabelCell(
-          switchCase('$.splinter', SPLINTER_IMAGE_MAP),
-          '$.splinter',
-        ),
-      },
-      {
-        id: 'role',
-        cell: imageLabelCell(switchCase('$.role', ROLE_IMAGE_MAP), '$.role'),
-      },
+      POWER_COLUMN,
     ],
   });
 }

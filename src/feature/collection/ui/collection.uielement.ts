@@ -40,7 +40,7 @@ export default function element(): UiElement {
             className: 'col-auto',
             children: [
               PageHeaderTile({
-                title: 'Card Collection',
+                title: 'Player Cards',
                 icon: 'cil-color-palette',
               }),
             ],

@@ -4,41 +4,6 @@ import { CardDetailDto, SettingsDto } from '../../api';
 import { Card, CardTemplate } from '../domain';
 
 export class CardMapper {
-  static mapToXp(
-    templateId: number,
-    level: number,
-    editionNumber: number,
-    rarityNumber: number,
-    tier: number,
-    gold: boolean,
-    settings: SettingsDto,
-  ) {
-    if (editionNumber === 4 || tier >= 4) {
-      const rates = gold
-        ? settings.combine_rates_gold[rarityNumber - 1]
-        : settings.combine_rates[rarityNumber - 1];
-
-      return rates[level];
-    }
-
-    const levels = settings.xp_levels[rarityNumber - 1];
-
-    const xpArray =
-      editionNumber == 1 ||
-      editionNumber == 3 ||
-      (editionNumber == 2 && templateId > 100)
-        ? gold
-          ? 'beta_gold_xp'
-          : 'beta_xp'
-        : gold
-        ? 'gold_xp'
-        : 'alpha_xp';
-
-    const xpPerCard = settings[xpArray][rarityNumber - 1];
-
-    return levels[level] / xpPerCard;
-  }
-
   static mapToCardTemplate(cardDetail: CardDetailDto): CardTemplate {
     validate(cardDetail, 'object');
 
@@ -78,6 +43,9 @@ export class CardMapper {
 
     const rarity = CardMapper.mapToRarity(cardTemplate.rarity);
 
+    if (cardTemplate.name === 'Highland Archer' && level === 1) {
+      console.log(cardTemplate.id, edition, rarity, gold);
+    }
     return {
       id: id ?? hash,
       editionNumber,
@@ -103,7 +71,7 @@ export class CardMapper {
         speed: cardTemplate.stats.speed[level - 1],
       },
       name: cardTemplate.name,
-      power: CardMapper.mapToPower(edition, rarity, gold) * xp,
+      power: CardMapper.mapToPower(edition, rarity, gold, cardTemplate.id) * xp,
       rarity,
       rarityNumber: cardTemplate.rarity,
       splinter: cardTemplate.splinter,
@@ -136,6 +104,8 @@ export class CardMapper {
         return 'Untamed';
       case 5:
         return 'Dice';
+      case 6:
+        return 'Gladius';
       case 7:
         return 'Chaos';
       default:
@@ -158,19 +128,38 @@ export class CardMapper {
     }
   }
 
-  static mapToPower(edition: string, rarity: string, gold: boolean) {
-    let power = 5;
+  static mapToPower(
+    edition: string,
+    rarity: string,
+    gold: boolean,
+    cardDetailId: number,
+  ) {
+    let power: number;
 
     switch (edition) {
-      case 'Dice':
-      case 'Untamed':
-        power *= 2;
+      case 'Alpha':
+      case 'Promo':
+        power = 30;
         break;
       case 'Beta':
-        power *= 3;
+        power = 15;
         break;
-      case 'Alpha':
-        power *= 6;
+      case 'Dice':
+      case 'Untamed':
+      case 'Gladius':
+        power = 10;
+        break;
+      case 'Reward':
+        if (cardDetailId <= 220) {
+          power = 15;
+        } else if (cardDetailId <= 300) {
+          power = 10;
+        } else {
+          power = 5;
+        }
+        break;
+      default:
+        power = 5;
         break;
     }
 
@@ -191,6 +180,59 @@ export class CardMapper {
     }
 
     return power;
+  }
+
+  static mapToCardsToLevel(
+    templateId: number,
+    level: number,
+    editionNumber: number,
+    rarityNumber: number,
+    tier: number,
+    gold: boolean,
+    settings: SettingsDto,
+  ): number {
+    if (
+      (editionNumber === 3 && templateId >= 225) ||
+      editionNumber >= 4 ||
+      tier >= 4
+    ) {
+      const rates = gold
+        ? settings.combine_rates_gold[rarityNumber - 1]
+        : settings.combine_rates[rarityNumber - 1];
+
+      return rates[level - 1];
+    }
+
+    const goldNa = [3, 2, 2, 1];
+
+    if (gold && level <= goldNa[rarityNumber - 1]) {
+      return undefined;
+    }
+
+    if (level === 1) {
+      return 1;
+    }
+
+    const xpLevels = settings.xp_levels[rarityNumber - 1];
+
+    const xpArray =
+      editionNumber === 0 || (editionNumber === 2 && templateId < 100)
+        ? gold
+          ? 'gold_xp'
+          : 'alpha_xp'
+        : gold
+        ? 'beta_gold_xp'
+        : 'beta_xp';
+
+    const bcx = settings[xpArray][rarityNumber - 1];
+
+    return gold
+      ? level <= goldNa[rarityNumber - 1]
+        ? undefined
+        : Math.ceil(xpLevels[level - 2] / bcx)
+      : level == 1
+      ? 1
+      : Math.ceil(xpLevels[level - 2] / bcx) + 1;
   }
 
   static mapToSplinter(color: string) {

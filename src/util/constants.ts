@@ -92,6 +92,7 @@ export const EDITION_IMAGE_MAP = {
     'https://d36mxiodymuqjm.cloudfront.net/website/icons/icon-edition-gladius.svg',
   Chaos:
     'https://d36mxiodymuqjm.cloudfront.net/website/icons/icon-edition-chaos.svg',
+  Unknown: 'https://www.iconsdb.com/icons/preview/black/question-mark-6-xl.png',
 };
 
 export const FOIL_IMAGE_MAP = {

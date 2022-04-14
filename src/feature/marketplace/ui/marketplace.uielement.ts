@@ -32,7 +32,6 @@ import {
   showModal,
   Span,
   sum,
-  switchCase,
   Table,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
@@ -40,14 +39,21 @@ import { LEAGUES } from '../../../shared/game';
 import {
   DEFAULT_MARKETPLACE_FORM,
   DEFENSE_IMAGE,
+  EDITION_COLUMN,
   EDITION_IMAGE_MAP,
   FOIL_IMAGE_MAP,
   HEALTH_IMAGE,
+  LEVEL_COLUMN,
+  MANA_COLUMN,
   MANA_IMAGE,
   MELEE_IMAGE,
+  POWER_COLUMN,
+  RARITY_COLUMN,
   RARITY_IMAGE_MAP,
+  ROLE_COLUMN,
   ROLE_IMAGE_MAP,
   SPEED_IMAGE,
+  SPLINTER_COLUMN,
   SPLINTER_IMAGE_MAP,
   statsCard,
 } from '../../../util';
@@ -97,17 +103,17 @@ function statsRow() {
           ),
         ],
       }),
-      // Col({
-      //   className: 'col-auto',
-      //   children: [
-      //     statsCard(
-      //       'Total Starred Power',
-      //       formatToken(
-      //         sum(`${path(ListingDocument)}[?(@.starred == 'Yes')].power`),
-      //       ),
-      //     ),
-      //   ],
-      // }),
+      Col({
+        className: 'col-auto',
+        children: [
+          statsCard(
+            'Total Starred Power',
+            formatToken(
+              sum(`${path(ListingDocument)}[?(@.starred == 'Yes')].power`),
+            ),
+          ),
+        ],
+      }),
     ],
   });
 }
@@ -319,7 +325,6 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
         cell: Button({
           icon: 'star',
           size: 'sm',
-          className: 'p-0',
           iconClassName: iif(
             formValue('marketplace-favourites', '$.id'),
             'filled-star',
@@ -349,11 +354,7 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
         sortable: true,
         minWidth: '200px',
       },
-      {
-        id: 'level',
-        width: '70px',
-        sortable: true,
-      },
+      LEVEL_COLUMN,
       {
         id: 'price',
         format: formatCurrency('$.price', '$.fiatSymbol'),
@@ -371,45 +372,12 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
         sortable: true,
         width: '80px',
       },
-      // {
-      //   id: 'power',
-      //   sortable: true,
-      // },
-      {
-        id: 'rarity',
-        sortable: true,
-        minWidth: '140px',
-        cell: imageLabelCell(
-          switchCase('$.rarity', RARITY_IMAGE_MAP),
-          '$.rarity',
-        ),
-      },
-      {
-        id: 'splinter',
-        cell: imageLabelCell(
-          switchCase('$.splinter', SPLINTER_IMAGE_MAP),
-          '$.splinter',
-        ),
-      },
-      {
-        id: 'edition',
-        cell: imageLabelCell(
-          switchCase('$.edition', EDITION_IMAGE_MAP),
-          '$.edition',
-        ),
-        minWidth: '120px',
-      },
-      {
-        id: 'role',
-        cell: imageLabelCell(switchCase('$.role', ROLE_IMAGE_MAP), '$.role'),
-        minWidth: '130px',
-      },
-      {
-        id: 'mana',
-        cell: imageLabelCell(MANA_IMAGE, '$.mana'),
-        width: '80px',
-        sortable: true,
-      },
+      POWER_COLUMN,
+      RARITY_COLUMN,
+      SPLINTER_COLUMN,
+      EDITION_COLUMN,
+      ROLE_COLUMN,
+      MANA_COLUMN,
       {
         id: 'melee',
         cell: imageLabelCell(MELEE_IMAGE, '$.melee'),
