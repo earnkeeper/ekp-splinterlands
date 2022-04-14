@@ -128,7 +128,9 @@ export class BattleProcessor {
     try {
       const apiPageSize = 1000;
 
-      const lastBattle = await this.battleRepository.findLatestByBlockNumber();
+      const lastBattle = await this.battleRepository.findLatestByBlockNumber(
+        'transaction',
+      );
 
       let lastBlockNumber = lastBattle?.blockNumber;
 

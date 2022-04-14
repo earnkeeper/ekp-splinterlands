@@ -157,9 +157,9 @@ export class BattleRepository {
     return results ?? [];
   }
 
-  async findLatestByBlockNumber(): Promise<Battle> {
+  async findLatestByBlockNumber(source: string): Promise<Battle> {
     const results = await this.battleModel
-      .find({ source: { $not: { $eq: 'playerHistory' } } })
+      .find({ source })
       .sort('-blockNumber')
       .limit(1)
       .exec();
