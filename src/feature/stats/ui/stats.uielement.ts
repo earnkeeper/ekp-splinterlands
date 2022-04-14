@@ -3,6 +3,7 @@ import {
   Col,
   Container,
   DefaultProps,
+  formatToken,
   PageHeaderTile,
   path,
   Row,
@@ -10,6 +11,8 @@ import {
   Span,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
+import _ from 'lodash';
+import { LEAGUES } from 'src/shared/game';
 import { BattlesByLeagueDocument } from './battles-by-league.document';
 
 export default function element(): UiElement {
@@ -54,13 +57,27 @@ function Charts() {
             children: [
               Chart({
                 className: 'mr-1',
-                type: 'scatter',
+                type: 'bar',
                 height: 400,
                 options: {
                   chart: {
+                    stacked: true,
                     toolbar: {
                       show: false,
                     },
+                  },
+                  dataLabels: {
+                    enabled: false,
+                  },
+                  yaxis: {
+                    labels: {
+                      formatter: formatToken('$'),
+                    },
+                  },
+                  xaxis: {
+                    categories: _.chain(LEAGUES)
+                      .map((it) => it.name)
+                      .value(),
                   },
                 },
                 series: [
@@ -72,7 +89,7 @@ function Charts() {
                         `${path(
                           BattlesByLeagueDocument,
                         )}[?(@.source == 'transaction')]`,
-                        ['$.leagueNumber', '$.battles'],
+                        '$.battles',
                       ],
                     },
                   },
@@ -84,7 +101,7 @@ function Charts() {
                         `${path(
                           BattlesByLeagueDocument,
                         )}[?(@.source == 'playerHistory')]`,
-                        ['$.leagueNumber', '$.battles'],
+                        '$.battles',
                       ],
                     },
                   },
@@ -107,9 +124,9 @@ function Chart(props?: ChartProps): UiElement {
 
 type ChartProps = Readonly<{
   type: string;
+  height?: number;
   series: SeriesProp[];
   options?: any;
-  height?: number;
 }> &
   DefaultProps;
 
