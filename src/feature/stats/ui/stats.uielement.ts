@@ -12,7 +12,7 @@ import {
   UiElement,
 } from '@earnkeeper/ekp-sdk';
 import _ from 'lodash';
-import { LEAGUES } from 'src/shared/game';
+import { LEAGUES } from '../../../shared/game';
 import { BattlesByLeagueDocument } from './battles-by-league.document';
 
 export default function element(): UiElement {

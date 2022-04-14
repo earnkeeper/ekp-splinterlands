@@ -42,6 +42,7 @@ export class StatsService {
           source,
           battles: result.count,
         };
+
         return document;
       })
       .value();
