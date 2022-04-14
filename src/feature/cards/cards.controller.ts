@@ -12,19 +12,18 @@ import {
   logger,
 } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
-import { DEFAULT_PLANNER_FORM } from '../../util/constants';
-import { DecksService } from './decks.service';
-import { DeckDocument } from './ui/deck.document';
-import decks from './ui/decks.uielement';
+import { CardsService } from './cards.service';
+import { CardDocument } from './ui/cards.document';
+import page from './ui/cards.uielement';
 
-const COLLECTION_NAME = collection(DeckDocument);
-const PATH = 'saved';
+const COLLECTION_NAME = collection(CardDocument);
+const PATH = 'cards';
 
 @Injectable()
-export class DecksController extends AbstractController {
+export class CardsController extends AbstractController {
   constructor(
     clientService: ClientService,
-    private decksService: DecksService,
+    private collectionService: CardsService,
     private apmService: ApmService,
   ) {
     super(clientService);
@@ -33,14 +32,14 @@ export class DecksController extends AbstractController {
   async onClientConnected(event: ClientConnectedEvent) {
     await this.clientService.emitMenu(event, {
       id: PATH,
-      title: 'Saved Teams',
+      title: 'Card Browser',
       navLink: PATH,
-      icon: 'cil-casino',
+      icon: 'search',
     });
 
     await this.clientService.emitPage(event, {
       id: PATH,
-      element: decks(),
+      element: page(),
     });
   }
 
@@ -56,22 +55,9 @@ export class DecksController extends AbstractController {
     await this.clientService.emitBusy(event, COLLECTION_NAME);
 
     try {
-      const clientTeams = event.state?.forms?.savedTeams;
+      const documents = await this.collectionService.getCardDocuments();
 
-      if (!clientTeams) {
-        this.clientService.emitDocuments(event, COLLECTION_NAME, []);
-        return;
-      }
-
-      const form = event.state.forms?.planner ?? DEFAULT_PLANNER_FORM;
-
-      const updatedTeams = await this.decksService.updateTeams(
-        clientTeams,
-        form,
-        event.state.client.selectedCurrency,
-      );
-
-      this.clientService.emitDocuments(event, COLLECTION_NAME, updatedTeams);
+      this.clientService.emitDocuments(event, COLLECTION_NAME, documents);
     } catch (error) {
       this.apmService.captureError(error);
       logger.error('Error occurred while handling event', error);

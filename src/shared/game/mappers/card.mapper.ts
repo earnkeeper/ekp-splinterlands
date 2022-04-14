@@ -223,7 +223,7 @@ export class CardMapper {
     return `${baseUrl}/cards_by_level/${edition}/${name}_lv${level}.png`;
   }
 
-  static mapToCardArtUrl(card: Card): string {
+  static mapToCardArtUrl(card: Card | CardTemplate): string {
     const baseUrl = 'https://d36mxiodymuqjm.cloudfront.net';
     const name = card.name;
 

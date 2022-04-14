@@ -18,7 +18,7 @@ import { CollectionDocument } from './ui/collection.document';
 import page from './ui/collection.uielement';
 
 const COLLECTION_NAME = collection(CollectionDocument);
-const PATH = 'cards';
+const PATH = 'collection';
 
 @Injectable()
 export class CollectionController extends AbstractController {

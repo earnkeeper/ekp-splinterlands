@@ -2,6 +2,12 @@
 
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [1.2.6]
+
+### Added
+
+- ✨ New page: Card Browser, browse and filter all cards in the game in detail. With links out to splinterlands pages
+
 ## [1.2.5]
 
 ### Added
