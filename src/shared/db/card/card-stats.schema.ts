@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 export type CardStatsDocument = CardStats & Document;
 
-@Schema({ collection: 'cardstats_v3' })
+@Schema({ collection: 'cardstats_v4' })
 export class CardStats {
   @Prop()
   readonly id: string;

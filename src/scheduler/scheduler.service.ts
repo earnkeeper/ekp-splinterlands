@@ -14,8 +14,21 @@ import {
 export class SchedulerService {
   constructor(@InjectQueue(SCHEDULER_QUEUE) private queue: Queue) {}
 
-  async addJob<T>(jobName: string, data?: T, delay = 0, jobId?: string) {
-    if (process.env.NODE_ENV !== 'production') {
+  async addJob<T>(
+    jobName: string,
+    data?: T,
+    delay = 0,
+    jobId?: string,
+    environments?: string[],
+  ) {
+    if (
+      (!Array.isArray(environments) || environments.length === 0) &&
+      process.env.NODE_ENV !== 'production'
+    ) {
+      return;
+    }
+
+    if (!environments.includes(process.env.NODE_ENV)) {
       return;
     }
 
@@ -47,14 +60,41 @@ export class SchedulerService {
     await this.queue.clean(0, 'paused');
 
     this.addJob(MIGRATE_BATTLES, {}, 5000, MIGRATE_BATTLES);
-    this.addJob(FETCH_BATTLE_TRANSACTIONS, {}, 5000, FETCH_BATTLE_TRANSACTIONS);
-    this.addJob(GROUP_CARDS, undefined, 5000, GROUP_CARDS);
-    this.addJob(FETCH_IGN_BATTLES, {}, 5000, FETCH_IGN_BATTLES);
-    this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 0 }, 5000);
-    this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 1 }, 5000);
-    this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 2 }, 5000);
-    this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 3 }, 5000);
-    this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 4 }, 5000);
+    this.addJob(
+      FETCH_BATTLE_TRANSACTIONS,
+      {},
+      5000,
+      FETCH_BATTLE_TRANSACTIONS,
+      ['staging', 'production'],
+    );
+    this.addJob(GROUP_CARDS, undefined, 5000, GROUP_CARDS, [
+      'staging',
+      'production',
+    ]);
+    this.addJob(FETCH_IGN_BATTLES, {}, 5000, FETCH_IGN_BATTLES, [
+      'staging',
+      'production',
+    ]);
+    this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 0 }, 5000, undefined, [
+      'staging',
+      'production',
+    ]);
+    this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 1 }, 5000, undefined, [
+      'staging',
+      'production',
+    ]);
+    this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 2 }, 5000, undefined, [
+      'staging',
+      'production',
+    ]);
+    this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 3 }, 5000, undefined, [
+      'staging',
+      'production',
+    ]);
+    this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 4 }, 5000, undefined, [
+      'staging',
+      'production',
+    ]);
   }
 
   @Cron('0 5,15,25,35,45,55 * * * *')
