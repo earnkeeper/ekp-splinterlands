@@ -11,6 +11,24 @@ export class BattleRepository {
     public battleModel: Model<Battle>,
   ) {}
 
+  async findBattlesByLeague(source: string) {
+    validate(source, 'string');
+
+    const results = await this.battleModel.aggregate([
+      {
+        $match: { source },
+      },
+      {
+        $group: {
+          _id: '$leagueName',
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    return results;
+  }
+
   async findByCardHashAndLeagueName(
     cardHash: string,
     leagueName: string,
@@ -191,6 +209,7 @@ export class BattleRepository {
                 'manaCap',
                 'players',
                 'rulesets',
+                'source',
                 'team1',
                 'team2',
                 'timestamp',

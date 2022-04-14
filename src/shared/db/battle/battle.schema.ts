@@ -6,7 +6,7 @@ import { PlayerDto, TeamDetailedDto } from '../../api';
 export type BattleDocument = Battle & Document;
 export const BATTLE_VERSION = 1;
 
-@Schema({ collection: 'battles_v4' })
+@Schema({ collection: 'battles_v5' })
 export class Battle {
   @Prop()
   readonly id: string;

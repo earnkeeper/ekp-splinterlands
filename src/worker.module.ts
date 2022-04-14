@@ -9,6 +9,7 @@ import { HistoryModule } from './feature/history/history.module';
 import { LeaderboardModule } from './feature/leaderboard/leaderboard.module';
 import { MarketplaceModule } from './feature/marketplace/marketplace.module';
 import { PlannerModule } from './feature/planner/planner.module';
+import { StatsModule } from './feature/stats/stats.module';
 import { QueueModule } from './shared/queue/queue.module';
 
 export const MODULE_DEF = {
@@ -24,6 +25,7 @@ export const MODULE_DEF = {
     PlannerModule,
     QueueModule,
     SdkModule,
+    StatsModule,
   ],
 };
 
