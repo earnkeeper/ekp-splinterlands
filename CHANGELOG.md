@@ -12,6 +12,7 @@
 ### Fixed
 
 - 🐛 Incorrect power calculations for most cards
+- 🐛 Width of star button in marketplace rows
 
 ## [1.2.5]
 
