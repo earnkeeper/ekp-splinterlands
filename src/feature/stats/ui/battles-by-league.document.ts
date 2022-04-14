@@ -5,6 +5,9 @@ export class BattlesByLeagueDocument extends DocumentDto {
     super(properties);
   }
 
+  minRating: number;
   leagueName: string;
+  source: string;
+  leagueNumber: number;
   battles: number;
 }

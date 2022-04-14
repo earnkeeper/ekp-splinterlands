@@ -278,6 +278,7 @@ export const MANA_CAPS = _.chain(_.range(12, 50))
 
 export const LEAGUES = [
   {
+    number: 1,
     name: 'Novice',
     group: 'Novice',
     league_limit: 3,
@@ -287,6 +288,7 @@ export const LEAGUES = [
     season_rating_reset: 0,
   },
   {
+    number: 2,
     name: 'Bronze III',
     group: 'Bronze',
     league_limit: 3,
@@ -296,6 +298,7 @@ export const LEAGUES = [
     season_rating_reset: 0,
   },
   {
+    number: 3,
     name: 'Bronze II',
     group: 'Bronze',
     league_limit: 3,
@@ -305,6 +308,7 @@ export const LEAGUES = [
     season_rating_reset: 100,
   },
   {
+    number: 4,
     name: 'Bronze I',
     group: 'Bronze',
     league_limit: 3,
@@ -314,6 +318,7 @@ export const LEAGUES = [
     season_rating_reset: 300,
   },
   {
+    number: 5,
     name: 'Silver III',
     group: 'Silver',
     league_limit: 6,
@@ -323,6 +328,7 @@ export const LEAGUES = [
     season_rating_reset: 500,
   },
   {
+    number: 6,
     name: 'Silver II',
     group: 'Silver',
     league_limit: 6,
@@ -332,6 +338,7 @@ export const LEAGUES = [
     season_rating_reset: 700,
   },
   {
+    number: 7,
     name: 'Silver I',
     group: 'Silver',
     league_limit: 6,
@@ -341,6 +348,7 @@ export const LEAGUES = [
     season_rating_reset: 900,
   },
   {
+    number: 8,
     name: 'Gold III',
     group: 'Gold',
     league_limit: 9,
@@ -350,6 +358,7 @@ export const LEAGUES = [
     season_rating_reset: 1200,
   },
   {
+    number: 9,
     name: 'Gold II',
     group: 'Gold',
     league_limit: 9,
@@ -359,6 +368,7 @@ export const LEAGUES = [
     season_rating_reset: 1400,
   },
   {
+    number: 10,
     name: 'Gold I',
     group: 'Gold',
     league_limit: 9,
@@ -368,6 +378,7 @@ export const LEAGUES = [
     season_rating_reset: 1600,
   },
   {
+    number: 11,
     name: 'Diamond III',
     group: 'Diamond',
     league_limit: 12,
@@ -377,6 +388,7 @@ export const LEAGUES = [
     season_rating_reset: 1900,
   },
   {
+    number: 12,
     name: 'Diamond II',
     group: 'Diamond',
     league_limit: 12,
@@ -386,6 +398,7 @@ export const LEAGUES = [
     season_rating_reset: 2200,
   },
   {
+    number: 13,
     name: 'Diamond I',
     group: 'Diamond',
     league_limit: 12,
@@ -395,6 +408,7 @@ export const LEAGUES = [
     season_rating_reset: 2500,
   },
   {
+    number: 14,
     name: 'Champion III',
     group: 'Champion',
     league_limit: 15,
@@ -404,6 +418,7 @@ export const LEAGUES = [
     season_rating_reset: 2800,
   },
   {
+    number: 15,
     name: 'Champion II',
     group: 'Champion',
     league_limit: 15,
@@ -413,6 +428,7 @@ export const LEAGUES = [
     season_rating_reset: 3100,
   },
   {
+    number: 16,
     name: 'Champion I',
     group: 'Champion',
     league_limit: 15,

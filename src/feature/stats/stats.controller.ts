@@ -13,7 +13,7 @@ import {
 } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import { StatsService } from './stats.service';
-import { BattlesByLeagueDocument } from './ui/stats.document';
+import { BattlesByLeagueDocument } from './ui/battles-by-league.document';
 import page from './ui/stats.uielement';
 
 const COLLECTION_NAME = collection(BattlesByLeagueDocument);
@@ -57,7 +57,7 @@ export class StatsController extends AbstractController {
     try {
       const documents = await this.statsService.getBattlesByLeague();
 
-      this.clientService.emitDocuments(event, COLLECTION_NAME, documents);
+      await this.clientService.emitDocuments(event, COLLECTION_NAME, documents);
     } catch (error) {
       this.apmService.captureError(error);
       logger.error('Error occurred while handling event', error);

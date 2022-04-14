@@ -43,9 +43,6 @@ export class CardMapper {
 
     const rarity = CardMapper.mapToRarity(cardTemplate.rarity);
 
-    if (cardTemplate.name === 'Highland Archer' && level === 1) {
-      console.log(cardTemplate.id, edition, rarity, gold);
-    }
     return {
       id: id ?? hash,
       editionNumber,
