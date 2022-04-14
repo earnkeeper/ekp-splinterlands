@@ -59,10 +59,16 @@ export class SettingsMapper {
     playerBattles: PlayerBattleDto[],
     cardTemplatesMap: Record<number, CardTemplate>,
     version: number,
+    fetchedMoment: moment.Moment,
   ): Battle[] {
     return playerBattles
       .map((it) =>
-        SettingsMapper.mapBattleFromPlayer(it, cardTemplatesMap, version),
+        SettingsMapper.mapBattleFromPlayer(
+          it,
+          cardTemplatesMap,
+          version,
+          fetchedMoment,
+        ),
       )
       .filter((it) => !!it);
   }
@@ -101,6 +107,7 @@ export class SettingsMapper {
     playerBattle: PlayerBattleDto,
     cardTemplatesMap: Record<number, CardTemplate>,
     version: number,
+    fetchedMoment: moment.Moment,
   ): Battle {
     const battleDetails: BattleDetailsDto = JSON.parse(playerBattle.details);
 
@@ -108,7 +115,7 @@ export class SettingsMapper {
       return undefined;
     }
 
-    const timestamp = moment(playerBattle.created_date).unix();
+    const timestampMoment = moment(playerBattle.created_date);
 
     const players = this.mapPlayersFromPlayerBattle(
       playerBattle,
@@ -131,28 +138,35 @@ export class SettingsMapper {
 
     const leagueGroup = SettingsMapper.mapLeagueGroup(leagueName);
 
+    const loser =
+      playerBattle.winner === battleDetails.team1.player
+        ? battleDetails.team2.player
+        : battleDetails.team1.player;
+
+    const cardHashes = SettingsMapper.mapToCardHashes([
+      battleDetails.team1,
+      battleDetails.team2,
+    ]);
+
     return {
       id: playerBattle.battle_queue_id_1,
       blockNumber: playerBattle.block_num,
-      timestamp: timestamp,
+      cardHashes,
+      fetched: fetchedMoment.unix(),
+      fetchedDate: fetchedMoment.toDate(),
+      leagueGroup,
+      leagueName,
+      loser,
       manaCap: playerBattle.mana_cap,
       players,
       rulesets: playerBattle.ruleset.split('|'),
+      source: 'playerHistory',
       team1: battleDetails.team1,
       team2: battleDetails.team2,
-      winner: playerBattle.winner,
-      loser:
-        playerBattle.winner === battleDetails.team1.player
-          ? battleDetails.team2.player
-          : battleDetails.team1.player,
-      leagueName,
-      leagueGroup,
-      source: 'playerHistory',
-      cardHashes: SettingsMapper.mapToCardHashes([
-        battleDetails.team1,
-        battleDetails.team2,
-      ]),
+      timestamp: timestampMoment.unix(),
+      timestampDate: timestampMoment.toDate(),
       version,
+      winner: playerBattle.winner,
     };
   }
 
@@ -175,11 +189,17 @@ export class SettingsMapper {
     transactions: TransactionDto[],
     cardTemplatesMap: Record<number, CardTemplate>,
     version: number,
+    fetchedMoment: moment.Moment,
   ): Battle[] {
     return transactions
       .filter((it) => it.success && !!it.result)
       .map((it) =>
-        SettingsMapper.mapBattleFromTransaction(it, cardTemplatesMap, version),
+        SettingsMapper.mapBattleFromTransaction(
+          it,
+          cardTemplatesMap,
+          version,
+          fetchedMoment,
+        ),
       )
       .filter((it) => !!it);
   }
@@ -188,6 +208,7 @@ export class SettingsMapper {
     transaction: TransactionDto,
     cardTemplatesMap: Record<number, CardTemplate>,
     version: number,
+    fetchedMoment: moment.Moment,
   ): Battle {
     if (!transaction.success || !transaction.result) {
       return undefined;
@@ -203,6 +224,7 @@ export class SettingsMapper {
       battle.details.team1,
       cardTemplatesMap,
     );
+
     const team2 = BattleMapper.mapToTeam(
       battle.details.team2,
       cardTemplatesMap,
@@ -221,28 +243,37 @@ export class SettingsMapper {
 
     const leagueGroup = SettingsMapper.mapLeagueGroup(leagueName);
 
+    const timestampMoment = moment(transaction.created_date);
+
+    const loser =
+      battle.winner === battle.details.team1.player
+        ? battle.details.team2.player
+        : battle.details.team1.player;
+
+    const cardHashes = SettingsMapper.mapToCardHashes([
+      battle.details.team1,
+      battle.details.team2,
+    ]);
+
     return {
       id: battle.id,
       blockNumber: transaction.block_num,
-      timestamp: moment(transaction.created_date).unix(),
+      cardHashes,
+      fetched: fetchedMoment.unix(),
+      fetchedDate: fetchedMoment.toDate(),
+      leagueGroup,
+      leagueName,
+      loser,
       manaCap: battle.mana_cap,
       players: battle.players,
       rulesets: battle.ruleset.split('|'),
+      source: 'transaction',
       team1: battle.details.team1,
       team2: battle.details.team2,
-      winner: battle.winner,
-      loser:
-        battle.winner === battle.details.team1.player
-          ? battle.details.team2.player
-          : battle.details.team1.player,
-      leagueName,
-      leagueGroup,
-      source: 'transaction',
-      cardHashes: SettingsMapper.mapToCardHashes([
-        battle.details.team1,
-        battle.details.team2,
-      ]),
+      timestamp: timestampMoment.unix(),
+      timestampDate: timestampMoment.toDate(),
       version,
+      winner: battle.winner,
     };
   }
 }

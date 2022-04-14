@@ -7,6 +7,7 @@ import {
   FETCH_IGN_BATTLES,
   FETCH_LEADER_BATTLES,
   GROUP_CARDS,
+  MIGRATE_BATTLES,
 } from '../shared/queue/constants';
 
 @Processor(SCHEDULER_QUEUE)
@@ -14,9 +15,9 @@ export class SchedulerService {
   constructor(@InjectQueue(SCHEDULER_QUEUE) private queue: Queue) {}
 
   async addJob<T>(jobName: string, data?: T, delay = 0, jobId?: string) {
-    if (process.env.NODE_ENV !== 'production') {
-      return;
-    }
+    // if (process.env.NODE_ENV !== 'production') {
+    //   return;
+    // }
 
     try {
       if (!!jobId) {
@@ -45,7 +46,7 @@ export class SchedulerService {
     await this.queue.clean(0, 'delayed');
     await this.queue.clean(0, 'paused');
 
-    // this.addJob(MIGRATE_BATTLES, {}, 5000, MIGRATE_BATTLES); // No need to migrate at the moment
+    this.addJob(MIGRATE_BATTLES, {}, 5000, MIGRATE_BATTLES);
     this.addJob(FETCH_BATTLE_TRANSACTIONS, {}, 5000, FETCH_BATTLE_TRANSACTIONS);
     this.addJob(GROUP_CARDS, undefined, 5000, GROUP_CARDS);
     this.addJob(FETCH_IGN_BATTLES, {}, 5000, FETCH_IGN_BATTLES);

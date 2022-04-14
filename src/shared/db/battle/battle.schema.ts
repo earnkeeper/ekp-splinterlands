@@ -6,13 +6,13 @@ import { PlayerDto, TeamDetailedDto } from '../../api';
 export type BattleDocument = Battle & Document;
 export const BATTLE_VERSION = 1;
 
-@Schema({ collection: 'battles_v3' })
+@Schema({ collection: 'battles_v4' })
 export class Battle {
   @Prop()
   readonly id: string;
 
   @Prop()
-  version: number;
+  readonly version: number;
 
   @Prop()
   readonly blockNumber: number;
@@ -30,7 +30,16 @@ export class Battle {
   readonly rulesets: string[];
 
   @Prop([String])
-  cardHashes: string[];
+  readonly cardHashes: string[];
+
+  @Prop({ type: Date })
+  readonly timestampDate: Date;
+
+  @Prop()
+  readonly fetched: number;
+
+  @Prop({ type: Date })
+  readonly fetchedDate: Date;
 
   @Prop()
   readonly source: string;
@@ -93,4 +102,16 @@ export const BattleSchema = SchemaFactory.createForClass(Battle)
     timestamp: -1,
     cardHashes: 1,
     mana: 1,
+  })
+  .index({
+    source: 1,
+    day: 1,
+  })
+  .index({
+    source: 1,
+    leagueName: 1,
+  })
+  .index({
+    source: 1,
+    fetchedDay: 1,
   });

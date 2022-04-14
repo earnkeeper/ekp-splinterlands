@@ -22,6 +22,7 @@ export class HistoryService {
       response.battles,
       cardDetailsMap,
       BATTLE_VERSION,
+      moment(),
     );
 
     return this.mapDocuments(battles, form);
@@ -83,6 +84,7 @@ export class HistoryService {
         rulesets: battle.rulesets,
         timestamp: battle.timestamp,
       };
+
       return document;
     });
 

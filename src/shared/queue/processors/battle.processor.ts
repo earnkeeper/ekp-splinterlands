@@ -7,6 +7,7 @@ import { Process, Processor } from '@nestjs/bull';
 import { Job } from 'bull';
 import { validate } from 'bycontract';
 import _ from 'lodash';
+import moment from 'moment';
 import { ApiService } from '../../api';
 import { BattleRepository, BATTLE_VERSION } from '../../db';
 import { IgnRepository } from '../../db/ign/ign.repository';
@@ -51,12 +52,13 @@ export class BattleProcessor {
           playerBattles.battles,
           cardTemplatesMap,
           BATTLE_VERSION,
+          moment(),
         );
 
         await this.battleRepository.save(battles);
 
         logger.log(
-          `Saved ${battles?.length} battles from player ${ign} to the db.`,
+          `Saved ${battles?.length} battles from player ${ign.id} to the db.`,
         );
       }),
     );
@@ -105,6 +107,7 @@ export class BattleProcessor {
             playerBattles.battles,
             cardTemplatesMap,
             BATTLE_VERSION,
+            moment(),
           );
 
           await this.battleRepository.save(battles);
@@ -156,6 +159,7 @@ export class BattleProcessor {
           transactions,
           cardTemplatesMap,
           BATTLE_VERSION,
+          moment(),
         );
 
         logger.debug(
