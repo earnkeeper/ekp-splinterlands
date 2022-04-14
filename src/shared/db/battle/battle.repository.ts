@@ -29,6 +29,24 @@ export class BattleRepository {
     return results;
   }
 
+  async findBattlesByTimestamp(source: string) {
+    validate(source, 'string');
+
+    const results = await this.battleModel.aggregate([
+      {
+        $match: { source },
+      },
+      {
+        $group: {
+          _id: { $dayOfYear: '$timestampDate' },
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    return results;
+  }
+
   async findByCardHashAndLeagueName(
     cardHash: string,
     leagueName: string,

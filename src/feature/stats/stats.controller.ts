@@ -14,9 +14,9 @@ import {
 import { Injectable } from '@nestjs/common';
 import { StatsService } from './stats.service';
 import { BattlesByLeagueDocument } from './ui/battles-by-league.document';
+import { BattlesByTimestampDocument } from './ui/battles-by-timestamp.document';
 import page from './ui/stats.uielement';
 
-const COLLECTION_NAME = collection(BattlesByLeagueDocument);
 const PATH = 'stats';
 
 @Injectable()
@@ -52,22 +52,58 @@ export class StatsController extends AbstractController {
       return;
     }
 
-    await this.clientService.emitBusy(event, COLLECTION_NAME);
-
     try {
-      const documents = await this.statsService.getBattlesByLeague();
-
-      await this.clientService.emitDocuments(event, COLLECTION_NAME, documents);
+      await Promise.all([
+        this.fetchAndEmitByLeague(event),
+        this.fetchAndEmitByTimestamp(event),
+      ]);
     } catch (error) {
       this.apmService.captureError(error);
       logger.error('Error occurred while handling event', error);
       console.error(error);
     } finally {
-      await this.clientService.emitDone(event, COLLECTION_NAME);
+      await this.clientService.emitDone(
+        event,
+        collection(BattlesByLeagueDocument),
+      );
+      await this.clientService.emitDone(
+        event,
+        collection(BattlesByTimestampDocument),
+      );
     }
   }
 
   async onClientDisconnected(event: ClientDisconnectedEvent) {
     // Do nothing
+  }
+
+  private async fetchAndEmitByLeague(event: ClientStateChangedEvent) {
+    await this.clientService.emitBusy(
+      event,
+      collection(BattlesByLeagueDocument),
+    );
+
+    const documents = await this.statsService.getBattlesByLeague();
+
+    await this.clientService.emitDocuments(
+      event,
+      collection(BattlesByLeagueDocument),
+      documents,
+    );
+  }
+
+  private async fetchAndEmitByTimestamp(event: ClientStateChangedEvent) {
+    await this.clientService.emitBusy(
+      event,
+      collection(BattlesByTimestampDocument),
+    );
+
+    const documents = await this.statsService.getBattlesByTimestamp();
+
+    await this.clientService.emitDocuments(
+      event,
+      collection(BattlesByTimestampDocument),
+      documents,
+    );
   }
 }

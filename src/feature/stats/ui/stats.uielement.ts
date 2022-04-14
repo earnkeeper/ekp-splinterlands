@@ -1,11 +1,12 @@
 import {
-  Card,
   Col,
+  collection,
   Container,
   DefaultProps,
+  documents,
   formatToken,
+  isBusy,
   PageHeaderTile,
-  path,
   Row,
   Rpc,
   Span,
@@ -14,6 +15,7 @@ import {
 import _ from 'lodash';
 import { LEAGUES } from '../../../shared/game';
 import { BattlesByLeagueDocument } from './battles-by-league.document';
+import { BattlesByTimestampDocument } from './battles-by-timestamp.document';
 
 export default function element(): UiElement {
   return Container({
@@ -50,67 +52,127 @@ function Charts() {
     children: [
       Col({
         className: 'col-12 mt-2',
-        children: [
-          Card({
-            // @ts-ignore
-            title: 'Battles By League',
-            children: [
-              Chart({
-                className: 'mr-1',
-                type: 'bar',
-                height: 400,
-                options: {
-                  chart: {
-                    stacked: true,
-                    toolbar: {
-                      show: false,
-                    },
-                  },
-                  dataLabels: {
-                    enabled: false,
-                  },
-                  yaxis: {
-                    labels: {
-                      formatter: formatToken('$'),
-                    },
-                  },
-                  xaxis: {
-                    categories: _.chain(LEAGUES)
-                      .map((it) => it.name)
-                      .value(),
-                  },
-                },
-                series: [
-                  {
-                    name: 'From Transactions',
-                    data: {
-                      method: 'map',
-                      params: [
-                        `${path(
-                          BattlesByLeagueDocument,
-                        )}[?(@.source == 'transaction')]`,
-                        '$.battles',
-                      ],
-                    },
-                  },
-                  {
-                    name: 'From Player History',
-                    data: {
-                      method: 'map',
-                      params: [
-                        `${path(
-                          BattlesByLeagueDocument,
-                        )}[?(@.source == 'playerHistory')]`,
-                        '$.battles',
-                      ],
-                    },
-                  },
-                ],
-              }),
-            ],
-          }),
-        ],
+        children: [BattlesByLeagueChart()],
       }),
+      Col({
+        className: 'col-12 mt-2',
+        children: [BattlesByTimestampChart()],
+      }),
+    ],
+  });
+}
+
+function BattlesByLeagueChart() {
+  return Chart({
+    title: 'Battles By League',
+    type: 'bar',
+    height: 400,
+    busyWhen: isBusy(collection(BattlesByLeagueDocument)),
+    data: documents(BattlesByLeagueDocument),
+    options: {
+      chart: {
+        stacked: true,
+        toolbar: {
+          show: false,
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      yaxis: {
+        labels: {
+          formatter: formatToken('$'),
+        },
+      },
+      xaxis: {
+        categories: _.chain(LEAGUES)
+          .map((it) => it.name)
+          .value(),
+      },
+    },
+    series: [
+      {
+        name: 'From Transactions',
+        data: {
+          method: 'map',
+          params: [
+            `${documents(BattlesByLeagueDocument)}`,
+            '$.fromTransactions',
+          ],
+        },
+      },
+      {
+        name: 'From Player History',
+        data: {
+          method: 'map',
+          params: [
+            `${documents(BattlesByLeagueDocument)}`,
+            '$.fromPlayerHistory',
+          ],
+        },
+      },
+    ],
+  });
+}
+
+function BattlesByTimestampChart() {
+  return Chart({
+    title: 'Battles By Timestamp',
+    type: 'area',
+    height: 400,
+    busyWhen: isBusy(collection(BattlesByTimestampDocument)),
+    data: documents(BattlesByTimestampDocument),
+    options: {
+      chart: {
+        zoom: {
+          enabled: false,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      xaxis: {
+        categories: {
+          method: 'map',
+          params: [
+            `${documents(BattlesByTimestampDocument)}`,
+            {
+              method: 'momentFormatFromUnix',
+              params: ['$.timestamp', 'Do MMM'],
+            },
+          ],
+        },
+      },
+      yaxis: {
+        labels: {
+          formatter: formatToken('$'),
+        },
+      },
+    },
+    series: [
+      {
+        name: 'From Transactions',
+        data: {
+          method: 'map',
+          params: [
+            `${documents(BattlesByTimestampDocument)}`,
+            '$.fromTransactions',
+          ],
+        },
+      },
+      {
+        name: 'From Player History',
+        data: {
+          method: 'map',
+          params: [
+            `${documents(BattlesByTimestampDocument)}`,
+            '$.fromPlayerHistory',
+          ],
+        },
+      },
     ],
   });
 }
@@ -123,8 +185,11 @@ function Chart(props?: ChartProps): UiElement {
 }
 
 type ChartProps = Readonly<{
+  title: string;
   type: string;
   height?: number;
+  busyWhen?: Rpc;
+  data?: Rpc;
   series: SeriesProp[];
   options?: any;
 }> &

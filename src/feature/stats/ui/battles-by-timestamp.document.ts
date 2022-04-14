@@ -1,11 +1,11 @@
 import { DocumentDto } from '@earnkeeper/ekp-sdk';
 
-export class BattlesByLeagueDocument extends DocumentDto {
-  constructor(properties: BattlesByLeagueDocument) {
+export class BattlesByTimestampDocument extends DocumentDto {
+  constructor(properties: BattlesByTimestampDocument) {
     super(properties);
   }
 
-  readonly leagueName: string;
+  readonly timestamp: number;
   readonly fromTransactions: number;
   readonly fromPlayerHistory: number;
 }
