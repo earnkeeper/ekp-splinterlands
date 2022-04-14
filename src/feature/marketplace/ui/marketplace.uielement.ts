@@ -97,17 +97,17 @@ function statsRow() {
           ),
         ],
       }),
-      Col({
-        className: 'col-auto',
-        children: [
-          statsCard(
-            'Total Starred Power',
-            formatToken(
-              sum(`${path(ListingDocument)}[?(@.starred == 'Yes')].power`),
-            ),
-          ),
-        ],
-      }),
+      // Col({
+      //   className: 'col-auto',
+      //   children: [
+      //     statsCard(
+      //       'Total Starred Power',
+      //       formatToken(
+      //         sum(`${path(ListingDocument)}[?(@.starred == 'Yes')].power`),
+      //       ),
+      //     ),
+      //   ],
+      // }),
     ],
   });
 }
@@ -371,10 +371,10 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
         sortable: true,
         width: '80px',
       },
-      {
-        id: 'power',
-        sortable: true,
-      },
+      // {
+      //   id: 'power',
+      //   sortable: true,
+      // },
       {
         id: 'rarity',
         sortable: true,
