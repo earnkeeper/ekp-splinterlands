@@ -1,6 +1,6 @@
 # Splinterlands EarnKeeper.io Plugin
 
-The (EarnKeeper.io)[https://github.com/earnkeeper] plugin for [Splinterlands](https://splintlerands.com/).
+The (EarnKeeper.io)[https://github.com/earnkeeper] plugin for [Splinterlands](https://splinterlands.com/).
 
 This plugin uses the [EarnKeeper NestJs SDK](https://github.com/earnkeeper/ekp-sdk-nestjs).
 

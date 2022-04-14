@@ -321,7 +321,7 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
       {
         id: 'star',
         title: '',
-        width: '40px',
+        width: '50px',
         cell: Button({
           icon: 'star',
           size: 'sm',
