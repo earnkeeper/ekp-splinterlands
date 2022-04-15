@@ -24,7 +24,7 @@ export class ResultsService {
     minBattles: number,
   ): Promise<{ teams: TeamResults[]; battles: Battle[] }> {
     const cacheKey = _.chain([
-      'v3',
+      'v4',
       manaCap,
       leagueName,
       subscribed,
