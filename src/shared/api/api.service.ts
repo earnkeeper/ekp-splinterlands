@@ -78,13 +78,8 @@ export class ApiService extends AbstractApiService {
     });
   }
 
-  async fetchBattleTransactions(
-    fromBlock: number,
-    limit: number,
-  ): Promise<TransactionDto[]> {
-    validate([fromBlock, limit], ['number', 'number']);
-
-    const url = `${STEEM_BASE_URL}/transactions/history?from_block=${fromBlock}&limit=${limit}&types=sm_battle,battle`;
+  async fetchBattleTransactions(): Promise<TransactionDto[]> {
+    const url = `${STEEM_BASE_URL}/transactions/history?limit=1000&types=sm_battle,battle`;
 
     return this.handleCall({ url }, async () => {
       const response = await axios.get(url, { proxy: this.proxy });

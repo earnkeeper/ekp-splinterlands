@@ -121,7 +121,8 @@ function BattlesByLeagueChart() {
       },
       xaxis: {
         categories: _.chain(LEAGUES)
-          .map((it) => it.name)
+          .map((it) => it.group)
+          .uniq()
           .value(),
       },
     },

@@ -1,5 +1,5 @@
 export type PlannerForm = Readonly<{
-  leagueName: string;
+  leagueGroup: string;
   manaCap: number;
   playerName: string;
 }>;

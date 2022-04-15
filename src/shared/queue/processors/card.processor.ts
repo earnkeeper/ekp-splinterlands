@@ -13,7 +13,7 @@ import {
   CardStats,
   CardStatsRepository,
 } from '../../db';
-import { Card, CardService, SettingsMapper } from '../../game';
+import { Card, CardService } from '../../game';
 import { BattleMapper } from '../../game/mappers/battle.mapper';
 import { GROUP_CARDS } from '../constants';
 
@@ -126,13 +126,14 @@ export class CardProcessor {
         cardStatsRecord.blockNumber = battle.blockNumber;
 
         let dailyStatsRecord = cardStatsRecord.dailyBattleStats.find(
-          (it) => it.day === battleDate && it.leagueName === battle.leagueName,
+          (it) =>
+            it.day === battleDate && it.leagueGroup === battle.leagueGroup,
         );
 
         if (!dailyStatsRecord) {
           dailyStatsRecord = {
             day: battleDate,
-            leagueName: battle.leagueName,
+            leagueGroup: battle.leagueGroup,
             wins: 0,
             battles: 0,
           };
@@ -153,20 +154,6 @@ export class CardProcessor {
     }
 
     return _.values(cardStatsRecordMap);
-  }
-
-  private getLeagueName(
-    battle: Battle,
-    winnerCards: Card[],
-    loserCards: Card[],
-  ): string {
-    const minRating = _.min(battle.players.map((it) => it.initial_rating));
-
-    return SettingsMapper.mapToLeagueNameFromTeams(
-      minRating,
-      winnerCards,
-      loserCards,
-    );
   }
 
   private createCardStatsRecord(card: Card): CardStats {

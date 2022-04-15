@@ -5,14 +5,14 @@ export class HistoryDocument extends DocumentDto {
     super(properties);
   }
 
+  readonly leagueGroup: string;
   readonly manaCap: number;
   readonly myFinalRating: number;
+  readonly mySplinter: string;
   readonly opponentInitialRating: number;
   readonly opponentName: string;
-  readonly mySplinter: string;
   readonly opponentSplinter: string;
   readonly result: string;
   readonly rulesets: string[];
   readonly timestamp: number;
-  readonly leagueName: string;
 }

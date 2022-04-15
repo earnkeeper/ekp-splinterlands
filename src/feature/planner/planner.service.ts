@@ -36,7 +36,7 @@ export class PlannerService {
 
     const { teams, battles } = await this.resultsService.getTeamResults(
       form.manaCap,
-      form.leagueName ?? DEFAULT_PLANNER_FORM.leagueName,
+      form.leagueGroup ?? DEFAULT_PLANNER_FORM.leagueGroup,
       subscribed ?? false,
       5,
     );

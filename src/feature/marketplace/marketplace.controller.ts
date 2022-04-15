@@ -74,7 +74,7 @@ export class MarketplaceController extends AbstractController {
     const listingDocuments = await this.marketplaceService.getListingDocuments(
       currency,
       conversionRate,
-      marketplaceForm.leagueName ?? DEFAULT_MARKETPLACE_FORM.leagueName,
+      marketplaceForm.leagueGroup ?? DEFAULT_MARKETPLACE_FORM.leagueGroup,
       favouritesForm,
     );
 

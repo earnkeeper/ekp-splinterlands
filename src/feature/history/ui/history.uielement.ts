@@ -201,7 +201,7 @@ function historyRow(): UiElement {
         width: '80px',
       },
       {
-        id: 'leagueName',
+        id: 'leagueGroup',
         title: 'League',
       },
       {

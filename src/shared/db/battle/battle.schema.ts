@@ -6,7 +6,7 @@ import { PlayerDto, TeamDetailedDto } from '../../api';
 export type BattleDocument = Battle & Document;
 export const BATTLE_VERSION = 1;
 
-@Schema({ collection: 'battles_v5' })
+@Schema({ collection: 'battles_v6' })
 export class Battle {
   @Prop()
   readonly id: string;
@@ -51,9 +51,6 @@ export class Battle {
   readonly loser: string;
 
   @Prop()
-  readonly leagueName: string;
-
-  @Prop()
   readonly leagueGroup: string;
 
   @Prop({ type: 'array' })
@@ -91,12 +88,10 @@ export const BattleSchema = SchemaFactory.createForClass(Battle)
   .index({
     timestamp: 1,
     manaCap: 1,
-    leagueName: 1,
   })
   .index({
     timestamp: -1,
     cardHashes: 1,
-    leagueName: 1,
   })
   .index({
     timestamp: -1,
@@ -109,7 +104,7 @@ export const BattleSchema = SchemaFactory.createForClass(Battle)
   })
   .index({
     source: 1,
-    leagueName: 1,
+    leagueGroup: 1,
   })
   .index({
     source: 1,

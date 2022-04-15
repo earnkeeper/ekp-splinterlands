@@ -52,7 +52,7 @@ export class BattleRepository {
       },
       {
         $group: {
-          _id: '$leagueName',
+          _id: '$leagueGroup',
           count: { $sum: 1 },
         },
       },
@@ -97,17 +97,17 @@ export class BattleRepository {
     return results;
   }
 
-  async findByCardHashAndLeagueName(
+  async findByCardHashAndLeagueGroup(
     cardHash: string,
-    leagueName: string,
+    leagueGroup: string,
     limit: number,
   ): Promise<Battle[]> {
-    const query: { cardHashes: string; leagueName?: string } = {
+    const query: { cardHashes: string; leagueGroup?: string } = {
       cardHashes: cardHash,
     };
 
-    if (!!leagueName && leagueName !== 'All' && leagueName !== '0') {
-      query.leagueName = leagueName;
+    if (!!leagueGroup && leagueGroup !== 'All' && leagueGroup !== '0') {
+      query.leagueGroup = leagueGroup;
     }
 
     const results = await this.battleModel
@@ -140,15 +140,15 @@ export class BattleRepository {
 
   async findByTeamIdAndLeagueName(
     teamId: string,
-    leagueName: string,
+    leagueGroup: string,
     limit: number,
   ): Promise<Battle[]> {
-    const query: { cardHashes: string; leagueName?: string } = {
+    const query: { cardHashes: string; leagueGroup?: string } = {
       cardHashes: teamId,
     };
 
-    if (!!leagueName && leagueName !== 'All') {
-      query.leagueName = leagueName;
+    if (!!leagueGroup && leagueGroup !== 'All') {
+      query.leagueGroup = leagueGroup;
     }
 
     const results = await this.battleModel
@@ -223,18 +223,18 @@ export class BattleRepository {
 
   async findBattleByManaCap(
     manaCap: number,
-    leagueName: string,
+    leagueGroup: string,
     startTimestamp: number,
   ): Promise<Battle[]> {
     validate(
-      [manaCap, leagueName, startTimestamp],
+      [manaCap, leagueGroup, startTimestamp],
       ['number', 'string', 'number'],
     );
 
     const query: {
       timestamp: any;
       manaCap: number;
-      leagueName?: string;
+      leagueGroup?: string;
     } = {
       timestamp: {
         $gte: startTimestamp,
@@ -242,8 +242,8 @@ export class BattleRepository {
       manaCap,
     };
 
-    if (leagueName !== 'All') {
-      query.leagueName = leagueName;
+    if (leagueGroup !== 'All') {
+      query.leagueGroup = leagueGroup;
     }
 
     return this.battleModel.where(query).sort('timestamp').exec();
@@ -272,7 +272,6 @@ export class BattleRepository {
                 'fetched',
                 'fetchedDate',
                 'leagueGroup',
-                'leagueName',
                 'loser',
                 'manaCap',
                 'players',

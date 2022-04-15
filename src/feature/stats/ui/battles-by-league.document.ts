@@ -5,7 +5,7 @@ export class BattlesByLeagueDocument extends DocumentDto {
     super(properties);
   }
 
-  readonly leagueName: string;
+  readonly leagueGroup: string;
   readonly fromTransactions: number;
   readonly fromPlayerHistory: number;
 }

@@ -38,7 +38,7 @@ export class BattlesController extends AbstractController {
     await this.clientService.emitBusy(event, COLLECTION_NAME);
 
     const cardId = event.state?.client?.queryParams?.card;
-    const leagueName = event.state?.client?.queryParams?.leagueName;
+    const leagueGroup = event.state?.client?.queryParams?.leagueGroup;
 
     const teamId = event.state?.client?.queryParams?.team;
     const mana = Number(event.state?.client?.queryParams?.mana);
@@ -48,7 +48,7 @@ export class BattlesController extends AbstractController {
     if (!!cardId) {
       documents = await this.battlesService.getBattleDocumentsByCardId(
         cardId,
-        leagueName,
+        leagueGroup,
         event.state?.client.subscribed ? 1000 : 50,
       );
     }

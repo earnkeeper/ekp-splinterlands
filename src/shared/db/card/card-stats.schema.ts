@@ -37,6 +37,6 @@ export const CardStatsSchema = SchemaFactory.createForClass(CardStats)
 export type DailyBattleStats = {
   battles: number;
   readonly day: string;
-  readonly leagueName: string;
+  readonly leagueGroup: string;
   wins: number;
 };

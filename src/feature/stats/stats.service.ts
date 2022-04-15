@@ -45,21 +45,21 @@ export class StatsService {
     const now = moment().unix();
 
     const documents: BattlesByLeagueDocument[] = _.chain(leagueNames)
-      .sortBy((leagueName) => {
-        return LEAGUES.find((it) => it.name === leagueName)?.number;
+      .sortBy((leagueGroup) => {
+        return LEAGUES.find((it) => it.group === leagueGroup)?.number;
       })
-      .map((leagueName) => {
+      .map((leagueGroup) => {
         const resultFromTransactions = fromTransactions.find(
-          (it) => it._id === leagueName,
+          (it) => it._id === leagueGroup,
         );
         const resultFromPlayerHistory = fromPlayerHistory.find(
-          (it) => it._id === leagueName,
+          (it) => it._id === leagueGroup,
         );
 
         const document: BattlesByLeagueDocument = {
-          id: leagueName,
+          id: leagueGroup,
           updated: now,
-          leagueName,
+          leagueGroup,
           fromTransactions: resultFromTransactions?.count ?? 0,
           fromPlayerHistory: resultFromPlayerHistory?.count ?? 0,
         };

@@ -19,7 +19,7 @@ export class MarketplaceService {
   async getListingDocuments(
     currency: CurrencyDto,
     conversionRate: number,
-    leagueName: string,
+    leagueGroup: string,
     favouritesForm: Record<string, boolean>,
   ): Promise<ListingDocument[]> {
     const sales = await this.apiService.fetchCardSales();
@@ -67,14 +67,14 @@ export class MarketplaceService {
         if (!!cardStatsRecord) {
           battles = _.chain(cardStatsRecord.dailyBattleStats)
             .filter(
-              (it) => leagueName === 'All' || it.leagueName === leagueName,
+              (it) => leagueGroup === 'All' || it.leagueGroup === leagueGroup,
             )
             .sumBy('battles')
             .value();
 
           wins = _.chain(cardStatsRecord.dailyBattleStats)
             .filter(
-              (it) => leagueName === 'All' || it.leagueName === leagueName,
+              (it) => leagueGroup === 'All' || it.leagueGroup === leagueGroup,
             )
             .sumBy('wins')
             .value();

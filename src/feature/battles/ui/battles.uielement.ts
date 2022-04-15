@@ -62,7 +62,7 @@ function tableRow(): UiElement {
         imageMap: RULESET_IMAGE_MAP,
       },
       {
-        columnId: 'leagueName',
+        columnId: 'leagueGroup',
         type: 'checkbox',
       },
     ],
@@ -99,7 +99,7 @@ function tableRow(): UiElement {
         width: '60px',
       },
       {
-        id: 'leagueName',
+        id: 'leagueGroup',
         width: '180px',
       },
       {

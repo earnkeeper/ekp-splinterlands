@@ -2,6 +2,16 @@
 
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [1.2.7] - 2022-04-15
+
+### Added
+
+- ✨ More battle data for higher leagues
+
+### Fixed
+
+- 🐛 Some battles stored with incorrect league name
+
 ## [1.2.6] - 2022-04-14
 
 ### Added

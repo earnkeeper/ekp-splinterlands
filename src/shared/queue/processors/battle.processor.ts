@@ -11,7 +11,7 @@ import moment from 'moment';
 import { ApiService } from '../../api';
 import { BattleRepository, BATTLE_VERSION } from '../../db';
 import { IgnRepository } from '../../db/ign/ign.repository';
-import { CardService, SettingsMapper } from '../../game';
+import { BattleMapper, CardService } from '../../game';
 import {
   FETCH_BATTLE_TRANSACTIONS,
   FETCH_IGN_BATTLES,
@@ -48,7 +48,7 @@ export class BattleProcessor {
           return;
         }
 
-        const battles = SettingsMapper.mapBattlesFromPlayer(
+        const battles = BattleMapper.mapBattlesFromPlayer(
           playerBattles.battles,
           cardTemplatesMap,
           BATTLE_VERSION,
@@ -103,7 +103,7 @@ export class BattleProcessor {
             return;
           }
 
-          const battles = SettingsMapper.mapBattlesFromPlayer(
+          const battles = BattleMapper.mapBattlesFromPlayer(
             playerBattles.battles,
             cardTemplatesMap,
             BATTLE_VERSION,
@@ -126,62 +126,22 @@ export class BattleProcessor {
   @Process(FETCH_BATTLE_TRANSACTIONS)
   async fetchBattleTransactions() {
     try {
-      const apiPageSize = 1000;
+      const transactions = await this.apiService.fetchBattleTransactions();
 
-      const lastBattle = await this.battleRepository.findLatestByBlockNumber(
-        'transaction',
-      );
-
-      let lastBlockNumber = lastBattle?.blockNumber;
-
-      if (!lastBlockNumber) {
-        lastBlockNumber = DEFAULT_START_BLOCK;
+      if (!transactions?.length) {
+        return;
       }
 
-      const cardTemplatesMap = await this.cardService.getAllCardTemplatesMap();
+      const igns = _.chain(transactions)
+        .flatMap((transaction) => [
+          transaction.affected_player,
+          transaction.player,
+        ])
+        .uniq()
+        .map((name) => ({ id: name }))
+        .value();
 
-      while (true) {
-        const transactions = await this.apiService.fetchBattleTransactions(
-          lastBlockNumber,
-          apiPageSize,
-        );
-
-        if (!transactions || transactions.length === 0) {
-          break;
-        }
-
-        const firstTransaction = _.chain(transactions)
-          .minBy('block_num')
-          .value();
-        const lastTransaction = _.chain(transactions)
-          .maxBy('block_num')
-          .value();
-
-        const battles = SettingsMapper.mapBattlesFromTransactions(
-          transactions,
-          cardTemplatesMap,
-          BATTLE_VERSION,
-          moment(),
-        );
-
-        logger.debug(
-          `Fetched ${transactions?.length} transactions from ${firstTransaction.created_date} (${firstTransaction.block_num}) to ${lastTransaction.created_date} (${lastTransaction.block_num})`,
-        );
-
-        lastBlockNumber = lastTransaction.block_num;
-
-        if (battles.length === 0) {
-          continue;
-        }
-
-        await this.battleRepository.save(battles);
-
-        logger.debug(`Saved ${battles?.length} battles to the db`);
-
-        if (transactions.length < apiPageSize) {
-          break;
-        }
-      }
+      await this.ignRepository.save(igns);
     } catch (error) {
       this.apmService.captureError(error);
       logger.error(error);

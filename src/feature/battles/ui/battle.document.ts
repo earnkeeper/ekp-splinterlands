@@ -5,7 +5,7 @@ export class BattleDocument extends DocumentDto {
     super(properties);
   }
 
-  readonly leagueName: string;
+  readonly leagueGroup: string;
   readonly loserName: string;
   readonly loserSplinter: string;
   readonly loserSummonerName: string;

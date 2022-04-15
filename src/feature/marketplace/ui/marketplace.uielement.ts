@@ -35,6 +35,7 @@ import {
   Table,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
+import _ from 'lodash';
 import { LEAGUES } from '../../../shared/game';
 import {
   DEFAULT_MARKETPLACE_FORM,
@@ -139,7 +140,7 @@ function formRow() {
         schema: {
           type: 'object',
           properties: {
-            leagueName: 'string',
+            leagueGroup: 'string',
           },
           default: DEFAULT_MARKETPLACE_FORM,
         },
@@ -152,8 +153,14 @@ function formRow() {
                 children: [
                   Select({
                     label: 'League',
-                    name: 'leagueName',
-                    options: ['All', ...LEAGUES.map((it) => it.name)],
+                    name: 'leagueGroup',
+                    options: [
+                      'All',
+                      ..._.chain(LEAGUES)
+                        .map((it) => it.group)
+                        .uniq()
+                        .value(),
+                    ],
                     minWidth: 160,
                   }),
                 ],
@@ -467,7 +474,7 @@ export function detailsModal(): UiElement {
                                     name: 'League',
                                     value: formValue(
                                       'marketplace',
-                                      'leagueName',
+                                      'leagueGroup',
                                     ),
                                   },
                                   {
@@ -518,12 +525,12 @@ export function detailsModal(): UiElement {
                             color: 'flat-primary',
                             onClick: navigate(
                               formatTemplate(
-                                'battles?card={{ cardId }}&leagueName={{ leagueName }}',
+                                'battles?card={{ cardId }}&leagueGroup={{ leagueGroup }}',
                                 {
                                   cardId: '$.cardHash',
-                                  leagueName: formValue(
+                                  leagueGroup: formValue(
                                     'marketplace',
-                                    'leagueName',
+                                    'leagueGroup',
                                   ),
                                 },
                               ),

@@ -16,12 +16,12 @@ export class BattlesService {
 
   async getBattleDocumentsByCardId(
     cardHash: string,
-    leagueName: string,
+    leagueGroup: string,
     limit: number,
   ): Promise<BattleDocument[]> {
-    const battles = await this.battleRepository.findByCardHashAndLeagueName(
+    const battles = await this.battleRepository.findByCardHashAndLeagueGroup(
       cardHash,
-      leagueName,
+      leagueGroup,
       limit,
     );
 
@@ -68,7 +68,7 @@ export class BattlesService {
       const document: BattleDocument = {
         id: battle.id,
         updated: now,
-        leagueName: battle.leagueName,
+        leagueGroup: battle.leagueGroup,
         loserName: battle.loser,
         loserSplinter: loser.summoner.splinter,
         loserSummonerName: loser.summoner.name,

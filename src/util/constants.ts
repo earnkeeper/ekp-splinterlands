@@ -7,7 +7,7 @@ import {
 } from './forms';
 
 export const DEFAULT_PLANNER_FORM: PlannerForm = {
-  leagueName: 'All',
+  leagueGroup: 'All',
   manaCap: 13,
   playerName: '',
 };
@@ -18,7 +18,7 @@ export const DEFAULT_LEADERBOARD_FORM: LeaderboardForm = {
 };
 
 export const DEFAULT_MARKETPLACE_FORM: MarketplaceForm = {
-  leagueName: 'All',
+  leagueGroup: 'All',
 };
 
 export const DEFAULT_HISTORY_FORM: HistoryForm = {

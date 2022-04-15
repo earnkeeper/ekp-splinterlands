@@ -26,6 +26,7 @@ import {
   switchCase,
   UiElement,
 } from '@earnkeeper/ekp-sdk';
+import _ from 'lodash';
 import { LEAGUES, MANA_CAPS, RULESET_IMAGE_MAP } from '../../../shared/game';
 import {
   DEFAULT_PLANNER_FORM,
@@ -89,7 +90,7 @@ function battleDetailsForm() {
             playerName: 'string',
             manaCap: 'number',
             ruleset: 'string',
-            leagueName: 'string',
+            leagueGroup: 'string',
           },
           default: DEFAULT_PLANNER_FORM,
         },
@@ -110,9 +111,15 @@ function battleDetailsForm() {
                 className: 'col-12 col-md-auto',
                 children: [
                   Select({
-                    label: 'League Name',
-                    name: 'leagueName',
-                    options: ['All', ...LEAGUES.map((it) => it.name)],
+                    label: 'League Group',
+                    name: 'leagueGroup',
+                    options: [
+                      'All',
+                      ..._.chain(LEAGUES)
+                        .map((it) => it.group)
+                        .uniq()
+                        .value(),
+                    ],
                     minWidth: 160,
                   }),
                 ],

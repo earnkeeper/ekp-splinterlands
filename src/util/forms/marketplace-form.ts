@@ -1,3 +1,3 @@
 export type MarketplaceForm = Readonly<{
-  leagueName: string;
+  leagueGroup: string;
 }>;

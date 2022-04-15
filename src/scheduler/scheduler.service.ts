@@ -25,16 +25,16 @@ export class SchedulerService {
     jobId?: string,
     environments?: string[],
   ) {
-    if (
-      (!Array.isArray(environments) || environments.length === 0) &&
-      process.env.NODE_ENV !== 'production'
-    ) {
-      return;
-    }
+    // if (
+    //   (!Array.isArray(environments) || environments.length === 0) &&
+    //   process.env.NODE_ENV !== 'production'
+    // ) {
+    //   return;
+    // }
 
-    if (!environments.includes(process.env.NODE_ENV)) {
-      return;
-    }
+    // if (!environments.includes(process.env.NODE_ENV)) {
+    //   return;
+    // }
 
     try {
       if (!!jobId) {
@@ -57,11 +57,11 @@ export class SchedulerService {
   }
 
   async onModuleInit() {
-    await this.queue.empty();
-    await this.queue.clean(0, 'wait');
-    await this.queue.clean(0, 'active');
-    await this.queue.clean(0, 'delayed');
-    await this.queue.clean(0, 'paused');
+    // await this.queue.empty();
+    // await this.queue.clean(0, 'wait');
+    // await this.queue.clean(0, 'active');
+    // await this.queue.clean(0, 'delayed');
+    // await this.queue.clean(0, 'paused');
 
     const client = this.redisService.getClient('DEFAULT_CLIENT');
     await client.flushall();
@@ -105,9 +105,16 @@ export class SchedulerService {
     ]);
   }
 
+  @Cron('0 * * * * *')
+  everyminute() {
+    this.addJob(FETCH_BATTLE_TRANSACTIONS, {}, 0, FETCH_BATTLE_TRANSACTIONS, [
+      'staging',
+      'production',
+    ]);
+  }
+
   @Cron('0 5,15,25,35,45,55 * * * *')
   every10minutes() {
-    this.addJob(FETCH_BATTLE_TRANSACTIONS, {}, 0, FETCH_BATTLE_TRANSACTIONS);
     this.addJob(FETCH_IGN_BATTLES, {}, 5000, FETCH_IGN_BATTLES);
     this.addJob(GROUP_CARDS, undefined, 0, GROUP_CARDS);
   }
