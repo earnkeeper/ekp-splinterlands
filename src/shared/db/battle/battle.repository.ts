@@ -43,7 +43,7 @@ export class BattleRepository {
     return results[0];
   }
 
-  async findBattlesByLeague(source: string) {
+  async groupByLeague(source: string) {
     validate(source, 'string');
 
     const results = await this.battleModel.aggregate([
@@ -61,7 +61,7 @@ export class BattleRepository {
     return results;
   }
 
-  async findBattlesByTimestamp(source: string) {
+  async groupByTimestamp(source: string) {
     validate(source, 'string');
 
     const results = await this.battleModel.aggregate([
@@ -71,6 +71,24 @@ export class BattleRepository {
       {
         $group: {
           _id: { $dayOfYear: '$timestampDate' },
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    return results;
+  }
+
+  async groupByManaCap(source: string) {
+    validate(source, 'string');
+
+    const results = await this.battleModel.aggregate([
+      {
+        $match: { source },
+      },
+      {
+        $group: {
+          _id: '$manaCap',
           count: { $sum: 1 },
         },
       },

@@ -4,6 +4,7 @@ import moment from 'moment';
 import { BattleRepository } from '../../shared/db';
 import { LEAGUES } from '../../shared/game';
 import { BattlesByLeagueDocument } from './ui/battles-by-league.document';
+import { BattlesByManaCapDocument } from './ui/battles-by-mana-cap.document';
 import { BattlesByTimestampDocument } from './ui/battles-by-timestamp.document';
 import { StatsViewBagDocument } from './ui/stats-view-bag.document';
 
@@ -28,11 +29,11 @@ export class StatsService {
   }
 
   async getBattlesByLeague(): Promise<BattlesByLeagueDocument[]> {
-    const fromTransactions = await this.battleRepository.findBattlesByLeague(
+    const fromTransactions = await this.battleRepository.groupByLeague(
       'transaction',
     );
 
-    const fromPlayerHistory = await this.battleRepository.findBattlesByLeague(
+    const fromPlayerHistory = await this.battleRepository.groupByLeague(
       'playerHistory',
     );
 
@@ -71,11 +72,12 @@ export class StatsService {
   }
 
   async getBattlesByTimestamp(): Promise<BattlesByTimestampDocument[]> {
-    const fromTransactions = await this.battleRepository.findBattlesByTimestamp(
+    const fromTransactions = await this.battleRepository.groupByTimestamp(
       'transaction',
     );
-    const fromPlayerHistory =
-      await this.battleRepository.findBattlesByTimestamp('playerHistory');
+    const fromPlayerHistory = await this.battleRepository.groupByTimestamp(
+      'playerHistory',
+    );
 
     const days = _.chain([...fromTransactions, ...fromPlayerHistory])
       .map((it) => it._id)
@@ -84,24 +86,67 @@ export class StatsService {
 
     const now = moment().unix();
 
-    const documents: BattlesByTimestampDocument[] = days.map((dayOfYear) => {
-      const resultFromTransactions = fromTransactions.find(
-        (it) => it._id === dayOfYear,
-      );
-      const resultFromPlayerHistory = fromPlayerHistory.find(
-        (it) => it._id === dayOfYear,
-      );
+    const documents: BattlesByTimestampDocument[] = _.chain(days)
+      .sort()
+      .map((dayOfYear) => {
+        const resultFromTransactions = fromTransactions.find(
+          (it) => it._id === dayOfYear,
+        );
+        const resultFromPlayerHistory = fromPlayerHistory.find(
+          (it) => it._id === dayOfYear,
+        );
 
-      const document: BattlesByTimestampDocument = {
-        id: dayOfYear.toString(),
-        updated: now,
-        timestamp: moment().dayOfYear(dayOfYear).unix(),
-        fromTransactions: resultFromTransactions?.count ?? 0,
-        fromPlayerHistory: resultFromPlayerHistory?.count ?? 0,
-      };
+        const document: BattlesByTimestampDocument = {
+          id: dayOfYear.toString(),
+          updated: now,
+          timestamp: moment().dayOfYear(dayOfYear).unix(),
+          fromTransactions: resultFromTransactions?.count ?? 0,
+          fromPlayerHistory: resultFromPlayerHistory?.count ?? 0,
+        };
 
-      return document;
-    });
+        return document;
+      })
+      .value();
+
+    return documents;
+  }
+
+  async getBattlesByManaCap(): Promise<BattlesByManaCapDocument[]> {
+    const fromTransactions = await this.battleRepository.groupByManaCap(
+      'transaction',
+    );
+    const fromPlayerHistory = await this.battleRepository.groupByManaCap(
+      'playerHistory',
+    );
+
+    const manaCaps = _.chain([...fromTransactions, ...fromPlayerHistory])
+      .map((it) => it._id)
+      .uniq()
+      .value();
+
+    const now = moment().unix();
+
+    const documents: BattlesByManaCapDocument[] = _.chain(manaCaps)
+      .sort()
+      .map((manaCap) => {
+        const resultFromTransactions = fromTransactions.find(
+          (it) => it._id === manaCap,
+        );
+        const resultFromPlayerHistory = fromPlayerHistory.find(
+          (it) => it._id === manaCap,
+        );
+
+        const document: BattlesByManaCapDocument = {
+          id: manaCap.toString(),
+          updated: now,
+          manaCap,
+          fromTransactions: resultFromTransactions?.count ?? 0,
+          fromPlayerHistory: resultFromPlayerHistory?.count ?? 0,
+        };
+
+        return document;
+      })
+      .value();
 
     return documents;
   }

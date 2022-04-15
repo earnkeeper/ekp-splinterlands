@@ -14,6 +14,7 @@ import {
 import { Injectable } from '@nestjs/common';
 import { StatsService } from './stats.service';
 import { BattlesByLeagueDocument } from './ui/battles-by-league.document';
+import { BattlesByManaCapDocument } from './ui/battles-by-mana-cap.document';
 import { BattlesByTimestampDocument } from './ui/battles-by-timestamp.document';
 import { StatsViewBagDocument } from './ui/stats-view-bag.document';
 import page from './ui/stats.uielement';
@@ -57,6 +58,7 @@ export class StatsController extends AbstractController {
       await Promise.all([
         this.fetchAndEmitByLeague(event),
         this.fetchAndEmitByTimestamp(event),
+        this.fetchAndEmitByManaCap(event),
         this.fetchAndEmitViewBag(event),
       ]);
     } catch (error) {
@@ -71,6 +73,10 @@ export class StatsController extends AbstractController {
       await this.clientService.emitDone(
         event,
         collection(BattlesByTimestampDocument),
+      );
+      await this.clientService.emitDone(
+        event,
+        collection(BattlesByManaCapDocument),
       );
       await this.clientService.emitDone(
         event,
@@ -109,6 +115,21 @@ export class StatsController extends AbstractController {
     await this.clientService.emitDocuments(
       event,
       collection(BattlesByTimestampDocument),
+      documents,
+    );
+  }
+
+  private async fetchAndEmitByManaCap(event: ClientStateChangedEvent) {
+    await this.clientService.emitBusy(
+      event,
+      collection(BattlesByManaCapDocument),
+    );
+
+    const documents = await this.statsService.getBattlesByManaCap();
+
+    await this.clientService.emitDocuments(
+      event,
+      collection(BattlesByManaCapDocument),
       documents,
     );
   }

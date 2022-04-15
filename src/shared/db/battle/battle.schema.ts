@@ -101,7 +101,7 @@ export const BattleSchema = SchemaFactory.createForClass(Battle)
   .index({
     timestamp: -1,
     cardHashes: 1,
-    mana: 1,
+    manaCap: 1,
   })
   .index({
     source: 1,
@@ -114,4 +114,8 @@ export const BattleSchema = SchemaFactory.createForClass(Battle)
   .index({
     source: 1,
     fetchedDay: 1,
+  })
+  .index({
+    source: 1,
+    manaCap: 1,
   });

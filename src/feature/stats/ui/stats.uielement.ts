@@ -18,6 +18,7 @@ import _ from 'lodash';
 import { LEAGUES } from '../../../shared/game';
 import { statsCard } from '../../../util';
 import { BattlesByLeagueDocument } from './battles-by-league.document';
+import { BattlesByManaCapDocument } from './battles-by-mana-cap.document';
 import { BattlesByTimestampDocument } from './battles-by-timestamp.document';
 import { StatsViewBagDocument } from './stats-view-bag.document';
 
@@ -50,6 +51,7 @@ function IntroRow() {
       'The charts and numbers below show the current state of our battle synchronization, we use it to make sure we are getting good battle coverage, so you can use it too!',
   });
 }
+
 function statsRow() {
   return Row({
     className: 'mt-2',
@@ -83,8 +85,12 @@ function Charts() {
         children: [BattlesByLeagueChart()],
       }),
       Col({
-        className: 'col-12 mt-2',
+        className: 'col-12 mt-1',
         children: [BattlesByTimestampChart()],
+      }),
+      Col({
+        className: 'col-12 mt-1',
+        children: [BattlesByManaCapChart()],
       }),
     ],
   });
@@ -135,6 +141,60 @@ function BattlesByLeagueChart() {
           method: 'map',
           params: [
             `${documents(BattlesByLeagueDocument)}`,
+            '$.fromPlayerHistory',
+          ],
+        },
+      },
+    ],
+  });
+}
+
+function BattlesByManaCapChart() {
+  return Chart({
+    title: 'Battles By Mana Cap',
+    type: 'bar',
+    height: 400,
+    busyWhen: isBusy(collection(BattlesByManaCapDocument)),
+    data: documents(BattlesByManaCapDocument),
+    options: {
+      chart: {
+        stacked: true,
+        toolbar: {
+          show: false,
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      yaxis: {
+        labels: {
+          formatter: formatToken('$'),
+        },
+      },
+      xaxis: {
+        categories: {
+          method: 'map',
+          params: [`${documents(BattlesByManaCapDocument)}`, '$.manaCap'],
+        },
+      },
+    },
+    series: [
+      {
+        name: 'From Transactions',
+        data: {
+          method: 'map',
+          params: [
+            `${documents(BattlesByManaCapDocument)}`,
+            '$.fromTransactions',
+          ],
+        },
+      },
+      {
+        name: 'From Player History',
+        data: {
+          method: 'map',
+          params: [
+            `${documents(BattlesByManaCapDocument)}`,
             '$.fromPlayerHistory',
           ],
         },
