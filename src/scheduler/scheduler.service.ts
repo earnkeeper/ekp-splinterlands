@@ -2,6 +2,7 @@ import { SCHEDULER_QUEUE } from '@earnkeeper/ekp-sdk-nestjs';
 import { InjectQueue, Processor } from '@nestjs/bull';
 import { Cron } from '@nestjs/schedule';
 import { Queue } from 'bull';
+import { RedisService } from 'nestjs-redis';
 import {
   FETCH_BATTLE_TRANSACTIONS,
   FETCH_IGN_BATTLES,
@@ -12,7 +13,10 @@ import {
 
 @Processor(SCHEDULER_QUEUE)
 export class SchedulerService {
-  constructor(@InjectQueue(SCHEDULER_QUEUE) private queue: Queue) {}
+  constructor(
+    @InjectQueue(SCHEDULER_QUEUE) private queue: Queue,
+    private redisService: RedisService,
+  ) {}
 
   async addJob<T>(
     jobName: string,
@@ -58,6 +62,10 @@ export class SchedulerService {
     await this.queue.clean(0, 'active');
     await this.queue.clean(0, 'delayed');
     await this.queue.clean(0, 'paused');
+
+    const client = this.redisService.getClient('DEFAULT_CLIENT');
+    await client.flushall();
+    await client.flushdb();
 
     this.addJob(MIGRATE_BATTLES, {}, 5000, MIGRATE_BATTLES);
     this.addJob(
