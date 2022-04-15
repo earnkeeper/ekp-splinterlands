@@ -6,5 +6,6 @@ redis:
     persistence:
       enabled: false
   master:
+    disableCommands: []
     persistence:
       enabled: false
