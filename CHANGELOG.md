@@ -2,31 +2,32 @@
 
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
-## [1.2.6]
+## [1.2.6] - 2022-04-14
 
 ### Added
 
-- ✨ New page: Card Browser, browse and filter all cards in the game in detail. With links out to splinterlands pages
 - ✨ Add power ratings to the Marketplace, total power for starred cards
+- ✨ New page: Card Browser, browse and filter all cards in the game in detail. With links out to splinterlands pages
+- ✨ New page: Db Stats, check the latest state of our battles database, we are using it to improve how many battles we index
 
 ### Fixed
 
 - 🐛 Incorrect power calculations for most cards
 - 🐛 Width of star button in marketplace rows
 
-## [1.2.5]
+## [1.2.5] - 2022-04-13
 
 ### Added
 
 - ✨ Can now filter the Battle Planner by quest to see which teams satisfy your current quest
 
-## [1.2.4]
+## [1.2.4] - 2022-04-12
 
 ### Added
 
 - ✨ Can now add market cards to favourites, see total favourites value, filter by favourites
 
-## [1.2.3]
+## [1.2.3] - 2022-04-11
 
 ### Added
 
@@ -44,7 +45,7 @@
 - 🐛 Ruleset icons now being displayed correctly
 - 🐛 Correctly show DRAW results in Battle History
 
-## [1.2.2]
+## [1.2.2] - 2022-04-08
 
 ### Added
 
@@ -58,7 +59,7 @@
 
 - 🔨 Fetching more battle data, and fetching all rule sets, user can filter by rule set in the client
 
-## [1.2.1]
+## [1.2.1] - 2022-04-07
 
 ### Added
 
