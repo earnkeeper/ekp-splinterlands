@@ -4,9 +4,11 @@ import {
   Container,
   DefaultProps,
   documents,
+  formatTimeToNow,
   formatToken,
   isBusy,
   PageHeaderTile,
+  path,
   Row,
   Rpc,
   Span,
@@ -14,12 +16,14 @@ import {
 } from '@earnkeeper/ekp-sdk';
 import _ from 'lodash';
 import { LEAGUES } from '../../../shared/game';
+import { statsCard } from '../../../util';
 import { BattlesByLeagueDocument } from './battles-by-league.document';
 import { BattlesByTimestampDocument } from './battles-by-timestamp.document';
+import { StatsViewBagDocument } from './stats-view-bag.document';
 
 export default function element(): UiElement {
   return Container({
-    children: [TitleRow(), IntroRow(), Charts()],
+    children: [TitleRow(), IntroRow(), statsRow(), Charts()],
   });
 }
 
@@ -46,12 +50,36 @@ function IntroRow() {
       'The charts and numbers below show the current state of our battle synchronization, we use it to make sure we are getting good battle coverage, so you can use it too!',
   });
 }
+function statsRow() {
+  return Row({
+    className: 'mt-2',
+    context: `${path(StatsViewBagDocument)}[0]`,
+    children: [
+      Col({
+        className: 'col-auto',
+        children: [statsCard('Total Battles', formatToken('$.totalBattles'))],
+      }),
+      Col({
+        className: 'col-auto',
+        children: [
+          statsCard('Oldest Battle', formatTimeToNow('$.oldestBattle')),
+        ],
+      }),
+      Col({
+        className: 'col-auto',
+        children: [
+          statsCard('Latest Battle', formatTimeToNow('$.latestBattle')),
+        ],
+      }),
+    ],
+  });
+}
 
 function Charts() {
   return Row({
     children: [
       Col({
-        className: 'col-12 mt-2',
+        className: 'col-12 mt-1',
         children: [BattlesByLeagueChart()],
       }),
       Col({

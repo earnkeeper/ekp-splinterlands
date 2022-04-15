@@ -11,6 +11,38 @@ export class BattleRepository {
     public battleModel: Model<Battle>,
   ) {}
 
+  async count(): Promise<number> {
+    return this.battleModel.countDocuments();
+  }
+
+  async findOldest(): Promise<Battle> {
+    const results = await this.battleModel
+      .find()
+      .sort('timestamp')
+      .limit(1)
+      .exec();
+
+    if (!results || results.length === 0) {
+      return undefined;
+    }
+
+    return results[0];
+  }
+
+  async findLatest(): Promise<Battle> {
+    const results = await this.battleModel
+      .find()
+      .sort('-timestamp')
+      .limit(1)
+      .exec();
+
+    if (!results || results.length === 0) {
+      return undefined;
+    }
+
+    return results[0];
+  }
+
   async findBattlesByLeague(source: string) {
     validate(source, 'string');
 

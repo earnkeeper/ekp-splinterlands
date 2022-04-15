@@ -15,6 +15,7 @@ import { Injectable } from '@nestjs/common';
 import { StatsService } from './stats.service';
 import { BattlesByLeagueDocument } from './ui/battles-by-league.document';
 import { BattlesByTimestampDocument } from './ui/battles-by-timestamp.document';
+import { StatsViewBagDocument } from './ui/stats-view-bag.document';
 import page from './ui/stats.uielement';
 
 const PATH = 'stats';
@@ -56,6 +57,7 @@ export class StatsController extends AbstractController {
       await Promise.all([
         this.fetchAndEmitByLeague(event),
         this.fetchAndEmitByTimestamp(event),
+        this.fetchAndEmitViewBag(event),
       ]);
     } catch (error) {
       this.apmService.captureError(error);
@@ -69,6 +71,10 @@ export class StatsController extends AbstractController {
       await this.clientService.emitDone(
         event,
         collection(BattlesByTimestampDocument),
+      );
+      await this.clientService.emitDone(
+        event,
+        collection(StatsViewBagDocument),
       );
     }
   }
@@ -104,6 +110,18 @@ export class StatsController extends AbstractController {
       event,
       collection(BattlesByTimestampDocument),
       documents,
+    );
+  }
+
+  private async fetchAndEmitViewBag(event: ClientStateChangedEvent) {
+    await this.clientService.emitBusy(event, collection(StatsViewBagDocument));
+
+    const document = await this.statsService.getViewBag();
+
+    await this.clientService.emitDocuments(
+      event,
+      collection(StatsViewBagDocument),
+      [document],
     );
   }
 }

@@ -18,9 +18,9 @@ export function statsCard(title: string, body: string | Rpc) {
           Col({
             className: 'col-auto pr-2',
             children: [
-              Span({ className: 'd-block', content: title }),
+              Span({ className: 'd-block font-small-3', content: title }),
               Span({
-                className: 'd-block font-weight-bold',
+                className: 'd-block font-small-4 font-weight-bold',
                 content: body,
               }),
             ],

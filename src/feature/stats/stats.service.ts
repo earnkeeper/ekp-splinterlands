@@ -5,15 +5,33 @@ import { BattleRepository } from '../../shared/db';
 import { LEAGUES } from '../../shared/game';
 import { BattlesByLeagueDocument } from './ui/battles-by-league.document';
 import { BattlesByTimestampDocument } from './ui/battles-by-timestamp.document';
+import { StatsViewBagDocument } from './ui/stats-view-bag.document';
 
 @Injectable()
 export class StatsService {
   constructor(private battleRepository: BattleRepository) {}
 
+  async getViewBag(): Promise<StatsViewBagDocument> {
+    const [totalBattles, oldestBattle, latestBattle] = await Promise.all([
+      this.battleRepository.count(),
+      this.battleRepository.findOldest(),
+      this.battleRepository.findLatest(),
+    ]);
+
+    return {
+      id: '0',
+      updated: moment().unix(),
+      totalBattles,
+      oldestBattle: oldestBattle?.timestamp,
+      latestBattle: latestBattle?.timestamp,
+    };
+  }
+
   async getBattlesByLeague(): Promise<BattlesByLeagueDocument[]> {
     const fromTransactions = await this.battleRepository.findBattlesByLeague(
       'transaction',
     );
+
     const fromPlayerHistory = await this.battleRepository.findBattlesByLeague(
       'playerHistory',
     );
