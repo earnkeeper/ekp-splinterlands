@@ -35,6 +35,8 @@ export class BattlesController extends AbstractController {
       return;
     }
 
+    await this.clientService.emitBusy(event, COLLECTION_NAME);
+
     const cardId = event.state?.client?.queryParams?.card;
     const leagueName = event.state?.client?.queryParams?.leagueName;
 
