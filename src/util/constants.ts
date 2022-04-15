@@ -52,8 +52,8 @@ export const LEADERBOARD_LEAGUES = [
   },
 ];
 
-export const FREE_DAYS_TO_KEEP = 1;
-export const PREMIUM_DAYS_TO_KEEP = 14;
+export const FREE_DAYS_TO_KEEP = 28;
+export const PREMIUM_DAYS_TO_KEEP = 28;
 
 export const SPLINTER_IMAGE_MAP = {
   Death:

@@ -13,12 +13,11 @@ import {
 } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
-import { MarketService } from '../../shared/game';
+import { DEFAULT_PLANNER_FORM } from '../../util/constants';
 import { PlannerService } from './planner.service';
 import { PlannerViewBag } from './ui/planner-view-bag.document';
 import { PlannerDocument } from './ui/planner.document';
 import planner from './ui/planner.uielement';
-import { DEFAULT_PLANNER_FORM } from '../../util/constants';
 
 const COLLECTION_NAME = collection(PlannerDocument);
 const PATH = 'planner';
@@ -28,7 +27,6 @@ export class PlannerController extends AbstractController {
   constructor(
     clientService: ClientService,
     private apmService: ApmService,
-    private gameService: MarketService,
     private plannerService: PlannerService,
   ) {
     super(clientService);
