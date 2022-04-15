@@ -7,6 +7,7 @@ import {
   formatTimeToNow,
   formatToken,
   isBusy,
+  jsonArray,
   PageHeaderTile,
   path,
   Row,
@@ -130,7 +131,7 @@ function BattlesByLeagueChart() {
         data: {
           method: 'map',
           params: [
-            `${documents(BattlesByLeagueDocument)}`,
+            jsonArray(documents(BattlesByLeagueDocument)),
             '$.fromTransactions',
           ],
         },
@@ -140,7 +141,7 @@ function BattlesByLeagueChart() {
         data: {
           method: 'map',
           params: [
-            `${documents(BattlesByLeagueDocument)}`,
+            jsonArray(documents(BattlesByLeagueDocument)),
             '$.fromPlayerHistory',
           ],
         },
@@ -174,7 +175,7 @@ function BattlesByManaCapChart() {
       xaxis: {
         categories: {
           method: 'map',
-          params: [`${documents(BattlesByManaCapDocument)}`, '$.manaCap'],
+          params: [jsonArray(documents(BattlesByManaCapDocument)), '$.manaCap'],
         },
       },
     },
@@ -184,7 +185,7 @@ function BattlesByManaCapChart() {
         data: {
           method: 'map',
           params: [
-            `${documents(BattlesByManaCapDocument)}`,
+            jsonArray(documents(BattlesByManaCapDocument)),
             '$.fromTransactions',
           ],
         },
@@ -194,7 +195,7 @@ function BattlesByManaCapChart() {
         data: {
           method: 'map',
           params: [
-            `${documents(BattlesByManaCapDocument)}`,
+            jsonArray(documents(BattlesByManaCapDocument)),
             '$.fromPlayerHistory',
           ],
         },
@@ -226,7 +227,13 @@ function BattlesByTimestampChart() {
         categories: {
           method: 'map',
           params: [
-            `${documents(BattlesByTimestampDocument)}`,
+            {
+              method: 'sortBy',
+              params: [
+                jsonArray(documents(BattlesByTimestampDocument)),
+                '$.timestamp',
+              ],
+            },
             {
               method: 'momentFormatFromUnix',
               params: ['$.timestamp', 'Do MMM'],
@@ -246,7 +253,13 @@ function BattlesByTimestampChart() {
         data: {
           method: 'map',
           params: [
-            `${documents(BattlesByTimestampDocument)}`,
+            {
+              method: 'sortBy',
+              params: [
+                jsonArray(documents(BattlesByTimestampDocument)),
+                '$.timestamp',
+              ],
+            },
             '$.fromTransactions',
           ],
         },
@@ -256,7 +269,13 @@ function BattlesByTimestampChart() {
         data: {
           method: 'map',
           params: [
-            `${documents(BattlesByTimestampDocument)}`,
+            {
+              method: 'sortBy',
+              params: [
+                jsonArray(documents(BattlesByTimestampDocument)),
+                '$.timestamp',
+              ],
+            },
             '$.fromPlayerHistory',
           ],
         },
