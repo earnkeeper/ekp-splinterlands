@@ -18,7 +18,7 @@ import { CollectionDocument } from './ui/collection.document';
 import page from './ui/collection.uielement';
 
 const COLLECTION_NAME = collection(CollectionDocument);
-const PATH = 'collection';
+const PATH = 'playercards';
 
 @Injectable()
 export class CollectionController extends AbstractController {
@@ -32,14 +32,14 @@ export class CollectionController extends AbstractController {
 
   async onClientConnected(event: ClientConnectedEvent) {
     await this.clientService.emitMenu(event, {
-      id: `splinterlands-${PATH}`,
+      id: PATH,
       title: 'Player Cards',
       navLink: PATH,
       icon: 'cil-color-palette',
     });
 
     await this.clientService.emitPage(event, {
-      id: `splinterlands-${PATH}`,
+      id: PATH,
       element: page(),
     });
   }

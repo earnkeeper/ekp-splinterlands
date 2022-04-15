@@ -17,7 +17,7 @@ import { CardDocument } from './ui/cards.document';
 import page from './ui/cards.uielement';
 
 const COLLECTION_NAME = collection(CardDocument);
-const PATH = 'cards';
+const PATH = 'cardbrowser';
 
 @Injectable()
 export class CardsController extends AbstractController {
@@ -31,14 +31,14 @@ export class CardsController extends AbstractController {
 
   async onClientConnected(event: ClientConnectedEvent) {
     await this.clientService.emitMenu(event, {
-      id: `splinterlands-${PATH}`,
+      id: PATH,
       title: 'Card Browser',
       navLink: PATH,
       icon: 'search',
     });
 
     await this.clientService.emitPage(event, {
-      id: `splinterlands-${PATH}`,
+      id: PATH,
       element: page(),
     });
   }
