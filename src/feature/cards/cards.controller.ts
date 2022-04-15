@@ -31,14 +31,14 @@ export class CardsController extends AbstractController {
 
   async onClientConnected(event: ClientConnectedEvent) {
     await this.clientService.emitMenu(event, {
-      id: PATH,
+      id: `splinterlands-${PATH}`,
       title: 'Card Browser',
       navLink: PATH,
       icon: 'search',
     });
 
     await this.clientService.emitPage(event, {
-      id: PATH,
+      id: `splinterlands-${PATH}`,
       element: page(),
     });
   }

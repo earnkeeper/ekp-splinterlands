@@ -32,14 +32,14 @@ export class CollectionController extends AbstractController {
 
   async onClientConnected(event: ClientConnectedEvent) {
     await this.clientService.emitMenu(event, {
-      id: PATH,
+      id: `splinterlands-${PATH}`,
       title: 'Player Cards',
       navLink: PATH,
       icon: 'cil-color-palette',
     });
 
     await this.clientService.emitPage(event, {
-      id: PATH,
+      id: `splinterlands-${PATH}`,
       element: page(),
     });
   }
