@@ -1,7 +1,6 @@
 import { AbstractApiService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import axios from 'axios-https-proxy-fix';
-import { validate } from 'bycontract';
 import {
   CardDetailDto,
   ForSaleGroupedDto,
@@ -24,10 +23,10 @@ export class ApiService extends AbstractApiService {
     super({
       name: 'SplinterlandsApiService',
       limit: {
-        maxConcurrent: 25,
-        reservoir: 25,
-        reservoirRefreshAmount: 25,
-        reservoirRefreshInterval: 5000,
+        maxConcurrent: 50,
+        reservoir: 50,
+        reservoirRefreshAmount: 50,
+        reservoirRefreshInterval: 15000,
       },
     });
 
