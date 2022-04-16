@@ -2,6 +2,13 @@
 
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [1.2.8] - 2022-04-15
+
+### Fixed
+
+- 🐛 Slow performance on all pages due to battle processor hogging resources
+- 🐛 Now fetching champion league battles too
+
 ## [1.2.7] - 2022-04-15
 
 ### Added

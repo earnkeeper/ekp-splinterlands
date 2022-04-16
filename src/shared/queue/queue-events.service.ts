@@ -1,6 +1,7 @@
 import { logger, SCHEDULER_QUEUE } from '@earnkeeper/ekp-sdk-nestjs';
 import {
   OnQueueActive,
+  OnQueueCompleted,
   OnQueueError,
   OnQueueWaiting,
   Processor,
@@ -11,9 +12,7 @@ import { Job } from 'bull';
 export class QueueEventsService {
   @OnQueueActive()
   onQueueActive(job: Job) {
-    logger.log(
-      `Processing job ${job?.id} of type ${job?.name} with data ${job?.data}`,
-    );
+    logger.log(`Processing job ${job?.id} of type ${job?.name}`);
   }
 
   @OnQueueWaiting()
@@ -24,5 +23,10 @@ export class QueueEventsService {
   @OnQueueError()
   onQueueError(error: Error) {
     logger.error(error);
+  }
+
+  @OnQueueCompleted()
+  onQueueCompleted(job: Job) {
+    logger.log(`Completed job ${job.id}`);
   }
 }

@@ -5,6 +5,7 @@ import { GameModule } from '../game/game.module';
 import { BattleProcessor } from './processors';
 import { CardProcessor } from './processors/card.processor';
 import { MigrateProcessor } from './processors/migrate.processor';
+import { StatsProcessor } from './processors/stats.processor';
 import { QueueEventsService } from './queue-events.service';
 @Module({
   imports: [ApiModule, DbModule, GameModule],
@@ -13,6 +14,7 @@ import { QueueEventsService } from './queue-events.service';
     CardProcessor,
     MigrateProcessor,
     QueueEventsService,
+    StatsProcessor,
   ],
 })
 export class QueueModule {}

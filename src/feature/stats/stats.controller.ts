@@ -97,6 +97,10 @@ export class StatsController extends AbstractController {
 
     const documents = await this.statsService.getBattlesByLeague();
 
+    if (!documents?.length) {
+      return;
+    }
+
     await this.clientService.emitDocuments(
       event,
       collection(BattlesByLeagueDocument),
@@ -111,6 +115,10 @@ export class StatsController extends AbstractController {
     );
 
     const documents = await this.statsService.getBattlesByTimestamp();
+
+    if (!documents?.length) {
+      return;
+    }
 
     await this.clientService.emitDocuments(
       event,
@@ -127,6 +135,10 @@ export class StatsController extends AbstractController {
 
     const documents = await this.statsService.getBattlesByManaCap();
 
+    if (!documents?.length) {
+      return;
+    }
+
     await this.clientService.emitDocuments(
       event,
       collection(BattlesByManaCapDocument),
@@ -138,6 +150,10 @@ export class StatsController extends AbstractController {
     await this.clientService.emitBusy(event, collection(StatsViewBagDocument));
 
     const document = await this.statsService.getViewBag();
+
+    if (!document) {
+      return;
+    }
 
     await this.clientService.emitDocuments(
       event,

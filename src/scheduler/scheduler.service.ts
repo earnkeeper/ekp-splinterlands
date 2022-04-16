@@ -6,6 +6,7 @@ import { RedisService } from 'nestjs-redis';
 import {
   FETCH_BATTLE_TRANSACTIONS,
   MIGRATE_BATTLES,
+  PROCESS_BATTLE_STATS,
 } from '../shared/queue/constants';
 
 @Processor(SCHEDULER_QUEUE)
@@ -43,10 +44,15 @@ export class SchedulerService {
 
     this.addJob(MIGRATE_BATTLES, {}, 5000, MIGRATE_BATTLES);
     this.addJob(FETCH_BATTLE_TRANSACTIONS, {}, 5000, FETCH_BATTLE_TRANSACTIONS);
+    this.addJob(PROCESS_BATTLE_STATS, {}, 5000, PROCESS_BATTLE_STATS);
   }
 
   @Cron('0 */10 * * * *')
   every10minutes() {
     this.addJob(FETCH_BATTLE_TRANSACTIONS, {}, 0, FETCH_BATTLE_TRANSACTIONS);
+  }
+  @Cron('0 5 */2 * * *')
+  every2hours() {
+    this.addJob(PROCESS_BATTLE_STATS, {}, 5000, PROCESS_BATTLE_STATS);
   }
 }

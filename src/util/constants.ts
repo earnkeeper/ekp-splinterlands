@@ -139,3 +139,10 @@ export const QUEST_IMAGE_MAP = {
   Snipe:
     'https://d36mxiodymuqjm.cloudfront.net/website/ui_elements/quests/btn_round_snipe_active.svg',
 };
+
+export const CACHE_STATS_VIEW_BAG = 'CACHE_STATS_VIEW_BAG';
+export const CACHE_STATS_BATTLES_BY_LEAGUE = 'CACHE_STATS_BATTLES_BY_LEAGUE';
+export const CACHE_STATS_BATTLES_BY_TIMESTAMP =
+  'CACHE_STATS_BATTLES_BY_TIMESTAMP';
+export const CACHE_STATS_BATTLES_BY_MANA_CAP =
+  'CACHE_STATS_BATTLES_BY_MANA_CAP';
