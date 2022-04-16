@@ -8,7 +8,6 @@ import {
   documents,
   Form,
   formatCurrency,
-  formatToken,
   Fragment,
   GridTile,
   Image,
@@ -30,6 +29,7 @@ import {
   teamModal,
   TEAM_MODAL_ID,
 } from '../../../util';
+import { commify } from '../../../util/rpc/commify.rpc';
 import { imageLabelCell } from '../../../util/ui/imageLabelCell';
 import { DeckDocument } from './deck.document';
 
@@ -205,7 +205,7 @@ export function decksTable() {
               content: formatCurrency('$.price', '$.fiatSymbol'),
             },
             right: {
-              content: formatToken('$.qty'),
+              content: commify('$.qty'),
             },
           }),
         },

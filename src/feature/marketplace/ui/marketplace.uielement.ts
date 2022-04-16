@@ -11,7 +11,6 @@ import {
   formatCurrency,
   formatPercent,
   formatTemplate,
-  formatToken,
   formValue,
   Fragment,
   GridTile,
@@ -58,6 +57,7 @@ import {
   SPLINTER_IMAGE_MAP,
   statsCard,
 } from '../../../util';
+import { commify } from '../../../util/rpc/commify.rpc';
 import { imageLabelCell } from '../../../util/ui/imageLabelCell';
 import { ListingDocument } from './listing.document';
 
@@ -109,7 +109,7 @@ function statsRow() {
         children: [
           statsCard(
             'Total Starred Power',
-            formatToken(
+            commify(
               sum(`${path(ListingDocument)}[?(@.starred == 'Yes')].power`),
             ),
           ),
@@ -309,7 +309,7 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
           },
           {
             label: 'Battles',
-            value: formatToken('$.battles'),
+            value: commify('$.battles'),
           },
           {
             label: 'Win Rate',
@@ -320,7 +320,7 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
           content: formatCurrency('$.price', '$.fiatSymbol'),
         },
         right: {
-          content: formatToken('$.qty'),
+          content: commify('$.qty'),
         },
       }),
     },
@@ -369,7 +369,7 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
       },
       {
         id: 'battles',
-        format: formatToken('$.battles'),
+        format: commify('$.battles'),
         sortable: true,
       },
       {
@@ -411,7 +411,7 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
       },
       {
         id: 'qty',
-        format: formatToken('$.qty'),
+        format: commify('$.qty'),
         sortable: true,
         width: '80px',
       },

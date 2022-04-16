@@ -1,4 +1,5 @@
-import { formatToken, switchCase } from '@earnkeeper/ekp-sdk';
+import { switchCase } from '@earnkeeper/ekp-sdk';
+import { commify } from '../../util/rpc/commify.rpc';
 import {
   EDITION_IMAGE_MAP,
   FOIL_IMAGE_MAP,
@@ -19,7 +20,7 @@ export const RARITY_COLUMN = {
 export const POWER_COLUMN = {
   id: 'power',
   sortable: true,
-  format: formatToken('$.power'),
+  format: commify('$.power'),
 };
 
 export const SPLINTER_COLUMN = {

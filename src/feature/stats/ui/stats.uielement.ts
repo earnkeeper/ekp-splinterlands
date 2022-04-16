@@ -5,7 +5,6 @@ import {
   DefaultProps,
   documents,
   formatTimeToNow,
-  formatToken,
   isBusy,
   jsonArray,
   PageHeaderTile,
@@ -18,6 +17,7 @@ import {
 import _ from 'lodash';
 import { LEAGUES } from '../../../shared/game';
 import { statsCard } from '../../../util';
+import { commify } from '../../../util/rpc/commify.rpc';
 import { BattlesByLeagueDocument } from './battles-by-league.document';
 import { BattlesByManaCapDocument } from './battles-by-mana-cap.document';
 import { BattlesByTimestampDocument } from './battles-by-timestamp.document';
@@ -60,7 +60,7 @@ function statsRow() {
     children: [
       Col({
         className: 'col-auto',
-        children: [statsCard('Total Battles', formatToken('$.totalBattles'))],
+        children: [statsCard('Total Battles', commify('$.totalBattles'))],
       }),
       Col({
         className: 'col-auto',
@@ -116,7 +116,7 @@ function BattlesByLeagueChart() {
       },
       yaxis: {
         labels: {
-          formatter: formatToken('$'),
+          formatter: commify('$'),
         },
       },
       xaxis: {
@@ -170,7 +170,7 @@ function BattlesByManaCapChart() {
       },
       yaxis: {
         labels: {
-          formatter: formatToken('$'),
+          formatter: commify('$'),
         },
       },
       xaxis: {
@@ -244,7 +244,7 @@ function BattlesByTimestampChart() {
       },
       yaxis: {
         labels: {
-          formatter: formatToken('$'),
+          formatter: commify('$'),
         },
       },
     },

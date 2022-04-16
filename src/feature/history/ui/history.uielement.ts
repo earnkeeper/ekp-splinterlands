@@ -10,7 +10,6 @@ import {
   Form,
   formatAge,
   formatTemplate,
-  formatToken,
   GridTile,
   Image,
   Input,
@@ -24,6 +23,7 @@ import {
 } from '@earnkeeper/ekp-sdk';
 import { RULESET_IMAGE_MAP } from '../../../shared/game';
 import { DEFAULT_HISTORY_FORM, SPLINTER_IMAGE_MAP } from '../../../util';
+import { commify } from '../../../util/rpc/commify.rpc';
 import { HistoryDocument } from './history.document';
 
 export default function element(): UiElement {
@@ -182,7 +182,7 @@ function historyRow(): UiElement {
           content: formatAge('$.timestamp'),
         },
         right: {
-          content: formatToken('$.qty'),
+          content: commify('$.qty'),
         },
       }),
     },

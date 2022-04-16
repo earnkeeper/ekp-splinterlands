@@ -11,7 +11,6 @@ import {
   formatCurrency,
   formatPercent,
   formatTemplate,
-  formatToken,
   Fragment,
   GridTile,
   Image,
@@ -36,6 +35,7 @@ import {
   teamModal,
   TEAM_MODAL_ID,
 } from '../../../util';
+import { commify } from '../../../util/rpc/commify.rpc';
 import { imageLabelCell } from '../../../util/ui/imageLabelCell';
 import { PlannerViewBag } from './planner-view-bag.document';
 import { PlannerDocument } from './planner.document';
@@ -165,7 +165,7 @@ function teamRow(): UiElement {
         content: formatTemplate(
           'Data based on {{ battleCount }} battles starting {{ ago }}.',
           {
-            battleCount: formatToken(`${path(PlannerViewBag)}.0.battleCount`),
+            battleCount: commify(`${path(PlannerViewBag)}.0.battleCount`),
             ago: formatAge(`${path(PlannerViewBag)}.0.firstBattleTimestamp`),
           },
         ),
@@ -260,7 +260,7 @@ function teamRow(): UiElement {
               },
               {
                 label: 'Battles',
-                value: formatToken('$.battles'),
+                value: commify('$.battles'),
               },
               {
                 label: 'Mana',
@@ -279,7 +279,7 @@ function teamRow(): UiElement {
               content: formatCurrency('$.price', '$.fiatSymbol'),
             },
             right: {
-              content: formatToken('$.qty'),
+              content: commify('$.qty'),
             },
           }),
         },

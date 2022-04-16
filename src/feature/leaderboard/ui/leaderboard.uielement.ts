@@ -7,7 +7,6 @@ import {
   documents,
   Form,
   formatCurrency,
-  formatToken,
   Fragment,
   GridTile,
   isBusy,
@@ -19,6 +18,7 @@ import {
 } from '@earnkeeper/ekp-sdk';
 import { LEAGUE_GROUPS } from '../../../shared/game';
 import { DEFAULT_LEADERBOARD_FORM } from '../../../util';
+import { commify } from '../../../util/rpc/commify.rpc';
 import { LeaderboardDocument } from './leaderboard.document';
 
 export default function element(): UiElement {
@@ -147,7 +147,7 @@ function tableRow(): UiElement {
           content: formatCurrency('$.price', '$.fiatSymbol'),
         },
         right: {
-          content: formatToken('$.qty'),
+          content: commify('$.qty'),
         },
       }),
     },
@@ -185,7 +185,7 @@ function tableRow(): UiElement {
         id: 'reward',
         grow: 0,
         sortable: true,
-        format: formatToken('$.reward'),
+        format: commify('$.reward'),
       },
       {
         id: 'rewardFiat',
