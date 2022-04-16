@@ -18,23 +18,8 @@ export class SchedulerService {
     private redisService: RedisService,
   ) {}
 
-  async addJob<T>(
-    jobName: string,
-    data?: T,
-    delay = 0,
-    jobId?: string,
-    environments?: string[],
-  ) {
-    // if (
-    //   (!Array.isArray(environments) || environments.length === 0) &&
-    //   process.env.NODE_ENV !== 'production'
-    // ) {
-    //   return;
-    // }
-
-    // if (!environments.includes(process.env.NODE_ENV)) {
-    //   return;
-    // }
+  async addJob<T>(jobName: string, data?: T, delay = 0, jobId?: string) {
+    return;
 
     try {
       if (!!jobId) {
@@ -57,60 +42,24 @@ export class SchedulerService {
   }
 
   async onModuleInit() {
-    // await this.queue.empty();
-    // await this.queue.clean(0, 'wait');
-    // await this.queue.clean(0, 'active');
-    // await this.queue.clean(0, 'delayed');
-    // await this.queue.clean(0, 'paused');
-
     const client = this.redisService.getClient('DEFAULT_CLIENT');
     await client.flushall();
     await client.flushdb();
 
     this.addJob(MIGRATE_BATTLES, {}, 5000, MIGRATE_BATTLES);
-    this.addJob(
-      FETCH_BATTLE_TRANSACTIONS,
-      {},
-      5000,
-      FETCH_BATTLE_TRANSACTIONS,
-      ['staging', 'production'],
-    );
-    this.addJob(GROUP_CARDS, undefined, 5000, GROUP_CARDS, [
-      'staging',
-      'production',
-    ]);
-    this.addJob(FETCH_IGN_BATTLES, {}, 5000, FETCH_IGN_BATTLES, [
-      'staging',
-      'production',
-    ]);
-    this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 0 }, 5000, undefined, [
-      'staging',
-      'production',
-    ]);
-    this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 1 }, 5000, undefined, [
-      'staging',
-      'production',
-    ]);
-    this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 2 }, 5000, undefined, [
-      'staging',
-      'production',
-    ]);
-    this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 3 }, 5000, undefined, [
-      'staging',
-      'production',
-    ]);
-    this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 4 }, 5000, undefined, [
-      'staging',
-      'production',
-    ]);
+    this.addJob(FETCH_BATTLE_TRANSACTIONS, {}, 5000, FETCH_BATTLE_TRANSACTIONS);
+    this.addJob(GROUP_CARDS, undefined, 5000, GROUP_CARDS);
+    this.addJob(FETCH_IGN_BATTLES, {}, 5000, FETCH_IGN_BATTLES);
+    this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 0 }, 5000, undefined);
+    this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 1 }, 5000, undefined);
+    this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 2 }, 5000, undefined);
+    this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 3 }, 5000, undefined);
+    this.addJob(FETCH_LEADER_BATTLES, { leagueNumber: 4 }, 5000, undefined);
   }
 
   @Cron('0 * * * * *')
   everyminute() {
-    this.addJob(FETCH_BATTLE_TRANSACTIONS, {}, 0, FETCH_BATTLE_TRANSACTIONS, [
-      'staging',
-      'production',
-    ]);
+    this.addJob(FETCH_BATTLE_TRANSACTIONS, {}, 0, FETCH_BATTLE_TRANSACTIONS);
   }
 
   @Cron('0 5,15,25,35,45,55 * * * *')

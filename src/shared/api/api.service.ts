@@ -23,9 +23,9 @@ export class ApiService extends AbstractApiService {
     super({
       name: 'SplinterlandsApiService',
       limit: {
-        maxConcurrent: 50,
-        reservoir: 50,
-        reservoirRefreshAmount: 50,
+        maxConcurrent: 30,
+        reservoir: 30,
+        reservoirRefreshAmount: 30,
         reservoirRefreshInterval: 15000,
       },
     });

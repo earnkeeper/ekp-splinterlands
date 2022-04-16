@@ -180,28 +180,34 @@ function teamRow(): UiElement {
         showExport: false,
         filters: [
           {
-            columnId: 'quests',
-            type: 'checkbox',
-            imageMap: QUEST_IMAGE_MAP,
-          },
-          {
             columnId: 'splinter',
             type: 'checkbox',
             imageMap: SPLINTER_IMAGE_MAP,
+            // @ts-ignore
+            icon: 'cil-leaf',
+          },
+          {
+            columnId: 'quests',
+            type: 'checkbox',
+            imageMap: QUEST_IMAGE_MAP,
+            // @ts-ignore
+            icon: 'cil-speedometer',
           },
           {
             columnId: 'rulesets',
             type: 'checkbox',
             imageMap: RULESET_IMAGE_MAP,
-          },
-          {
-            columnId: 'owned',
-            type: 'radio',
+            // @ts-ignore
+            icon: 'cil-school',
           },
           {
             columnId: 'battles',
+            // @ts-ignore
+            title: 'Battle Count',
             type: 'radio',
             allowCustomOption: true,
+            // @ts-ignore
+            icon: 'cil-burn',
             options: [
               {
                 label: 'All',
@@ -215,8 +221,12 @@ function teamRow(): UiElement {
 
           {
             columnId: 'winpc',
+            // @ts-ignore
+            title: 'Win Rate',
             type: 'radio',
             allowCustomOption: true,
+            // @ts-ignore
+            icon: 'cil-casino',
             options: [
               {
                 label: 'All',
@@ -322,11 +332,6 @@ function teamRow(): UiElement {
             sortable: true,
             format: formatCurrency('$.price', '$.fiatSymbol'),
             grow: 0,
-          },
-          {
-            id: 'owned',
-            title: 'Owned Already',
-            omit: true,
           },
           {
             id: 'quests',

@@ -2,13 +2,11 @@ import { CoingeckoService } from '@earnkeeper/ekp-sdk-nestjs';
 import { Injectable } from '@nestjs/common';
 import { ApiService } from '../../api';
 import { CardMapper } from '../mappers';
-import { CardService } from './card.service';
 
 @Injectable()
 export class MarketService {
   constructor(
     private apiService: ApiService,
-    private cardService: CardService,
     private coingeckoService: CoingeckoService,
   ) {}
 

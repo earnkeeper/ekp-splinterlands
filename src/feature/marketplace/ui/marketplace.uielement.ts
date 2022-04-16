@@ -214,6 +214,11 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
     paginationPerPage: 50,
     filters: [
       {
+        columnId: 'edition',
+        type: 'checkbox',
+        imageMap: EDITION_IMAGE_MAP,
+      },
+      {
         columnId: 'starred',
         type: 'checkbox',
         elementMap: {
@@ -232,11 +237,6 @@ function marketRow(fiatSymbol: string, priceRanges: number[]): UiElement {
         columnId: 'splinter',
         type: 'checkbox',
         imageMap: SPLINTER_IMAGE_MAP,
-      },
-      {
-        columnId: 'edition',
-        type: 'checkbox',
-        imageMap: EDITION_IMAGE_MAP,
       },
       {
         columnId: 'foil',
