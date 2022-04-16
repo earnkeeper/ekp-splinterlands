@@ -4,21 +4,15 @@ import {
   SCHEDULER_QUEUE,
 } from '@earnkeeper/ekp-sdk-nestjs';
 import { Process, Processor } from '@nestjs/bull';
-import { Job } from 'bull';
 import { validate } from 'bycontract';
 import _ from 'lodash';
 import moment from 'moment';
 import { ApiService } from '../../api';
-import { BattleRepository, BATTLE_VERSION } from '../../db';
+import { BattleRepository, BATTLE_VERSION, Ign } from '../../db';
 import { IgnRepository } from '../../db/ign/ign.repository';
 import { BattleMapper, CardService } from '../../game';
-import {
-  FETCH_BATTLE_TRANSACTIONS,
-  FETCH_IGN_BATTLES,
-  FETCH_LEADER_BATTLES,
-} from '../constants';
-
-export const DEFAULT_START_BLOCK = 62695197; // 2022-03-17T07:29:00
+import { FETCH_BATTLE_TRANSACTIONS } from '../constants';
+import { CardProcessor } from './card.processor';
 
 @Processor(SCHEDULER_QUEUE)
 export class BattleProcessor {
@@ -28,57 +22,92 @@ export class BattleProcessor {
     private battleRepository: BattleRepository,
     private cardService: CardService,
     private ignRepository: IgnRepository,
+    private cardProcessor: CardProcessor,
   ) {}
 
-  @Process(FETCH_IGN_BATTLES)
   async fetchIgnBattles() {
-    const igns = await this.ignRepository.findAll();
+    const ago = moment().subtract(2, 'hours').unix();
+
+    const igns: Ign[] = _.chain(
+      await Promise.all([
+        this.ignRepository.findUpdatedEmpty(1000),
+        this.ignRepository.findUpdatedLessThan(ago, 1000),
+      ]),
+    )
+      .flatMap((it) => it)
+      .uniqBy('id')
+      .value();
 
     const cardTemplatesMap = await this.cardService.getAllCardTemplatesMap();
 
-    await Promise.all(
-      igns.map(async (ign) => {
-        const playerBattles = await this.apiService.fetchPlayerBattles(ign.id);
+    for (const ign of igns) {
+      const playerBattles = await this.apiService.fetchPlayerBattles(ign.id);
 
-        if (
-          !Array.isArray(playerBattles?.battles) ||
-          playerBattles.battles.length === 0
-        ) {
-          await this.ignRepository.delete(ign.id);
-          return;
-        }
+      if (
+        !Array.isArray(playerBattles?.battles) ||
+        playerBattles.battles.length === 0
+      ) {
+        await this.ignRepository.delete(ign.id);
+        return;
+      }
 
-        const battles = BattleMapper.mapBattlesFromPlayer(
-          playerBattles.battles,
-          cardTemplatesMap,
-          BATTLE_VERSION,
-          moment(),
-        );
+      const battles = BattleMapper.mapBattlesFromPlayer(
+        playerBattles.battles,
+        cardTemplatesMap,
+        BATTLE_VERSION,
+        moment(),
+      );
 
-        await this.battleRepository.save(battles);
+      await this.battleRepository.save(battles);
 
-        logger.log(
-          `Saved ${battles?.length} battles from player ${ign.id} to the db.`,
-        );
-      }),
-    );
-  }
-  catch(error) {
-    this.apmService.captureError(error);
-    logger.error(error);
+      ign.updated = moment().unix();
+
+      logger.log(
+        `Saved ${battles?.length} battles from player ${ign.id} to the db.`,
+      );
+    }
+
+    await this.ignRepository.save(igns);
   }
 
-  @Process(FETCH_LEADER_BATTLES)
-  async fetchLeaderBattles(job: Job<{ leagueNumber: number }>) {
+  @Process(FETCH_BATTLE_TRANSACTIONS)
+  async fetchBattleTransactions() {
     try {
-      const leagueNumber = job.data.leagueNumber;
+      await this.storeBattleIgns();
+      await this.storeLeaderIgns();
+      await this.fetchIgnBattles();
+      await this.cardProcessor.groupCards();
+    } catch (error) {
+      this.apmService.captureError(error);
+      console.error(error);
+      logger.error(error);
+    }
+  }
 
-      validate(leagueNumber, 'number');
+  async storeBattleIgns() {
+    const transactions = await this.apiService.fetchBattleTransactions();
 
-      const settings = await this.apiService.fetchSettings();
+    if (!transactions?.length) {
+      return;
+    }
 
-      validate(settings?.season?.id, 'number');
+    const igns = _.chain(transactions)
+      .flatMap((transaction) => [
+        transaction.affected_player,
+        transaction.player,
+      ])
+      .uniq()
+      .map((name) => ({ id: name }))
+      .value();
 
+    await this.ignRepository.save(igns);
+  }
+
+  async storeLeaderIgns() {
+    const settings = await this.apiService.fetchSettings();
+    validate(settings?.season?.id, 'number');
+
+    for (let leagueNumber = 0; leagueNumber <= 6; leagueNumber++) {
       const currentSeason = settings.season.id;
 
       const leagueLeaderboard = await this.apiService.fetchLeaderboard(
@@ -86,65 +115,11 @@ export class BattleProcessor {
         leagueNumber,
       );
 
-      const cardTemplatesMap = await this.cardService.getAllCardTemplatesMap();
-
-      const leaders = leagueLeaderboard.leaderboard.map((it) => it.player);
-
-      await Promise.all(
-        leaders.map(async (playerName) => {
-          const playerBattles = await this.apiService.fetchPlayerBattles(
-            playerName,
-          );
-
-          if (
-            !Array.isArray(playerBattles?.battles) ||
-            playerBattles.battles.length === 0
-          ) {
-            return;
-          }
-
-          const battles = BattleMapper.mapBattlesFromPlayer(
-            playerBattles.battles,
-            cardTemplatesMap,
-            BATTLE_VERSION,
-            moment(),
-          );
-
-          await this.battleRepository.save(battles);
-
-          logger.log(
-            `Saved ${battles?.length} battles from player ${playerName} in league ${leagueNumber} to the db.`,
-          );
-        }),
-      );
-    } catch (error) {
-      this.apmService.captureError(error);
-      logger.error(error);
-    }
-  }
-
-  @Process(FETCH_BATTLE_TRANSACTIONS)
-  async fetchBattleTransactions() {
-    try {
-      const transactions = await this.apiService.fetchBattleTransactions();
-
-      if (!transactions?.length) {
-        return;
-      }
-
-      const igns = _.chain(transactions)
-        .flatMap((transaction) => [
-          transaction.affected_player,
-          transaction.player,
-        ])
-        .uniq()
-        .map((name) => ({ id: name }))
-        .value();
+      const igns = leagueLeaderboard.leaderboard.map((it) => ({
+        id: it.player,
+      }));
 
       await this.ignRepository.save(igns);
-    } catch (error) {
-      this.apmService.captureError(error);
-      logger.error(error);
     }
   }
 }

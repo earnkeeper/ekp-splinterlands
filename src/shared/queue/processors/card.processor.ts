@@ -1,9 +1,5 @@
-import {
-  ApmService,
-  logger,
-  SCHEDULER_QUEUE,
-} from '@earnkeeper/ekp-sdk-nestjs';
-import { Process, Processor } from '@nestjs/bull';
+import { ApmService, logger } from '@earnkeeper/ekp-sdk-nestjs';
+import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import moment from 'moment';
 import { PREMIUM_DAYS_TO_KEEP } from '../../../util';
@@ -15,9 +11,8 @@ import {
 } from '../../db';
 import { Card, CardService } from '../../game';
 import { BattleMapper } from '../../game/mappers/battle.mapper';
-import { GROUP_CARDS } from '../constants';
 
-@Processor(SCHEDULER_QUEUE)
+@Injectable()
 export class CardProcessor {
   constructor(
     private apmService: ApmService,
@@ -26,7 +21,6 @@ export class CardProcessor {
     private cardService: CardService,
   ) {}
 
-  @Process(GROUP_CARDS)
   async groupCards() {
     try {
       const battlePageSize = 10000;

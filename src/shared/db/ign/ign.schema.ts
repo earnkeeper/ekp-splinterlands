@@ -7,9 +7,11 @@ export type IgnDocument = Ign & Document;
 export class Ign {
   @Prop()
   readonly id: string;
+
+  @Prop()
+  updated?: number;
 }
 
-export const IgnSchema = SchemaFactory.createForClass(Ign).index(
-  { id: 1 },
-  { unique: true },
-);
+export const IgnSchema = SchemaFactory.createForClass(Ign)
+  .index({ id: 1 }, { unique: true })
+  .index({ updated: 1 });
