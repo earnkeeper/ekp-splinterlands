@@ -25,11 +25,14 @@ export class CardProcessor {
     try {
       const battlePageSize = 10000;
 
+      // Get all existing card statistics from the database
+      // These were generated previously, if this is the first run, this will be empty
       const cardStatsRecords = await this.cardStatsRepository.findAll();
 
       const now = moment();
 
-      // Remove stale statistics
+      // For each card, remove any battles that are older than our maximum days to keep
+      // This is to improve database performance and space requirements
       for (const cardStatsRecord of cardStatsRecords) {
         _.remove(
           cardStatsRecord.dailyBattleStats,
@@ -37,26 +40,35 @@ export class CardProcessor {
         );
       }
 
+      // Last time we calculated card statistics, which block number did we get up to?
       let latestBlock = _.chain(cardStatsRecords)
         .maxBy('blockNumber')
         .get('blockNumber', 0)
         .value();
 
+      // Create a map out of our list of card records, maps are easier on the CPU than lists when accessing them many times
       const cardStatsRecordMap = _.chain(cardStatsRecords)
         .keyBy((it) => it.id)
         .value();
 
+      // Keep looping
       while (true) {
+        // Get all battles from the database after the last block we retrieved
+        // Up to a maximum of `battlePageSize` at a time
+        // We can't get ALL battles as we will stress our memory limits
+        // So we get them in pages
         const battles: Battle[] =
           await this.battleRepository.findAllAfterBlockNumber(
             latestBlock,
             battlePageSize,
           );
 
+        // If there are no battles found, we are done for this cycle
         if (battles.length === 0) {
           break;
         }
 
+        // Find the newest battle in the battles we just retrieved
         const latestBattle = _.chain(battles).maxBy('timestamp').value();
 
         logger.debug(
@@ -65,18 +77,23 @@ export class CardProcessor {
           )}, updating cards`,
         );
 
+        // Use this method to update our list of cards based on the battles we just retrieved
+        // This will add to each cards `dailyStats` list, which represents the number of battles and win rate per day for each card
         await this.getCardsFromBattles(cardStatsRecordMap, battles);
-
         const updatedCards = _.values(cardStatsRecordMap);
 
+        // Save the updated cards to the database
         await this.cardStatsRepository.save(updatedCards);
 
         logger.debug(`Saved ${updatedCards?.length} cards to the database`);
 
+        // If the number of battles we retrieved is less than our page size, we are done
+        // There will not be more battles to retrieve until next cycle
         if (battles.length < battlePageSize) {
           break;
         }
 
+        // If we reach here, there are more battles to retrieve, update our block number to the latest from this fetch
         latestBlock = latestBattle.blockNumber;
       }
     } catch (error) {
